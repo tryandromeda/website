@@ -1,0 +1,23 @@
+{
+  "lang": "en",
+  "layout": "page.njk",
+  "metas": {
+    "title": "=title",
+    "site": "Andromeda",
+    "lang": "en",
+    "description": "=description"
+  },
+  "top_links": [
+    {
+      "icon": "fab fa-github",
+      "title": "GitHub",
+      "url": "https://github.com/tryandromeda/andromeda"
+    }
+  ],
+  "nav_links": [
+    {
+      "title": "GitHub",
+      "url": "https://github.com/tryandromeda/andromeda"
+    }
+  ]
+}
