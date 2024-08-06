@@ -8,11 +8,6 @@
     "description": "=description"
   },
   "top_links": [
-    {
-      "icon": "fab fa-github",
-      "title": "GitHub",
-      "url": "https://github.com/tryandromeda/andromeda"
-    }
   ],
   "nav_links": [
     {

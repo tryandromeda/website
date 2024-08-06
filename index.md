@@ -4,7 +4,6 @@ nav_order: 1
 ---
 
 # Andromeda
-[![Discord Server](https://img.shields.io/discord/1264947585882259599.svg?logo=discord&style=flat-square)](https://discord.gg/tgjAnX2Ny3)
 
 The simplest JavaScript and TypeScript runtime, fully written in [Rust 🦀](https://www.rust-lang.org/) and powered [Nova](https://trynova.dev/).
 

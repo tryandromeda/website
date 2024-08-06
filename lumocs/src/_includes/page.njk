@@ -1,0 +1,24 @@
+---
+layout: layout/html.njk
+---
+<body>
+  <main>
+    <!-- content -->
+    <div class="grid">
+      <!-- Sidebar -->
+      <aside>
+        <div class="aside-content">
+          {% include "partials/sidebar.njk" %}
+        </div>
+      </aside>
+      <section>
+        <header>
+            {% include "partials/nav.njk" %}
+        </header>
+        <article>
+          {{ content | safe }}
+        </article>
+      </section>
+    </div>
+  </main>
+</body>
