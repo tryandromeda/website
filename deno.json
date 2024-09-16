@@ -21,7 +21,7 @@
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "tailwindcss/typography": "npm:@tailwindcss/typography@0.5.15",
-    "$std/dotenv/load": "jsr:@std/dotenv@0.225.2/load",
+    "$std/dotenv/load.ts": "jsr:@std/dotenv@0.225.2/load",
     "$std/path/posix": "jsr:@std/path@1.0.6/posix",
     "$std/path/join": "jsr:@std/path@1.0.6/join",
     "$std/front-matter": "jsr:@std/front-matter@1.0.5",
