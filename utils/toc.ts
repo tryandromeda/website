@@ -10,4 +10,15 @@ export default [
             },
         ],
     },
+    {
+        name: "Andromeda APIS",
+        children: [
+            {
+                name: "Console",
+                path: "/docs/api-reference/console",
+                id: "console",
+                children: [],
+            },
+        ],
+    },
 ];

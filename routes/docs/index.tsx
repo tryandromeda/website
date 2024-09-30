@@ -6,7 +6,7 @@ export default function Docs() {
     return (
         <main className="flex-grow container mx-auto px-4 py-8">
             <section className="mb-12 text-center">
-                <h1 className="text-5xl font-bold mb-4"><a href="/">Andromeda Docs</a></h1>
+                <h1 className="text-5xl font-bold mb-4 header1"><a href="/">Andromeda Docs</a></h1>
                 <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                 </p>
             </section>

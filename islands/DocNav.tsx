@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any no-explicit-any
-import Fuse from "https://cdn.skypack.dev/fuse.js";
+import Fuse from "fuse";
 import { useState } from "preact/hooks";
 
 interface DocEntry {
@@ -56,17 +56,17 @@ export function DocNav({
     return (
         <div>
             <button
-                className="md:hidden p-4"
+                className="md:hidden p-4 fixed top-4 right-4 z-50 bg-gray-800 rounded-full"
                 onClick={toggleNav}
             >
                 <ChevronDown />
             </button>
             <nav
-                class={`block px-10 py-2 max-w-md flex flex-col w-full h-screen transition-transform duration-300 ${
+                class={`fixed top-0 left-0 px-10 py-2 max-w-md flex flex-col w-full h-screen bg-gray-900 transition-transform duration-300 z-40 ${
                     isOpen ? "translate-x-0" : "-translate-x-full"
-                } md:translate-x-0`}
+                } md:relative md:translate-x-0 md:bg-transparent`}
             >
-                <h1 class="font-bold flex justify-center items-center">
+                <h1 class="font-bold flex justify-center items-center header2">
                     <a href="/">Andromeda</a>
                 </h1>
                 <div className="search-container my-5 text-center">
@@ -79,44 +79,40 @@ export function DocNav({
                     />
                 </div>
                 {filteredData.length > 0
-                    ? filteredData.map((
-                        { name: topicName, children: topicChildren }: any,
-                    ) => (
+                    ? filteredData.map(({
+                        name: topicName,
+                        children: topicChildren,
+                    }: any) => (
                         <div className="mt-4" key={topicName}>
                             <span className="font-bold uppercase text-gray-300">
                                 {topicName}
                             </span>
                             <ul className="font-semibold nested mt-2">
-                                {topicChildren.map(
-                                    (
-                                        {
-                                            name: routeName,
-                                            path: routePath,
-                                            id: routeId,
-                                        }: any,
-                                        i: number,
-                                    ) => {
-                                        return (
-                                            <li key={routeId} className="mb-2">
-                                                <div
-                                                    htmlFor={routeId}
-                                                    className={`py-2 pl-4 rounded-lg ${
-                                                        path === routePath
-                                                            ? "bg-slate-700 text-rose-600"
-                                                            : "hover:bg-slate-700 hover:text-rose-100"
-                                                    } font-semibold transition-colors duration-200`}
+                                {topicChildren.map(({
+                                    name: routeName,
+                                    path: routePath,
+                                    id: routeId,
+                                }: any, i: number) => {
+                                    return (
+                                        <li key={routeId} className="mb-2">
+                                            <div
+                                                htmlFor={routeId}
+                                                className={`py-2 pl-4 rounded-lg ${
+                                                    path === routePath
+                                                        ? "bg-slate-700 text-rose-600"
+                                                        : "hover:bg-slate-700 hover:text-rose-100"
+                                                } font-semibold transition-colors duration-200`}
+                                            >
+                                                <a
+                                                    href={routePath}
+                                                    className="block"
                                                 >
-                                                    <a
-                                                        href={routePath}
-                                                        className="block"
-                                                    >
-                                                        {i + 1}. {routeName}
-                                                    </a>
-                                                </div>
-                                            </li>
-                                        );
-                                    },
-                                )}
+                                                    {i + 1}. {routeName}
+                                                </a>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     ))
