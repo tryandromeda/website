@@ -8,7 +8,7 @@ export default function Home() {
             <a href="/" class="text-5xl font-bold mb-16 p-6">
               Andromeda
             </a>
-            <p class="text-xl mb-8">
+            <p class="text-xl mt-8 mb-8">
               The simplest JavaScript and TypeScript runtime, fully written in
               Rust 🦀 and powered Nova
             </p>
