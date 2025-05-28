@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any no-explicit-any
-import Fuse from "fuse";
+import Fuse from "npm:fuse.js";
 import { useState } from "preact/hooks";
 
 interface DocEntry {
@@ -96,7 +96,7 @@ export function DocNav({
                                     return (
                                         <li key={routeId} className="mb-2">
                                             <div
-                                                htmlFor={routeId}
+                                                // htmlFor={routeId}
                                                 className={`py-2 pl-4 rounded-lg ${
                                                     path === routePath
                                                         ? "bg-slate-700 text-rose-600"

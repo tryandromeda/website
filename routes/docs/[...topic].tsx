@@ -1,9 +1,10 @@
-import { PageProps } from "$fresh/server.ts";
+import type { PageProps } from "fresh";
 import { Content } from "../../components/Content.tsx";
 import { DocNav } from "../../islands/DocNav.tsx";
 import toc from "../../utils/toc.ts";
 
-export default async function DocTopic(req: Request, props: PageProps) {
+export default async function DocTopic(props: PageProps) {
+    console.log(props)
     const topic = props.params.topic;
     const content = await Deno.readTextFile(`static/content/${topic}.md`).then((
         res,
@@ -19,7 +20,7 @@ export default async function DocTopic(req: Request, props: PageProps) {
             <DocNav data={toc} path={props.url.pathname} />
             </aside>
             <div class="md:w-3/4 w-full md:ml-[25%] flex justify-center p-4">
-            <Content markdown={content} baseUrl={new URL(req.url).host} />
+            <Content markdown={content} baseUrl={new URL(props.url).host} />
             </div>
         </main>
     );

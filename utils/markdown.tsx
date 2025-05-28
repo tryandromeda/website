@@ -3,7 +3,7 @@
 import { marked } from "npm:marked";
 import { tomorrow } from "https://esm.sh/react-syntax-highlighter@15.5.0/dist/esm/styles/prism";
 
-import { Prism as SyntaxHighlighter } from "https://esm.sh/react-syntax-highlighter@15.5.0";
+import { Prism as SyntaxHighlighter } from "npm:react-syntax-highlighter@15.5.0";
 export const renderMarkdown = (content: any) => {
     const renderer = new marked.Renderer();
     (renderer.code as any) = (code: any, language: any) => {

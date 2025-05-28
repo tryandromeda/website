@@ -1,5 +1,3 @@
-// Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
-import { Head as _Head } from "$fresh/runtime.ts";
 import Meta, { type MetaProps } from "./Meta.tsx";
 import { ComponentChildren } from "preact";
 
@@ -12,7 +10,7 @@ export type HeadProps =
 
 export default function Head(props: HeadProps) {
     return (
-        <_Head>
+        <head>
             <Meta
                 title={props?.title ? `${props.title} - Netsaur` : "Netsaur"}
                 description={props?.description ??
@@ -21,6 +19,6 @@ export default function Head(props: HeadProps) {
                 imageUrl="/cover.png"
             />
             {props.children}
-        </_Head>
+        </head>
     );
 }

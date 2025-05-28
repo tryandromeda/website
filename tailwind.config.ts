@@ -1,11 +1,10 @@
-import { type Config } from "tailwindcss";
-import Typography from "tailwindcss/typography"
+import type { Config } from "tailwindcss";
+// import Typography from "tailwindcss/typography"
 
 export default {
   content: [
     "{routes,islands,components}/**/*.{ts,tsx}",
   ],
-  important: true,
   theme: {
     extend: {
       fontFamily: {
@@ -13,7 +12,7 @@ export default {
       },
     },
   },
-  plugins: [
-    Typography
-  ]
+  // plugins: [
+  //   Typography
+  // ]
 } satisfies Config;

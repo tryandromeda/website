@@ -1,4 +1,4 @@
-import { render } from "$gfm";
+import { render } from "@deno/gfm";
 import "npm:prismjs@1.29.0/components/prism-typescript.js";
 
 export function Content({
