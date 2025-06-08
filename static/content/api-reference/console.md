@@ -1,6 +1,7 @@
 # Console API Reference
 
-The `console` module provides a simple debugging console that is similar to the JavaScript console mechanism provided by web browsers.
+The `console` module provides a simple debugging console that is similar to the
+JavaScript console mechanism provided by web browsers.
 
 ## Methods
 
@@ -60,7 +61,8 @@ Prints a message to the console with the log level set to `Info`.
 console.assert(true, "Hello", "World");
 ```
 
-Prints a message to the console with the log level set to `Error` if the first argument is `false`.
+Prints a message to the console with the log level set to `Error` if the first
+argument is `false`.
 
 ### clear
 

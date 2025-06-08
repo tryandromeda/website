@@ -11,10 +11,12 @@ export function Content({
   const html = render(markdown, { baseUrl });
   return (
     <>
-    <div
-      class="prose prose-invert ml-10 markdown-body max-w-2xl overflow-y-auto" data-color-mode="dark" data-dark-theme="dark" 
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+      <div
+        class="prose prose-invert ml-10 markdown-body max-w-2xl overflow-y-auto"
+        data-color-mode="dark"
+        data-dark-theme="dark"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </>
   );
 }

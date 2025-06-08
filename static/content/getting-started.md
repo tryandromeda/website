@@ -1,20 +1,18 @@
 # Getting Started with Andromeda
 
-## Setting Up Andromeda
-
 To get started with Andromeda, follow these steps:
 
-1. **Clone the Repository:**
-
+1. **Install**
    ```bash
-   git clone https://github.com/tryandromeda/andromeda
-   cd andromeda
+   cargo install --git https://github.com/tryandromeda/andromeda
    ```
 
-2. **Install**
-
+2. **Run**
    ```bash
-   cargo install --path ./cli
+   andromeda run example.ts
    ```
 
----
+## Next steps
+
+Now that we've installed Andromeda,
+[let's explore the available APIs →](/docs/api-reference/console)

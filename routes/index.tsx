@@ -1,30 +1,167 @@
+import { Target, Zap } from "lucide-preact";
+
+import NavBar from "../components/NavBar.tsx";
+import Footer from "../components/Footer.tsx";
+
 export default function Home() {
   return (
-    <div class="container mx-auto p-4">
-      <div class="min-h-screen text-white">
-        <main class="container mx-auto mt-16 px-4">
-          <div class="text-center">
-            <img src="/logo.svg" alt="Andromeda" class="mx-auto w-20" />
-            <a href="/" class="text-5xl font-bold mb-16 p-6">
-              Andromeda
+    <>
+      <NavBar />
+      {/* Hero Section */}
+      <section class="pt-32 pb-20 px-4 bg-white">
+        <div class="container mx-auto text-center">
+          <img
+            src="/logo.svg"
+            alt="Andromeda"
+            class="mx-auto w-24 h-24 mb-8 animate-spin [animation-duration:10000ms]"
+          />
+          <h1 class="text-6xl font-bold mb-6 text-gray-900">
+            Andromeda
+          </h1>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+            The simplest JavaScript and TypeScript runtime, fully written in
+            Rust 🦀 and powered by Nova
+          </p>
+
+          {/* Install Command */}
+          <div class="max-w-2xl mx-auto mb-8">
+            <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-left overflow-x-auto border border-gray-300">
+              <code>cargo install --git https://github.com/tryandromeda/andromeda</code>
+            </pre>
+          </div>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#features"
+              class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Learn More
             </a>
-            <p class="text-xl mt-8 mb-8">
-              The simplest JavaScript and TypeScript runtime, fully written in
-              Rust 🦀 and powered Nova
-            </p>
-          </div>
-          <div class="mt-16 text-center">
-            <h3 class="text-2xl font-semibold mb-4">Get Started</h3>
-            <pre class="bg-black text-blue-400 p-4 rounded-lg inline-block">cargo install --git https://github.com/tryandromeda/andromeda</pre>
-          </div>
-          <div class="mt-16 text-center">
-            <h3 class="text-2xl font-semibold mb-4">Documentation</h3>
-            <a href="/docs" class="text-blue-400 hover:underline">
-              Read the docs
+            <a
+              href="/docs/getting-started"
+              class="border border-gray-300 hover:border-gray-400 text-gray-900 px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Documentation
             </a>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" class="py-20 px-4 bg-gray-100">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">
+            Why Andromeda?
+          </h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div class="text-4xl mb-4">🦀</div>
+              <h3 class="text-xl font-semibold mb-4 text-gray-900">
+                Built with Rust
+              </h3>
+              <p class="text-gray-600">
+                Leveraging Rust's performance and safety guarantees for a
+                lightning-fast runtime experience.
+              </p>
+            </div>
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div class="flex justify-center mb-4">
+                <Zap size={48} class="text-gray-700" />
+              </div>
+              <h3 class="text-xl font-semibold mb-4 text-gray-900">
+                Nova Powered
+              </h3>
+              <p class="text-gray-600">
+                Powered by Nova engine for exceptional JavaScript and TypeScript
+                execution performance.
+              </p>
+            </div>
+            <div class="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div class="flex justify-center mb-4">
+                <Target size={48} class="text-gray-700" />
+              </div>
+              <h3 class="text-xl font-semibold mb-4 text-gray-900">
+                Simple & Clean
+              </h3>
+              <p class="text-gray-600">
+                Minimal setup, maximum productivity. Focus on building instead
+                of configuring.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Start Section */}
+      <section id="install" class="py-20 px-4 bg-white">
+        <div class="container mx-auto text-center">
+          <h2 class="text-4xl font-bold mb-8 text-gray-900">Quick Start</h2>
+          <p class="text-xl text-gray-600 mb-12">
+            Get productive with Andromeda in seconds
+          </p>
+          <div class="max-w-2xl mx-auto">
+            <div class="text-left">
+              <pre class="bg-gray-900 text-green-400 p-6 rounded-lg overflow-x-auto border border-gray-300">
+                <code>{`# Install Andromeda
+cargo install --git https://github.com/tryandromeda/andromeda
+
+# Run your TypeScript/JavaScript files
+andromeda run app.ts`}</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Documentation Section */}
+      <section id="docs" class="py-20 px-4 bg-gray-100">
+        <div class="container mx-auto text-center">
+          <h2 class="text-4xl font-bold mb-8 text-gray-900">Documentation</h2>
+          <p class="text-xl text-gray-600 mb-12">
+            Everything you need to know to get productive with Andromeda
+          </p>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <a
+              href="/docs/getting-started"
+              class="block p-6 bg-white rounded-lg hover:shadow-md transition-shadow border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900">
+                Getting Started
+              </h3>
+              <p class="text-gray-600">
+                Learn the basics and get up and running quickly
+              </p>
+            </a>
+            <a
+              href="/docs/api-reference/console"
+              class="block p-6 bg-white rounded-lg hover:shadow-md transition-shadow border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900">
+                API Reference
+              </h3>
+              <p class="text-gray-600">
+                Complete API documentation and examples
+              </p>
+            </a>
+            <a
+              href="/docs/examples/fizzbuzz"
+              class="block p-6 bg-white rounded-lg hover:shadow-md transition-shadow border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2 text-gray-900">Examples</h3>
+              <p class="text-gray-600">Code samples and real-world use cases</p>
+            </a>
+          </div>
+          <div class="mt-12">
+            <a
+              href="/docs"
+              class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Read Full Documentation
+            </a>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </>
   );
 }

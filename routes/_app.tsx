@@ -1,4 +1,5 @@
 import type { PageProps } from "fresh";
+
 export default function App({ Component }: PageProps) {
   return (
     <html>
@@ -9,14 +10,22 @@ export default function App({ Component }: PageProps) {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://tryandromeda.dev/" />
         <meta property="og:title" content="Andromeda" />
-        <meta property="og:description" content="Andromeda - Rust-powered JavaScript and TypeScript runtime" />
-        <meta name="description" content="Andromeda - Rust-powered JavaScript and TypeScript runtime" />
-        <meta name="keywords" content="Andromeda, Rust, JavaScript, TypeScript, runtime" />
+        <meta
+          property="og:description"
+          content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
+        />
+        <meta
+          name="description"
+          content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
+        />
+        <meta
+          name="keywords"
+          content="Andromeda, Rust, JavaScript, TypeScript, runtime"
+        />
         <link rel="stylesheet" href="/styles.css" />
-        <link rel="stylesheet" href="/prism.css" />
         <link rel="icon" href="/logo.svg" />
       </head>
-      <body>
+      <body class="min-h-screen bg-gray-50 text-gray-900">
         <Component />
       </body>
     </html>
