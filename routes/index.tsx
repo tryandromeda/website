@@ -19,8 +19,16 @@ export default function Home() {
             Andromeda
           </h1>
           <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8">
-            The simplest JavaScript and TypeScript runtime, fully written in
-            Rust 🦀 and powered by Nova
+            The simplest JavaScript and TypeScript runtime, 100% written in Rust
+            🦀 and powered by{" "}
+            <a
+              href="https://trynova.dev/"
+              class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Nova
+            </a>
           </p>
 
           {/* Install Command */}
@@ -33,7 +41,7 @@ export default function Home() {
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#features"
-              class="bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Learn More
             </a>
@@ -72,8 +80,17 @@ export default function Home() {
                 Nova Powered
               </h3>
               <p class="text-subtext1">
-                Powered by Nova engine for exceptional JavaScript and TypeScript
-                execution performance.
+                Powered by{" "}
+                <a
+                  href="https://trynova.dev/"
+                  class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Nova
+                </a>{" "}
+                engine for exceptional JavaScript and TypeScript execution
+                performance.
               </p>
             </div>
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
@@ -154,7 +171,7 @@ andromeda run app.ts`}</code>
           <div class="mt-12">
             <a
               href="/docs"
-              class="bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Read Full Documentation
             </a>
