@@ -29,8 +29,8 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "linolevan-website-67"
-          entrypoint: "main.tsx"
+          project: "andromeda"
+          entrypoint: "main.ts"
           root: "."
           
           
