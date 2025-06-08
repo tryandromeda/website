@@ -9,7 +9,6 @@ import { DocNav } from "../../islands/DocNav.tsx";
 import toc from "../../utils/toc.ts";
 
 export default async function DocTopic(props: PageProps) {
-  console.log(props);
   const topic = props.params.topic;
   const content = await Deno.readTextFile(`static/content/${topic}.md`).then((
     res,

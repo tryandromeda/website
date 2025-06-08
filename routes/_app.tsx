@@ -24,8 +24,31 @@ export default function App({ Component }: PageProps) {
         />
         <link rel="stylesheet" href="/styles.css" />
         <link rel="icon" href="/logo.svg" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `function updateTheme() {
+  document.documentElement.classList.toggle("dark",
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  );
+}
+
+// Initial theme setup
+updateTheme();
+
+// Listen for system theme changes
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateTheme);
+
+// Listen for storage changes (in case theme is changed in another tab)
+window.addEventListener("storage", function(e) {
+  if (e.key === "theme") {
+    updateTheme();
+  }
+});`,
+          }}
+        />
       </head>
-      <body class="min-h-screen bg-gray-50 text-gray-900">
+      <body class="min-h-screen bg-base text-text">
         <Component />
       </body>
     </html>

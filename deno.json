@@ -19,13 +19,14 @@
   ],
   "imports": {
     "@deno/gfm": "jsr:@deno/gfm@^0.11.0",
-    "@fresh/plugin-tailwind": "jsr:@fresh/plugin-tailwind@^0.0.1-alpha.7",
+    "@pakornv/fresh-plugin-tailwindcss": "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
     "@preact/signals": "npm:@preact/signals@^2.0.4",
     "fresh": "jsr:@fresh/core@^2.0.0-alpha.34",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
     "preact": "npm:preact@^10.26.6",
-    "tailwindcss": "npm:tailwindcss@^3.4.3"
+    "tailwindcss": "npm:tailwindcss@^4.1.7"
   },
+  "nodeModulesDir": "auto",
   "compilerOptions": {
     "lib": [
       "dom",
