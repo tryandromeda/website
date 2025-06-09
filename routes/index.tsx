@@ -150,7 +150,7 @@ andromeda run app.ts`}</code>
               </p>
             </a>
             <a
-              href="/docs/api-reference/console"
+              href="/docs/api/console"
               class="block p-6 bg-base rounded-lg hover:shadow-md transition-shadow border border-surface0"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">
