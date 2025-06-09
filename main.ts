@@ -9,7 +9,7 @@ app.get("/docs", () => {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: "/docs/getting-started",
+      Location: "/docs/index",
     },
   });
 });

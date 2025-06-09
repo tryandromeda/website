@@ -46,7 +46,7 @@ export default function Home() {
               Learn More
             </a>
             <a
-              href="/docs/getting-started"
+              href="/docs/index"
               class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Documentation
@@ -139,7 +139,7 @@ andromeda run app.ts`}</code>
           </p>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <a
-              href="/docs/getting-started"
+              href="/docs/index"
               class="block p-6 bg-base rounded-lg hover:shadow-md transition-shadow border border-surface0"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">
