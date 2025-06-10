@@ -301,8 +301,7 @@ andromeda run hello.ts
 # Multiple files with dependencies
 andromeda run utils.ts main.ts
 
-# Verbose execution for debugging
-andromeda run --verbose complex-app.ts
+andromeda run complex-app.ts
 ```
 
 ### Development Workflow
@@ -311,8 +310,7 @@ andromeda run --verbose complex-app.ts
 # Format code
 andromeda fmt src/
 
-# Run with error checking
-andromeda run --verbose src/main.ts
+andromeda run src/main.ts
 
 # Test in REPL
 andromeda repl

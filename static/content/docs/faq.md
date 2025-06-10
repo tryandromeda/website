@@ -216,25 +216,6 @@ If Andromeda uses too much memory:
 
 Yes! Andromeda is designed to be embeddable:
 
-```rust
-use andromeda_core::Runtime;
-
-let mut runtime = Runtime::new();
-let result = runtime.execute_script("console.log('Hello from embedded Andromeda!')");
-```
-
-### Can I use Andromeda in CI/CD pipelines?
-
-Yes, Andromeda works well in CI/CD:
-
-```yaml
-# GitHub Actions example
-- name: Run tests with Andromeda
-  run: |
-    curl -L https://github.com/your-org/andromeda/releases/latest/download/andromeda-linux.tar.gz | tar xz
-    ./andromeda test-suite.ts
-```
-
 ## Comparison with Other Runtimes
 
 ### Why choose Andromeda over Deno?

@@ -60,7 +60,6 @@ established web standards including:
 - **WHATWG Standards** - URL, Encoding, and Fetch specifications
 - **W3C Standards** - Canvas 2D, Performance API
 - **ECMAScript Standards** - Modern JavaScript/TypeScript features
-- **Node.js Compatibility** - Core APIs and patterns where applicable
 
 ## 🆘 Getting Help
 

@@ -173,7 +173,7 @@ struct RuntimeConfig {
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 ```
 
-**Formatting**: Use `cargo fmt` to format code
+**Formatting**: Use `cargo fmt` to format code and `andromeda fmt` for TypeScript files.
 
 **Linting**: Use `cargo clippy` to check for common issues
 
@@ -227,38 +227,6 @@ cargo test --test integration
 ```
 
 ### Writing Tests
-
-#### Unit Tests
-
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_extension_registration() {
-        let mut runtime = Runtime::new();
-        let extension = TestExtension::new();
-        
-        runtime.register_extension(extension);
-        
-        assert!(runtime.has_extension("test"));
-    }
-}
-```
-
-#### Integration Tests
-
-```rust
-// tests/integration_test.rs
-use andromeda_cli::run_script;
-
-#[tokio::test]
-async fn test_script_execution() {
-    let result = run_script("examples/console.ts").await;
-    assert!(result.is_ok());
-}
-```
 
 #### TypeScript Examples
 
@@ -366,20 +334,23 @@ git commit -m "test: add integration tests for file system"
 
    ```typescript
    // runtime/src/ext/new_api/mod.ts
-   declare global {
-     const newApi: {
-       methodName(param: string): Promise<Result>;
-     };
+   function methodName(param: string): Promise<Result> {
+       // Implementation
    }
+   // TODO: once imports are supported, use `export` syntax
    ```
 
 4. **Write tests**:
 
-   ```rust
-   #[test]
-   fn test_new_api_functionality() {
-       // Test implementation
-   }
+   ```typescript
+   // tests/new_api.test.ts
+
+   describe("New API", () => {
+       it("should return expected result", async () => {
+           const result = await methodName("test");
+           expect(result).toEqual({ success: true });
+       });
+   });
    ```
 
 5. **Add examples**:
@@ -393,7 +364,7 @@ git commit -m "test: add integration tests for file system"
 6. **Update documentation**:
    - API reference in `docs/api/`
    - Tutorial if complex
-   - Update main README if significant
+   - Update index.md if significant
 
 ### Debugging
 
@@ -415,9 +386,6 @@ rust-gdb target/debug/andromeda
 ```bash
 # Compile TypeScript separately
 cargo run -- compile script.ts
-
-# Run with verbose output
-cargo run -- run script.ts --verbose
 ```
 
 ### Performance Considerations
@@ -429,16 +397,6 @@ When contributing:
 - Use appropriate data structures
 - Consider async/await overhead
 - Test with realistic workloads
-
-```rust
-// Use criterion for benchmarks
-#[bench]
-fn bench_extension_call(b: &mut Bencher) {
-    b.iter(|| {
-        // Benchmark code
-    });
-}
-```
 
 ## Community
 
@@ -506,7 +464,9 @@ Help expand platform support:
 - [Rust Programming Language](https://doc.rust-lang.org/)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Web APIs Standards](https://developer.mozilla.org/en-US/docs/Web/API)
-- [V8 Engine Documentation](https://v8.dev/docs)
+- [Nova Engine](https://trynova.dev)
+- [WinterTC](https://wintertc.org)
+- [Andromeda GitHub Repository](https://github.com/tryandromeda/andromeda)
 
 Thank you for contributing to Andromeda! Your efforts help make it a better
 runtime for everyone.

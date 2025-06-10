@@ -137,36 +137,6 @@ Common issues and solutions for Andromeda runtime.
    andromeda run --verbose script.ts
    ```
 
-### "Module not found" errors
-
-**Problem:** Import/require statements failing.
-
-**Solutions:**
-
-1. **Use relative paths:**
-
-   ```typescript
-   // ✅ Correct
-   import { helper } from "./utils.ts";
-
-   // ❌ Incorrect (no npm modules yet)
-   import express from "express";
-   ```
-
-2. **Check file paths:**
-
-   ```bash
-   # Verify file exists
-   ls -la utils.ts
-   ```
-
-3. **Use absolute paths:**
-
-   ```typescript
-   const fullPath = Andromeda.resolve("./utils.ts");
-   console.log("Looking for:", fullPath);
-   ```
-
 ### Canvas operations failing
 
 **Problem:** Canvas API errors or black images.
@@ -190,9 +160,7 @@ Common issues and solutions for Andromeda runtime.
    // Draw something
    ctx.fillStyle = "red";
    ctx.fillRect(0, 0, 100, 100);
-
-   // Must call render before saving
-   canvas.render();
+   // Save the canvas as PNG
    canvas.saveAsPng("output.png");
    ```
 
