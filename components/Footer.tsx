@@ -3,11 +3,12 @@ export default function Footer() {
     <footer class="py-12 px-4 border-t border-surface0 bg-base">
       <div class="container mx-auto text-center">
         <div class="flex items-center justify-center space-x-3 mb-4">
-          <img src="/logo.svg" alt="Andromeda" class="w-6 h-6" />
+          <img src="/logo.svg" alt="Andromeda" class="w-8 h-8" />
           <span class="font-semibold text-text">Andromeda</span>
         </div>
         <p class="text-subtext1 mb-4">
-          The simplest JavaScript and TypeScript runtime
+          A modern, fast, and secure JavaScript & TypeScript runtime built from
+          the ground up in Rust and powered by Nova Engine.
         </p>
         <div class="flex justify-center space-x-6">
           <a
@@ -21,6 +22,12 @@ export default function Footer() {
             class="text-subtext1 hover:text-text transition-colors"
           >
             Documentation
+          </a>
+          <a
+            href="/blog"
+            class="text-subtext1 hover:text-text transition-colors"
+          >
+            Blog
           </a>
           <a
             href="https://discord.gg/w8JkSeNcEe"

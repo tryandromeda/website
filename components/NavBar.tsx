@@ -23,6 +23,12 @@ export default function NavBar() {
               Documentation
             </a>
             <a
+              href="/blog"
+              class="text-subtext1 hover:text-text transition-colors font-medium"
+            >
+              Blog
+            </a>
+            <a
               href="https://github.com/tryandromeda/andromeda"
               class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-200 border border-surface2"
             >

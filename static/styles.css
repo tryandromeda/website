@@ -127,11 +127,11 @@
   display: table;
 }
 
-.markdown-body> :first-child {
+.markdown-body > :first-child {
   margin-top: 0 !important;
 }
 
-.markdown-body> :last-child {
+.markdown-body > :last-child {
   margin-bottom: 0 !important;
 }
 
@@ -177,15 +177,16 @@
 
 .markdown-body blockquote {
   color: var(--fgColor-muted, var(--color-fg-muted));
-  border-left: 0.25em solid var(--borderColor-default, var(--color-border-default));
+  border-left: 0.25em solid
+    var(--borderColor-default, var(--color-border-default));
   padding: 0 1em;
 }
 
-.markdown-body blockquote> :first-child {
+.markdown-body blockquote > :first-child {
   margin-top: 0;
 }
 
-.markdown-body blockquote> :last-child {
+.markdown-body blockquote > :last-child {
   margin-bottom: 0;
 }
 
@@ -330,7 +331,7 @@
   list-style-type: decimal;
 }
 
-.markdown-body div>ol:not([type]) {
+.markdown-body div > ol:not([type]) {
   list-style-type: decimal;
 }
 
@@ -342,11 +343,11 @@
   margin-bottom: 0;
 }
 
-.markdown-body li>p {
+.markdown-body li > p {
   margin-top: 16px;
 }
 
-.markdown-body li+li {
+.markdown-body li + li {
   margin-top: 0.25em;
 }
 
@@ -385,7 +386,7 @@
   padding: 6px 13px;
 }
 
-.markdown-body table td> :last-child {
+.markdown-body table td > :last-child {
   margin-bottom: 0;
 }
 
@@ -427,7 +428,7 @@
   overflow: hidden;
 }
 
-.markdown-body span.frame>span {
+.markdown-body span.frame > span {
   float: left;
   border: 1px solid var(--borderColor-default, var(--color-border-default));
   width: auto;
@@ -455,7 +456,7 @@
   overflow: hidden;
 }
 
-.markdown-body span.align-center>span {
+.markdown-body span.align-center > span {
   text-align: center;
   margin: 13px auto 0;
   display: block;
@@ -473,7 +474,7 @@
   overflow: hidden;
 }
 
-.markdown-body span.align-right>span {
+.markdown-body span.align-right > span {
   text-align: right;
   margin: 13px 0 0;
   display: block;
@@ -503,7 +504,7 @@
   overflow: hidden;
 }
 
-.markdown-body span.float-right>span {
+.markdown-body span.float-right > span {
   text-align: right;
   margin: 13px auto 0;
   display: block;
@@ -543,7 +544,7 @@
   font-size: 100%;
 }
 
-.markdown-body pre>code {
+.markdown-body pre > code {
   word-break: normal;
   white-space: pre;
   background: 0 0;
@@ -643,7 +644,8 @@
 .markdown-body .footnotes li:target:before {
   pointer-events: none;
   content: "";
-  border: 2px solid var(--borderColor-accent-emphasis, var(--color-accent-emphasis));
+  border: 2px solid
+    var(--borderColor-accent-emphasis, var(--color-accent-emphasis));
   border-radius: 6px;
   position: absolute;
   top: -8px;
@@ -692,7 +694,7 @@
   fill: currentColor;
 }
 
-.markdown-body .anchor>.octicon {
+.markdown-body .anchor > .octicon {
   display: inline;
 }
 

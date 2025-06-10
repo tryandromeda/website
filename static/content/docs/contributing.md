@@ -1,6 +1,7 @@
 # Contributing to Andromeda
 
-Thank you for your interest in contributing to Andromeda! This guide will help you get started with contributing to the project.
+Thank you for your interest in contributing to Andromeda! This guide will help
+you get started with contributing to the project.
 
 ## Table of Contents
 
@@ -15,7 +16,8 @@ Thank you for your interest in contributing to Andromeda! This guide will help y
 
 ## Getting Started
 
-Andromeda is a TypeScript runtime built with Rust, providing a modern JavaScript/TypeScript execution environment with web-standard APIs.
+Andromeda is a TypeScript runtime built with Rust, providing a modern
+JavaScript/TypeScript execution environment with web-standard APIs.
 
 ### Prerequisites
 
@@ -79,7 +81,8 @@ chmod +x .git/hooks/pre-commit
 
 ## Project Structure
 
-Understanding the project structure will help you navigate and contribute effectively:
+Understanding the project structure will help you navigate and contribute
+effectively:
 
 ```text
 andromeda/
@@ -181,17 +184,17 @@ For TypeScript examples and type definitions:
 ```typescript
 // Use camelCase for functions and variables
 function processData(inputData: string): Promise<Result> {
-    // Implementation
+  // Implementation
 }
 
 // Use PascalCase for interfaces and classes
 interface ApiResponse {
-    status: number;
-    data: unknown;
+  status: number;
+  data: unknown;
 }
 
 class HttpClient {
-    // Implementation
+  // Implementation
 }
 
 // Use UPPER_SNAKE_CASE for constants
@@ -344,7 +347,7 @@ git commit -m "test: add integration tests for file system"
    ```rust
    // runtime/src/ext/new_api/mod.rs
    pub struct NewApiExt;
-   
+
    impl NewApiExt {
        pub fn new_extension() -> Extension {
            Extension {
@@ -364,9 +367,9 @@ git commit -m "test: add integration tests for file system"
    ```typescript
    // runtime/src/ext/new_api/mod.ts
    declare global {
-       const newApi: {
-           methodName(param: string): Promise<Result>;
-       };
+     const newApi: {
+       methodName(param: string): Promise<Result>;
+     };
    }
    ```
 
@@ -448,7 +451,9 @@ fn bench_extension_call(b: &mut Bencher) {
 
 ### Code of Conduct
 
-We follow the [Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct). Be respectful, inclusive, and constructive in all interactions.
+We follow the
+[Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct). Be
+respectful, inclusive, and constructive in all interactions.
 
 ### Getting Help
 
@@ -503,4 +508,5 @@ Help expand platform support:
 - [Web APIs Standards](https://developer.mozilla.org/en-US/docs/Web/API)
 - [V8 Engine Documentation](https://v8.dev/docs)
 
-Thank you for contributing to Andromeda! Your efforts help make it a better runtime for everyone.
+Thank you for contributing to Andromeda! Your efforts help make it a better
+runtime for everyone.

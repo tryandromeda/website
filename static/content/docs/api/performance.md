@@ -1,10 +1,14 @@
 # Performance API
 
-The Performance API provides high-resolution timing capabilities for measuring code execution time and creating performance benchmarks. It follows the Web Performance API standards.
+The Performance API provides high-resolution timing capabilities for measuring
+code execution time and creating performance benchmarks. It follows the Web
+Performance API standards.
 
 ## Overview
 
-The `performance` global object provides methods for measuring time with microsecond precision, creating performance marks and measures, and monitoring application performance.
+The `performance` global object provides methods for measuring time with
+microsecond precision, creating performance marks and measures, and monitoring
+application performance.
 
 ## Methods
 
@@ -47,7 +51,8 @@ Creates a performance measure between two marks or times.
 **Parameters:**
 
 - `name` - A string name for the measure
-- `startMark` (optional) - The name of the start mark, or omit to use navigation start
+- `startMark` (optional) - The name of the start mark, or omit to use navigation
+  start
 - `endMark` (optional) - The name of the end mark, or omit to use current time
 
 **Example:**
@@ -69,8 +74,8 @@ Returns all performance entries (marks and measures).
 
 ```typescript
 const entries = performance.getEntries();
-entries.forEach(entry => {
-    console.log(`${entry.name}: ${entry.duration}ms`);
+entries.forEach((entry) => {
+  console.log(`${entry.name}: ${entry.duration}ms`);
 });
 ```
 
@@ -130,7 +135,8 @@ Clears performance measures.
 
 **Parameters:**
 
-- `name` (optional) - Name of specific measure to clear, or omit to clear all measures
+- `name` (optional) - Name of specific measure to clear, or omit to clear all
+  measures
 
 **Example:**
 
@@ -154,16 +160,16 @@ Performance entries have the following properties:
 
 ```typescript
 function measureFunction<T>(fn: () => T, name: string): T {
-    const start = performance.now();
-    const result = fn();
-    const end = performance.now();
-    console.log(`${name}: ${(end - start).toFixed(2)}ms`);
-    return result;
+  const start = performance.now();
+  const result = fn();
+  const end = performance.now();
+  console.log(`${name}: ${(end - start).toFixed(2)}ms`);
+  return result;
 }
 
 const result = measureFunction(() => {
-    // Some expensive operation
-    return complexCalculation();
+  // Some expensive operation
+  return complexCalculation();
 }, "Complex Calculation");
 ```
 
@@ -171,15 +177,15 @@ const result = measureFunction(() => {
 
 ```typescript
 function benchmarkWithMarks<T>(fn: () => T, name: string): T {
-    performance.mark(`${name}-start`);
-    const result = fn();
-    performance.mark(`${name}-end`);
-    performance.measure(name, `${name}-start`, `${name}-end`);
-    
-    const measure = performance.getEntriesByName(name)[0];
-    console.log(`${measure.name}: ${measure.duration.toFixed(2)}ms`);
-    
-    return result;
+  performance.mark(`${name}-start`);
+  const result = fn();
+  performance.mark(`${name}-end`);
+  performance.measure(name, `${name}-start`, `${name}-end`);
+
+  const measure = performance.getEntriesByName(name)[0];
+  console.log(`${measure.name}: ${measure.duration.toFixed(2)}ms`);
+
+  return result;
 }
 ```
 
@@ -187,23 +193,23 @@ function benchmarkWithMarks<T>(fn: () => T, name: string): T {
 
 ```typescript
 async function benchmarkOperations() {
-    const operations = [
-        () => sortArray([...largeArray]),
-        () => searchArray(largeArray, target),
-        () => filterArray(largeArray, predicate)
-    ];
-    
-    for (let i = 0; i < operations.length; i++) {
-        performance.mark(`op-${i}-start`);
-        await operations[i]();
-        performance.mark(`op-${i}-end`);
-        performance.measure(`operation-${i}`, `op-${i}-start`, `op-${i}-end`);
-    }
-    
-    // Print results
-    performance.getEntriesByType("measure").forEach(measure => {
-        console.log(`${measure.name}: ${measure.duration.toFixed(2)}ms`);
-    });
+  const operations = [
+    () => sortArray([...largeArray]),
+    () => searchArray(largeArray, target),
+    () => filterArray(largeArray, predicate),
+  ];
+
+  for (let i = 0; i < operations.length; i++) {
+    performance.mark(`op-${i}-start`);
+    await operations[i]();
+    performance.mark(`op-${i}-end`);
+    performance.measure(`operation-${i}`, `op-${i}-start`, `op-${i}-end`);
+  }
+
+  // Print results
+  performance.getEntriesByType("measure").forEach((measure) => {
+    console.log(`${measure.name}: ${measure.duration.toFixed(2)}ms`);
+  });
 }
 ```
 
@@ -211,31 +217,31 @@ async function benchmarkOperations() {
 
 ```typescript
 class PerformanceMonitor {
-    private measurements: Map<string, number[]> = new Map();
-    
-    time<T>(operation: () => T, name: string): T {
-        const start = performance.now();
-        const result = operation();
-        const duration = performance.now() - start;
-        
-        if (!this.measurements.has(name)) {
-            this.measurements.set(name, []);
-        }
-        this.measurements.get(name)!.push(duration);
-        
-        return result;
+  private measurements: Map<string, number[]> = new Map();
+
+  time<T>(operation: () => T, name: string): T {
+    const start = performance.now();
+    const result = operation();
+    const duration = performance.now() - start;
+
+    if (!this.measurements.has(name)) {
+      this.measurements.set(name, []);
     }
-    
-    getStats(name: string) {
-        const times = this.measurements.get(name) || [];
-        if (times.length === 0) return null;
-        
-        const avg = times.reduce((a, b) => a + b) / times.length;
-        const min = Math.min(...times);
-        const max = Math.max(...times);
-        
-        return { avg, min, max, count: times.length };
-    }
+    this.measurements.get(name)!.push(duration);
+
+    return result;
+  }
+
+  getStats(name: string) {
+    const times = this.measurements.get(name) || [];
+    if (times.length === 0) return null;
+
+    const avg = times.reduce((a, b) => a + b) / times.length;
+    const min = Math.min(...times);
+    const max = Math.max(...times);
+
+    return { avg, min, max, count: times.length };
+  }
 }
 
 const monitor = new PerformanceMonitor();
@@ -257,18 +263,16 @@ console.log(`Math.sqrt took ${(end - start).toFixed(6)}ms`);
 
 ## Best Practices
 
-1. **Clean up entries**: Use `clearMarks()` and `clearMeasures()` to prevent memory leaks
+1. **Clean up entries**: Use `clearMarks()` and `clearMeasures()` to prevent
+   memory leaks
 
 2. **Use meaningful names**: Choose descriptive names for marks and measures
 
-3. **Batch measurements**: For repeated operations, collect multiple measurements and calculate statistics
+3. **Batch measurements**: For repeated operations, collect multiple
+   measurements and calculate statistics
 
-4. **Avoid overhead**: Don't measure trivial operations excessively in production
-
-## Related Examples
-
-- See `examples/performance.ts` for comprehensive performance measurement examples
-- See `examples/main.ts` for performance monitoring in applications
+4. **Avoid overhead**: Don't measure trivial operations excessively in
+   production
 
 ## See Also
 

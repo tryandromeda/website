@@ -122,7 +122,8 @@ andromeda fmt [PATHS...]
 
 **Arguments:**
 
-- `[PATHS...]` - Files or directories to format (optional, defaults to current directory)
+- `[PATHS...]` - Files or directories to format (optional, defaults to current
+  directory)
 
 **Examples:**
 
@@ -172,23 +173,23 @@ andromeda --version
 
 Andromeda supports these file extensions:
 
-| Extension | Description |
-|-----------|-------------|
-| `.js` | JavaScript files |
-| `.ts` | TypeScript files |
-| `.jsx` | JavaScript with JSX (React) |
-| `.tsx` | TypeScript with JSX (React) |
-| `.mjs` | ES Module JavaScript |
-| `.mts` | ES Module TypeScript |
+| Extension | Description                 |
+| --------- | --------------------------- |
+| `.js`     | JavaScript files            |
+| `.ts`     | TypeScript files            |
+| `.jsx`    | JavaScript with JSX (React) |
+| `.tsx`    | TypeScript with JSX (React) |
+| `.mjs`    | ES Module JavaScript        |
+| `.mts`    | ES Module TypeScript        |
 
 ## Environment Variables
 
 Andromeda respects these environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `RUST_LOG` | Set logging level | `info` |
-| `NO_COLOR` | Disable colored output | `false` |
+| Variable                  | Description               | Default |
+| ------------------------- | ------------------------- | ------- |
+| `RUST_LOG`                | Set logging level         | `info`  |
+| `NO_COLOR`                | Disable colored output    | `false` |
 | `ANDROMEDA_DISABLE_CACHE` | Disable compilation cache | `false` |
 
 **Examples:**
@@ -206,14 +207,14 @@ ANDROMEDA_DISABLE_CACHE=1 andromeda run script.ts
 
 ## Exit Codes
 
-| Code | Description |
-|------|-------------|
-| `0` | Success |
-| `1` | General error |
-| `2` | Parse error |
-| `3` | Runtime error |
-| `4` | File not found |
-| `5` | Permission denied |
+| Code | Description       |
+| ---- | ----------------- |
+| `0`  | Success           |
+| `1`  | General error     |
+| `2`  | Parse error       |
+| `3`  | Runtime error     |
+| `4`  | File not found    |
+| `5`  | Permission denied |
 
 ## Configuration
 
@@ -283,7 +284,8 @@ Andromeda provides detailed error messages with:
 
 ## Performance Tips
 
-1. **Use compilation**: For frequently run scripts, use `andromeda compile` to create executables
+1. **Use compilation**: For frequently run scripts, use `andromeda compile` to
+   create executables
 2. **Enable caching**: Don't disable the compilation cache unless debugging
 3. **Batch operations**: Run multiple files together rather than separately
 4. **Optimize imports**: Only use the extensions you need
@@ -335,6 +337,7 @@ andromeda compile src/main.ts dist/my-app
 
 ## Troubleshooting
 
-For common issues and solutions, see the [Troubleshooting Guide](troubleshooting).
+For common issues and solutions, see the
+[Troubleshooting Guide](troubleshooting).
 
 For more examples check out the [Examples](examples)

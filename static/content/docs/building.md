@@ -1,6 +1,7 @@
 # Building from Source
 
-This guide walks you through building Andromeda from source code, setting up the development environment, and understanding the build process.
+This guide walks you through building Andromeda from source code, setting up the
+development environment, and understanding the build process.
 
 ## Prerequisites
 
@@ -62,15 +63,12 @@ cd andromeda
 
 Understanding the project layout:
 
-andromeda/
-├── cli/           # Command-line interface
-├── core/          # Core runtime functionality  
-├── runtime/       # Runtime extensions and APIs
-├── examples/      # Example TypeScript programs
-├── types/         # TypeScript type definitions
-├── docs/          # Documentation
-├── Cargo.toml     # Workspace configuration
-└── rust-toolchain.toml  # Rust toolchain specification
+andromeda/ ├── cli/ # Command-line interface ├── core/ # Core runtime
+functionality\
+├── runtime/ # Runtime extensions and APIs ├── examples/ # Example TypeScript
+programs ├── types/ # TypeScript type definitions ├── docs/ # Documentation ├──
+Cargo.toml # Workspace configuration └── rust-toolchain.toml # Rust toolchain
+specification
 
 ## Setting Up Rust
 
@@ -92,7 +90,8 @@ cargo --version
 
 ### Rust Toolchain
 
-Andromeda uses a specific Rust toolchain defined in `rust-toolchain.toml`. This will be automatically used when building.
+Andromeda uses a specific Rust toolchain defined in `rust-toolchain.toml`. This
+will be automatically used when building.
 
 ```bash
 # Check current toolchain
@@ -459,9 +458,9 @@ VS Code settings for Rust:
 
 ```json
 {
-    "rust-analyzer.cargo.buildScripts.enable": true,
-    "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.cargo.features": "all"
+  "rust-analyzer.cargo.buildScripts.enable": true,
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.cargo.features": "all"
 }
 ```
 

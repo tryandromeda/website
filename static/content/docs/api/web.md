@@ -1,16 +1,20 @@
 # Web APIs
 
-Andromeda provides implementations of standard web APIs to ensure compatibility with existing web code and standards. This includes event handling, text encoding, and other essential web platform features.
+Andromeda provides implementations of standard web APIs to ensure compatibility
+with existing web code and standards. This includes event handling, text
+encoding, and other essential web platform features.
 
 ## Overview
 
-The Web APIs in Andromeda follow WHATWG specifications and provide a familiar programming model for developers coming from browser environments.
+The Web APIs in Andromeda follow WHATWG specifications and provide a familiar
+programming model for developers coming from browser environments.
 
 ## Event API
 
 ### Event Class
 
-The Event API provides a standard way to handle events, following the WHATWG HTML Living Standard for event handling.
+The Event API provides a standard way to handle events, following the WHATWG
+HTML Living Standard for event handling.
 
 #### Constructor
 
@@ -26,7 +30,8 @@ Creates a new Event object.
 - `eventInitDict` (optional): Configuration object with properties:
   - `bubbles`: Whether the event bubbles (default: false)
   - `cancelable`: Whether the event can be canceled (default: false)
-  - `composed`: Whether the event will trigger listeners outside of a shadow root (default: false)
+  - `composed`: Whether the event will trigger listeners outside of a shadow
+    root (default: false)
 
 #### Properties
 
@@ -64,7 +69,8 @@ event.stopPropagation();
 
 ##### `stopImmediatePropagation(): void`
 
-Stops the event from propagating and prevents other listeners on the same element from being called.
+Stops the event from propagating and prevents other listeners on the same
+element from being called.
 
 ```typescript
 element.addEventListener("click", (event) => {
@@ -84,12 +90,12 @@ const customEvent = new Event("myCustomEvent");
 // Create an event with options
 const configurableEvent = new Event("userAction", {
   bubbles: true,
-  cancelable: true
+  cancelable: true,
 });
 
 // Check event properties
-console.log(customEvent.type);        // "myCustomEvent"
-console.log(customEvent.bubbles);     // false
+console.log(customEvent.type); // "myCustomEvent"
+console.log(customEvent.bubbles); // false
 console.log(configurableEvent.bubbles); // true
 ```
 
@@ -99,7 +105,7 @@ console.log(configurableEvent.bubbles); // true
 // Event listener function
 function handleCustomEvent(event: Event) {
   console.log(`Received event: ${event.type}`);
-  
+
   if (event.cancelable) {
     event.preventDefault();
     console.log("Default action prevented");
@@ -109,7 +115,7 @@ function handleCustomEvent(event: Event) {
 // Create and dispatch custom event
 const event = new Event("dataProcessed", {
   bubbles: false,
-  cancelable: true
+  cancelable: true,
 });
 
 // Simulate event handling
@@ -126,7 +132,7 @@ class EventProcessor {
       console.warn("Untrusted event, skipping processing");
       return false;
     }
-    
+
     // Process different event phases
     switch (event.eventPhase) {
       case Event.CAPTURING_PHASE:
@@ -139,7 +145,7 @@ class EventProcessor {
         console.log("Event in bubbling phase");
         break;
     }
-    
+
     return true;
   }
 }
@@ -147,7 +153,8 @@ class EventProcessor {
 
 ## Text Encoding API
 
-The Text Encoding API provides utilities for encoding and decoding text, implementing the WHATWG Encoding Standard.
+The Text Encoding API provides utilities for encoding and decoding text,
+implementing the WHATWG Encoding Standard.
 
 ### TextEncoder
 
@@ -156,7 +163,7 @@ Encodes strings into UTF-8 byte sequences.
 #### TextEncoder Constructor
 
 ```typescript
-new TextEncoder()
+new TextEncoder();
 ```
 
 Creates a new TextEncoder instance. Always uses UTF-8 encoding.
@@ -196,7 +203,7 @@ const encoder = new TextEncoder();
 const buffer = new Uint8Array(50);
 
 const result = encoder.encodeInto("Hello, 世界!", buffer);
-console.log(result.read);    // Number of characters read
+console.log(result.read); // Number of characters read
 console.log(result.written); // Number of bytes written
 ```
 
@@ -297,17 +304,17 @@ const decoder = new TextDecoder();
 
 function processTextStream(chunks: Uint8Array[]): string {
   let result = "";
-  
+
   // Process all chunks except the last with streaming
   for (let i = 0; i < chunks.length - 1; i++) {
     result += decoder.decode(chunks[i], { stream: true });
   }
-  
+
   // Process final chunk without streaming
   if (chunks.length > 0) {
     result += decoder.decode(chunks[chunks.length - 1]);
   }
-  
+
   return result;
 }
 
@@ -354,7 +361,7 @@ const globalDecoder = new TextDecoder();
 
 function efficientTextProcessing(texts: string[]): Uint8Array[] {
   // Reuse the same encoder instance
-  return texts.map(text => globalEncoder.encode(text));
+  return texts.map((text) => globalEncoder.encode(text));
 }
 
 // Pre-allocate buffers for encodeInto
@@ -375,27 +382,27 @@ function encodeWithBuffer(text: string): Uint8Array {
 function validateTextEncoding(): boolean {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
-  
+
   // Test cases
   const testCases = [
-    "Hello, World!",           // ASCII
-    "Café résumé",             // Latin-1 supplement
-    "你好世界",                 // CJK
-    "🌍🚀⭐",                   // Emoji
-    "",                        // Empty string
-    "\0\x01\x02"               // Control characters
+    "Hello, World!", // ASCII
+    "Café résumé", // Latin-1 supplement
+    "你好世界", // CJK
+    "🌍🚀⭐", // Emoji
+    "", // Empty string
+    "\0\x01\x02", // Control characters
   ];
-  
+
   for (const testCase of testCases) {
     const encoded = encoder.encode(testCase);
     const decoded = decoder.decode(encoded);
-    
+
     if (testCase !== decoded) {
       console.error(`Failed for: "${testCase}"`);
       return false;
     }
   }
-  
+
   console.log("✓ All text encoding tests passed");
   return true;
 }
@@ -413,19 +420,19 @@ function testEventSystem(): boolean {
   if (event1.type !== "test" || event1.bubbles !== false) {
     return false;
   }
-  
+
   // Test event with options
   const event2 = new Event("custom", { bubbles: true, cancelable: true });
   if (!event2.bubbles || !event2.cancelable) {
     return false;
   }
-  
+
   // Test preventDefault
   event2.preventDefault();
   if (!event2.defaultPrevented) {
     return false;
   }
-  
+
   console.log("✓ All event tests passed");
   return true;
 }
@@ -436,7 +443,8 @@ testEventSystem();
 
 ## Browser Compatibility
 
-Andromeda's Web APIs are designed to be compatible with standard browser implementations:
+Andromeda's Web APIs are designed to be compatible with standard browser
+implementations:
 
 - **Event API**: Follows WHATWG HTML Living Standard
 - **Text Encoding**: Implements WHATWG Encoding Standard

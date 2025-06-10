@@ -1,6 +1,7 @@
 # Quick Start Guide
 
-Get up and running with Andromeda in just a few minutes! This guide will walk you through creating your first Andromeda programs.
+Get up and running with Andromeda in just a few minutes! This guide will walk
+you through creating your first Andromeda programs.
 
 ## Your First Program
 
@@ -112,13 +113,18 @@ console.log("🆔 Random UUID:", id);
 
 // Generate random bytes
 const randomBytes = crypto.getRandomValues(new Uint8Array(16));
-console.log("🎲 Random bytes:", Array.from(randomBytes).map(b => b.toString(16).padStart(2, '0')).join(''));
+console.log(
+  "🎲 Random bytes:",
+  Array.from(randomBytes).map((b) => b.toString(16).padStart(2, "0")).join(""),
+);
 
 // Hash some data
 const data = new TextEncoder().encode("Hello, Andromeda!");
 const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 const hashArray = new Uint8Array(hashBuffer);
-const hashHex = Array.from(hashArray).map(b => b.toString(16).padStart(2, '0')).join('');
+const hashHex = Array.from(hashArray).map((b) =>
+  b.toString(16).padStart(2, "0")
+).join("");
 
 console.log("🔒 SHA-256 hash:", hashHex);
 ```
@@ -159,7 +165,11 @@ const data = Array.from({ length: 10000 }, (_, i) => Math.random() * i);
 const sorted = data.sort((a, b) => a - b);
 
 performance.mark("data-processing-end");
-performance.measure("data-processing", "data-processing-start", "data-processing-end");
+performance.measure(
+  "data-processing",
+  "data-processing-start",
+  "data-processing-end",
+);
 
 console.log(`📊 Processed ${sorted.length} items`);
 ```
@@ -230,8 +240,10 @@ andromeda fmt
 
 Now that you've got the basics down:
 
-1. **Explore the APIs**: Check out the [API Documentation](api/) for detailed information about available functions
-2. **Join the Community**: Connect with other developers on [Discord](https://discord.gg/tgjAnX2Ny3)
+1. **Explore the APIs**: Check out the [API Documentation](api/) for detailed
+   information about available functions
+2. **Join the Community**: Connect with other developers on
+   [Discord](https://discord.gg/tgjAnX2Ny3)
 
 ## Common Patterns
 

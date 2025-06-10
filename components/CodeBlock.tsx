@@ -1,3 +1,4 @@
+// deno-lint-ignore-file react-no-danger
 import Prism from "npm:prismjs@1.29.0";
 
 export function CodeBlock(
@@ -5,7 +6,7 @@ export function CodeBlock(
 ) {
   return (
     <pre
-      class="rounded-lg text-base leading-relaxed bg-slate-800 text-white p-4 sm:p-6 md:p-4 lg:p-6 2xl:p-8 overflow-x-auto"
+      class="rounded-lg leading-relaxed bg-slate-800 text-white p-4 sm:p-6 md:p-4 lg:p-6 2xl:p-8 overflow-x-auto"
       data-language={lang}
     ><code dangerouslySetInnerHTML={{ __html: Prism.highlight(code, Prism.languages[lang], lang)}} /></pre>
   );

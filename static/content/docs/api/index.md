@@ -1,18 +1,22 @@
 # API Reference
 
-This section provides comprehensive documentation for all APIs available in Andromeda. The APIs are organized by category and follow web standards wherever possible.
+This section provides comprehensive documentation for all APIs available in
+Andromeda. The APIs are organized by category and follow web standards wherever
+possible.
 
 ## Core APIs
 
 ### Runtime APIs
 
 - **[Console API](console)** - Logging, debugging, and output functions
-- **[Performance API](performance)** - Timing and performance measurement utilities
+- **[Performance API](performance)** - Timing and performance measurement
+  utilities
 - **[Process API](process)** - Process information and environment access
 
 ### File System APIs
 
-- **[File System API](file-system)** - File and directory operations, path manipulation
+- **[File System API](file-system)** - File and directory operations, path
+  manipulation
 
 ### Network APIs
 
@@ -25,7 +29,8 @@ This section provides comprehensive documentation for all APIs available in Andr
 
 ### Cryptography APIs
 
-- **[Crypto API](crypto)** - Cryptographic functions and secure random generation
+- **[Crypto API](crypto)** - Cryptographic functions and secure random
+  generation
 
 ### Web Standard APIs
 
@@ -41,7 +46,8 @@ This section provides comprehensive documentation for all APIs available in Andr
 
 ### Standard Web APIs
 
-Andromeda implements many standard web APIs to provide compatibility with existing JavaScript/TypeScript code:
+Andromeda implements many standard web APIs to provide compatibility with
+existing JavaScript/TypeScript code:
 
 - **Events** - Standard DOM-style event handling
 - **Text Encoding** - UTF-8 encoding/decoding following WHATWG standards
@@ -110,7 +116,7 @@ try {
   // Handle success
 } catch (error) {
   // Handle error
-  console.error('API call failed:', error.message);
+  console.error("API call failed:", error.message);
 }
 ```
 
@@ -120,10 +126,10 @@ APIs that perform I/O operations are typically async:
 
 ```typescript
 // File operations
-const content = await Deno.readTextFile('file.txt');
+const content = await Deno.readTextFile("file.txt");
 
 // Network operations
-const response = await fetch('https://api.example.com/data');
+const response = await fetch("https://api.example.com/data");
 ```
 
 ### Configuration Objects
@@ -133,15 +139,15 @@ Many APIs accept configuration objects for flexibility:
 ```typescript
 // Canvas context with options
 const canvas = new OffscreenCanvas(800, 600);
-const ctx = canvas.getContext('2d', {
+const ctx = canvas.getContext("2d", {
   alpha: false,
-  desynchronized: true
+  desynchronized: true,
 });
 
 // Text decoder with options
-const decoder = new TextDecoder('utf-8', {
+const decoder = new TextDecoder("utf-8", {
   fatal: true,
-  ignoreBOM: false
+  ignoreBOM: false,
 });
 ```
 
@@ -151,48 +157,50 @@ const decoder = new TextDecoder('utf-8', {
 
 ```typescript
 // Console output
-console.log('Hello, Andromeda!');
+console.log("Hello, Andromeda!");
 
 // File operations
-const content = await Deno.readTextFile('config.json');
+const content = await Deno.readTextFile("config.json");
 const config = JSON.parse(content);
 
 // HTTP requests
-const response = await fetch('https://api.example.com/data');
+const response = await fetch("https://api.example.com/data");
 const data = await response.json();
 
 // Canvas graphics
 const canvas = new OffscreenCanvas(400, 300);
-const ctx = canvas.getContext('2d')!;
-ctx.fillStyle = 'blue';
+const ctx = canvas.getContext("2d")!;
+ctx.fillStyle = "blue";
 ctx.fillRect(10, 10, 100, 100);
 ```
 
 ### Working with Multiple APIs
 
 ```typescript
-import { performance } from './performance.js';
+import { performance } from "./performance.js";
 
 async function processData() {
   const start = performance.now();
-  
+
   try {
     // Read input file
-    const input = await Deno.readTextFile('input.txt');
-    
+    const input = await Deno.readTextFile("input.txt");
+
     // Process with crypto
     const encoder = new TextEncoder();
     const data = encoder.encode(input);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    
+    const hash = await crypto.subtle.digest("SHA-256", data);
+
     // Log results
-    console.log('Processing completed');
-    console.log('Hash:', Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join(''));
-    
+    console.log("Processing completed");
+    console.log(
+      "Hash:",
+      Array.from(new Uint8Array(hash))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join(""),
+    );
   } catch (error) {
-    console.error('Processing failed:', error);
+    console.error("Processing failed:", error);
   } finally {
     const duration = performance.now() - start;
     console.log(`Operation took ${duration.toFixed(2)}ms`);

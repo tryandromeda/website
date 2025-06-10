@@ -1,3 +1,4 @@
+// deno-lint-ignore-file react-no-danger
 import type { PageProps } from "fresh";
 
 export default function App({ Component }: PageProps) {
@@ -24,6 +25,26 @@ export default function App({ Component }: PageProps) {
         />
         <link rel="stylesheet" href="/styles.css" />
         <link rel="icon" href="/logo.svg" />
+        {/* RSS/Atom feed discovery */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Andromeda Blog RSS Feed"
+          href="/blog/rss.xml"
+        />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          title="Andromeda Blog Atom Feed"
+          href="/blog/atom.xml"
+        />
+        <link
+          rel="alternate"
+          type="application/feed+json"
+          title="Andromeda Blog JSON Feed"
+          href="/blog/feed.json"
+        />
+
         <script
           dangerouslySetInnerHTML={{
             __html: `function updateTheme() {

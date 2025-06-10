@@ -13,7 +13,8 @@ Andromeda requires:
 
 ### Method 1: Install from Git (Recommended)
 
-The easiest way to install Andromeda is using Cargo to install directly from the Git repository:
+The easiest way to install Andromeda is using Cargo to install directly from the
+Git repository:
 
 ```bash
 cargo install --git https://github.com/tryandromeda/andromeda
@@ -68,7 +69,9 @@ andromeda run test.js
 
 ### Adding to PATH
 
-Cargo typically installs binaries to `~/.cargo/bin` (Unix) or `%USERPROFILE%\.cargo\bin` (Windows). Make sure this directory is in your system's PATH.
+Cargo typically installs binaries to `~/.cargo/bin` (Unix) or
+`%USERPROFILE%\.cargo\bin` (Windows). Make sure this directory is in your
+system's PATH.
 
 #### On Unix-like systems (Linux, macOS)
 
@@ -87,7 +90,8 @@ Add `%USERPROFILE%\.cargo\bin` to your system PATH through:
 
 ### Shell Completion (Optional)
 
-Andromeda supports shell completion for bash, zsh, fish, and PowerShell. Generate completion scripts:
+Andromeda supports shell completion for bash, zsh, fish, and PowerShell.
+Generate completion scripts:
 
 ```bash
 # For bash
@@ -108,7 +112,8 @@ andromeda completions powershell > andromeda.ps1
 ### Windows
 
 - Andromeda works on Windows 10/11 with PowerShell or Command Prompt
-- Some features may require Windows Subsystem for Linux (WSL) for full compatibility
+- Some features may require Windows Subsystem for Linux (WSL) for full
+  compatibility
 
 ### macOS
 
@@ -124,7 +129,7 @@ andromeda completions powershell > andromeda.ps1
 
 ### Common Issues
 
-*"andromeda: command not found"**
+_"andromeda: command not found"_*
 
 - Ensure `~/.cargo/bin` is in your PATH
 - Restart your terminal after installation
@@ -164,4 +169,5 @@ To update to the latest version:
 cargo install --git https://github.com/tryandromeda/andromeda --force
 ```
 
-The `--force` flag will overwrite the existing installation with the latest version.
+The `--force` flag will overwrite the existing installation with the latest
+version.

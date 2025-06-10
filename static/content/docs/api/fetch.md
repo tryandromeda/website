@@ -1,10 +1,13 @@
 # Fetch API
 
-The Fetch API provides an interface for fetching resources from across the network. It's a modern replacement for XMLHttpRequest that uses promises.
+The Fetch API provides an interface for fetching resources from across the
+network. It's a modern replacement for XMLHttpRequest that uses promises.
 
 ## Overview
 
-Andromeda implements the standard Fetch API as defined in the WHATWG Fetch specification, providing a powerful and flexible HTTP client that works seamlessly with async/await syntax.
+Andromeda implements the standard Fetch API as defined in the WHATWG Fetch
+specification, providing a powerful and flexible HTTP client that works
+seamlessly with async/await syntax.
 
 ## Headers
 
@@ -18,7 +21,8 @@ Creates a new Headers object.
 
 **Parameters:**
 
-- `init` (optional): Initial headers as an object, array of key-value pairs, or another Headers object
+- `init` (optional): Initial headers as an object, array of key-value pairs, or
+  another Headers object
 
 **Example:**
 
@@ -26,13 +30,13 @@ Creates a new Headers object.
 // From object
 const headers1 = new Headers({
   "Content-Type": "application/json",
-  "Authorization": "Bearer token123"
+  "Authorization": "Bearer token123",
 });
 
 // From array
 const headers2 = new Headers([
   ["Content-Type", "text/html"],
-  ["Set-Cookie", "session=abc"]
+  ["Set-Cookie", "session=abc"],
 ]);
 
 // Empty headers
@@ -43,7 +47,8 @@ const headers3 = new Headers();
 
 #### `append(name: string, value: string): void`
 
-Appends a new value to an existing header, or adds the header if it doesn't exist.
+Appends a new value to an existing header, or adds the header if it doesn't
+exist.
 
 ```typescript
 const headers = new Headers();
@@ -106,7 +111,7 @@ headers.forEach((value, name) => {
 const apiHeaders = new Headers({
   "Content-Type": "application/json",
   "Accept": "application/json",
-  "Authorization": "Bearer your-token-here"
+  "Authorization": "Bearer your-token-here",
 });
 
 // Add additional headers
@@ -141,7 +146,7 @@ console.log(responseHeaders.get("Set-Cookie"));
 ```typescript
 const headers = new Headers({
   "Content-Type": "text/plain",
-  "X-Custom-Header": "initial-value"
+  "X-Custom-Header": "initial-value",
 });
 
 // Update existing header
@@ -156,7 +161,8 @@ headers.set("Cache-Control", "no-cache");
 
 ## Browser Compatibility
 
-Andromeda's Headers implementation follows the WHATWG Fetch specification and provides compatibility with:
+Andromeda's Headers implementation follows the WHATWG Fetch specification and
+provides compatibility with:
 
 - Standard header name case-insensitive behavior
 - Proper handling of multiple values for the same header
@@ -167,7 +173,8 @@ Andromeda's Headers implementation follows the WHATWG Fetch specification and pr
 
 ### Header Names
 
-Header names are case-insensitive, but it's good practice to use consistent casing:
+Header names are case-insensitive, but it's good practice to use consistent
+casing:
 
 ```typescript
 // Recommended
@@ -185,8 +192,8 @@ Some headers are restricted for security reasons:
 
 ```typescript
 // These will be ignored or throw errors
-headers.set("Host", "evil.com");           // Forbidden
-headers.set("Content-Length", "1000");     // Managed by runtime
+headers.set("Host", "evil.com"); // Forbidden
+headers.set("Content-Length", "1000"); // Managed by runtime
 ```
 
 ### Performance Tips
@@ -199,7 +206,7 @@ headers.set("Content-Length", "1000");     // Managed by runtime
 // Efficient
 const baseHeaders = new Headers({
   "User-Agent": "Andromeda/1.0",
-  "Accept": "application/json"
+  "Accept": "application/json",
 });
 
 // Less efficient

@@ -1,6 +1,7 @@
 # Architecture Overview
 
-Andromeda is built with a modular, extensible architecture that separates concerns while maintaining high performance and security.
+Andromeda is built with a modular, extensible architecture that separates
+concerns while maintaining high performance and security.
 
 ## High-Level Architecture
 
@@ -44,7 +45,8 @@ Andromeda is built with a modular, extensible architecture that separates concer
 The command-line interface provides the main entry point for users and handles:
 
 - **Command parsing** - Using Clap for robust CLI argument handling
-- **Subcommand routing** - Directing to appropriate functionality (run, repl, fmt, compile)
+- **Subcommand routing** - Directing to appropriate functionality (run, repl,
+  fmt, compile)
 - **Error reporting** - Beautiful error messages with context and suggestions
 - **File discovery** - Finding and validating input files
 
@@ -87,7 +89,8 @@ The core runtime provides the fundamental JavaScript execution environment:
 
 ### 3. Nova JavaScript Engine
 
-Andromeda is powered by [Nova](https://trynova.dev/), a fast JavaScript engine written in Rust:
+Andromeda is powered by [Nova](https://trynova.dev/), a fast JavaScript engine
+written in Rust:
 
 #### Parser & Compiler
 

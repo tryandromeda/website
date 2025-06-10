@@ -42,6 +42,8 @@ export function DocNav({
     <div>
       {/* Mobile menu button */}
       <button
+        type="button"
+        aria-label="Toggle navigation"
         class="md:hidden p-3 fixed top-4 left-4 z-50 bg-base border border-surface0 rounded-lg shadow-sm text-text hover:bg-mantle transition-colors"
         onClick={toggleNav}
       >

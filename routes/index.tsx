@@ -36,8 +36,7 @@ export default function Home() {
             <pre class="bg-black text-green-400 p-4 rounded-lg text-left overflow-x-auto border border-surface1">
               <code>cargo install --git https://github.com/tryandromeda/andromeda</code>
             </pre>
-          </div>
-
+          </div>{" "}
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#features"
@@ -50,6 +49,12 @@ export default function Home() {
               class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Documentation
+            </a>
+            <a
+              href="/blog"
+              class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Blog
             </a>
           </div>
         </div>

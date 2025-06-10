@@ -1,26 +1,32 @@
 # Frequently Asked Questions (FAQ)
 
-This document answers common questions about Andromeda, its features, limitations, and usage.
+This document answers common questions about Andromeda, its features,
+limitations, and usage.
 
 ## General Questions
 
 ### What is Andromeda?
 
-Andromeda is a TypeScript runtime built in Rust that provides a fast, secure, and lightweight environment for executing TypeScript/JavaScript code. It focuses on performance and safety while offering a familiar API surface similar to Node.js and Deno.
+Andromeda is a TypeScript runtime built in Rust that provides a fast, secure,
+and lightweight environment for executing TypeScript/JavaScript code. It focuses
+on performance and safety while offering a familiar API surface similar to
+Node.js and Deno.
 
 ### How is Andromeda different from Node.js or Deno?
 
-| Feature | Andromeda | Node.js | Deno |
-|---------|-----------|---------|------|
-| **Runtime** | Rust-based | V8 + C++ | V8 + Rust |
-| **TypeScript** | Native support | Requires transpilation | Native support |
-| **Security** | Secure by default | No built-in sandboxing | Secure by default |
-| **Package management** | Built-in | npm/yarn | Built-in |
-| **Std library** | Web APIs focused | Node.js APIs | Web APIs focused |
+| Feature                | Andromeda         | Node.js                | Deno              |
+| ---------------------- | ----------------- | ---------------------- | ----------------- |
+| **Runtime**            | Rust-based        | V8 + C++               | V8 + Rust         |
+| **TypeScript**         | Native support    | Requires transpilation | Native support    |
+| **Security**           | Secure by default | No built-in sandboxing | Secure by default |
+| **Package management** | Built-in          | npm/yarn               | Built-in          |
+| **Std library**        | Web APIs focused  | Node.js APIs           | Web APIs focused  |
 
 ### Is Andromeda production-ready?
 
-Andromeda is currently in active development. While it implements many core features, it's not yet recommended for production use. Check the [roadmap](roadmap) for current status and planned features.
+Andromeda is currently in active development. While it implements many core
+features, it's not yet recommended for production use. Check the
+[roadmap](roadmap) for current status and planned features.
 
 ### What platforms does Andromeda support?
 
@@ -34,7 +40,8 @@ Andromeda supports:
 
 ### How do I install Andromeda?
 
-See the [Installation Guide](installation) for detailed instructions. The quick version:
+See the [Installation Guide](installation) for detailed instructions. The quick
+version:
 
 ```bash
 # Using Cargo
@@ -62,7 +69,8 @@ Not yet supported:
 
 ### Can I run JavaScript files?
 
-Yes, Andromeda can execute JavaScript files with the `.js` extension. However, you'll get better performance and type safety with TypeScript.
+Yes, Andromeda can execute JavaScript files with the `.js` extension. However,
+you'll get better performance and type safety with TypeScript.
 
 ### How do I import npm packages?
 
@@ -98,7 +106,7 @@ await Deno.writeTextFile("output.txt", "Hello, World!");
 
 // List directory
 for await (const entry of Deno.readDir(".")) {
-    console.log(entry.name);
+  console.log(entry.name);
 }
 ```
 
@@ -116,10 +124,10 @@ Use standard JavaScript error handling:
 
 ```typescript
 try {
-    const data = await Deno.readTextFile("file.txt");
-    console.log(data);
+  const data = await Deno.readTextFile("file.txt");
+  console.log(data);
 } catch (error) {
-    console.error("Failed to read file:", error.message);
+  console.error("Failed to read file:", error.message);
 }
 ```
 
@@ -144,7 +152,8 @@ Limited support currently. You can:
 
 ### How do I contribute to Andromeda?
 
-See the [Contributing Guide](contributing) for detailed instructions. Quick steps:
+See the [Contributing Guide](contributing) for detailed instructions. Quick
+steps:
 
 1. Fork the repository
 2. Create a feature branch
@@ -180,7 +189,8 @@ Common issues:
 
 1. **Missing type definitions**: Some APIs may not have complete types yet
 2. **Strict mode**: Try `// @ts-nocheck` at the top of files
-3. **Module resolution**: Use relative imports (`./module.ts`) instead of node-style imports
+3. **Module resolution**: Use relative imports (`./module.ts`) instead of
+   node-style imports
 
 ### Performance issues
 
@@ -197,7 +207,8 @@ If Andromeda uses too much memory:
 
 1. **Avoid large global variables**: Clean up unused data
 2. **Use streaming APIs**: Process large files in chunks
-3. **Garbage collection**: Andromeda handles this automatically, but be mindful of object creation
+3. **Garbage collection**: Andromeda handles this automatically, but be mindful
+   of object creation
 
 ## Integration
 

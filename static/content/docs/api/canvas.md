@@ -1,6 +1,8 @@
 # Canvas API
 
-Andromeda provides a comprehensive Canvas API for creating 2D graphics, drawings, and visualizations. The API is based on the standard HTML5 Canvas specification.
+Andromeda provides a comprehensive Canvas API for creating 2D graphics,
+drawings, and visualizations. The API is based on the standard HTML5 Canvas
+specification.
 
 ## Overview
 
@@ -87,10 +89,10 @@ ctx.stroke();
 
 ```typescript
 ctx.beginPath();
-ctx.moveTo(50, 50);      // Move to starting point
-ctx.lineTo(150, 50);     // Draw line to point
-ctx.lineTo(100, 150);    // Draw line to another point
-ctx.closePath();         // Close the path
+ctx.moveTo(50, 50); // Move to starting point
+ctx.lineTo(150, 50); // Draw line to point
+ctx.lineTo(100, 150); // Draw line to another point
+ctx.closePath(); // Close the path
 ctx.fillStyle = "#ffff00";
 ctx.fill();
 ```
@@ -101,10 +103,10 @@ ctx.fill();
 
 ```typescript
 // Solid colors
-ctx.fillStyle = "#ff0000";           // Hex
-ctx.fillStyle = "rgb(255, 0, 0)";    // RGB
+ctx.fillStyle = "#ff0000"; // Hex
+ctx.fillStyle = "rgb(255, 0, 0)"; // RGB
 ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // RGBA
-ctx.fillStyle = "red";               // Named color
+ctx.fillStyle = "red"; // Named color
 
 // Apply to shapes
 ctx.fillRect(10, 10, 100, 100);
@@ -132,8 +134,8 @@ ctx.fillRect(0, 0, 200, 200);
 
 ```typescript
 ctx.lineWidth = 5;
-ctx.lineCap = "round";     // "butt", "round", "square"
-ctx.lineJoin = "round";    // "miter", "round", "bevel"
+ctx.lineCap = "round"; // "butt", "round", "square"
+ctx.lineJoin = "round"; // "miter", "round", "bevel"
 ctx.strokeStyle = "#000";
 ```
 
@@ -155,8 +157,8 @@ ctx.strokeText("Outlined Text", x, y);
 
 ```typescript
 ctx.font = "bold 32px 'Times New Roman'";
-ctx.textAlign = "center";     // "start", "end", "left", "right", "center"
-ctx.textBaseline = "middle";  // "top", "hanging", "middle", "alphabetic", "ideographic", "bottom"
+ctx.textAlign = "center"; // "start", "end", "left", "right", "center"
+ctx.textBaseline = "middle"; // "top", "hanging", "middle", "alphabetic", "ideographic", "bottom"
 ctx.fillText("Centered Text", canvas.width / 2, canvas.height / 2);
 ```
 
@@ -173,10 +175,10 @@ console.log(`Text width: ${metrics.width}px`);
 #### Translation
 
 ```typescript
-ctx.save();                    // Save current state
-ctx.translate(100, 50);        // Move origin
-ctx.fillRect(0, 0, 50, 50);   // Draw at new origin
-ctx.restore();                 // Restore previous state
+ctx.save(); // Save current state
+ctx.translate(100, 50); // Move origin
+ctx.fillRect(0, 0, 50, 50); // Draw at new origin
+ctx.restore(); // Restore previous state
 ```
 
 #### Rotation
@@ -184,7 +186,7 @@ ctx.restore();                 // Restore previous state
 ```typescript
 ctx.save();
 ctx.translate(canvas.width / 2, canvas.height / 2); // Move to center
-ctx.rotate(Math.PI / 4);       // Rotate 45 degrees
+ctx.rotate(Math.PI / 4); // Rotate 45 degrees
 ctx.fillRect(-25, -25, 50, 50); // Draw centered square
 ctx.restore();
 ```
@@ -193,7 +195,7 @@ ctx.restore();
 
 ```typescript
 ctx.save();
-ctx.scale(2, 2);              // Scale 2x
+ctx.scale(2, 2); // Scale 2x
 ctx.fillRect(10, 10, 50, 50); // Will appear as 100x100
 ctx.restore();
 ```
@@ -267,8 +269,8 @@ const data = imageData.data; // Uint8ClampedArray (RGBA values)
 
 // Manipulate pixels (invert colors)
 for (let i = 0; i < data.length; i += 4) {
-  data[i] = 255 - data[i];         // Red
-  data[i + 1] = 255 - data[i + 1]; // Green  
+  data[i] = 255 - data[i]; // Red
+  data[i + 1] = 255 - data[i + 1]; // Green
   data[i + 2] = 255 - data[i + 2]; // Blue
   // data[i + 3] is alpha, leave unchanged
 }
@@ -324,35 +326,35 @@ console.log(`Image data: ${imageData.width}x${imageData.height}`);
 ```typescript
 function drawBarChart(canvas: OffscreenCanvas, data: number[]) {
   const ctx = canvas.getContext("2d")!;
-  
+
   // Clear canvas
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   // Chart settings
   const padding = 40;
   const chartWidth = canvas.width - padding * 2;
   const chartHeight = canvas.height - padding * 2;
   const barWidth = chartWidth / data.length;
   const maxValue = Math.max(...data);
-  
+
   // Draw bars
   data.forEach((value, index) => {
     const barHeight = (value / maxValue) * chartHeight;
     const x = padding + index * barWidth;
     const y = canvas.height - padding - barHeight;
-    
+
     // Bar
     ctx.fillStyle = `hsl(${index * 40}, 70%, 50%)`;
     ctx.fillRect(x, y, barWidth - 2, barHeight);
-    
+
     // Value label
     ctx.fillStyle = "#000";
     ctx.font = "12px Arial";
     ctx.textAlign = "center";
     ctx.fillText(value.toString(), x + barWidth / 2, y - 5);
   });
-  
+
   // Title
   ctx.fillStyle = "#000";
   ctx.font = "bold 18px Arial";
@@ -372,29 +374,29 @@ canvas.saveAsPng("chart.png");
 ```typescript
 function createLogo(canvas: OffscreenCanvas) {
   const ctx = canvas.getContext("2d")!;
-  
+
   // Background
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   gradient.addColorStop(0, "#667eea");
   gradient.addColorStop(1, "#764ba2");
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   // Center circle
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  
+
   ctx.beginPath();
   ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
   ctx.fillStyle = "#ffffff";
   ctx.fill();
-  
+
   // Inner design
   ctx.beginPath();
   ctx.arc(centerX, centerY, 60, 0, Math.PI * 2);
   ctx.fillStyle = "#4c51bf";
   ctx.fill();
-  
+
   // Text
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 24px Arial";
@@ -415,29 +417,29 @@ canvas.saveAsPng("logo.png");
 ```typescript
 function drawFrame(canvas: OffscreenCanvas, frame: number) {
   const ctx = canvas.getContext("2d")!;
-  
+
   // Clear canvas
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   // Draw rotating elements
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  
+
   for (let i = 0; i < 8; i++) {
     ctx.save();
-    
+
     // Position and rotate
     ctx.translate(centerX, centerY);
     ctx.rotate((frame * 0.02) + (i * Math.PI / 4));
     ctx.translate(60, 0);
-    
+
     // Draw shape
     ctx.beginPath();
     ctx.arc(0, 0, 20, 0, Math.PI * 2);
     ctx.fillStyle = `hsl(${(frame + i * 45) % 360}, 70%, 50%)`;
     ctx.fill();
-    
+
     ctx.restore();
   }
 }
@@ -447,7 +449,7 @@ const canvas = new OffscreenCanvas(400, 400);
 for (let frame = 0; frame < 60; frame++) {
   drawFrame(canvas, frame);
   canvas.render();
-  canvas.saveAsPng(`animation-${frame.toString().padStart(3, '0')}.png`);
+  canvas.saveAsPng(`animation-${frame.toString().padStart(3, "0")}.png`);
 }
 ```
 
@@ -462,26 +464,28 @@ interface DataPoint {
 
 function drawScatterPlot(canvas: OffscreenCanvas, data: DataPoint[]) {
   const ctx = canvas.getContext("2d")!;
-  
+
   // Settings
   const padding = 60;
   const plotWidth = canvas.width - padding * 2;
   const plotHeight = canvas.height - padding * 2;
-  
+
   // Find data ranges
-  const xMin = Math.min(...data.map(d => d.x));
-  const xMax = Math.max(...data.map(d => d.x));
-  const yMin = Math.min(...data.map(d => d.y));
-  const yMax = Math.max(...data.map(d => d.y));
-  
+  const xMin = Math.min(...data.map((d) => d.x));
+  const xMax = Math.max(...data.map((d) => d.x));
+  const yMin = Math.min(...data.map((d) => d.y));
+  const yMax = Math.max(...data.map((d) => d.y));
+
   // Helper function to convert data coordinates to canvas coordinates
-  const toCanvasX = (x: number) => padding + ((x - xMin) / (xMax - xMin)) * plotWidth;
-  const toCanvasY = (y: number) => canvas.height - padding - ((y - yMin) / (yMax - yMin)) * plotHeight;
-  
+  const toCanvasX = (x: number) =>
+    padding + ((x - xMin) / (xMax - xMin)) * plotWidth;
+  const toCanvasY = (y: number) =>
+    canvas.height - padding - ((y - yMin) / (yMax - yMin)) * plotHeight;
+
   // Clear background
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   // Draw axes
   ctx.strokeStyle = "#000";
   ctx.lineWidth = 2;
@@ -490,31 +494,31 @@ function drawScatterPlot(canvas: OffscreenCanvas, data: DataPoint[]) {
   ctx.lineTo(padding, canvas.height - padding);
   ctx.lineTo(canvas.width - padding, canvas.height - padding);
   ctx.stroke();
-  
+
   // Draw data points
   data.forEach((point, index) => {
     const x = toCanvasX(point.x);
     const y = toCanvasY(point.y);
-    
+
     // Point
     ctx.beginPath();
     ctx.arc(x, y, 6, 0, Math.PI * 2);
     ctx.fillStyle = `hsl(${index * 30}, 70%, 50%)`;
     ctx.fill();
-    
+
     // Label
     ctx.fillStyle = "#000";
     ctx.font = "10px Arial";
     ctx.textAlign = "center";
     ctx.fillText(point.label, x, y - 10);
   });
-  
+
   // Axis labels
   ctx.fillStyle = "#000";
   ctx.font = "14px Arial";
   ctx.textAlign = "center";
   ctx.fillText("X Axis", canvas.width / 2, canvas.height - 10);
-  
+
   ctx.save();
   ctx.translate(15, canvas.height / 2);
   ctx.rotate(-Math.PI / 2);
@@ -528,7 +532,7 @@ const data: DataPoint[] = [
   { x: 2, y: 4, label: "B" },
   { x: 3, y: 3, label: "C" },
   { x: 4, y: 6, label: "D" },
-  { x: 5, y: 5, label: "E" }
+  { x: 5, y: 5, label: "E" },
 ];
 
 const canvas = new OffscreenCanvas(500, 400);
@@ -560,14 +564,14 @@ function safeDrawing(canvas: OffscreenCanvas) {
   if (!ctx) {
     throw new Error("Could not get 2D context");
   }
-  
+
   try {
     // Drawing code here
     ctx.fillRect(0, 0, 100, 100);
-    
+
     canvas.render();
     canvas.saveAsPng("output.png");
-    
+
     console.log("✅ Drawing completed successfully");
   } catch (error) {
     console.error("❌ Drawing failed:", error.message);

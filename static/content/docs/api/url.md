@@ -1,10 +1,13 @@
 # URL API
 
-The URL API provides utilities for parsing, constructing, normalizing, and encoding URLs. It implements the WHATWG URL Standard for consistent URL handling.
+The URL API provides utilities for parsing, constructing, normalizing, and
+encoding URLs. It implements the WHATWG URL Standard for consistent URL
+handling.
 
 ## Overview
 
-Andromeda's URL implementation provides a robust way to work with URLs, supporting both absolute and relative URL parsing, validation, and manipulation.
+Andromeda's URL implementation provides a robust way to work with URLs,
+supporting both absolute and relative URL parsing, validation, and manipulation.
 
 ## URL Constructor
 
@@ -135,8 +138,8 @@ const introUrl = new URL("introduction", docBase);
 const setupUrl = new URL("setup", docBase);
 const advancedUrl = new URL("../advanced/", docBase);
 
-console.log(introUrl.toString());   // "https://docs.example.com/guide/introduction"
-console.log(setupUrl.toString());   // "https://docs.example.com/guide/setup"
+console.log(introUrl.toString()); // "https://docs.example.com/guide/introduction"
+console.log(setupUrl.toString()); // "https://docs.example.com/guide/setup"
 console.log(advancedUrl.toString()); // "https://docs.example.com/advanced/"
 ```
 
@@ -191,12 +194,12 @@ if (url) {
 const base = "https://example.com/docs/guide/";
 
 // Different path types
-console.log(new URL("intro.html", base));        // https://example.com/docs/guide/intro.html
-console.log(new URL("./intro.html", base));      // https://example.com/docs/guide/intro.html
-console.log(new URL("../api/", base));           // https://example.com/docs/api/
-console.log(new URL("/help", base));             // https://example.com/help
-console.log(new URL("?search=term", base));      // https://example.com/docs/guide/?search=term
-console.log(new URL("#section", base));          // https://example.com/docs/guide/#section
+console.log(new URL("intro.html", base)); // https://example.com/docs/guide/intro.html
+console.log(new URL("./intro.html", base)); // https://example.com/docs/guide/intro.html
+console.log(new URL("../api/", base)); // https://example.com/docs/api/
+console.log(new URL("/help", base)); // https://example.com/help
+console.log(new URL("?search=term", base)); // https://example.com/docs/guide/?search=term
+console.log(new URL("#section", base)); // https://example.com/docs/guide/#section
 ```
 
 ### Protocol and Domain Handling
@@ -205,9 +208,9 @@ console.log(new URL("#section", base));          // https://example.com/docs/gui
 const base = "https://example.com/path";
 
 // Different protocols
-console.log(new URL("http://other.com", base));     // http://other.com
-console.log(new URL("//other.com/path", base));     // https://other.com/path
-console.log(new URL("ftp://files.com", base));      // ftp://files.com
+console.log(new URL("http://other.com", base)); // http://other.com
+console.log(new URL("//other.com/path", base)); // https://other.com/path
+console.log(new URL("ftp://files.com", base)); // ftp://files.com
 ```
 
 ## Browser Compatibility
@@ -306,7 +309,7 @@ const currentPage = new URL("https://docs.example.com/guide/setup.html");
 const nextPage = navigateUrl(currentPage, "configuration.html");
 const prevSection = navigateUrl(currentPage, "../introduction/");
 
-console.log(nextPage.toString());   // "https://docs.example.com/guide/configuration.html"
+console.log(nextPage.toString()); // "https://docs.example.com/guide/configuration.html"
 console.log(prevSection.toString()); // "https://docs.example.com/introduction/"
 ```
 
@@ -331,7 +334,7 @@ const invalidUrls = [
   "relative/path", // without base
 ];
 
-invalidUrls.forEach(urlString => {
+invalidUrls.forEach((urlString) => {
   try {
     new URL(urlString);
     console.log(`✓ ${urlString} is valid`);

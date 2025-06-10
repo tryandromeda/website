@@ -70,8 +70,7 @@ Common issues and solutions for Andromeda runtime.
    rustup update stable
    ```
 
-2. **Missing system dependencies:**
-   **Ubuntu/Debian:**
+2. **Missing system dependencies:** **Ubuntu/Debian:**
 
    ```bash
    sudo apt update
@@ -127,7 +126,7 @@ Common issues and solutions for Andromeda runtime.
      name: string;
      age: number;
    }
-   
+
    const user: User = { name: "John", age: 30 };
    console.log(user);
    ```
@@ -149,7 +148,7 @@ Common issues and solutions for Andromeda runtime.
    ```typescript
    // ✅ Correct
    import { helper } from "./utils.ts";
-   
+
    // ❌ Incorrect (no npm modules yet)
    import express from "express";
    ```
@@ -179,7 +178,7 @@ Common issues and solutions for Andromeda runtime.
    ```typescript
    const canvas = new OffscreenCanvas(800, 600);
    const ctx = canvas.getContext("2d");
-   
+
    if (!ctx) {
      throw new Error("Failed to get 2D context");
    }
@@ -191,7 +190,7 @@ Common issues and solutions for Andromeda runtime.
    // Draw something
    ctx.fillStyle = "red";
    ctx.fillRect(0, 0, 100, 100);
-   
+
    // Must call render before saving
    canvas.render();
    canvas.saveAsPng("output.png");
@@ -216,7 +215,7 @@ Common issues and solutions for Andromeda runtime.
    ```bash
    # Verify read permissions
    ls -la myfile.txt
-   
+
    # Fix permissions if needed
    chmod 644 myfile.txt
    ```
@@ -262,7 +261,7 @@ Common issues and solutions for Andromeda runtime.
    ```typescript
    // ✅ Correct
    const hash = await crypto.subtle.digest("SHA-256", data);
-   
+
    // ❌ Incorrect
    const hash = crypto.subtle.digest("SHA-256", data); // Returns Promise
    ```
@@ -292,10 +291,10 @@ Common issues and solutions for Andromeda runtime.
 
    ```typescript
    const start = performance.now();
-   
+
    // Your code here
    heavyComputation();
-   
+
    const end = performance.now();
    console.log(`Execution time: ${end - start}ms`);
    ```
@@ -318,11 +317,11 @@ Common issues and solutions for Andromeda runtime.
    for (const file of files) {
      const content = Andromeda.readTextFileSync(file);
    }
-   
+
    // ✅ Batch operations when possible
-   const contents = files.map(file => ({
+   const contents = files.map((file) => ({
      file,
-     content: Andromeda.readTextFileSync(file)
+     content: Andromeda.readTextFileSync(file),
    }));
    ```
 
@@ -337,7 +336,7 @@ Common issues and solutions for Andromeda runtime.
    ```typescript
    // ❌ Very large canvas
    const canvas = new OffscreenCanvas(10000, 10000);
-   
+
    // ✅ Reasonable size
    const canvas = new OffscreenCanvas(1920, 1080);
    ```
@@ -347,7 +346,7 @@ Common issues and solutions for Andromeda runtime.
    ```typescript
    // ❌ Loading entire large file
    const bigFile = Andromeda.readTextFileSync("huge-file.txt");
-   
+
    // ✅ Process in smaller pieces
    function processLargeFile(path: string) {
      const CHUNK_SIZE = 1024 * 1024; // 1MB chunks
@@ -400,10 +399,10 @@ Common issues and solutions for Andromeda runtime.
 
    ```javascript
    // ✅ Correct
-   help
-   
+   help;
+
    // ❌ Incorrect
-   "help"
+   "help";
    ```
 
 2. **Use `.exit` to quit:**
@@ -417,7 +416,7 @@ Common issues and solutions for Andromeda runtime.
 3. **Clear screen:**
 
    ```javascript
-   clear
+   clear;
    ```
 
 ## Debugging Tips

@@ -110,7 +110,7 @@ export default [
       },
     ],
   },
-  
+
   {
     name: "Examples",
     children: [
@@ -125,7 +125,7 @@ export default [
         path: "/docs/examples/fizzbuzz",
         id: "fizzbuzz-example",
         children: [],
-      }
+      },
     ],
   },
   {
