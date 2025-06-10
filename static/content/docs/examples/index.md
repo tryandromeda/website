@@ -11,6 +11,6 @@ showcases specific functionality.
 
 ## See Also
 
-- **[API Reference](../api/)** - Complete API documentation
-- **[Quick Start](../quick-start)** - Get started quickly
-- **[CLI Reference](../cli-reference)** - Command-line usage
+- **[API Reference](/docs/api/index)** - Complete API documentation
+- **[Quick Start](/docs/quick-start)** - Get started quickly
+- **[CLI Reference](/docs/cli-reference)** - Command-line usage

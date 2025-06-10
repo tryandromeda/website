@@ -23,23 +23,6 @@ export default [
     ],
   },
   {
-    name: "Core Concepts",
-    children: [
-      {
-        name: "Architecture Overview",
-        path: "/docs/architecture",
-        id: "architecture",
-        children: [],
-      },
-      {
-        name: "Building from Source",
-        path: "/docs/building",
-        id: "building",
-        children: [],
-      },
-    ],
-  },
-  {
     name: "API Reference",
     children: [
       {
@@ -131,6 +114,12 @@ export default [
   {
     name: "Development",
     children: [
+      {
+        name: "Building from Source",
+        path: "/docs/building",
+        id: "building",
+        children: [],
+      },
       {
         name: "Contributing to Andromeda",
         path: "/docs/contributing",

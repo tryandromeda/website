@@ -173,24 +173,25 @@ andromeda --version
 
 Andromeda supports these file extensions:
 
-| Extension | Description                 |
-| --------- | --------------------------- |
-| `.js`     | JavaScript files            |
-| `.ts`     | TypeScript files            |
-| `.jsx`    | JavaScript with JSX (React) |
-| `.tsx`    | TypeScript with JSX (React) |
-| `.mjs`    | ES Module JavaScript        |
-| `.mts`    | ES Module TypeScript        |
+| Extension | Description                   |
+| --------- | ----------------------------- |
+| `.js`     | JavaScript files              |
+| `.ts`     | TypeScript files              |
+| `.jsx`    | JavaScript with JSX\* (React) |
+| `.tsx`    | TypeScript with JSX\* (React) |
+| `.mjs`    | ES Module JavaScript          |
+| `.mts`    | ES Module TypeScript          |
+
+\*JSX not actually supported yet
 
 ## Environment Variables
 
 Andromeda respects these environment variables:
 
-| Variable                  | Description               | Default |
-| ------------------------- | ------------------------- | ------- |
-| `RUST_LOG`                | Set logging level         | `info`  |
-| `NO_COLOR`                | Disable colored output    | `false` |
-| `ANDROMEDA_DISABLE_CACHE` | Disable compilation cache | `false` |
+| Variable   | Description            | Default |
+| ---------- | ---------------------- | ------- |
+| `RUST_LOG` | Set logging level      | `info`  |
+| `NO_COLOR` | Disable colored output | `false` |
 
 **Examples:**
 
@@ -200,46 +201,7 @@ RUST_LOG=debug andromeda run script.ts
 
 # Disable colors
 NO_COLOR=1 andromeda run script.ts
-
-# Disable cache
-ANDROMEDA_DISABLE_CACHE=1 andromeda run script.ts
 ```
-
-## Exit Codes
-
-| Code | Description       |
-| ---- | ----------------- |
-| `0`  | Success           |
-| `1`  | General error     |
-| `2`  | Parse error       |
-| `3`  | Runtime error     |
-| `4`  | File not found    |
-| `5`  | Permission denied |
-
-## Configuration
-
-### Project Configuration
-
-Create a `.andromeda.json` file in your project root for custom configuration:
-
-```json
-{
-  "strict": true,
-  "extensions": ["canvas", "crypto", "fetch"],
-  "formatOptions": {
-    "indentSize": 2,
-    "useTabs": false,
-    "lineWidth": 100
-  }
-}
-```
-
-### Global Configuration
-
-Global configuration is stored in:
-
-- **Unix**: `~/.config/andromeda/config.json`
-- **Windows**: `%APPDATA%\andromeda\config.json`
 
 ## Debugging
 
@@ -282,14 +244,6 @@ Andromeda provides detailed error messages with:
 - Suggestions for fixes
 - Stack traces with source context
 
-## Performance Tips
-
-1. **Use compilation**: For frequently run scripts, use `andromeda compile` to
-   create executables
-2. **Enable caching**: Don't disable the compilation cache unless debugging
-3. **Batch operations**: Run multiple files together rather than separately
-4. **Optimize imports**: Only use the extensions you need
-
 ## Examples
 
 ### Basic Script Execution
@@ -321,17 +275,7 @@ andromeda compile src/main.ts dist/my-app
 
 ### CI/CD Integration
 
-```bash
-# In GitHub Actions or similar
-- name: Format check
-  run: andromeda fmt --check src/
-
-- name: Run tests
-  run: andromeda run tests/all.ts
-
-- name: Build executable
-  run: andromeda compile src/main.ts dist/app
-```
+TODO: Write up
 
 ## Troubleshooting
 

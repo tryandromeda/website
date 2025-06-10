@@ -149,7 +149,7 @@ _"andromeda: command not found"_*
 
 If you encounter issues:
 
-1. Check the [Troubleshooting Guide](troubleshooting)
+1. Check the [Troubleshooting Guide](/docs/troubleshooting)
 2. Search [GitHub Issues](https://github.com/tryandromeda/andromeda/issues)
 3. Ask for help on [Discord](https://discord.gg/tgjAnX2Ny3)
 
@@ -157,8 +157,8 @@ If you encounter issues:
 
 Now that Andromeda is installed:
 
-1. Read the [Quick Start Guide](quick-start)
-2. Explore the [CLI Reference](cli-reference)
+1. Read the [Quick Start Guide](/docs/quick-start)
+2. Explore the [CLI Reference](/docs/cli-reference)
 3. Join our [Discord community](https://discord.gg/tgjAnX2Ny3)
 
 ## Updating Andromeda

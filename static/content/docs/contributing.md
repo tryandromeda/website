@@ -52,9 +52,6 @@ cd andromeda
 ```bash
 # Install Rust dependencies and build
 cargo build
-
-# Install TypeScript dependencies (if applicable)
-npm install
 ```
 
 ### 3. Verify Installation
@@ -65,18 +62,6 @@ cargo run -- --help
 
 # Run examples
 cargo run -- run examples/main.ts
-```
-
-### 4. Set Up Development Environment
-
-```bash
-# Install development tools
-cargo install cargo-watch
-rustup component add rustfmt clippy
-
-# Set up git hooks (optional)
-cp .githooks/pre-commit .git/hooks/
-chmod +x .git/hooks/pre-commit
 ```
 
 ## Project Structure
@@ -173,7 +158,8 @@ struct RuntimeConfig {
 const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 ```
 
-**Formatting**: Use `cargo fmt` to format code and `andromeda fmt` for TypeScript files.
+**Formatting**: Use `cargo fmt` to format code and `andromeda fmt` for
+TypeScript files.
 
 **Linting**: Use `cargo clippy` to check for common issues
 
@@ -258,7 +244,7 @@ git commit -m "test: add integration tests for file system"
 
 # Use conventional commits format
 # type(scope): description
-# 
+#
 # Types: feat, fix, docs, style, refactor, test, chore
 ```
 
@@ -335,7 +321,7 @@ git commit -m "test: add integration tests for file system"
    ```typescript
    // runtime/src/ext/new_api/mod.ts
    function methodName(param: string): Promise<Result> {
-       // Implementation
+     // Implementation
    }
    // TODO: once imports are supported, use `export` syntax
    ```
@@ -346,10 +332,10 @@ git commit -m "test: add integration tests for file system"
    // tests/new_api.test.ts
 
    describe("New API", () => {
-       it("should return expected result", async () => {
-           const result = await methodName("test");
-           expect(result).toEqual({ success: true });
-       });
+     it("should return expected result", async () => {
+       const result = await methodName("test");
+       expect(result).toEqual({ success: true });
+     });
    });
    ```
 
@@ -402,9 +388,11 @@ When contributing:
 
 ### Communication
 
-- **GitHub Issues**: Bug reports and feature requests
-- **GitHub Discussions**: Questions and general discussion
-- **Discord** (if available): Real-time chat
+- [**GitHub Issues**](https://github.com/tryandromeda/andromeda/issues): Bug
+  reports and feature requests
+- [**GitHub Discussions**](https://github.com/orgs/tryandromeda/discussions):
+  Questions and general discussion
+- [**Community Discord**](https://discord.gg/w8JkSeNcEe): Real-time chat
 - **Code Reviews**: Technical discussions on PRs
 
 ### Code of Conduct

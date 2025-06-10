@@ -7,40 +7,35 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 
 ### 🚀 Getting Started
 
-- [**Installation Guide**](installation) - How to install and set up Andromeda
-- [**Quick Start**](quick-start) - Your first Andromeda program
-- [**CLI Reference**](cli-reference) - Complete command-line interface
+- [**Installation Guide**](/docs/installation) - How to install and set up
+  Andromeda
+- [**Quick Start**](/docs/quick-start) - Your first Andromeda program
+- [**CLI Reference**](/docs/cli-reference) - Complete command-line interface
   documentation
-
-### 📖 Core Concepts
-
-- [**Architecture Overview**](architecture) - Understanding Andromeda's internal
-  structure
-- [**Extension Development**](extension-development) - How the modular extension
-  system works
 
 ### 🛠️ API Documentation
 
-- [**API Reference Index**](api/README) - Complete API documentation overview
-- [**File System API**](api/file-system) - File I/O operations and path
+- [**File System API**](/docs/api/file-system) - File I/O operations and path
   manipulation
-- [**Canvas API**](api/canvas) - 2D graphics and image generation
+- [**Canvas API**](/docs/api/canvas) - 2D graphics and image generation
 - [**Crypto API**](api/crypto) - Cryptographic operations and security
-- [**Console API**](api/console) - Enhanced console output and debugging
-- [**Performance API**](api/performance) - Timing and performance monitoring
-- [**Process API**](api/process) - System interaction and environment access
-- [**Time API**](api/time) - Date, time, and timing utilities
-- [**Fetch API**](api/fetch) - HTTP client and Headers manipulation
-- [**URL API**](api/url) - URL parsing, construction, and manipulation
-- [**Web APIs**](api/web) - Standard web APIs (Events, TextEncoder/Decoder,
-  etc.)
+- [**Console API**](/docs/api/console) - Enhanced console output and debugging
+- [**Performance API**](/docs/api/performance) - Timing and performance
+  monitoring
+- [**Process API**](/docs/api/process) - System interaction and environment
+  access
+- [**Time API**](/docs/api/time) - Date, time, and timing utilities
+- [**Fetch API**](/docs/api/fetch) - HTTP client and Headers manipulation
+- [**URL API**](/docs/api/url) - URL parsing, construction, and manipulation
+- [**Web APIs**](/docs/api/web) - Standard web APIs (Events,
+  TextEncoder/Decoder, etc.)
 
 ### 🔧 Development
 
-- [**Contributing Guide**](contributing) - How to contribute to Andromeda
-- [**Building from Source**](building) - Compiling Andromeda yourself
-- [**Extension Development**](extension-development) - Creating custom runtime
-  extensions
+- [**Contributing Guide**](/docs/contributing) - How to contribute to Andromeda
+- [**Building from Source**](/docs/building) - Compiling Andromeda yourself
+- [**Extension Development**](/docs/extension-development) - How the modular
+  extension system works (TODO: WRITE THIS UP)
 - [**Testing Guide**](testing) - Running and writing tests
 
 ### 📋 Reference

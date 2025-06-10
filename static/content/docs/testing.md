@@ -5,6 +5,6 @@ suite, and contribute tests to the project. TODO
 
 ## See Also
 
-- [Contributing Guide](contributing)
-- [Building from Source](building)
+- [Contributing Guide](/docs/contributing)
+- [Building from Source](/docs/building)
 - [Examples](./examples/)

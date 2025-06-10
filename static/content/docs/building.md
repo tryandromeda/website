@@ -7,7 +7,8 @@ development environment, and understanding the build process.
 
 ### Required Software
 
-- **Rust Toolchain**: Latest stable version (1.70+)
+- **Rust Toolchain**: Latest stable version (we're almost always on the bleeding
+  edge)
 - **Git**: For cloning the repository
 - **System Dependencies**: Platform-specific build tools
 
@@ -51,24 +52,13 @@ development environment, and understanding the build process.
 
 ```bash
 # Clone the main repository
-git clone https://github.com/your-org/andromeda.git
+git clone https://github.com/tryandromeda/andromeda
 cd andromeda
 
 # Or clone your fork
-git clone https://github.com/your-username/andromeda.git
+git clone https://github.com/tryandromeda/andromeda.git
 cd andromeda
 ```
-
-### Repository Structure
-
-Understanding the project layout:
-
-andromeda/ ├── cli/ # Command-line interface ├── core/ # Core runtime
-functionality\
-├── runtime/ # Runtime extensions and APIs ├── examples/ # Example TypeScript
-programs ├── types/ # TypeScript type definitions ├── docs/ # Documentation ├──
-Cargo.toml # Workspace configuration └── rust-toolchain.toml # Rust toolchain
-specification
 
 ## Setting Up Rust
 
@@ -128,7 +118,7 @@ cargo build --profile dev
 
 # Build specific components
 cargo build -p andromeda-cli
-cargo build -p andromeda-core  
+cargo build -p andromeda-core
 cargo build -p andromeda-runtime
 ```
 
@@ -150,7 +140,7 @@ Control build behavior with environment variables:
 # Enable debug output
 export RUST_LOG=debug
 
-# Use more CPU cores for building  
+# Use more CPU cores for building
 export CARGO_BUILD_JOBS=8
 
 # Custom target directory
@@ -275,14 +265,6 @@ cargo build --target x86_64-pc-windows-gnu --release
 
 ## Advanced Build Options
 
-### Custom Build Scripts
-
-The project may include custom build scripts in `build.rs` files. These handle:
-
-- Code generation
-- Asset bundling
-- Platform-specific configuration
-
 ### Build Dependencies
 
 Understanding the dependency graph:
@@ -309,139 +291,6 @@ export CARGO_INCREMENTAL=1
 # Clean incremental cache if needed
 cargo clean -p andromeda-core
 ```
-
-## Troubleshooting Build Issues
-
-### Common Problems
-
-#### Missing System Dependencies
-
-**Error**: "could not find system library"
-
-```bash
-# Ubuntu/Debian
-sudo apt install libssl-dev pkg-config
-
-# macOS
-brew install openssl pkg-config
-
-# Set environment variables if needed
-export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
-```
-
-#### Rust Version Issues
-
-**Error**: "requires at least rustc 1.70"
-
-```bash
-# Update Rust
-rustup update
-
-# Check version
-rustc --version
-```
-
-#### Memory Issues
-
-**Error**: "out of memory" or "killed"
-
-```bash
-# Reduce parallel builds
-export CARGO_BUILD_JOBS=1
-
-# Use less memory
-export CARGO_PROFILE_DEV_DEBUG=false
-```
-
-#### Linker Errors
-
-**Error**: "linking with cc failed"
-
-```bash
-# Install build tools
-# Ubuntu/Debian
-sudo apt install build-essential
-
-# macOS
-xcode-select --install
-
-# Windows
-# Install Visual Studio Build Tools
-```
-
-### Debug Build Issues
-
-Enable verbose output:
-
-```bash
-# Verbose build output
-cargo build -v
-
-# Very verbose output
-cargo build -vv
-
-# Show all rustc commands
-export CARGO_LOG=cargo::core::compiler::fingerprint=info
-```
-
-### Clean Builds
-
-Sometimes a clean build resolves issues:
-
-```bash
-# Clean all build artifacts
-cargo clean
-
-# Clean specific package
-cargo clean -p andromeda-core
-
-# Clean and rebuild
-cargo clean && cargo build
-```
-
-## Build Scripts and Automation
-
-### Make Targets
-
-If the project includes a Makefile:
-
-```bash
-# Build everything
-make build
-
-# Run tests
-make test
-
-# Clean and build
-make clean build
-
-# Install locally
-make install
-```
-
-### Development Scripts
-
-Check for development scripts in the repository:
-
-```bash
-# Look for build scripts
-ls scripts/
-
-# Common script examples
-./scripts/build.sh
-./scripts/test.sh
-./scripts/setup-dev.sh
-```
-
-### Continuous Integration
-
-The project may include CI configuration:
-
-- `.github/workflows/` - GitHub Actions
-- `.gitlab-ci.yml` - GitLab CI
-- `azure-pipelines.yml` - Azure Pipelines
-
-These show the exact build commands used in CI.
 
 ## IDE Setup
 
@@ -519,6 +368,5 @@ After successfully building Andromeda:
 ## See Also
 
 - [Contributing Guide](contributing)
-- [Development Setup](development)
 - [Architecture Overview](architecture)
 - [CLI Reference](cli-reference)
