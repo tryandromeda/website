@@ -9,7 +9,37 @@ Andromeda requires:
 - **Rust** (latest stable version)
 - **Git** (for cloning the repository)
 
-## Installation Methods
+## Quick Install
+
+### Linux/macOS (Bash)
+
+```bash
+curl -fsSL https://tryandromeda.dev/install.sh | bash
+```
+
+Or download and run manually:
+
+```bash
+wget https://tryandromeda.dev/install.sh
+chmod +x install.sh
+./install.sh
+```
+
+### Windows (PowerShell)
+
+```powershell
+iwr -Uri "https://tryandromeda.dev/install.ps1" -OutFile "install.ps1"
+.\install.ps1
+```
+
+### Windows (Command Prompt)
+
+```cmd
+curl -L -o install.bat https://tryandromeda.dev/install.bat
+install.bat
+```
+
+## Other Installation Methods
 
 ### Method 1: Install from Git (Recommended)
 
@@ -149,7 +179,7 @@ _"andromeda: command not found"_*
 
 If you encounter issues:
 
-1. Check the [Troubleshooting Guide](/docs/troubleshooting)
+1. Check the [Troubleshooting Guide](troubleshooting)
 2. Search [GitHub Issues](https://github.com/tryandromeda/andromeda/issues)
 3. Ask for help on [Discord](https://discord.gg/tgjAnX2Ny3)
 
@@ -157,8 +187,8 @@ If you encounter issues:
 
 Now that Andromeda is installed:
 
-1. Read the [Quick Start Guide](/docs/quick-start)
-2. Explore the [CLI Reference](/docs/cli-reference)
+1. Read the [Quick Start Guide](quick-start)
+2. Explore the [CLI Reference](cli-reference)
 3. Join our [Discord community](https://discord.gg/tgjAnX2Ny3)
 
 ## Updating Andromeda

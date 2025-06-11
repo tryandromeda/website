@@ -36,6 +36,35 @@ export default function Home() {
             <pre class="bg-black text-green-400 p-4 rounded-lg text-left overflow-x-auto border border-surface1">
               <code>cargo install --git https://github.com/tryandromeda/andromeda</code>
             </pre>
+            {/* Quick Install Options */}
+            <div class="mt-4 text-center">
+              <p class="text-subtext1 text-sm mb-2">Or use our installation scripts:</p>
+              <div class="flex justify-center gap-2 text-xs">
+                <a 
+                  href="/install.sh" 
+                  class="text-blue hover:text-blue/80 transition-colors"
+                  download
+                >
+                  Bash
+                </a>
+                <span class="text-subtext1">•</span>
+                <a 
+                  href="/install.ps1" 
+                  class="text-blue hover:text-blue/80 transition-colors"
+                  download
+                >
+                  PowerShell
+                </a>
+                <span class="text-subtext1">•</span>
+                <a 
+                  href="/install.bat" 
+                  class="text-blue hover:text-blue/80 transition-colors"
+                  download
+                >
+                  Batch
+                </a>
+              </div>
+            </div>
           </div>{" "}
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
