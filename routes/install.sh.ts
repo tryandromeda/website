@@ -15,7 +15,7 @@ NC='\\033[0m' # No Color
 
 # Configuration
 REPO="tryandromeda/andromeda"
-VERSION="0.1.0-draft"
+VERSION="0.1.0-draft1"
 INSTALL_DIR="$HOME/.local/bin"
 
 # Function to print colored output

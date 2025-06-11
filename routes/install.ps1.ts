@@ -9,7 +9,7 @@ param(
 
 # Configuration
 $Repo = "tryandromeda/andromeda"
-$Version = "0.1.0-draft"
+$Version = "0.1.0-draft1"
 $AssetName = "andromeda-windows-amd64.exe"
 
 # Colors for output

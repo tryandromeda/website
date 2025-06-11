@@ -7,7 +7,7 @@ REM This script downloads and installs Andromeda on Windows systems
 
 REM Configuration
 set "REPO=tryandromeda/andromeda"
-set "VERSION=0.1.0-draft"
+set "VERSION=0.1.0-draft1"
 set "ASSET_NAME=andromeda-windows-amd64.exe"
 set "INSTALL_DIR=%USERPROFILE%\\.local\\bin"
 
