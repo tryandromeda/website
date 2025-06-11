@@ -192,10 +192,10 @@ andromeda run app.ts`}</code>
             Join Our Community
           </h2>
           <p class="text-xl text-subtext1 text-center mb-12 max-w-3xl mx-auto">
-            Andromeda is built by developers, for developers. Join our growing community
-            and help shape the future of JavaScript runtimes.
+            Andromeda is built by developers, for developers. Join our growing
+            community and help shape the future of JavaScript runtimes.
           </p>
-          
+
           <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <GitHubStats />
             <RecentActivity />

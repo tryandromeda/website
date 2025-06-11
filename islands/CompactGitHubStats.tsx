@@ -1,5 +1,5 @@
-import { useState, useEffect } from "preact/hooks";
-import { Star, GitFork } from "lucide-preact";
+import { useEffect, useState } from "preact/hooks";
+import { GitFork, Star } from "lucide-preact";
 
 interface GitHubRepo {
   stargazers_count: number;
@@ -11,20 +11,24 @@ interface CompactGitHubStatsProps {
   showForks?: boolean;
 }
 
-export default function CompactGitHubStats({ className = "", showForks = false }: CompactGitHubStatsProps) {
+export default function CompactGitHubStats(
+  { className = "", showForks = false }: CompactGitHubStatsProps,
+) {
   const [repoData, setRepoData] = useState<GitHubRepo | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
-        const response = await fetch('https://api.github.com/repos/tryandromeda/andromeda');
+        const response = await fetch(
+          "https://api.github.com/repos/tryandromeda/andromeda",
+        );
         if (response.ok) {
           const data = await response.json();
           setRepoData(data);
         }
       } catch (error) {
-        console.error('Error fetching GitHub data:', error);
+        console.error("Error fetching GitHub data:", error);
       } finally {
         setLoading(false);
       }
@@ -42,7 +46,10 @@ export default function CompactGitHubStats({ className = "", showForks = false }
     return (
       <div class={`flex items-center gap-2 ${className}`}>
         <div class="animate-pulse bg-surface1 rounded px-2 py-1 w-16 h-6"></div>
-        {showForks && <div class="animate-pulse bg-surface1 rounded px-2 py-1 w-16 h-6"></div>}
+        {showForks && (
+          <div class="animate-pulse bg-surface1 rounded px-2 py-1 w-16 h-6">
+          </div>
+        )}
       </div>
     );
   }
@@ -59,7 +66,7 @@ export default function CompactGitHubStats({ className = "", showForks = false }
         <Star size={14} class="text-yellow" />
         <span>{formatNumber(repoData.stargazers_count)}</span>
       </a>
-      
+
       {showForks && (
         <a
           href="https://github.com/tryandromeda/andromeda/forks"

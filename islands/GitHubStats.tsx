@@ -57,12 +57,11 @@ export default function GitHubStats() {
         if (releaseResponse.ok) {
           const release = await releaseResponse.json();
 
-          const downloadCount =
-            release.assets?.reduce(
-              (total: number, asset: { download_count?: number }) =>
-                total + (asset.download_count || 0),
-              0,
-            ) || 0;
+          const downloadCount = release.assets?.reduce(
+            (total: number, asset: { download_count?: number }) =>
+              total + (asset.download_count || 0),
+            0,
+          ) || 0;
 
           setLatestRelease({
             tag_name: release.tag_name,
