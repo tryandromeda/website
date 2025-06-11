@@ -28,15 +28,13 @@ chmod +x install.sh
 ### Windows (PowerShell)
 
 ```powershell
-iwr -Uri "https://tryandromeda.dev/install.ps1" -OutFile "install.ps1"
-.\install.ps1
+iwr -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression
 ```
 
 ### Windows (Command Prompt)
 
 ```cmd
-curl -L -o install.bat https://tryandromeda.dev/install.bat
-install.bat
+curl -L -o install.bat https://tryandromeda.dev/install.bat && install.bat
 ```
 
 ## Other Installation Methods
@@ -159,18 +157,18 @@ andromeda completions powershell > andromeda.ps1
 
 ### Common Issues
 
-_"andromeda: command not found"_*
+#### "andromeda: command not found"
 
 - Ensure `~/.cargo/bin` is in your PATH
 - Restart your terminal after installation
 
-**Build failures on installation**
+#### Build failures on installation
 
 - Update Rust: `rustup update`
 - Clear Cargo cache: `cargo clean`
 - Try installing with `--force` flag
 
-**Permission errors**
+#### Permission errors
 
 - On Unix systems, ensure you have write permissions to `~/.cargo/bin`
 - On Windows, run as Administrator if needed

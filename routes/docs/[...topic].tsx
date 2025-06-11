@@ -11,15 +11,13 @@ import toc from "../../utils/toc.ts";
 export default async function DocTopic(props: PageProps) {
   const topic = props.params.topic;
   const content = await Deno.readTextFile(`static/content/docs/${topic}.md`)
-    .then((
-      res,
-    ) => res).catch((_e) => {
+    .then((res) => res).catch((_e) => {
       console.error(_e);
       return `# 404 Not Found
 
-    The page you're looking for doesn't exist.
+The page you're looking for doesn't exist.
 
-    [← Back to Documentation](/docs)`;
+[← Back to Documentation](/docs)`;
     });
 
   return (
