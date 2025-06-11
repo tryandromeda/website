@@ -3,6 +3,8 @@ import { Target, Zap } from "lucide-preact";
 import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
 import InstallToggle from "../islands/InstallToggle.tsx";
+import GitHubStats from "../islands/GitHubStats.tsx";
+import RecentActivity from "../islands/RecentActivity.tsx";
 
 export default function Home() {
   return (
@@ -179,6 +181,51 @@ andromeda run app.ts`}</code>
             >
               Read Full Documentation
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section id="community" class="py-20 px-4 bg-base">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold text-center mb-8 text-text">
+            Join Our Community
+          </h2>
+          <p class="text-xl text-subtext1 text-center mb-12 max-w-3xl mx-auto">
+            Andromeda is built by developers, for developers. Join our growing community
+            and help shape the future of JavaScript runtimes.
+          </p>
+          
+          <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <GitHubStats />
+            <RecentActivity />
+          </div>
+
+          <div class="mt-12 text-center">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="https://github.com/tryandromeda/andromeda"
+                class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ⭐ Star on GitHub
+              </a>
+              <a
+                href="https://discord.gg/tgjAnX2Ny3"
+                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                💬 Join Discord
+              </a>
+              <a
+                href="/docs/contributing"
+                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                🚀 Contribute
+              </a>
+            </div>
           </div>
         </div>
       </section>
