@@ -7,7 +7,6 @@ REM This script downloads and installs Andromeda on Windows systems
 
 REM Configuration
 set "REPO=tryandromeda/andromeda"
-set "VERSION=0.1.0-draft1"
 set "ASSET_NAME=andromeda-windows-amd64.exe"
 set "INSTALL_DIR=%USERPROFILE%\\.local\\bin"
 
@@ -21,6 +20,18 @@ REM Check for help
 if "%1"=="--help" goto :show_help
 if "%1"=="-h" goto :show_help
 if "%1"=="/?" goto :show_help
+
+echo %INFO_PREFIX% Fetching latest release information...
+
+REM Get latest version using PowerShell
+set "VERSION="
+for /f "delims=" %%i in ('powershell -Command "try { (Invoke-RestMethod 'https://api.github.com/repos/%REPO%/releases/latest').tag_name } catch { '' }" 2^>nul') do set "VERSION=%%i"
+
+if "%VERSION%"=="" (
+    echo %ERROR_PREFIX% Failed to fetch latest version from GitHub API
+    echo %ERROR_PREFIX% Please check your internet connection and try again
+    goto :error_exit
+)
 
 echo %INFO_PREFIX% Installing Andromeda %VERSION% for Windows...
 
@@ -112,8 +123,8 @@ echo.
 echo Options:
 echo   --help, -h, /?    Show this help message
 echo.
-echo This script will download the Andromeda binary from the GitHub release
-echo and install it to %%USERPROFILE%%\\.local\\bin
+echo This script will automatically fetch the latest Andromeda release
+echo from GitHub and install it to %%USERPROFILE%%\\.local\\bin
 echo.
 echo The script will automatically add the install directory to your PATH.
 goto :end

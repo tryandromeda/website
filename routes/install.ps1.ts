@@ -1,5 +1,6 @@
-export function handler(): Response {
-  const installScript = `# Andromeda Installation Script for Windows
+// deno-lint-ignore require-await
+export async function handler(): Promise<Response> {
+  const latestVersionScript = `# Andromeda Installation Script for Windows
 # This script downloads and installs Andromeda on Windows systems
 
 param(
@@ -9,7 +10,6 @@ param(
 
 # Configuration
 $Repo = "tryandromeda/andromeda"
-$Version = "0.1.0-draft1"
 $AssetName = "andromeda-windows-amd64.exe"
 
 # Colors for output
@@ -67,7 +67,7 @@ function Show-Help {
     Write-Host "  .\\install.ps1                           # Install to default location" -ForegroundColor $Colors.White
     Write-Host "  .\\install.ps1 -InstallDir 'C:\\tools'    # Install to custom location" -ForegroundColor $Colors.White
     Write-Host ""
-    Write-Host "This script will download the Andromeda binary from the GitHub release" -ForegroundColor $Colors.White
+    Write-Host "This script will download the latest Andromeda binary from GitHub" -ForegroundColor $Colors.White
     Write-Host "and install it to the specified directory." -ForegroundColor $Colors.White
 }
 
@@ -76,11 +76,52 @@ function Test-Administrator {
     return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Install-Andromeda {
-    Write-Status "Installing Andromeda $Version for Windows..."
+function Get-LatestRelease {
+    Write-Status "Getting latest release information..."
     
-    # Construct download URL
-    $DownloadUrl = "https://github.com/$Repo/releases/download/$Version/$AssetName"
+    $ReleaseApiUrl = "https://api.github.com/repos/$Repo/releases/latest"
+    $Headers = @{
+        "Accept" = "application/vnd.github.v3+json"
+        "User-Agent" = "Andromeda-Installer/1.0"
+    }
+    
+    try {
+        $Response = Invoke-RestMethod -Uri $ReleaseApiUrl -Headers $Headers -ErrorAction Stop
+        $Version = $Response.tag_name
+        
+        # Find the correct asset
+        $Asset = $Response.assets | Where-Object { $_.name -eq $AssetName }
+        if (-not $Asset) {
+            Write-Error "Could not find asset '$AssetName' in the latest release."
+            exit 1
+        }
+        
+        return @{
+            Version = $Version
+            DownloadUrl = $Asset.browser_download_url
+        }
+    }
+    catch {
+        Write-Error "Failed to get latest release: $($_.Exception.Message)"
+        Write-Warning "Falling back to direct download URL pattern..."
+        
+        # Fallback to direct URL with latest
+        return @{
+            Version = "latest"
+            DownloadUrl = "https://github.com/$Repo/releases/latest/download/$AssetName"
+        }
+    }
+}
+
+function Install-Andromeda {
+    Write-Status "Preparing to install Andromeda for Windows..."
+    
+    # Get latest release info
+    $ReleaseInfo = Get-LatestRelease
+    $Version = $ReleaseInfo.Version
+    $DownloadUrl = $ReleaseInfo.DownloadUrl
+    
+    Write-Status "Installing Andromeda $Version for Windows..."
     Write-Status "Download URL: $DownloadUrl"
     
     try {
@@ -96,10 +137,14 @@ function Install-Andromeda {
         
         Write-Status "Downloading Andromeda binary..."
         
-        # Use System.Net.WebClient for compatibility
-        $WebClient = New-Object System.Net.WebClient
-        $WebClient.DownloadFile($DownloadUrl, $TempFile)
-        $WebClient.Dispose()
+        # Use Invoke-WebRequest for better compatibility and progress
+        try {
+            Invoke-WebRequest -Uri $DownloadUrl -OutFile $TempFile -ErrorAction Stop
+        }
+        catch {
+            Write-Error "Failed to download Andromeda binary: $($_.Exception.Message)"
+            throw
+        }
         
         # Move to install directory
         Move-Item -Path $TempFile -Destination $BinaryPath -Force
@@ -176,7 +221,7 @@ if ($ExecutionPolicy -eq "Restricted") {
 Install-Andromeda
 `;
 
-  return new Response(installScript, {
+  return new Response(latestVersionScript, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Content-Disposition": "attachment; filename=install.ps1",

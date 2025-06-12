@@ -15,8 +15,31 @@ NC='\\033[0m' # No Color
 
 # Configuration
 REPO="tryandromeda/andromeda"
-VERSION="0.1.0-draft1"
 INSTALL_DIR="$HOME/.local/bin"
+
+# Function to get latest release version from GitHub API
+get_latest_version() {
+    local api_url="https://api.github.com/repos/$REPO/releases/latest"
+    local version
+    
+    print_status "Fetching latest release information..."
+    
+    if command_exists curl; then
+        version=$(curl -s "$api_url" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\\1/')
+    elif command_exists wget; then
+        version=$(wget -qO- "$api_url" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\\1/')
+    else
+        print_error "Neither curl nor wget is available. Cannot fetch latest version."
+        exit 1
+    fi
+    
+    if [ -z "$version" ]; then
+        print_error "Failed to fetch latest version from GitHub API"
+        exit 1
+    fi
+    
+    echo "$version"
+}
 
 # Function to print colored output
 print_status() {
@@ -95,6 +118,10 @@ download_file() {
 
 # Main installation function
 install_andromeda() {
+    # Get the latest version
+    local VERSION
+    VERSION=$(get_latest_version)
+    
     print_status "Installing Andromeda $VERSION..."
     
     # Detect platform
@@ -167,8 +194,8 @@ if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
     echo "Environment Variables:"
     echo "  INSTALL_DIR    Installation directory (default: \\$HOME/.local/bin)"
     echo ""
-    echo "This script will automatically detect your platform and download"
-    echo "the appropriate Andromeda binary from the GitHub release."
+    echo "This script will automatically fetch the latest Andromeda release"
+    echo "from GitHub and download the appropriate binary for your platform."
     exit 0
 fi
 
