@@ -1,0 +1,104 @@
+export function handler(): Response {
+  const manifest = {
+    name: "Andromeda",
+    short_name: "Andromeda",
+    description:
+      "The simplest JavaScript and TypeScript runtime, 100% written in Rust",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#1e1e2e",
+    theme_color: "#89b4fa",
+    orientation: "portrait-primary",
+    scope: "/",
+    categories: ["developer", "documentation", "productivity"],
+    lang: "en",
+    icons: [
+      {
+        src: "/logo.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+        purpose: "any maskable",
+      },
+      {
+        src: "/favicon.ico",
+        sizes: "16x16 32x32 48x48",
+        type: "image/x-icon",
+      },
+    ],
+    shortcuts: [
+      {
+        name: "API Reference",
+        short_name: "API",
+        description: "Browse the complete API documentation",
+        url: "/docs/api",
+        icons: [
+          {
+            src: "/logo.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+      {
+        name: "Quick Start",
+        short_name: "Quick Start",
+        description: "Get started with Andromeda",
+        url: "/docs/quick-start",
+        icons: [
+          {
+            src: "/logo.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+      {
+        name: "Installation",
+        short_name: "Install",
+        description: "How to install Andromeda",
+        url: "/docs/installation",
+        icons: [
+          {
+            src: "/logo.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+      {
+        name: "Examples",
+        short_name: "Examples",
+        description: "Code examples and tutorials",
+        url: "/docs/examples",
+        icons: [
+          {
+            src: "/logo.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+      {
+        name: "Blog",
+        short_name: "Blog",
+        description: "Latest updates and insights",
+        url: "/blog",
+        icons: [
+          {
+            src: "/logo.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+    ],
+    prefer_related_applications: false,
+  };
+
+  return new Response(JSON.stringify(manifest, null, 2), {
+    headers: {
+      "Content-Type": "application/manifest+json; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+}

@@ -176,7 +176,7 @@ andromeda run app.ts`}</code>
           </div>
           <div class="mt-12">
             <a
-              href="/docs"
+              href="/docs/index"
               class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Read Full Documentation

@@ -1,0 +1,422 @@
+// Service Worker for Andromeda PWA
+const STATIC_CACHE = "andromeda-static-v1";
+const DYNAMIC_CACHE = "andromeda-dynamic-v1";
+
+// Define what to cache
+const STATIC_ASSETS = [
+  // Core pages
+  "/",
+  "/offline",
+
+  // Documentation pages
+  "/docs",
+  "/docs/index",
+  "/docs/installation",
+  "/docs/quick-start",
+  "/docs/cli-reference",
+  "/docs/building",
+  "/docs/testing",
+  "/docs/troubleshooting",
+  "/docs/faq",
+  "/docs/contributing",
+  "/docs/pwa",
+
+  // API documentation
+  "/docs/api",
+  "/docs/api/index",
+  "/docs/api/console",
+  "/docs/api/fetch",
+  "/docs/api/file-system",
+  "/docs/api/canvas",
+  "/docs/api/crypto",
+  "/docs/api/performance",
+  "/docs/api/process",
+  "/docs/api/time",
+  "/docs/api/url",
+  "/docs/api/web",
+
+  // Examples
+  "/docs/examples",
+  "/docs/examples/index",
+  "/docs/examples/fizzbuzz",
+
+  // Blog
+  "/blog",
+
+  // Install scripts (for offline reference)
+  "/install.sh",
+  "/install.ps1",
+  "/install.bat",
+
+  // Static assets
+  "/static/styles.css",
+  "/logo.svg",
+  "/favicon.ico",
+  "/manifest.json",
+];
+
+// Files that should always be fetched from network
+const NETWORK_FIRST = [
+  "/health",
+  "/blog/rss.xml",
+  "/blog/atom.xml",
+  "/blog/feed.json",
+  "/sitemap.xml",
+  "/robots.txt",
+  "/manifest.json",
+];
+
+// Patterns for dynamic routes that should be cached
+const CACHEABLE_PATTERNS = [
+  /^\/docs\/.*$/,
+  /^\/blog\/.*$/,
+  /^\/install\.(sh|ps1|bat)$/,
+];
+
+// Install event - cache static assets
+self.addEventListener("install", (event) => {
+  console.log("[SW] Installing service worker...");
+
+  event.waitUntil(
+    Promise.all([
+      // Cache static assets
+      caches.open(STATIC_CACHE)
+        .then((cache) => {
+          console.log("[SW] Caching static assets...");
+          return cache.addAll(STATIC_ASSETS);
+        }),
+
+      // Discover and cache blog posts
+      fetch("/blog")
+        .then((response) => response.text())
+        .then((html) => {
+          // Extract blog post URLs from the blog index page
+          const blogUrls = [];
+          const linkRegex = /href="(\/blog\/[^"]+)"/g;
+          let match;
+          while ((match = linkRegex.exec(html)) !== null) {
+            if (
+              !match[1].includes("/rss.xml") &&
+              !match[1].includes("/atom.xml") &&
+              !match[1].includes("/feed.json")
+            ) {
+              blogUrls.push(match[1]);
+            }
+          }
+
+          // Cache discovered blog posts
+          return caches.open(DYNAMIC_CACHE)
+            .then((cache) => {
+              console.log("[SW] Caching discovered blog posts:", blogUrls);
+              return Promise.allSettled(
+                blogUrls.map((url) =>
+                  fetch(url)
+                    .then((response) =>
+                      response.ok ? cache.put(url, response) : null
+                    )
+                    .catch(() => null)
+                ),
+              );
+            });
+        })
+        .catch(() => console.log("[SW] Could not discover blog posts")),
+
+      // Cache documentation structure
+      fetch("/docs")
+        .then((response) => response.text())
+        .then((html) => {
+          // Extract documentation URLs
+          const docUrls = [];
+          const linkRegex = /href="(\/docs\/[^"]+)"/g;
+          let match;
+          while ((match = linkRegex.exec(html)) !== null) {
+            if (!docUrls.includes(match[1])) {
+              docUrls.push(match[1]);
+            }
+          }
+
+          // Cache discovered documentation pages
+          return caches.open(DYNAMIC_CACHE)
+            .then((cache) => {
+              console.log(
+                "[SW] Caching discovered documentation pages:",
+                docUrls,
+              );
+              return Promise.allSettled(
+                docUrls.map((url) =>
+                  fetch(url)
+                    .then((response) =>
+                      response.ok ? cache.put(url, response) : null
+                    )
+                    .catch(() => null)
+                ),
+              );
+            });
+        })
+        .catch(() =>
+          console.log("[SW] Could not discover documentation pages")
+        ),
+    ])
+      .then(() => {
+        console.log("[SW] All assets cached successfully");
+        return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error("[SW] Failed to cache assets:", error);
+      }),
+  );
+});
+
+// Activate event - clean up old caches
+self.addEventListener("activate", (event) => {
+  console.log("[SW] Activating service worker...");
+
+  event.waitUntil(
+    caches.keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+              console.log("[SW] Deleting old cache:", cacheName);
+              return caches.delete(cacheName);
+            }
+          }),
+        );
+      })
+      .then(() => {
+        console.log("[SW] Service worker activated");
+        return self.clients.claim();
+      }),
+  );
+});
+
+// Fetch event - serve cached content when offline
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip non-GET requests and external domains
+  if (request.method !== "GET" || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Network-first strategy for dynamic content
+  if (NETWORK_FIRST.some((path) => url.pathname.startsWith(path))) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const responseClone = response.clone();
+            caches.open(DYNAMIC_CACHE)
+              .then((cache) => cache.put(request, responseClone));
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(request);
+        }),
+    );
+    return;
+  }
+  // Special handling for blog posts and documentation paths
+  if (
+    url.pathname.startsWith("/blog/") ||
+    url.pathname.startsWith("/docs/") ||
+    CACHEABLE_PATTERNS.some((pattern) => pattern.test(url.pathname))
+  ) {
+    event.respondWith(
+      caches.match(request)
+        .then((cachedResponse) => {
+          if (cachedResponse) {
+            // Return cached version immediately, but also try to update in background
+            fetch(request)
+              .then((response) => {
+                if (response.ok) {
+                  caches.open(DYNAMIC_CACHE)
+                    .then((cache) => cache.put(request, response.clone()));
+                }
+              })
+              .catch(() => {}); // Ignore background fetch errors
+
+            return cachedResponse;
+          }
+
+          // Not in cache, fetch from network
+          return fetch(request)
+            .then((response) => {
+              if (!response.ok) {
+                // If it's a 404, try to serve a fallback
+                if (response.status === 404) {
+                  if (url.pathname.startsWith("/blog/")) {
+                    return caches.match("/blog") || response;
+                  } else if (url.pathname.startsWith("/docs/")) {
+                    return caches.match("/docs") || response;
+                  }
+                }
+                return response;
+              }
+
+              const responseClone = response.clone();
+
+              // Cache the response
+              caches.open(DYNAMIC_CACHE)
+                .then((cache) => {
+                  cache.put(request, responseClone);
+                });
+
+              return response;
+            })
+            .catch(() => {
+              // Network failed, serve appropriate fallback
+              if (url.pathname.startsWith("/blog/")) {
+                return caches.match("/blog") ||
+                  caches.match("/offline") ||
+                  generateOfflinePage(
+                    "Blog Post Unavailable",
+                    "This blog post is not available offline.",
+                  );
+              } else if (url.pathname.startsWith("/docs/")) {
+                return caches.match("/docs") ||
+                  caches.match("/offline") ||
+                  generateOfflinePage(
+                    "Documentation Unavailable",
+                    "This documentation page is not available offline.",
+                  );
+              }
+
+              return generateOfflinePage(
+                "Page Unavailable",
+                "This page is not available offline.",
+              );
+            });
+        }),
+    );
+    return;
+  }
+
+  // Cache-first strategy for static content
+  event.respondWith(
+    caches.match(request)
+      .then((cachedResponse) => {
+        if (cachedResponse) {
+          // Return cached version immediately
+          return cachedResponse;
+        }
+
+        // Not in cache, fetch from network
+        return fetch(request)
+          .then((response) => {
+            // Don't cache non-successful responses
+            if (!response.ok) {
+              return response;
+            }
+
+            const responseClone = response.clone();
+
+            // Cache the response
+            caches.open(DYNAMIC_CACHE)
+              .then((cache) => {
+                cache.put(request, responseClone);
+              });
+
+            return response;
+          })
+          .catch(() => {
+            // Network failed, try to serve offline page for navigation requests
+            if (request.destination === "document") {
+              return caches.match("/offline") ||
+                caches.match("/") ||
+                generateOfflinePage("Offline", "You are currently offline.");
+            }
+
+            throw error;
+          });
+      }),
+  );
+});
+
+// Helper function to generate offline pages
+function generateOfflinePage(title, message) {
+  return new Response(
+    `<!DOCTYPE html>
+     <html lang="en">
+     <head>
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>${title} - Andromeda</title>
+       <link rel="stylesheet" href="/static/styles.css">
+       <link rel="icon" href="/logo.svg">
+     </head>
+     <body class="min-h-screen bg-base text-text">
+       <div class="min-h-screen flex items-center justify-center px-4">
+         <div class="text-center max-w-md">
+           <div class="text-6xl mb-6 opacity-20">📡</div>
+           <h1 class="text-3xl font-bold mb-4">${title}</h1>
+           <p class="text-subtext1 mb-6">${message}</p>
+           <div class="space-y-2">
+             <a href="/" class="block bg-blue hover:bg-blue/80 text-base px-4 py-2 rounded transition-colors">
+               Home
+             </a>
+             <a href="/docs" class="block border border-surface1 hover:border-surface2 text-text px-4 py-2 rounded transition-colors">
+               Documentation
+             </a>
+           </div>
+         </div>
+       </div>
+     </body>
+     </html>`,
+    {
+      headers: { "Content-Type": "text/html" },
+    },
+  );
+}
+
+// Background sync for when connection is restored
+self.addEventListener("sync", (event) => {
+  console.log("[SW] Background sync triggered:", event.tag);
+
+  if (event.tag === "background-sync") {
+    event.waitUntil(
+      // Optionally refresh critical data when back online
+      fetch("/health")
+        .then(() => console.log("[SW] Background sync completed"))
+        .catch(() => console.log("[SW] Background sync failed")),
+    );
+  }
+});
+
+// Push notifications (for future use)
+self.addEventListener("push", (event) => {
+  const options = {
+    body: event.data ? event.data.text() : "New update available!",
+    icon: "/logo.svg",
+    badge: "/logo.svg",
+    tag: "andromeda-update",
+    requireInteraction: false,
+    actions: [
+      {
+        action: "view",
+        title: "View Update",
+      },
+      {
+        action: "dismiss",
+        title: "Dismiss",
+      },
+    ],
+  };
+
+  event.waitUntil(
+    self.registration.showNotification("Andromeda Documentation", options),
+  );
+});
+
+// Notification click handler
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  if (event.action === "view") {
+    event.waitUntil(
+      self.clients.openWindow("/"),
+    );
+  }
+});

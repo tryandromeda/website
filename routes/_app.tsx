@@ -25,6 +25,17 @@ export default function App({ Component }: PageProps) {
         />
         <link rel="stylesheet" href="/styles.css" />
         <link rel="icon" href="/logo.svg" />
+
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#89b4fa" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Andromeda" />
+        <link rel="apple-touch-icon" href="/logo.svg" />
+
+        {/* PWA Cache Manager */}
+        <script src="/pwa-cache.js" defer></script>
         {/* RSS/Atom feed discovery */}
         <link
           rel="alternate"
@@ -65,7 +76,33 @@ window.addEventListener("storage", function(e) {
   if (e.key === "theme") {
     updateTheme();
   }
-});`,
+});
+
+// Service Worker Registration for PWA
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("/sw.js")
+      .then(function(registration) {
+        console.log("SW registration successful with scope: ", registration.scope);
+        
+        // Handle updates
+        registration.addEventListener("updatefound", function() {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener("statechange", function() {
+              if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                // New content is available, show update notification
+                console.log("New content available, please refresh.");
+              }
+            });
+          }
+        });
+      })
+      .catch(function(error) {
+        console.log("SW registration failed: ", error);
+      });
+  });
+}`,
           }}
         />
       </head>

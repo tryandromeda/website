@@ -21,7 +21,7 @@ export default function Footer() {
             GitHub
           </a>
           <a
-            href="/docs"
+            href="/docs/index"
             class="text-subtext1 hover:text-text transition-colors"
           >
             Documentation

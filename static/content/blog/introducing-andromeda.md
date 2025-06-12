@@ -75,7 +75,7 @@ Andromeda aims to provide a comprehensive set of features for developers:
 Andromeda is open source and we welcome contributions! Check out our:
 
 - [GitHub Repository](https://github.com/tryandromeda/andromeda)
-- [Documentation](/docs)
+- [Documentation](/docs/index)
 - [Contributing Guide](/docs/contributing)
 
 Stay tuned for more updates as we continue building the future of JavaScript
