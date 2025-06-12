@@ -28,7 +28,7 @@ chmod +x install.sh
 ### Windows (PowerShell)
 
 ```powershell
-iwr -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression
+irm -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression
 ```
 
 ### Windows (Command Prompt)

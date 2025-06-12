@@ -186,7 +186,7 @@
       ]
     },
     "@emnapi/wasi-threads@1.0.2": {
-      "integrity": "sha512-5n3nTJblwRi8LlXkJ9eBzu+kZR8Yxcc7ubakyQTFzPMtIhFpUBRbsnc2Dv88IZDIbCDlBiWrknhB4Lsz7mg6BA==",
+      "integrity": "sha512-5n3nTJblwRi8LlXkJ9eBzu+kZR8Yxcc7ubakyQTFzPMtIhFpUBRbsnc2Dv88IZDIbCDlBirmknhB4Lsz7mg6BA==",
       "dependencies": [
         "tslib"
       ]
@@ -654,7 +654,7 @@
       ]
     },
     "is-decimal@1.0.4": {
-      "integrity": "sha512-RGdriMmQQvZ2aqaQq3awNA6dCGtKpiDFcOzrTWrDAT2MiWrKQVPmxLGHl7Y2nNu6led0kEyoX0enY0qXYsv9zw=="
+      "integrity": "sha512-RGdriMmQQvZ2aqaQq3awNA6dCGtKpiDFcOzrTWrDAT2MirmKQVPmxLGHl7Y2nNu6led0kEyoX0enY0qXYsv9zw=="
     },
     "is-hexadecimal@1.0.4": {
       "integrity": "sha512-gyPJuv83bHMpocVYoqof5VDiZveEoGoFL8m3BXNb2VW8Xs+rz9kqO8LOQ5DH6EsuvilT1ApazU0pyl+ytbPtlw=="

@@ -24,7 +24,7 @@ const platforms: Platform[] = [
     name: "Windows (PowerShell)",
     icon: Monitor,
     command:
-      `iwr -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression`,
+      `irm -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression`,
     downloadUrl: "/install.ps1",
     color: "blue",
   },
