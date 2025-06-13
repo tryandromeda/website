@@ -117,20 +117,58 @@ export default function Home() {
 
       {/* Quick Start Section */}
       <section id="install" class="py-20 px-4 bg-base">
-        <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold mb-8 text-text">Quick Start</h2>
-          <p class="text-xl text-subtext1 mb-12">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold mb-8 text-text text-center">
+            Quick Start
+          </h2>
+          <p class="text-xl text-subtext1 mb-12 text-center max-w-3xl mx-auto">
             Get productive with Andromeda in seconds
           </p>
-          <div class="max-w-2xl mx-auto">
-            <div class="text-left">
-              <pre class="bg-black text-green-400 p-6 rounded-lg overflow-x-auto border border-surface1">
-                <code>{`# Install Andromeda
+
+          <div class="w-full max-w-2xl mx-auto">
+            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden">
+              {/* Header with actions */}
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-surface0 border-b border-surface1">
+                <h4
+                  class="text-sm sm:text-base font-semibold flex items-center gap-2"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  Installation & Usage
+                </h4>
+                <div class="flex gap-2">
+                </div>
+              </div>
+              {/* Command display */}
+              <div class="p-4">
+                <pre
+                  class="text-sm sm:text-base font-mono leading-relaxed overflow-x-auto"
+                  style={{ color: "var(--color-text)" }}
+                >
+            <code>{`# Install Andromeda
 cargo install --git https://github.com/tryandromeda/andromeda
 
 # Run your TypeScript/JavaScript files
 andromeda run app.ts`}</code>
-              </pre>
+                </pre>
+              </div>
+            </div>
+
+            {/* Info note */}
+            <div class="mt-4 bg-surface0/50 rounded-lg border border-surface1/50 p-4">
+              <p
+                class="text-xs sm:text-sm leading-relaxed"
+                style={{ color: "var(--color-subtext1)" }}
+              >
+                <span
+                  class="font-semibold"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  Note:
+                </span>{" "}
+                You'll need Rust installed to use the cargo command. For
+                pre-built binaries and alternative installation methods, see the
+                installation section above.
+              </p>
             </div>
           </div>
         </div>

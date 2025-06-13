@@ -34,13 +34,11 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 
 - [**Contributing Guide**](/docs/contributing) - How to contribute to Andromeda
 - [**Building from Source**](/docs/building) - Compiling Andromeda yourself
-- [**Extension Development**](/docs/extension-development) - How the modular
-  extension system works (TODO: WRITE THIS UP)
 - [**Testing Guide**](testing) - Running and writing tests
 
 ### 📋 Reference
 
-- [**Examples Index**](examples/README) - Code examples and practical
+- [**Examples Index**](examples/index) - Code examples and practical
   demonstrations
 - [**FAQ**](faq) - Frequently asked questions
 - [**Troubleshooting**](troubleshooting) - Common issues and solutions
