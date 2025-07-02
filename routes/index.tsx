@@ -85,8 +85,8 @@ export default function Home() {
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Nova Powered
               </h3>
-              <p class="text-subtext1">
-                Powered by{" "}
+                <p class="text-subtext1">
+                Leveraging the innovative{" "}
                 <a
                   href="https://trynova.dev/"
                   class="text-text hover:text-subtext0 underline font-semibold transition-colors"
@@ -95,9 +95,8 @@ export default function Home() {
                 >
                   Nova
                 </a>{" "}
-                engine for exceptional JavaScript and TypeScript execution
-                performance.
-              </p>
+                engine to provide a modern JavaScript and TypeScript runtime experience with promising performance potential.
+                </p>
             </div>
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
               <div class="flex justify-center mb-4">
