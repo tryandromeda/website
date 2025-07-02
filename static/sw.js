@@ -1,6 +1,7 @@
 // Service Worker for Andromeda PWA
-const STATIC_CACHE = "andromeda-static-v1";
-const DYNAMIC_CACHE = "andromeda-dynamic-v1";
+const CACHE_VERSION = "v2"; // Increment this when you have new features
+const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
 // Define what to cache
 const STATIC_ASSETS = [
@@ -34,11 +35,13 @@ const STATIC_ASSETS = [
   "/docs/api/time",
   "/docs/api/url",
   "/docs/api/web",
+  "/docs/api/sqlite",
 
   // Examples
   "/docs/examples",
   "/docs/examples/index",
   "/docs/examples/fizzbuzz",
+  "/docs/examples/sqlite",
 
   // Blog
   "/blog",
@@ -159,6 +162,7 @@ self.addEventListener("install", (event) => {
     ])
       .then(() => {
         console.log("[SW] All assets cached successfully");
+        // Don't skip waiting automatically - let user choose when to update
         return self.skipWaiting();
       })
       .catch((error) => {
@@ -176,7 +180,12 @@ self.addEventListener("activate", (event) => {
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+            // Delete all caches that don't match current version
+            if (
+              !cacheName.includes(CACHE_VERSION) ||
+              (!cacheName.startsWith("andromeda-static-") && 
+               !cacheName.startsWith("andromeda-dynamic-"))
+            ) {
               console.log("[SW] Deleting old cache:", cacheName);
               return caches.delete(cacheName);
             }
@@ -225,49 +234,43 @@ self.addEventListener("fetch", (event) => {
     CACHEABLE_PATTERNS.some((pattern) => pattern.test(url.pathname))
   ) {
     event.respondWith(
-      caches.match(request)
-        .then((cachedResponse) => {
-          if (cachedResponse) {
-            // Return cached version immediately, but also try to update in background
-            fetch(request)
-              .then((response) => {
-                if (response.ok) {
-                  caches.open(DYNAMIC_CACHE)
-                    .then((cache) => cache.put(request, response.clone()));
-                }
-              })
-              .catch(() => {}); // Ignore background fetch errors
-
-            return cachedResponse;
+      // Try network first for these pages to get fresh content
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            // Cache the fresh response
+            const responseClone = response.clone();
+            caches.open(DYNAMIC_CACHE)
+              .then((cache) => cache.put(request, responseClone));
+            return response;
           }
-
-          // Not in cache, fetch from network
-          return fetch(request)
-            .then((response) => {
-              if (!response.ok) {
-                // If it's a 404, try to serve a fallback
-                if (response.status === 404) {
-                  if (url.pathname.startsWith("/blog/")) {
-                    return caches.match("/blog") || response;
-                  } else if (url.pathname.startsWith("/docs/")) {
-                    return caches.match("/docs") || response;
-                  }
-                }
-                return response;
+          
+          // If network fails or returns error, fall back to cache
+          return caches.match(request).then((cachedResponse) => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            
+            // Handle 404s with appropriate fallbacks
+            if (response.status === 404) {
+              if (url.pathname.startsWith("/blog/")) {
+                return caches.match("/blog") || response;
+              } else if (url.pathname.startsWith("/docs/")) {
+                return caches.match("/docs") || response;
+              }
+            }
+            return response;
+          });
+        })
+        .catch(() => {
+          // Network completely failed, try cache
+          return caches.match(request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                return cachedResponse;
               }
 
-              const responseClone = response.clone();
-
-              // Cache the response
-              caches.open(DYNAMIC_CACHE)
-                .then((cache) => {
-                  cache.put(request, responseClone);
-                });
-
-              return response;
-            })
-            .catch(() => {
-              // Network failed, serve appropriate fallback
+              // No cache either, serve appropriate fallback
               if (url.pathname.startsWith("/blog/")) {
                 return caches.match("/blog") ||
                   caches.match("/offline") ||
@@ -382,6 +385,13 @@ self.addEventListener("sync", (event) => {
         .then(() => console.log("[SW] Background sync completed"))
         .catch(() => console.log("[SW] Background sync failed")),
     );
+  }
+});
+
+// Handle messages from client
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
   }
 });
 
