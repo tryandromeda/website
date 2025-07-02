@@ -29,6 +29,7 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**URL API**](/docs/api/url) - URL parsing, construction, and manipulation
 - [**Web APIs**](/docs/api/web) - Standard web APIs (Events,
   TextEncoder/Decoder, etc.)
+- [**SQLite API**](/docs/api/sqlite) - Database operations with SQLite support
 
 ### 🔧 Development
 
@@ -42,7 +43,6 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
   demonstrations
 - [**FAQ**](faq) - Frequently asked questions
 - [**Troubleshooting**](troubleshooting) - Common issues and solutions
-- [**Changelog**](changelog) - Release notes and version history
 
 ## 🎯 Standards Compliance
 
@@ -51,8 +51,19 @@ interoperability with the broader JavaScript ecosystem. Our APIs follow
 established web standards including:
 
 - **WHATWG Standards** - URL, Encoding, and Fetch specifications
-- **W3C Standards** - Canvas 2D, Performance API
+- **W3C Standards** - Canvas 2D, Performance API, Web Crypto API
 - **ECMAScript Standards** - Modern JavaScript/TypeScript features
+
+## ✨ Key Features
+
+- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly
+- 🎨 **Canvas & Graphics** - Full 2D Canvas API with PNG export
+- 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
+- 📁 **File System Access** - Comprehensive file I/O operations
+- 🗃️ **SQLite Database** - Built-in database support with sync API
+- ⚡ **Native Performance** - Rust-powered execution with Nova engine
+- 🛠️ **Developer Tools** - REPL, formatter, compiler, and auto-upgrade
+- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, and more
 
 ## 🆘 Getting Help
 

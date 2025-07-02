@@ -109,6 +109,12 @@ export default [
         id: "fizzbuzz-example",
         children: [],
       },
+      {
+        name: "SQLite Example",
+        path: "/docs/examples/sqlite",
+        id: "sqlite-example",
+        children: [],
+      }
     ],
   },
   {

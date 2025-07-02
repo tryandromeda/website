@@ -6,6 +6,7 @@ showcases specific functionality.
 
 ## Available Examples
 
+- **[SQLite Examples](/docs/examples/sqlite)** - Database operations, CRUD, analytics, and best practices
 - **[fizzbuzz.ts](/docs/examples/fizzbuzz)** - Basic console output and
   formatting
 

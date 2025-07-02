@@ -180,6 +180,47 @@ Run it:
 andromeda run performance-example.ts
 ```
 
+## Using SQLite Database
+
+Andromeda includes built-in SQLite support for data persistence:
+
+```typescript
+// sqlite-example.ts
+
+// Create or open a database
+const db = new DatabaseSync("notes.db");
+
+// Create table
+db.exec(`
+  CREATE TABLE IF NOT EXISTS notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
+// Insert data
+const insertNote = db.prepare("INSERT INTO notes (title, content) VALUES (?, ?)");
+const result = insertNote.run("My First Note", "This is stored in SQLite!");
+
+console.log(`📝 Created note with ID: ${result.lastInsertRowid}`);
+
+// Query data
+const selectNotes = db.prepare("SELECT * FROM notes ORDER BY created_at DESC");
+const notes = selectNotes.all();
+
+console.log("📚 All notes:");
+for (const note of notes) {
+  console.log(`- ${note.title} (${note.created_at})`);
+}
+
+// Clean up
+insertNote.finalize();
+selectNotes.finalize();
+db.close();
+```
+
 ## Using the Interactive REPL
 
 Start the REPL for interactive development:
@@ -205,6 +246,14 @@ Try these commands in the REPL:
 > Andromeda.writeTextFileSync("test.txt", "Hello from REPL!")
 > Andromeda.readTextFileSync("test.txt")
 "Hello from REPL!"
+
+// SQLite database
+> const db = new DatabaseSync(":memory:")
+> db.exec("CREATE TABLE test (id INTEGER, name TEXT)")
+> const stmt = db.prepare("INSERT INTO test VALUES (?, ?)")
+> stmt.run(1, "Test Item")
+> db.prepare("SELECT * FROM test").all()
+[{ id: 1, name: "Test Item" }]
 
 // Crypto
 > crypto.randomUUID()
@@ -234,6 +283,18 @@ andromeda fmt src/
 
 # Format current directory
 andromeda fmt
+```
+
+## Upgrading Andromeda
+
+Keep your runtime up to date:
+
+```bash
+# Check for and install updates
+andromeda upgrade
+
+# See what would be updated without installing
+andromeda upgrade --dry-run
 ```
 
 ## Next Steps

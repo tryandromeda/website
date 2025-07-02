@@ -191,7 +191,27 @@ Now that Andromeda is installed:
 
 ## Updating Andromeda
 
-To update to the latest version:
+Andromeda includes a built-in upgrade system for easy updates:
+
+### Automatic Upgrade
+
+```bash
+# Upgrade to latest version
+andromeda upgrade
+
+# Check what would be upgraded (dry run)
+andromeda upgrade --dry-run
+
+# Force reinstall current version
+andromeda upgrade --force
+
+# Upgrade to specific version
+andromeda upgrade --version v0.2.0
+```
+
+### Manual Update
+
+To update manually using Cargo:
 
 ```bash
 cargo install --git https://github.com/tryandromeda/andromeda --force
@@ -199,3 +219,13 @@ cargo install --git https://github.com/tryandromeda/andromeda --force
 
 The `--force` flag will overwrite the existing installation with the latest
 version.
+
+### Upgrade Features
+
+The built-in upgrade system provides:
+
+- **Cross-platform support**: Works on Windows, macOS, and Linux
+- **Safe upgrades**: Creates automatic backups before upgrading
+- **Version targeting**: Upgrade to specific versions
+- **Dry run mode**: Preview upgrades without making changes
+- **Auto-detection**: Automatically detects your platform and architecture

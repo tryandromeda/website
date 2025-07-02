@@ -277,6 +277,75 @@ andromeda compile src/main.ts dist/my-app
 
 TODO: Write up
 
+### `completions`
+
+Generate shell completion scripts for bash, zsh, fish, or PowerShell.
+
+**Syntax:**
+
+```bash
+andromeda completions [SHELL]
+```
+
+**Arguments:**
+
+- `[SHELL]` - Target shell (optional, auto-detects if not specified)
+  - `bash` - Bash completion
+  - `zsh` - Zsh completion  
+  - `fish` - Fish completion
+  - `powershell` - PowerShell completion
+
+**Examples:**
+
+```bash
+# Auto-detect shell and generate completions
+andromeda completions
+
+# Generate bash completions
+andromeda completions bash > ~/.local/share/bash-completion/completions/andromeda
+
+# Generate zsh completions
+andromeda completions zsh > ~/.oh-my-zsh/completions/_andromeda
+
+# Generate fish completions
+andromeda completions fish > ~/.config/fish/completions/andromeda.fish
+
+# Generate PowerShell completions
+andromeda completions powershell > andromeda.ps1
+```
+
+### `upgrade`
+
+Upgrade Andromeda to the latest version or a specific version.
+
+**Syntax:**
+
+```bash
+andromeda upgrade [OPTIONS]
+```
+
+**Options:**
+
+- `-f, --force` - Force upgrade even if already on the latest version
+- `-v, --version <VERSION>` - Upgrade to a specific version instead of latest
+- `--dry-run` - Show what would be upgraded without actually upgrading
+
+**Examples:**
+
+```bash
+# Upgrade to latest version
+andromeda upgrade
+
+# Force reinstall current version
+andromeda upgrade --force
+
+# Upgrade to specific version
+andromeda upgrade --version v0.2.0
+
+# Check what would be upgraded (dry run)
+andromeda upgrade --dry-run
+```
+
 ## Troubleshooting
 
 For common issues and solutions, see the
