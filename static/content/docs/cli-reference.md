@@ -291,7 +291,7 @@ andromeda completions [SHELL]
 
 - `[SHELL]` - Target shell (optional, auto-detects if not specified)
   - `bash` - Bash completion
-  - `zsh` - Zsh completion  
+  - `zsh` - Zsh completion
   - `fish` - Fish completion
   - `powershell` - PowerShell completion
 

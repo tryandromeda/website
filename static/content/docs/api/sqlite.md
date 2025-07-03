@@ -1,10 +1,13 @@
 # SQLite API
 
-Andromeda provides comprehensive SQLite database support through a synchronous API that mirrors the Deno SQLite implementation, making it compatible with existing SQLite-based applications.
+Andromeda provides comprehensive SQLite database support through a synchronous
+API that mirrors the Deno SQLite implementation, making it compatible with
+existing SQLite-based applications.
 
 ## Overview
 
-The SQLite API is available through global classes `DatabaseSync` and `StatementSync`, providing full database operations including:
+The SQLite API is available through global classes `DatabaseSync` and
+`StatementSync`, providing full database operations including:
 
 - Database creation and management
 - SQL statement preparation and execution
@@ -27,7 +30,8 @@ new DatabaseSync(filename: string, options?: DatabaseSyncOptions)
 **Parameters:**
 
 - `filename` - Path to the database file (use `:memory:` for in-memory database)
-- `options` - Optional configuration (currently available but not fully implemented)
+- `options` - Optional configuration (currently available but not fully
+  implemented)
 
 **Example:**
 
@@ -91,7 +95,8 @@ Represents a prepared SQL statement that can be executed multiple times.
 
 Execute a statement that modifies the database (INSERT, UPDATE, DELETE).
 
-**Returns:** Object with `changes` (number of affected rows) and `lastInsertRowid` (last inserted row ID)
+**Returns:** Object with `changes` (number of affected rows) and
+`lastInsertRowid` (last inserted row ID)
 
 ```typescript
 const insertStmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
@@ -188,9 +193,15 @@ const selectPostById = db.prepare(`
 
 // Insert some posts
 const posts = [
-  ["Getting Started with Andromeda", "Andromeda is a fast JavaScript runtime..."],
+  [
+    "Getting Started with Andromeda",
+    "Andromeda is a fast JavaScript runtime...",
+  ],
   ["SQLite Integration", "Today we're excited to announce SQLite support..."],
-  ["Performance Improvements", "The latest release includes significant performance gains..."]
+  [
+    "Performance Improvements",
+    "The latest release includes significant performance gains...",
+  ],
 ];
 
 for (const [title, content] of posts) {
@@ -244,7 +255,7 @@ function safeInsertUser(name: string, email: string): boolean {
     const stmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
     const result = stmt.run(name, email);
     stmt.finalize();
-    
+
     console.log(`User inserted with ID: ${result.lastInsertRowid}`);
     return true;
   } catch (error) {
@@ -258,7 +269,7 @@ function safeSelectUser(id: number): any | null {
     const stmt = db.prepare("SELECT * FROM users WHERE id = ?");
     const user = stmt.get(id);
     stmt.finalize();
-    
+
     return user || null;
   } catch (error) {
     console.error("Failed to select user:", error.message);
@@ -269,26 +280,35 @@ function safeSelectUser(id: number): any | null {
 
 ### Transactions
 
-While explicit transaction support isn't exposed in the current API, you can use SQL transaction statements:
+While explicit transaction support isn't exposed in the current API, you can use
+SQL transaction statements:
 
 ```typescript
-function transferFunds(fromAccount: number, toAccount: number, amount: number): boolean {
+function transferFunds(
+  fromAccount: number,
+  toAccount: number,
+  amount: number,
+): boolean {
   try {
     db.exec("BEGIN TRANSACTION");
-    
+
     // Deduct from source account
-    const deductStmt = db.prepare("UPDATE accounts SET balance = balance - ? WHERE id = ?");
+    const deductStmt = db.prepare(
+      "UPDATE accounts SET balance = balance - ? WHERE id = ?",
+    );
     deductStmt.run(amount, fromAccount);
-    
+
     // Add to destination account
-    const addStmt = db.prepare("UPDATE accounts SET balance = balance + ? WHERE id = ?");
+    const addStmt = db.prepare(
+      "UPDATE accounts SET balance = balance + ? WHERE id = ?",
+    );
     addStmt.run(amount, toAccount);
-    
+
     db.exec("COMMIT");
-    
+
     deductStmt.finalize();
     addStmt.finalize();
-    
+
     return true;
   } catch (error) {
     db.exec("ROLLBACK");
@@ -300,10 +320,13 @@ function transferFunds(fromAccount: number, toAccount: number, amount: number): 
 
 ## Performance Tips
 
-1. **Reuse prepared statements**: Create statements once and reuse them for multiple executions
-2. **Use transactions**: Group multiple operations in transactions for better performance
+1. **Reuse prepared statements**: Create statements once and reuse them for
+   multiple executions
+2. **Use transactions**: Group multiple operations in transactions for better
+   performance
 3. **Finalize statements**: Always call `finalize()` when done with a statement
-4. **Use appropriate methods**: Use `get()` for single rows, `all()` for small result sets, `iterate()` for large ones
+4. **Use appropriate methods**: Use `get()` for single rows, `all()` for small
+   result sets, `iterate()` for large ones
 
 ```typescript
 // Good: Reuse statement
@@ -326,7 +349,7 @@ for (const message of messages) {
 SQLite data types are automatically converted to JavaScript types:
 
 | SQLite Type | JavaScript Type |
-|-------------|-----------------|
+| ----------- | --------------- |
 | `INTEGER`   | `number`        |
 | `REAL`      | `number`        |
 | `TEXT`      | `string`        |
@@ -350,11 +373,14 @@ const db3 = new Database("test3.db");
 
 ## Compatibility
 
-The Andromeda SQLite API is designed to be compatible with Deno's SQLite implementation, making it easy to port existing applications. Key compatibility features:
+The Andromeda SQLite API is designed to be compatible with Deno's SQLite
+implementation, making it easy to port existing applications. Key compatibility
+features:
 
 - Same class names and method signatures
 - Compatible parameter binding
 - Similar error handling patterns
 - Matching return value formats
 
-This allows you to use existing Deno SQLite tutorials, examples, and libraries with minimal modifications.
+This allows you to use existing Deno SQLite tutorials, examples, and libraries
+with minimal modifications.

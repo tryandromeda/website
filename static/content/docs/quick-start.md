@@ -201,7 +201,9 @@ db.exec(`
 `);
 
 // Insert data
-const insertNote = db.prepare("INSERT INTO notes (title, content) VALUES (?, ?)");
+const insertNote = db.prepare(
+  "INSERT INTO notes (title, content) VALUES (?, ?)",
+);
 const result = insertNote.run("My First Note", "This is stored in SQLite!");
 
 console.log(`📝 Created note with ID: ${result.lastInsertRowid}`);

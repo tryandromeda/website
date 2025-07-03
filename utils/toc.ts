@@ -91,6 +91,12 @@ export default [
         id: "web-apis",
         children: [],
       },
+      {
+        name: "SQLite API",
+        path: "/docs/api/sqlite",
+        id: "sqlite-api",
+        children: [],
+      },
     ],
   },
 
@@ -104,17 +110,29 @@ export default [
         children: [],
       },
       {
+        name: "SQLite Examples",
+        path: "/docs/examples/sqlite",
+        id: "sqlite-examples",
+        children: [],
+      },
+      {
+        name: "Performance API Examples",
+        path: "/docs/examples/performance",
+        id: "performance-examples",
+        children: [],
+      },
+      {
+        name: "Web Storage Examples",
+        path: "/docs/examples/web-storage",
+        id: "web-storage-examples",
+        children: [],
+      },
+      {
         name: "FizzBuzz Example",
         path: "/docs/examples/fizzbuzz",
         id: "fizzbuzz-example",
         children: [],
       },
-      {
-        name: "SQLite Example",
-        path: "/docs/examples/sqlite",
-        id: "sqlite-example",
-        children: [],
-      }
     ],
   },
   {

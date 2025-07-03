@@ -85,7 +85,7 @@ export default function Home() {
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Nova Powered
               </h3>
-                <p class="text-subtext1">
+              <p class="text-subtext1">
                 Leveraging the innovative{" "}
                 <a
                   href="https://trynova.dev/"
@@ -95,8 +95,9 @@ export default function Home() {
                 >
                   Nova
                 </a>{" "}
-                engine to provide a modern JavaScript and TypeScript runtime experience with promising performance potential.
-                </p>
+                engine to provide a modern JavaScript and TypeScript runtime
+                experience with promising performance potential.
+              </p>
             </div>
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
               <div class="flex justify-center mb-4">

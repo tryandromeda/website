@@ -1,5 +1,5 @@
 // Service Worker for Andromeda PWA
-const CACHE_VERSION = "v2"; // Increment this when you have new features
+const CACHE_VERSION = "v3"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
@@ -183,8 +183,8 @@ self.addEventListener("activate", (event) => {
             // Delete all caches that don't match current version
             if (
               !cacheName.includes(CACHE_VERSION) ||
-              (!cacheName.startsWith("andromeda-static-") && 
-               !cacheName.startsWith("andromeda-dynamic-"))
+              (!cacheName.startsWith("andromeda-static-") &&
+                !cacheName.startsWith("andromeda-dynamic-"))
             ) {
               console.log("[SW] Deleting old cache:", cacheName);
               return caches.delete(cacheName);
@@ -244,13 +244,13 @@ self.addEventListener("fetch", (event) => {
               .then((cache) => cache.put(request, responseClone));
             return response;
           }
-          
+
           // If network fails or returns error, fall back to cache
           return caches.match(request).then((cachedResponse) => {
             if (cachedResponse) {
               return cachedResponse;
             }
-            
+
             // Handle 404s with appropriate fallbacks
             if (response.status === 404) {
               if (url.pathname.startsWith("/blog/")) {

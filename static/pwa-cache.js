@@ -9,32 +9,34 @@ class PWACacheManager {
   }
 
   async initServiceWorker() {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
-        
+        const registration = await navigator.serviceWorker.register("/sw.js");
+
         // Check for updates on page load
-        registration.addEventListener('updatefound', () => {
+        registration.addEventListener("updatefound", () => {
           this.newWorker = registration.installing;
-          this.newWorker.addEventListener('statechange', () => {
-            if (this.newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          this.newWorker.addEventListener("statechange", () => {
+            if (
+              this.newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
               this.showUpdateNotification();
             }
           });
         });
 
         // Listen for messages from service worker
-        navigator.serviceWorker.addEventListener('message', (event) => {
-          if (event.data.type === 'CACHE_UPDATED') {
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          if (event.data.type === "CACHE_UPDATED") {
             this.showUpdateNotification();
           }
         });
 
         // Check for updates periodically when page is visible
         this.startPeriodicUpdateCheck(registration);
-
       } catch (error) {
-        console.log('Service Worker registration failed:', error);
+        console.log("Service Worker registration failed:", error);
       }
     }
   }
@@ -51,7 +53,7 @@ class PWACacheManager {
     setInterval(checkForUpdates, 30000);
 
     // Also check when page becomes visible
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener("visibilitychange", () => {
       if (!document.hidden && this.isOnline) {
         registration.update();
       }
@@ -60,10 +62,10 @@ class PWACacheManager {
 
   showUpdateNotification() {
     // Don't show multiple notifications
-    if (document.getElementById('update-notification')) return;
-    
+    if (document.getElementById("update-notification")) return;
+
     this.updateAvailable = true;
-    
+
     // Create update notification
     const notification = this.createUpdateNotification();
     document.body.appendChild(notification);
@@ -77,8 +79,8 @@ class PWACacheManager {
   }
 
   createUpdateNotification() {
-    const notification = document.createElement('div');
-    notification.id = 'update-notification';
+    const notification = document.createElement("div");
+    notification.id = "update-notification";
     notification.innerHTML = `
       <div style="
         position: fixed;
@@ -144,11 +146,11 @@ class PWACacheManager {
   async applyUpdate() {
     if (this.newWorker) {
       // Tell the new service worker to skip waiting
-      this.newWorker.postMessage({ type: 'SKIP_WAITING' });
+      this.newWorker.postMessage({ type: "SKIP_WAITING" });
     }
 
     // Clear notification
-    const notification = document.getElementById('update-notification');
+    const notification = document.getElementById("update-notification");
     if (notification) notification.remove();
 
     // Show loading indicator
@@ -156,14 +158,14 @@ class PWACacheManager {
 
     // Clear all caches and reload
     await this.clearCache();
-    
+
     // Reload the page to get fresh content
     globalThis.location.reload(true);
   }
 
   showLoadingIndicator() {
-    const loader = document.createElement('div');
-    loader.id = 'update-loader';
+    const loader = document.createElement("div");
+    loader.id = "update-loader";
     loader.innerHTML = `
       <div style="
         position: fixed;
@@ -312,7 +314,7 @@ class PWACacheManager {
 
   // Method to manually check for updates
   async checkForUpdates() {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         registration.update();
@@ -332,8 +334,8 @@ if (document.readyState === "loading") {
 }
 
 // Add keyboard shortcut for manual cache clear (Ctrl+Shift+R)
-document.addEventListener('keydown', (event) => {
-  if (event.ctrlKey && event.shiftKey && event.code === 'KeyR') {
+document.addEventListener("keydown", (event) => {
+  if (event.ctrlKey && event.shiftKey && event.code === "KeyR") {
     event.preventDefault();
     if (globalThis.pwaCacheManager) {
       globalThis.pwaCacheManager.clearCache().then(() => {
