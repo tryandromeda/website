@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { GitCommit, MessageCircle, Tag } from "lucide-preact";
+// import { motion } from "motion/react"
 
 interface GitHubCommit {
   sha: string;
@@ -135,9 +136,9 @@ export default function RecentActivity() {
               href={activity.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface1 transition-colors group"
+              class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface1 transition-colors group recent-activity-fadein"
             >
-              <div class="flex-shrink-0">
+              <div class="flex-shrink-0 group-hover:scale-icon transition-transform duration-200">
                 {activity.type === "commit"
                   ? (
                     <div class="w-8 h-8 rounded-full bg-blue/20 flex items-center justify-center">

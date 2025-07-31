@@ -29,9 +29,9 @@ export default function App({ Component }: PageProps) {
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#89b4fa" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Andromeda" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-status-bar-style" content="default" />
+        <meta name="mobile-web-app-title" content="Andromeda" />
         <link rel="apple-touch-icon" href="/logo.svg" />
 
         {/* PWA Cache Manager */}
