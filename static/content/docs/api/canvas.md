@@ -1,17 +1,17 @@
 # Canvas API
 
-Andromeda provides a comprehensive Canvas API for creating 2D graphics,
-drawings, and visualizations. The API is based on the standard HTML5 Canvas
-specification.
+Andromeda provides a comprehensive, **GPU-accelerated** Canvas API for creating 2D graphics,
+drawings, and visualizations. The API is powered by the WGPU backend for hardware acceleration and is based on the standard HTML5 Canvas specification.
 
 ## Overview
 
 The Canvas API allows you to:
 
-- Draw shapes, lines, and text
+- Draw shapes, lines, and text with hardware acceleration
 - Render images and apply transformations
-- Create complex graphics and visualizations
+- Create complex graphics and visualizations with linear gradients
 - Export graphics to PNG format
+- Leverage GPU performance for intensive drawing operations
 
 ## Creating a Canvas
 
@@ -114,13 +114,26 @@ ctx.fillRect(10, 10, 100, 100);
 
 #### Gradients
 
+Andromeda supports both linear and radial gradients with hardware acceleration:
+
 ```typescript
 // Linear gradient
-const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
 gradient.addColorStop(0, "#ff0000");
+gradient.addColorStop(0.5, "#00ff00");
 gradient.addColorStop(1, "#0000ff");
 ctx.fillStyle = gradient;
 ctx.fillRect(0, 0, 200, 100);
+
+// Advanced linear gradient with multiple stops
+const advancedGradient = ctx.createLinearGradient(0, 0, 300, 0);
+advancedGradient.addColorStop(0, "rgba(255, 0, 0, 1)");
+advancedGradient.addColorStop(0.25, "rgba(255, 255, 0, 0.8)");
+advancedGradient.addColorStop(0.5, "rgba(0, 255, 0, 0.6)");
+advancedGradient.addColorStop(0.75, "rgba(0, 255, 255, 0.8)");
+advancedGradient.addColorStop(1, "rgba(0, 0, 255, 1)");
+ctx.fillStyle = advancedGradient;
+ctx.fillRect(0, 100, 300, 50);
 
 // Radial gradient
 const radialGradient = ctx.createRadialGradient(100, 100, 0, 100, 100, 100);
@@ -128,7 +141,17 @@ radialGradient.addColorStop(0, "#fff");
 radialGradient.addColorStop(1, "#000");
 ctx.fillStyle = radialGradient;
 ctx.fillRect(0, 0, 200, 200);
+
+// Gradient for text
+const textGradient = ctx.createLinearGradient(0, 0, 200, 0);
+textGradient.addColorStop(0, "#ff6b6b");
+textGradient.addColorStop(1, "#4ecdc4");
+ctx.fillStyle = textGradient;
+ctx.font = "48px Arial";
+ctx.fillText("Gradient Text", 10, 50);
 ```
+
+**Hardware Acceleration**: Linear gradients in Andromeda are GPU-accelerated using the WGPU backend, providing superior performance for complex gradient operations.
 
 #### Line Styles
 

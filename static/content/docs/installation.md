@@ -226,6 +226,6 @@ The built-in upgrade system provides:
 
 - **Cross-platform support**: Works on Windows, macOS, and Linux
 - **Safe upgrades**: Creates automatic backups before upgrading
-- **Version targeting**: Upgrade to specific versions
+- **Version targeting**: Upgrade to specific versions (e.g., v0.1.0-draft7)
 - **Dry run mode**: Preview upgrades without making changes
 - **Auto-detection**: Automatically detects your platform and architecture

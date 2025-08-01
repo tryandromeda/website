@@ -22,16 +22,16 @@ export default function Home() {
             Andromeda
           </h1>
           <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8">
-            The simplest JavaScript and TypeScript runtime, 100% written in Rust
-            🦀 and powered by{" "}
+            A modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by{" "}
             <a
               href="https://trynova.dev/"
               class="text-text hover:text-subtext0 underline font-semibold transition-colors"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Nova
+              Nova Engine
             </a>
+            . Zero-config TypeScript support, rich Web APIs, native performance, and developer-first tooling.
           </p>
 
           {/* Install Command */}
@@ -111,6 +111,36 @@ export default function Home() {
                 of configuring.
               </p>
             </div>
+            
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+              <div class="text-4xl mb-4">🧑‍💻</div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                Language Server
+              </h3>
+              <p class="text-subtext1">
+                Built-in LSP support with real-time diagnostics, comprehensive linting, and rich error messages for VS Code, Neovim, and other editors.
+              </p>
+            </div>
+            
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+              <div class="text-4xl mb-4">🎨</div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                GPU Canvas
+              </h3>
+              <p class="text-subtext1">
+                Hardware-accelerated 2D Canvas API with WGPU backend, linear gradients, and PNG export capabilities for high-performance graphics.
+              </p>
+            </div>
+            
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+              <div class="text-4xl mb-4">📦</div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                Complete Toolchain
+              </h3>
+              <p class="text-subtext1">
+                REPL, formatter, bundler, linter, compiler, and self-updater - everything you need for modern JavaScript/TypeScript development.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -148,7 +178,16 @@ export default function Home() {
 cargo install --git https://github.com/tryandromeda/andromeda
 
 # Run your TypeScript/JavaScript files
-andromeda run app.ts`}</code>
+andromeda run app.ts
+
+# Format your code
+andromeda fmt src/
+
+# Bundle for distribution
+andromeda bundle src/main.ts dist/app.js
+
+# Start interactive REPL
+andromeda repl`}</code>
                 </pre>
               </div>
             </div>

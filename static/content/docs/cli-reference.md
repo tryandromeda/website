@@ -2,6 +2,8 @@
 
 Complete reference for Andromeda's command-line interface.
 
+> **Latest Version**: v0.1.0-draft7 includes the new Language Server Protocol (LSP) support! See the [upgrade command](#upgrade) to get the latest features.
+
 ## Synopsis
 
 ```bash
@@ -345,6 +347,117 @@ andromeda upgrade --version v0.2.0
 # Check what would be upgraded (dry run)
 andromeda upgrade --dry-run
 ```
+
+### `lsp`
+
+Start the Language Server Protocol (LSP) server for editor integration.
+
+**Syntax:**
+
+```bash
+andromeda lsp
+```
+
+**Description:**
+
+The LSP server provides real-time diagnostics and code analysis for JavaScript and TypeScript files in your editor. It offers comprehensive linting with built-in rules for code quality.
+
+**Features:**
+
+- **Real-time Diagnostics** - Live error reporting as you type
+- **Comprehensive Linting** - 5 built-in rules for code quality:
+  - Empty function detection
+  - Empty statement detection  
+  - Variable usage validation
+  - Unreachable code detection
+  - Invalid syntax highlighting
+- **Multi-file Support** - Workspace-wide analysis
+- **Rich Error Messages** - Detailed explanations with code context
+- **Editor Integration** - Works with VS Code, Neovim, and other LSP-compatible editors
+
+**Examples:**
+
+```bash
+# Start the Language Server (typically called by your editor)
+andromeda lsp
+```
+
+**Editor Setup:**
+
+Configure your editor to use `andromeda lsp` as the language server for JavaScript and TypeScript files to get instant feedback on code quality.
+
+### `lint`
+
+Analyze code for potential issues and style violations.
+
+**Syntax:**
+
+```bash
+andromeda lint [PATHS...]
+```
+
+**Arguments:**
+
+- `[PATHS...]` - Files or directories to lint (optional, defaults to current directory)
+
+**Examples:**
+
+```bash
+# Lint specific files
+andromeda lint script.ts utils.js
+
+# Lint entire directory
+andromeda lint src/
+
+# Lint current directory
+andromeda lint
+
+# Lint multiple directories
+andromeda lint src/ tests/ examples/
+```
+
+**Lint Rules:**
+
+- Empty function detection
+- Empty statement detection
+- Variable usage validation
+- Unreachable code detection
+- Invalid syntax highlighting
+
+### `bundle`
+
+Bundle JavaScript/TypeScript files and their dependencies into a single file.
+
+**Syntax:**
+
+```bash
+andromeda bundle <INPUT> <OUTPUT>
+```
+
+**Arguments:**
+
+- `<INPUT>` - Path to the entry file to bundle
+- `<OUTPUT>` - Path for the output bundled file
+
+**Examples:**
+
+```bash
+# Bundle a TypeScript application
+andromeda bundle src/main.ts dist/app.js
+
+# Bundle with dependencies
+andromeda bundle index.ts bundle.js
+
+# Bundle for distribution
+andromeda bundle app.ts dist/standalone.js
+```
+
+**Features:**
+
+- **Module Resolution** - Automatic dependency resolution
+- **Tree Shaking** - Dead code elimination
+- **TypeScript Support** - Seamless TS to JS bundling
+- **Single File Output** - Self-contained bundles
 
 ## Troubleshooting
 

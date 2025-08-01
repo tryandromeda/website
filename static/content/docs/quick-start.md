@@ -272,6 +272,41 @@ You can run multiple files together:
 andromeda run utils.ts main.ts helper.ts
 ```
 
+## Working with Modules
+
+Andromeda supports ES modules and TypeScript module resolution:
+
+```typescript
+// math-utils.ts
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+export function multiply(a: number, b: number): number {
+  return a * b;
+}
+
+export const PI = Math.PI;
+```
+
+```typescript
+// main.ts
+import { add, multiply, PI } from "./math-utils.ts";
+
+console.log("Addition:", add(5, 3));
+console.log("Multiplication:", multiply(4, 7));
+console.log("PI value:", PI);
+
+// Dynamic imports are also supported
+const { readTextFileSync } = await import("./file-helpers.ts");
+```
+
+Run the main file:
+
+```bash
+andromeda run main.ts
+```
+
 ## Code Formatting
 
 Format your TypeScript/JavaScript files:
@@ -286,6 +321,70 @@ andromeda fmt src/
 # Format current directory
 andromeda fmt
 ```
+
+## Bundling Applications
+
+Bundle your application and dependencies into a single file:
+
+```typescript
+// Create a small app with dependencies
+// app.ts
+import { add } from "./math-utils.ts";
+import { writeTextFileSync } from "./file-helpers.ts";
+
+const result = add(10, 20);
+writeTextFileSync("result.txt", `The answer is: ${result}`);
+console.log("Result saved to file!");
+```
+
+Bundle it:
+
+```bash
+andromeda bundle app.ts dist/my-app.js
+```
+
+The bundled file will contain all dependencies and can be run independently:
+
+```bash
+andromeda run dist/my-app.js
+```
+
+## Code Linting
+
+Analyze your code for potential issues:
+
+```bash
+# Lint specific files
+andromeda lint script.ts utils.js
+
+# Lint entire directory
+andromeda lint src/
+
+# Lint current directory
+andromeda lint
+```
+
+The linter checks for:
+
+- Empty function detection
+- Empty statement detection
+- Variable usage validation
+- Unreachable code detection
+- Invalid syntax highlighting
+
+## Single-File Executables
+
+Compile your TypeScript/JavaScript into standalone executables:
+
+```bash
+# Create executable from TypeScript
+andromeda compile app.ts my-app.exe
+
+# Run the compiled executable
+./my-app.exe
+```
+
+This creates a self-contained executable that doesn't require Andromeda to be installed on the target system.
 
 ## Upgrading Andromeda
 

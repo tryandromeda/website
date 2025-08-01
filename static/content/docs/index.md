@@ -36,6 +36,15 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**Contributing Guide**](/docs/contributing) - How to contribute to Andromeda
 - [**Building from Source**](/docs/building) - Compiling Andromeda yourself
 - [**Testing Guide**](testing) - Running and writing tests
+- [**Language Server**](/docs/cli-reference#lsp) - LSP integration for editors
+
+### 🛠️ Developer Tools
+
+- [**REPL**](/docs/cli-reference#repl) - Interactive development environment
+- [**Formatter**](/docs/cli-reference#fmt) - Code formatting tool  
+- [**Bundler**](/docs/cli-reference#bundle) - Module bundling
+- [**Linter**](/docs/cli-reference#lint) - Code analysis and linting
+- [**Compiler**](/docs/cli-reference#compile) - Single-file executable creation
 
 ### 📋 Reference
 
@@ -56,14 +65,21 @@ established web standards including:
 
 ## ✨ Key Features
 
-- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly
-- 🎨 **Canvas & Graphics** - Full 2D Canvas API with PNG export
+- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no transpilation needed
+- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU backend and PNG export
 - 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
-- 📁 **File System Access** - Comprehensive file I/O operations
-- 🗃️ **SQLite Database** - Built-in database support with sync API
-- ⚡ **Native Performance** - Rust-powered execution with Nova engine
-- 🛠️ **Developer Tools** - REPL, formatter, compiler, and auto-upgrade
-- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, and more
+- � **SQLite Support** - Built-in support for SQLite databases
+- �📁 **File System Access** - Simple APIs for reading/writing files
+- � **Web Storage** - localStorage and sessionStorage APIs for data persistence
+- ⚡ **Native Performance** - Rust-powered execution with Nova's optimized JS engine
+- 🛠️ **Developer Tools** - Interactive REPL, code formatter, bundler, linter, and single-file compilation
+- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, and more
+- 🔧 **Extensible** - Modular architecture with optional features
+- 🔧 **Self-Updating** - Built-in upgrade system to stay current with latest releases
+- 🔧 **Shell Integration** - Auto-completion support for bash, zsh, fish, and PowerShell
+- 🧑‍💻 **Language Server** - Built-in LSP support for real-time diagnostics and linting
+- 📦 **Module Support** - ES modules and TypeScript module resolution
+- 🎯 **Advanced Canvas** - Linear gradients, hardware acceleration, and image manipulation
 
 ## 🆘 Getting Help
 

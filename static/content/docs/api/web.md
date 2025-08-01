@@ -9,6 +9,305 @@ encoding, and other essential web platform features.
 The Web APIs in Andromeda follow WHATWG specifications and provide a familiar
 programming model for developers coming from browser environments.
 
+## DOMException API
+
+The DOMException API provides a standardized way to represent errors that occur in web APIs, following the WHATWG DOM specification.
+
+### DOMException Class
+
+DOMException represents an exception that occurs as a result of calling a method or accessing a property of a web API.
+
+#### Constructor
+
+```typescript
+new DOMException(message?: string, name?: string)
+```
+
+Creates a new DOMException object.
+
+**Parameters:**
+
+- `message` (optional): Human-readable description of the error
+- `name` (optional): The name of the error (default: "Error")
+
+#### Properties
+
+- `name`: The name of the exception
+- `message`: The error message
+- `code`: Legacy numeric error code (for compatibility)
+
+#### Standard Exception Names
+
+DOMException supports all standard exception names as defined in the WHATWG DOM specification:
+
+```typescript
+// Network-related errors
+const networkError = new DOMException("Network request failed", "NetworkError");
+const timeoutError = new DOMException("Request timed out", "TimeoutError");
+
+// Security-related errors
+const securityError = new DOMException("Access denied", "SecurityError");
+
+// Invalid state or argument errors
+const invalidStateError = new DOMException("Invalid state", "InvalidStateError");
+const syntaxError = new DOMException("Invalid syntax", "SyntaxError");
+
+// Data errors
+const dataError = new DOMException("Invalid data", "DataError");
+const quotaExceededError = new DOMException("Quota exceeded", "QuotaExceededError");
+
+// Operation errors
+const abortError = new DOMException("Operation aborted", "AbortError");
+const notSupportedError = new DOMException("Operation not supported", "NotSupportedError");
+```
+
+### Usage Examples
+
+#### Basic Error Creation
+
+```typescript
+// Create a basic DOMException
+const basicError = new DOMException();
+console.log(basicError.name); // "Error"
+console.log(basicError.message); // ""
+
+// Create with message
+const messageError = new DOMException("Something went wrong");
+console.log(messageError.name); // "Error"
+console.log(messageError.message); // "Something went wrong"
+
+// Create with message and name
+const namedError = new DOMException("Invalid operation", "InvalidStateError");
+console.log(namedError.name); // "InvalidStateError"
+console.log(namedError.message); // "Invalid operation"
+```
+
+#### Error Handling in APIs
+
+```typescript
+class WebAPIExample {
+  private isInitialized = false;
+
+  initialize() {
+    this.isInitialized = true;
+  }
+
+  performOperation() {
+    if (!this.isInitialized) {
+      throw new DOMException(
+        "Cannot perform operation before initialization",
+        "InvalidStateError"
+      );
+    }
+
+    // Simulate network operation
+    if (Math.random() < 0.1) {
+      throw new DOMException(
+        "Network connection failed",
+        "NetworkError"
+      );
+    }
+
+    return "Operation completed successfully";
+  }
+
+  parseData(data: string) {
+    if (!data || data.trim().length === 0) {
+      throw new DOMException(
+        "Data cannot be empty",
+        "SyntaxError"
+      );
+    }
+
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      throw new DOMException(
+        "Invalid JSON data format",
+        "SyntaxError"
+      );
+    }
+  }
+}
+
+// Usage with proper error handling
+const api = new WebAPIExample();
+
+try {
+  api.performOperation(); // Will throw InvalidStateError
+} catch (error) {
+  if (error instanceof DOMException) {
+    console.error(`${error.name}: ${error.message}`);
+    
+    // Handle specific error types
+    switch (error.name) {
+      case "InvalidStateError":
+        console.log("Initializing API...");
+        api.initialize();
+        break;
+      case "NetworkError":
+        console.log("Retrying network operation...");
+        break;
+      default:
+        console.log("Unknown error occurred");
+    }
+  }
+}
+```
+
+#### Custom Error Hierarchy
+
+```typescript
+class APIError extends DOMException {
+  constructor(message: string, name: string = "APIError") {
+    super(message, name);
+  }
+}
+
+class ValidationError extends APIError {
+  constructor(field: string, value: any) {
+    super(`Invalid value for field '${field}': ${value}`, "ValidationError");
+  }
+}
+
+class AuthenticationError extends APIError {
+  constructor(message: string = "Authentication failed") {
+    super(message, "SecurityError");
+  }
+}
+
+// Usage
+function validateUser(userData: any) {
+  if (!userData.email || !userData.email.includes("@")) {
+    throw new ValidationError("email", userData.email);
+  }
+
+  if (!userData.password || userData.password.length < 8) {
+    throw new ValidationError("password", "too short");
+  }
+
+  if (!userData.token) {
+    throw new AuthenticationError("Missing authentication token");
+  }
+}
+
+try {
+  validateUser({ email: "invalid", password: "123" });
+} catch (error) {
+  if (error instanceof DOMException) {
+    console.error(`Validation failed - ${error.name}: ${error.message}`);
+  }
+}
+```
+
+#### Integration with Fetch API
+
+```typescript
+async function safeFetch(url: string, options?: RequestInit): Promise<Response> {
+  try {
+    const response = await fetch(url, options);
+    
+    if (!response.ok) {
+      // Convert HTTP errors to DOMExceptions
+      switch (response.status) {
+        case 400:
+          throw new DOMException("Bad Request", "SyntaxError");
+        case 401:
+          throw new DOMException("Unauthorized", "SecurityError");
+        case 403:
+          throw new DOMException("Forbidden", "SecurityError");
+        case 404:
+          throw new DOMException("Not Found", "NotFoundError");
+        case 408:
+          throw new DOMException("Request Timeout", "TimeoutError");
+        case 429:
+          throw new DOMException("Too Many Requests", "QuotaExceededError");
+        case 500:
+          throw new DOMException("Internal Server Error", "NetworkError");
+        default:
+          throw new DOMException(`HTTP ${response.status}`, "NetworkError");
+      }
+    }
+    
+    return response;
+    
+  } catch (error) {
+    // Convert network errors to DOMExceptions
+    if (error instanceof TypeError) {
+      throw new DOMException("Network connection failed", "NetworkError");
+    }
+    
+    if (error.name === "AbortError") {
+      throw new DOMException("Request was aborted", "AbortError");
+    }
+    
+    // Re-throw DOMExceptions as-is
+    if (error instanceof DOMException) {
+      throw error;
+    }
+    
+    // Convert other errors
+    throw new DOMException(error.message || "Unknown error", "UnknownError");
+  }
+}
+
+// Usage
+try {
+  const response = await safeFetch("https://api.example.com/data");
+  const data = await response.json();
+  console.log(data);
+} catch (error) {
+  if (error instanceof DOMException) {
+    console.error(`API Error - ${error.name}: ${error.message}`);
+    
+    // Handle specific error types
+    switch (error.name) {
+      case "NetworkError":
+        console.log("Check your internet connection");
+        break;
+      case "SecurityError":
+        console.log("Check your authentication credentials");
+        break;
+      case "TimeoutError":
+        console.log("Request timed out, try again");
+        break;
+    }
+  }
+}
+```
+
+### Error Categories
+
+DOMExceptions can be categorized by their purpose:
+
+#### Network Errors
+
+- `NetworkError`: General network failures
+- `TimeoutError`: Request timeouts
+- `AbortError`: Cancelled operations
+
+#### Security Errors
+
+- `SecurityError`: Access denied or authentication failures
+- `NotAllowedError`: Operation not permitted
+
+#### State Errors
+
+- `InvalidStateError`: Object in wrong state for operation
+- `InvalidAccessError`: Invalid access to object
+
+#### Data Errors
+
+- `SyntaxError`: Invalid syntax or format
+- `DataError`: Invalid data
+- `QuotaExceededError`: Storage or resource limits exceeded
+
+#### Operational Errors
+
+- `NotSupportedError`: Feature not supported
+- `NotFoundError`: Resource not found
+- `OperationError`: General operation failure
+
 ## Event API
 
 ### Event Class
