@@ -5,6 +5,7 @@ import Footer from "../components/Footer.tsx";
 import InstallToggle from "../islands/InstallToggle.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
 import RecentActivity from "../islands/RecentActivity.tsx";
+import SearchTrigger from "../islands/SearchTrigger.tsx";
 
 export default function Home() {
   return (
@@ -220,6 +221,12 @@ andromeda repl`}</code>
           <p class="text-xl text-subtext1 mb-12">
             Everything you need to know to get productive with Andromeda
           </p>
+
+          {/* Search Section */}
+          <div class="max-w-2xl mx-auto mb-12">
+            <SearchTrigger variant="inline" />
+          </div>
+
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <a
               href="/docs/index"
