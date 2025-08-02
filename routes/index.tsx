@@ -30,15 +30,36 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Nova Engine
+              The Nova Engine
             </a>
-            . Zero-config TypeScript support, rich Web APIs, native performance, and developer-first tooling.
+            . Zero-config TypeScript support, hardware-accelerated graphics, comprehensive Web APIs, and developer-first tooling for the next generation of JavaScript applications.
           </p>
+          
+          {/* Key Benefits */}
+          <div class="flex flex-wrap justify-center gap-6 mb-8 text-sm text-subtext0">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-green rounded-full"></span>
+              <span>Memory Safe</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-blue rounded-full"></span>
+              <span>GPU Accelerated</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-yellow rounded-full"></span>
+              <span>Zero Config TypeScript</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-red rounded-full"></span>
+              <span>WinterTC Compliant</span>
+            </div>
+          </div>
 
           {/* Install Command */}
           <div class="max-w-4xl mx-auto mb-8">
             <InstallToggle />
-          </div>{" "}
+          </div>
+          
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#features"
@@ -146,69 +167,368 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Technical Specifications */}
+      <section class="py-20 px-4 bg-base">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+            Technical Specifications
+          </h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">🏗️</span> Architecture
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• Rust-based runtime engine</li>
+                <li>• Nova JavaScript engine integration</li>
+                <li>• WGPU-powered graphics backend</li>
+                <li>• Zero-copy data structures</li>
+                <li>• Multi-threaded execution model</li>
+              </ul>
+            </div>
+            
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">🌐</span> Web Standards
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• WHATWG Fetch API</li>
+                <li>• W3C Canvas 2D Context</li>
+                <li>• Web Crypto API</li>
+                <li>• TextEncoder/TextDecoder</li>
+                <li>• WinterTC compliance</li>
+              </ul>
+            </div>
+            
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">🚀</span> Performance
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• Sub-10ms startup time</li>
+                <li>• Hardware-accelerated graphics</li>
+                <li>• Efficient memory management</li>
+                <li>• Optimized module resolution</li>
+                <li>• Native binary compilation</li>
+              </ul>
+            </div>
+            
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">🛠️</span> Developer Tools
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• Built-in Language Server Protocol</li>
+                <li>• Interactive REPL with syntax highlighting</li>
+                <li>• Code formatter and linter</li>
+                <li>• Module bundler</li>
+                <li>• Single-file executable compiler</li>
+              </ul>
+            </div>
+            
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">🔐</span> Security
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• Memory-safe Rust foundation</li>
+                <li>• Secure cryptographic primitives</li>
+                <li>• Sandboxed execution environment</li>
+                <li>• Permission-based API access</li>
+                <li>• No undefined behavior</li>
+              </ul>
+            </div>
+            
+            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+              <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
+                <span class="mr-2">📦</span> Platform Support
+              </h3>
+              <ul class="text-subtext1 space-y-2 text-sm">
+                <li>• Linux (x86_64, ARM64)</li>
+                <li>• macOS (Intel, Apple Silicon)</li>
+                <li>• Windows (x86_64)</li>
+                <li>• Docker containerization</li>
+                <li>• Cross-compilation support</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section class="py-20 px-4 bg-mantle">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+            Built for Modern Applications
+          </h2>
+          <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div class="space-y-8">
+              <div class="p-6 bg-base rounded-lg border border-surface0">
+                <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
+                  <span class="mr-3 text-2xl">🎨</span>
+                  Graphics & Visualization
+                </h3>
+                <p class="text-subtext1 mb-4">
+                  Create stunning visualizations, charts, and graphics with hardware-accelerated Canvas API. Perfect for data visualization, game development, and creative coding.
+                </p>
+                <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
+                  <div>• Real-time data dashboards</div>
+                  <div>• Scientific visualizations</div>
+                  <div>• Interactive animations</div>
+                  <div>• Image processing pipelines</div>
+                </div>
+              </div>
+              
+              <div class="p-6 bg-base rounded-lg border border-surface0">
+                <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
+                  <span class="mr-3 text-2xl">⚡</span>
+                  High-Performance Scripts
+                </h3>
+                <p class="text-subtext1 mb-4">
+                  Build fast automation scripts, data processing pipelines, and system utilities with near-native performance and memory safety.
+                </p>
+                <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
+                  <div>• Build tools and automation</div>
+                  <div>• Data transformation scripts</div>
+                  <div>• System administration tools</div>
+                  <div>• Performance-critical applications</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="space-y-8">
+              <div class="p-6 bg-base rounded-lg border border-surface0">
+                <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
+                  <span class="mr-3 text-2xl">🌐</span>
+                  Web Services & APIs
+                </h3>
+                <p class="text-subtext1 mb-4">
+                  Develop lightweight web services, APIs, and microservices with built-in security features and excellent performance characteristics.
+                </p>
+                <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
+                  <div>• REST and GraphQL APIs</div>
+                  <div>• Microservices architecture</div>
+                  <div>• Real-time applications</div>
+                  <div>• Edge computing functions</div>
+                </div>
+              </div>
+              
+              <div class="p-6 bg-base rounded-lg border border-surface0">
+                <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
+                  <span class="mr-3 text-2xl">🔬</span>
+                  Scientific Computing
+                </h3>
+                <p class="text-subtext1 mb-4">
+                  Leverage SQLite integration, cryptographic APIs, and performance monitoring for research, analysis, and computational workflows.
+                </p>
+                <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
+                  <div>• Data analysis and modeling</div>
+                  <div>• Simulation and modeling</div>
+                  <div>• Research computation</div>
+                  <div>• Algorithm prototyping</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison */}
+      <section class="py-20 px-4 bg-base">
+        <div class="container mx-auto">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+            How Andromeda Compares
+          </h2>
+          <div class="max-w-6xl mx-auto">
+            <div class="overflow-x-auto rounded-lg border border-surface0">
+              <table class="w-full min-w-[600px] border-collapse bg-mantle">
+                <thead>
+                  <tr class="border-b border-surface0">
+                    <th class="text-left p-3 md:p-4 text-text font-semibold min-w-[140px]">Feature</th>
+                    <th class="text-center p-3 md:p-4 text-text font-semibold min-w-[100px]">Andromeda</th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Node.js</th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Deno</th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Bun</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">Zero-config TypeScript</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">Memory Safety</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ Rust</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~ GC</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">GPU-Accelerated Canvas</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ WGPU</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">Built-in SQLite</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">Single-file Executables</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~ pkg</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1">WinterTC Compliance</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 md:p-4 text-subtext1">Language Server</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ Built-in</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~ External</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Quick Start Section */}
       <section id="install" class="py-20 px-4 bg-base">
         <div class="container mx-auto">
           <h2 class="text-4xl font-bold mb-8 text-text text-center">
-            Quick Start
+            Get Started in Minutes
           </h2>
           <p class="text-xl text-subtext1 mb-12 text-center max-w-3xl mx-auto">
-            Get productive with Andromeda in seconds
+            Experience the power of Rust-based JavaScript runtime with zero configuration
           </p>
 
-          <div class="w-full max-w-2xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-12">
+            {/* Installation */}
             <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden">
-              {/* Header with actions */}
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-surface0 border-b border-surface1">
-                <h4
-                  class="text-sm sm:text-base font-semibold flex items-center gap-2"
-                  style={{ color: "var(--color-text)" }}
-                >
-                  Installation & Usage
+              <div class="p-4 bg-surface0 border-b border-surface1">
+                <h4 class="font-semibold flex items-center gap-2 text-text">
+                  <span>📦</span> Installation
                 </h4>
-                <div class="flex gap-2">
-                </div>
               </div>
-              {/* Command display */}
               <div class="p-4">
-                <pre
-                  class="text-sm sm:text-base font-mono leading-relaxed overflow-x-auto"
-                  style={{ color: "var(--color-text)" }}
-                >
-            <code>{`# Install Andromeda
+                <pre class="text-sm font-mono leading-relaxed overflow-x-auto text-text whitespace-pre-wrap break-words">
+                  <code>{`# Quick install via Cargo
 cargo install --git https://github.com/tryandromeda/andromeda
 
-# Run your TypeScript/JavaScript files
-andromeda run app.ts
+# Or use platform-specific installers
+curl -fsSL https://tryandromeda.dev/install.sh | bash  # Linux/macOS
+irm tryandromeda.dev/install.ps1 | iex                # Windows
 
-# Format your code
-andromeda fmt src/
-
-# Bundle for distribution
-andromeda bundle src/main.ts dist/app.js
-
-# Start interactive REPL
-andromeda repl`}</code>
+# Verify installation
+andromeda --version`}</code>
                 </pre>
               </div>
             </div>
 
-            {/* Info note */}
-            <div class="mt-4 bg-surface0/50 rounded-lg border border-surface1/50 p-4">
-              <p
-                class="text-xs sm:text-sm leading-relaxed"
-                style={{ color: "var(--color-subtext1)" }}
-              >
-                <span
-                  class="font-semibold"
-                  style={{ color: "var(--color-text)" }}
-                >
-                  Note:
-                </span>{" "}
-                You'll need Rust installed to use the cargo command. For
-                pre-built binaries and alternative installation methods, see the
-                installation section above.
-              </p>
+            {/* First Program */}
+            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden">
+              <div class="p-4 bg-surface0 border-b border-surface1">
+                <h4 class="font-semibold flex items-center gap-2 text-text">
+                  <span>🚀</span> Your First Program
+                </h4>
+              </div>
+              <div class="p-4">
+                <pre class="text-sm font-mono leading-relaxed overflow-x-auto text-text whitespace-pre-wrap break-words">
+                  <code>{`// hello.ts - TypeScript works out of the box
+console.log("Hello, Andromeda! 🌌");
+
+// Built-in APIs ready to use
+const canvas = new OffscreenCanvas(200, 100);
+const ctx = canvas.getContext("2d")!;
+ctx.fillStyle = "#4ecdc4";
+ctx.fillRect(0, 0, 200, 100);
+canvas.saveAsPng("hello.png");
+
+// Run with: andromeda run hello.ts`}</code>
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature Examples */}
+          <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+              <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
+                <span class="mr-2">🎨</span> Graphics
+              </h4>
+              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+{`const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
+
+// Hardware-accelerated gradients
+const gradient = ctx.createLinearGradient(
+  0, 0, 400, 0
+);
+gradient.addColorStop(0, "#ff6b6b");
+gradient.addColorStop(1, "#4ecdc4");
+
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 400, 300);
+canvas.saveAsPng("gradient.png");`}
+              </pre>
+            </div>
+
+            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+              <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
+                <span class="mr-2">🗄️</span> Database
+              </h4>
+              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+{`const db = new DatabaseSync("app.db");
+
+db.exec(\`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  email TEXT
+)\`);
+
+const stmt = db.prepare(
+  "INSERT INTO users (name, email) VALUES (?, ?)"
+);
+stmt.run("Alice", "alice@example.com");`}
+              </pre>
+            </div>
+
+            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+              <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
+                <span class="mr-2">🔐</span> Crypto
+              </h4>
+              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+{`// Generate secure random values
+const id = crypto.randomUUID();
+const bytes = crypto.getRandomValues(
+  new Uint8Array(32)
+);
+
+// Hash data with Web Crypto API
+const data = new TextEncoder()
+  .encode("secret");
+const hash = await crypto.subtle.digest(
+  "SHA-256", data
+);
+
+console.log("Secure hash:", hash);`}
+              </pre>
             </div>
           </div>
         </div>

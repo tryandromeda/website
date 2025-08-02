@@ -50,6 +50,7 @@
     --color-mantle: #050713;
     --color-crust: #02040a;
 
+
     /* Color palette */
     --color-rosewater: #f5e0dc;
     --color-flamingo: #f2cdcd;
@@ -947,4 +948,61 @@ kbd {
 
 [data-footnote-ref]:after {
   content: "]";
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .text-6xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .text-4xl {
+    font-size: 2.25rem;
+    line-height: 1.1;
+  }
+
+  .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+}
+
+/* Prevent code block overflow */
+pre {
+  max-width: 100%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Improve table responsiveness */
+table {
+  table-layout: auto;
+}
+
+/* Better navbar background opacity */
+.navbar-bg {
+  background-color: rgba(17, 17, 27, 0.85);
+}
+
+.dark .navbar-bg {
+  background-color: rgba(17, 17, 27, 0.9);
 }

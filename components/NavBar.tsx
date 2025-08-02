@@ -16,19 +16,19 @@ export default function NavBar() {
               <SearchTrigger variant="navbar" />
               <a
                 href="/#features"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm lg:text-base"
+                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
               >
                 Features
               </a>
               <a
                 href="/docs/index"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm lg:text-base"
+                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
               >
                 Documentation
               </a>
               <a
                 href="/blog"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm lg:text-base"
+                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
               >
                 Blog
               </a>
