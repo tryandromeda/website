@@ -8,39 +8,39 @@ possible.
 
 ### Runtime APIs
 
-- **[Console API](console)** - Logging, debugging, and output functions
-- **[Performance API](performance)** - Timing and performance measurement
+- **[Console API](/docs/api/console)** - Logging, debugging, and output functions
+- **[Performance API](/docs/api/performance)** - Timing and performance measurement
   utilities
-- **[Process API](process)** - Process information and environment access
+- **[Process API](/docs/api/process)** - Process information and environment access
 
 ### File System APIs
 
-- **[File System API](file-system)** - File and directory operations, path
+- **[File System API](/docs/api/file-system)** - File and directory operations, path
   manipulation
 
 ### Network APIs
 
-- **[Fetch API](fetch)** - HTTP client functionality and Headers manipulation
-- **[URL API](url)** - URL parsing, construction, and manipulation
+- **[Fetch API](/docs/api/fetch)** - HTTP client functionality and Headers manipulation
+- **[URL API](/docs/api/url)** - URL parsing, construction, and manipulation
 
 ### Graphics APIs
 
-- **[Canvas API](canvas)** - 2D graphics rendering and image manipulation
+- **[Canvas API](/docs/api/canvas)** - 2D graphics rendering and image manipulation
 
 ### Cryptography APIs
 
-- **[Crypto API](crypto)** - Cryptographic functions and secure random
+- **[Crypto API](/docs/api/crypto)** - Cryptographic functions and secure random
   generation
 
 ### Web Standard APIs
 
-- **[Web APIs](web)** - Event handling, text encoding, and other web standards
+- **[Web APIs](/docs/api/web)** - Event handling, text encoding, and other web standards
   - Event API - Standard event handling and custom events
   - TextEncoder/TextDecoder - Text encoding and decoding utilities
 
 ### Utility APIs
 
-- **[Time API](time)** - Date, time, and timing utilities
+- **[Time API](/docs/api/time)** - Date, time, and timing utilities
 
 ## API Categories
 
@@ -232,6 +232,5 @@ If you find issues in the API documentation or want to contribute improvements:
 
 ## See Also
 
-- **[Quick Start Guide](../quick-start)** - Get started with Andromeda
-- **[Examples](../../examples/)** - Practical code examples
-- **[Architecture](../architecture)** - Understanding Andromeda's design
+- **[Quick Start Guide](/docs/quick-start)** - Get started with Andromeda
+- **[Examples](/docs/examples/)** - Practical code examples

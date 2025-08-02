@@ -276,5 +276,5 @@ console.log(`Math.sqrt took ${(end - start).toFixed(6)}ms`);
 
 ## See Also
 
-- [Time API](./time) - For timers and time-based operations
-- [Console API](./console) - For logging performance results
+- [Time API](/docs/api/time) - For timers and time-based operations
+- [Console API](/docs/api/console) - For logging performance results

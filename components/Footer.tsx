@@ -34,12 +34,12 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/docs/api" class="text-subtext1 hover:text-text transition-colors">
+                <a href="/docs/api/index" class="text-subtext1 hover:text-text transition-colors">
                   API Reference
                 </a>
               </li>
               <li>
-                <a href="/docs/examples" class="text-subtext1 hover:text-text transition-colors">
+                <a href="/docs/examples/index" class="text-subtext1 hover:text-text transition-colors">
                   Examples
                 </a>
               </li>

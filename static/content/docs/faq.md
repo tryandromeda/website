@@ -25,8 +25,7 @@ Node.js and Deno.
 ### Is Andromeda production-ready?
 
 Andromeda is currently in active development. While it implements many core
-features, it's not yet recommended for production use. Check the
-[roadmap](roadmap) for current status and planned features.
+features, it's not yet recommended for production use.
 
 ### What platforms does Andromeda support?
 
@@ -40,7 +39,7 @@ Andromeda supports:
 
 ### How do I install Andromeda?
 
-See the [Installation Guide](installation) for detailed instructions. The quick
+See the [Installation Guide](/docs/installation) for detailed instructions. The quick
 version:
 
 ```bash
@@ -134,7 +133,7 @@ support for the wider ecosystem.
 
 ### How do I contribute to Andromeda?
 
-See the [Contributing Guide](contributing) for detailed instructions. Quick
+See the [Contributing Guide](/docs/contributing) for detailed instructions. Quick
 steps:
 
 1. Fork the repository

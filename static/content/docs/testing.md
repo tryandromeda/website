@@ -7,4 +7,4 @@ suite, and contribute tests to the project. TODO
 
 - [Contributing Guide](/docs/contributing)
 - [Building from Source](/docs/building)
-- [Examples](./examples/)
+- [Examples](/docs/examples/)

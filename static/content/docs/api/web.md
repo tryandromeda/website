@@ -768,7 +768,7 @@ implementations:
 
 ## Related APIs
 
-- [Console API](console) - For debugging and logging
-- [Performance API](performance) - For timing and performance measurement
-- [Fetch API](fetch) - For network requests using standard web APIs
-- [URL API](url) - For URL parsing and manipulation
+- [Console API](/docs/api/console) - For debugging and logging
+- [Performance API](/docs/api/performance) - For timing and performance measurement
+- [Fetch API](/docs/api/fetch) - For network requests using standard web APIs
+- [URL API](/docs/api/url) - For URL parsing and manipulation

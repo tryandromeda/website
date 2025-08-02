@@ -346,9 +346,9 @@ invalidUrls.forEach((urlString) => {
 
 ## Related APIs
 
-- [Fetch API](fetch) - URLs are commonly used with fetch requests
-- [Headers API](fetch.md#headers) - For HTTP headers in fetch requests
-- [Web APIs](web) - For additional web standards support
+- [Fetch API](/docs/api/fetch) - URLs are commonly used with fetch requests
+- [Headers API](/docs/api/fetch#headers) - For HTTP headers in fetch requests
+- [Web APIs](/docs/api/web) - For additional web standards support
 
 ## Limitations
 

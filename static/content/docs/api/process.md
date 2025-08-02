@@ -283,6 +283,6 @@ const verbose = ProcessUtils.hasFlag("verbose");
 
 ## See Also
 
-- [File System API](./file-system) - For file and directory operations
-- [Console API](./console) - For logging and debugging
-- [CLI Reference](../cli-reference) - For command-line usage
+- [File System API](/docs/api/file-system) - For file and directory operations
+- [Console API](/docs/api/console) - For logging and debugging
+- [CLI Reference](/docs/cli-reference) - For command-line usage

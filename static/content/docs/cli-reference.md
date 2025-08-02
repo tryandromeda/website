@@ -462,6 +462,6 @@ andromeda bundle app.ts dist/standalone.js
 ## Troubleshooting
 
 For common issues and solutions, see the
-[Troubleshooting Guide](troubleshooting).
+[Troubleshooting Guide](/docs/troubleshooting).
 
-For more examples check out the [Examples](examples)
+For more examples check out the [Examples](/docs/examples)

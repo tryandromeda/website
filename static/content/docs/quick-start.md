@@ -402,7 +402,7 @@ andromeda upgrade --dry-run
 
 Now that you've got the basics down:
 
-1. **Explore the APIs**: Check out the [API Documentation](api/) for detailed
+1. **Explore the APIs**: Check out the [API Documentation](/docs/api/) for detailed
    information about available functions
 2. **Join the Community**: Connect with other developers on
    [Discord](https://discord.gg/tgjAnX2Ny3)

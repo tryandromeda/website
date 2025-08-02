@@ -174,6 +174,4 @@ making it easier to port code between environments.
 
 ## See Also
 
-- [Text Encoding API](./text-encoding) - For proper string-to-bytes conversion
-- [Web Standards Compliance](../standards-compliance) - For compatibility
-  information
+- [Web APIs](/docs/api/web) - For text encoding and other web standards

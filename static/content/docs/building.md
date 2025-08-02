@@ -367,6 +367,5 @@ After successfully building Andromeda:
 
 ## See Also
 
-- [Contributing Guide](contributing)
-- [Architecture Overview](architecture)
-- [CLI Reference](cli-reference)
+- [Contributing Guide](/docs/contributing)
+- [CLI Reference](/docs/cli-reference)

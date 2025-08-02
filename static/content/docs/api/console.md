@@ -150,5 +150,5 @@ try {
 
 ## See Also
 
-- [Performance API](./performance) - For timing and performance measurements
-- [Process API](./process) - For environment variables and process information
+- [Performance API](/docs/api/performance) - For timing and performance measurements
+- [Process API](/docs/api/process) - For environment variables and process information

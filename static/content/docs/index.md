@@ -18,7 +18,7 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**File System API**](/docs/api/file-system) - File I/O operations and path
   manipulation
 - [**Canvas API**](/docs/api/canvas) - 2D graphics and image generation
-- [**Crypto API**](api/crypto) - Cryptographic operations and security
+- [**Crypto API**](/docs/api/crypto) - Cryptographic operations and security
 - [**Console API**](/docs/api/console) - Enhanced console output and debugging
 - [**Performance API**](/docs/api/performance) - Timing and performance
   monitoring
@@ -35,7 +35,7 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 
 - [**Contributing Guide**](/docs/contributing) - How to contribute to Andromeda
 - [**Building from Source**](/docs/building) - Compiling Andromeda yourself
-- [**Testing Guide**](testing) - Running and writing tests
+- [**Testing Guide**](/docs/testing) - Running and writing tests
 - [**Language Server**](/docs/cli-reference#lsp) - LSP integration for editors
 
 ### 🛠️ Developer Tools
@@ -48,10 +48,10 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 
 ### 📋 Reference
 
-- [**Examples Index**](examples/index) - Code examples and practical
+- [**Examples Index**](/docs/examples/index) - Code examples and practical
   demonstrations
-- [**FAQ**](faq) - Frequently asked questions
-- [**Troubleshooting**](troubleshooting) - Common issues and solutions
+- [**FAQ**](/docs/faq) - Frequently asked questions
+- [**Troubleshooting**](/docs/troubleshooting) - Common issues and solutions
 
 ## 🎯 Standards Compliance
 
@@ -92,5 +92,4 @@ established web standards including:
 
 ## 📄 License
 
-This documentation is licensed under the
-[Mozilla Public License Version 2.0](../LICENSE).
+This documentation is licensed under the Mozilla Public License Version 2.0.
