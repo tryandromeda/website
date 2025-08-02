@@ -1,5 +1,4 @@
-// Service Worker for Andromeda PWA
-const CACHE_VERSION = "v3"; // Increment this when you have new features
+const CACHE_VERSION = "v4"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
