@@ -5,7 +5,6 @@ import Footer from "../components/Footer.tsx";
 import InstallToggle from "../islands/InstallToggle.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
 import RecentActivity from "../islands/RecentActivity.tsx";
-import SearchTrigger from "../islands/SearchTrigger.tsx";
 import ScrollAnimations from "../islands/ScrollAnimations.tsx";
 
 export default function Home() {
@@ -545,12 +544,6 @@ console.log("Secure hash:", hash);`}
           <p class="text-xl text-subtext1 mb-12 animate-on-scroll fade-in-up">
             Everything you need to know to get productive with Andromeda
           </p>
-
-          {/* Search Section */}
-          <div class="max-w-2xl mx-auto mb-12 animate-on-scroll scale-in">
-            <SearchTrigger variant="inline" />
-          </div>
-
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto stagger-children animate-on-scroll">
             <a
               href="/docs/index"
