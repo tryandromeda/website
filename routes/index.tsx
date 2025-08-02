@@ -6,10 +6,12 @@ import InstallToggle from "../islands/InstallToggle.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
 import RecentActivity from "../islands/RecentActivity.tsx";
 import SearchTrigger from "../islands/SearchTrigger.tsx";
+import ScrollAnimations from "../islands/ScrollAnimations.tsx";
 
 export default function Home() {
   return (
     <>
+      <ScrollAnimations />
       <NavBar />
       {/* Hero Section */}
       <section class="pt-32 pb-20 px-4 bg-base">
@@ -17,68 +19,70 @@ export default function Home() {
           <img
             src="/logo.svg"
             alt="Andromeda"
-            class="mx-auto w-24 h-24 mb-8 animate-spin [animation-duration:10000ms]"
+            class="hero-logo mx-auto w-24 h-24 mb-8 animate-spin [animation-duration:10000ms]"
           />
-          <h1 class="text-6xl font-bold mb-6 text-text">
-            Andromeda
-          </h1>
-          <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8">
-            A modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by{" "}
-            <a
-              href="https://trynova.dev/"
-              class="text-text hover:text-subtext0 underline font-semibold transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              The Nova Engine
-            </a>
-            . Zero-config TypeScript support, hardware-accelerated graphics, comprehensive Web APIs, and developer-first tooling for the next generation of JavaScript applications.
-          </p>
-          
-          {/* Key Benefits */}
-          <div class="flex flex-wrap justify-center gap-6 mb-8 text-sm text-subtext0">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-green rounded-full"></span>
-              <span>Memory Safe</span>
+          <div class="hero-content">
+            <h1 class="text-6xl font-bold mb-6 text-text animate-on-scroll fade-in-up">
+              Andromeda
+            </h1>
+            <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
+              A modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by{" "}
+              <a
+                href="https://trynova.dev/"
+                class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                The Nova Engine
+              </a>
+              . Zero-config TypeScript support, hardware-accelerated graphics, comprehensive Web APIs, and developer-first tooling for the next generation of JavaScript applications.
+            </p>
+            
+            {/* Key Benefits */}
+            <div class="flex flex-wrap justify-center gap-6 mb-8 text-sm text-subtext0 animate-on-scroll fade-in-up">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green rounded-full"></span>
+                <span>Memory Safe</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue rounded-full"></span>
+                <span>GPU Accelerated</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-yellow rounded-full"></span>
+                <span>Zero Config TypeScript</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-red rounded-full"></span>
+                <span>WinterTC Compliant</span>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-blue rounded-full"></span>
-              <span>GPU Accelerated</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-yellow rounded-full"></span>
-              <span>Zero Config TypeScript</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-red rounded-full"></span>
-              <span>WinterTC Compliant</span>
-            </div>
-          </div>
 
-          {/* Install Command */}
-          <div class="max-w-4xl mx-auto mb-8">
-            <InstallToggle />
-          </div>
-          
-          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#features"
-              class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Learn More
-            </a>
-            <a
-              href="/docs/index"
-              class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Documentation
-            </a>
-            <a
-              href="/blog"
-              class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Blog
-            </a>
+            {/* Install Command */}
+            <div class="max-w-4xl mx-auto mb-8 animate-on-scroll scale-in">
+              <InstallToggle />
+            </div>
+            
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll fade-in-up">
+              <a
+                href="#features"
+                class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Learn More
+              </a>
+              <a
+                href="/docs/index"
+                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Documentation
+              </a>
+              <a
+                href="/blog"
+                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Blog
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -86,11 +90,11 @@ export default function Home() {
       {/* Features Section */}
       <section id="features" class="py-20 px-4 bg-mantle">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text animate-on-scroll fade-in-up">
             Why Andromeda?
           </h2>
-          <div class="grid md:grid-cols-3 gap-8">
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+          <div class="grid md:grid-cols-3 gap-8 stagger-children animate-on-scroll">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🦀</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Built with Rust
@@ -100,7 +104,7 @@ export default function Home() {
                 lightning-fast runtime experience.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="flex justify-center mb-4">
                 <Zap size={48} class="text-subtext0" />
               </div>
@@ -121,7 +125,7 @@ export default function Home() {
                 experience with promising performance potential.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="flex justify-center mb-4">
                 <Target size={48} class="text-subtext0" />
               </div>
@@ -134,7 +138,7 @@ export default function Home() {
               </p>
             </div>
             
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🧑‍💻</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Language Server
@@ -144,7 +148,7 @@ export default function Home() {
               </p>
             </div>
             
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🎨</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 GPU Canvas
@@ -154,7 +158,7 @@ export default function Home() {
               </p>
             </div>
             
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">📦</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Complete Toolchain
@@ -170,11 +174,11 @@ export default function Home() {
       {/* Technical Specifications */}
       <section class="py-20 px-4 bg-base">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text animate-on-scroll fade-in-up">
             Technical Specifications
           </h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto stagger-children animate-on-scroll">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🏗️</span> Architecture
               </h3>
@@ -187,7 +191,7 @@ export default function Home() {
               </ul>
             </div>
             
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🌐</span> Web Standards
               </h3>
@@ -200,7 +204,7 @@ export default function Home() {
               </ul>
             </div>
             
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🚀</span> Performance
               </h3>
@@ -213,7 +217,7 @@ export default function Home() {
               </ul>
             </div>
             
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🛠️</span> Developer Tools
               </h3>
@@ -226,7 +230,7 @@ export default function Home() {
               </ul>
             </div>
             
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🔐</span> Security
               </h3>
@@ -239,7 +243,7 @@ export default function Home() {
               </ul>
             </div>
             
-            <div class="p-6 bg-mantle rounded-lg border border-surface0">
+            <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">📦</span> Platform Support
               </h3>
@@ -258,12 +262,12 @@ export default function Home() {
       {/* Use Cases */}
       <section class="py-20 px-4 bg-mantle">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text animate-on-scroll fade-in-up">
             Built for Modern Applications
           </h2>
           <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            <div class="space-y-8">
-              <div class="p-6 bg-base rounded-lg border border-surface0">
+            <div class="space-y-8 animate-on-scroll fade-in-left">
+              <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">🎨</span>
                   Graphics & Visualization
@@ -279,7 +283,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div class="p-6 bg-base rounded-lg border border-surface0">
+              <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">⚡</span>
                   High-Performance Scripts
@@ -296,8 +300,8 @@ export default function Home() {
               </div>
             </div>
             
-            <div class="space-y-8">
-              <div class="p-6 bg-base rounded-lg border border-surface0">
+            <div class="space-y-8 animate-on-scroll fade-in-right">
+              <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">🌐</span>
                   Web Services & APIs
@@ -313,7 +317,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div class="p-6 bg-base rounded-lg border border-surface0">
+              <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">🔬</span>
                   Scientific Computing
@@ -336,10 +340,10 @@ export default function Home() {
       {/* Comparison */}
       <section class="py-20 px-4 bg-base">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-16 text-text">
+          <h2 class="text-4xl font-bold text-center mb-16 text-text animate-on-scroll fade-in-up">
             How Andromeda Compares
           </h2>
-          <div class="max-w-6xl mx-auto">
+          <div class="max-w-6xl mx-auto animate-on-scroll scale-in">
             <div class="overflow-x-auto rounded-lg border border-surface0">
               <table class="w-full min-w-[600px] border-collapse bg-mantle">
                 <thead>
@@ -411,16 +415,16 @@ export default function Home() {
       {/* Quick Start Section */}
       <section id="install" class="py-20 px-4 bg-base">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold mb-8 text-text text-center">
+          <h2 class="text-4xl font-bold mb-8 text-text text-center animate-on-scroll fade-in-up">
             Get Started in Minutes
           </h2>
-          <p class="text-xl text-subtext1 mb-12 text-center max-w-3xl mx-auto">
+          <p class="text-xl text-subtext1 mb-12 text-center max-w-3xl mx-auto animate-on-scroll fade-in-up">
             Experience the power of Rust-based JavaScript runtime with zero configuration
           </p>
 
           <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-12">
             {/* Installation */}
-            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden">
+            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden animate-on-scroll fade-in-left hover:border-surface2 transition-all">
               <div class="p-4 bg-surface0 border-b border-surface1">
                 <h4 class="font-semibold flex items-center gap-2 text-text">
                   <span>📦</span> Installation
@@ -442,7 +446,7 @@ andromeda --version`}</code>
             </div>
 
             {/* First Program */}
-            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden">
+            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden animate-on-scroll fade-in-right hover:border-surface2 transition-all">
               <div class="p-4 bg-surface0 border-b border-surface1">
                 <h4 class="font-semibold flex items-center gap-2 text-text">
                   <span>🚀</span> Your First Program
@@ -467,8 +471,8 @@ canvas.saveAsPng("hello.png");
           </div>
 
           {/* Feature Examples */}
-          <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+          <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto stagger-children animate-on-scroll">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🎨</span> Graphics
               </h4>
@@ -489,7 +493,7 @@ canvas.saveAsPng("gradient.png");`}
               </pre>
             </div>
 
-            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🗄️</span> Database
               </h4>
@@ -509,7 +513,7 @@ stmt.run("Alice", "alice@example.com");`}
               </pre>
             </div>
 
-            <div class="bg-mantle rounded-lg border border-surface1 p-6">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🔐</span> Crypto
               </h4>
@@ -537,20 +541,20 @@ console.log("Secure hash:", hash);`}
       {/* Documentation Section */}
       <section id="docs" class="py-20 px-4 bg-mantle">
         <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold mb-8 text-text">Documentation</h2>
-          <p class="text-xl text-subtext1 mb-12">
+          <h2 class="text-4xl font-bold mb-8 text-text animate-on-scroll fade-in-up">Documentation</h2>
+          <p class="text-xl text-subtext1 mb-12 animate-on-scroll fade-in-up">
             Everything you need to know to get productive with Andromeda
           </p>
 
           {/* Search Section */}
-          <div class="max-w-2xl mx-auto mb-12">
+          <div class="max-w-2xl mx-auto mb-12 animate-on-scroll scale-in">
             <SearchTrigger variant="inline" />
           </div>
 
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto stagger-children animate-on-scroll">
             <a
               href="/docs/index"
-              class="block p-6 bg-base rounded-lg hover:shadow-md transition-shadow border border-surface0"
+              class="block p-6 bg-base rounded-lg hover:shadow-md transition-all border border-surface0 hover:border-surface1"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">
                 Getting Started
@@ -561,7 +565,7 @@ console.log("Secure hash:", hash);`}
             </a>
             <a
               href="/docs/api/console"
-              class="block p-6 bg-base rounded-lg hover:shadow-md transition-shadow border border-surface0"
+              class="block p-6 bg-base rounded-lg hover:shadow-md transition-all border border-surface0 hover:border-surface1"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">
                 API Reference
@@ -572,13 +576,13 @@ console.log("Secure hash:", hash);`}
             </a>
             <a
               href="/docs/examples/fizzbuzz"
-              class="block p-6 bg-base rounded-lg hover:shadow-md transition-shadow border border-surface0"
+              class="block p-6 bg-base rounded-lg hover:shadow-md transition-all border border-surface0 hover:border-surface1"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">Examples</h3>
               <p class="text-subtext1">Code samples and real-world use cases</p>
             </a>
           </div>
-          <div class="mt-12">
+          <div class="mt-12 animate-on-scroll fade-in-up">
             <a
               href="/docs/index"
               class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
@@ -592,20 +596,24 @@ console.log("Secure hash:", hash);`}
       {/* Community Section */}
       <section id="community" class="py-20 px-4 bg-base">
         <div class="container mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-8 text-text">
+          <h2 class="text-4xl font-bold text-center mb-8 text-text animate-on-scroll fade-in-up">
             Join Our Community
           </h2>
-          <p class="text-xl text-subtext1 text-center mb-12 max-w-3xl mx-auto">
+          <p class="text-xl text-subtext1 text-center mb-12 max-w-3xl mx-auto animate-on-scroll fade-in-up">
             Andromeda is built by developers, for developers. Join our growing
             community and help shape the future of JavaScript runtimes.
           </p>
 
           <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <GitHubStats />
-            <RecentActivity />
+            <div class="animate-on-scroll fade-in-left">
+              <GitHubStats />
+            </div>
+            <div class="animate-on-scroll fade-in-right">
+              <RecentActivity />
+            </div>
           </div>
 
-          <div class="mt-12 text-center">
+          <div class="mt-12 text-center animate-on-scroll fade-in-up">
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="https://github.com/tryandromeda/andromeda"

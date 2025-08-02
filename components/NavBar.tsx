@@ -6,7 +6,7 @@ export default function NavBar() {
   return (
     <>
       <nav class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-4">
-        <div class="bg-base/60 backdrop-blur-xl border border-surface1 rounded-2xl shadow-lg px-4 sm:px-6 lg:px-8 py-3">
+        <div class="bg-base/60 backdrop-blur-xl border border-surface1 rounded-2xl shadow-lg px-4 sm:px-6 lg:px-8 py-3 transition-all duration-300">
           <div class="flex items-center justify-between">
             <a href="/" class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               <img src="/logo.svg" alt="Andromeda" class="w-6 h-6 sm:w-8 sm:h-8" />
