@@ -168,7 +168,7 @@ export default async function BlogPost(props: PageProps) {
                     Back to Blog
                   </a>
                   <a
-                    href="/docs"
+                    href="/docs/index"
                     class="group inline-flex items-center gap-3 bg-surface0/50 hover:bg-surface1 text-text px-6 py-3 rounded-xl font-semibold transition-all duration-300 border border-surface1/30 hover:border-surface2/50 backdrop-blur-sm"
                   >
                     📖 Read Documentation

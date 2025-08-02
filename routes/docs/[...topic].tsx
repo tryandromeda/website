@@ -41,7 +41,7 @@ export default async function DocTopic(props: PageProps) {
 
 The page you're looking for doesn't exist.
 
-[← Back to Documentation](/docs)`;
+[← Back to Documentation](/docs/index)`;
     });
 
   const headings = extractHeadings(content);
