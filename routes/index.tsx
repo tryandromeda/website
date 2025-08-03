@@ -96,7 +96,7 @@ export default function Home() {
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🦀</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
-                Built with Rust
+                Built in Rust
               </h3>
               <p class="text-subtext1">
                 Leveraging Rust's performance and safety guarantees for a

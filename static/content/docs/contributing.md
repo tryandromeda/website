@@ -16,7 +16,7 @@ you get started with contributing to the project.
 
 ## Getting Started
 
-Andromeda is a TypeScript runtime built with Rust, providing a modern
+Andromeda is a TypeScript runtime built in Rust, providing a modern
 JavaScript/TypeScript execution environment with web-standard APIs.
 
 ### Prerequisites

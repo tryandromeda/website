@@ -13,8 +13,8 @@ export default function Footer() {
               <span class="font-semibold text-text text-lg">Andromeda</span>
             </div>
             <p class="text-subtext1 text-sm leading-relaxed mb-4">
-              A modern, fast, and secure JavaScript & TypeScript runtime built from
-              the ground up in Rust and powered by the Nova Engine.
+              A modern, fast, and secure JavaScript & TypeScript runtime built
+              from the ground up in Rust and powered by the Nova Engine.
             </p>
             <CompactGitHubStats showForks className="mb-4" />
           </div>
@@ -24,27 +24,42 @@ export default function Footer() {
             <h3 class="font-semibold text-text mb-3">Documentation</h3>
             <ul class="space-y-2 text-sm">
               <li>
-                <a href="/docs/quick-start" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/quick-start"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Quick Start
                 </a>
               </li>
               <li>
-                <a href="/docs/installation" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/installation"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Installation
                 </a>
               </li>
               <li>
-                <a href="/docs/api/index" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/api/index"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   API Reference
                 </a>
               </li>
               <li>
-                <a href="/docs/examples/index" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/examples/index"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Examples
                 </a>
               </li>
               <li>
-                <a href="/docs/cli-reference" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/cli-reference"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   CLI Reference
                 </a>
               </li>
@@ -56,8 +71,8 @@ export default function Footer() {
             <h3 class="font-semibold text-text mb-3">Community</h3>
             <ul class="space-y-2 text-sm">
               <li>
-                <a 
-                  href="https://github.com/tryandromeda/andromeda" 
+                <a
+                  href="https://github.com/tryandromeda/andromeda"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -66,8 +81,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://discord.gg/tgjAnX2Ny3" 
+                <a
+                  href="https://discord.gg/tgjAnX2Ny3"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -76,8 +91,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://github.com/tryandromeda/andromeda/discussions" 
+                <a
+                  href="https://github.com/tryandromeda/andromeda/discussions"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -86,12 +101,18 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/docs/contributing" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/contributing"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Contributing
                 </a>
               </li>
               <li>
-                <a href="/blog" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/blog"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Blog & Updates
                 </a>
               </li>
@@ -103,8 +124,8 @@ export default function Footer() {
             <h3 class="font-semibold text-text mb-3">Resources</h3>
             <ul class="space-y-2 text-sm">
               <li>
-                <a 
-                  href="https://trynova.dev/" 
+                <a
+                  href="https://trynova.dev/"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -113,8 +134,8 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://wintertc.org/" 
+                <a
+                  href="https://wintertc.org/"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -123,18 +144,24 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/docs/troubleshooting" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/troubleshooting"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   Troubleshooting
                 </a>
               </li>
               <li>
-                <a href="/docs/faq" class="text-subtext1 hover:text-text transition-colors">
+                <a
+                  href="/docs/faq"
+                  class="text-subtext1 hover:text-text transition-colors"
+                >
                   FAQ
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://github.com/tryandromeda/andromeda/releases" 
+                <a
+                  href="https://github.com/tryandromeda/andromeda/releases"
                   class="text-subtext1 hover:text-text transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -151,8 +178,8 @@ export default function Footer() {
           <div class="flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-subtext1 text-sm">
               © 2025 Andromeda Runtime. Licensed under the{" "}
-              <a 
-                href="https://github.com/tryandromeda/andromeda/blob/main/LICENSE" 
+              <a
+                href="https://github.com/tryandromeda/andromeda/blob/main/LICENSE"
                 class="text-text hover:text-subtext0 underline"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -161,9 +188,13 @@ export default function Footer() {
               </a>
             </div>
             <div class="flex items-center gap-4 text-sm text-subtext1">
-              <span>Built with Rust 🦀</span>
+              <span>
+                Built in <a href="https://www.rust-lang.org/">Rust 🦀</a>
+              </span>
               <span>•</span>
-              <span>Powered by Nova</span>
+              <span>
+                Powered by <a href="https://trynova.dev/">Nova</a>
+              </span>
             </div>
           </div>
         </div>
