@@ -116,7 +116,7 @@ async function scanDocsDirectory(
           // Generate path - for index files, use the directory path
           let docPath;
           if (isIndex) {
-            docPath = basePath ? `/docs/${basePath}` : "/docs";
+            docPath = basePath ? `/docs/${basePath}` : "/docs/index";
           } else {
             docPath = basePath
               ? `/docs/${basePath}/${filename}`
