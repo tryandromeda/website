@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 export function ScrollProgress() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -6,7 +6,8 @@ export function ScrollProgress() {
   useEffect(() => {
     const updateScrollProgress = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight -
+        window.innerHeight;
       const progress = (scrollTop / docHeight) * 100;
       setScrollProgress(progress);
     };
@@ -19,7 +20,7 @@ export function ScrollProgress() {
 
   return (
     <div class="fixed top-0 left-0 right-0 h-1 bg-surface0 z-50">
-      <div 
+      <div
         class="h-full bg-gradient-to-r from-text to-subtext0 transition-all duration-150 ease-out"
         style={{ width: `${scrollProgress}%` }}
       />

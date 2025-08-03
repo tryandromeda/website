@@ -1,6 +1,15 @@
-# Process API
+---
+title: "Process API"
+description: "System interaction and environment access"
+section: "API Reference"
+order: 16
+id: "process-api"
+---
 
-Andromeda provides a comprehensive Process API for managing the current process, accessing environment variables, handling command-line arguments, and controlling process execution. The API is available through both Deno-compatible interfaces and the native Andromeda.process object.
+Andromeda provides a comprehensive Process API for managing the current process,
+accessing environment variables, handling command-line arguments, and
+controlling process execution. The API is available through both Deno-compatible
+interfaces and the native Andromeda.process object.
 
 ## Overview
 
@@ -67,7 +76,8 @@ if (Andromeda.process.arch === "arm64") {
 
 ## Environment Variables
 
-Andromeda supports both Andromeda-style and Node-style environment variable access.
+Andromeda supports both Andromeda-style and Node-style environment variable
+access.
 
 ### Andromeda Environment Variables
 
@@ -202,7 +212,8 @@ console.log("Verbose mode:", verbose);
 
 #### `Andromeda.process.argv: string[]`
 
-An array containing the command-line arguments passed to the Andromeda process (Node.js style).
+An array containing the command-line arguments passed to the Andromeda process
+(Node.js style).
 
 ```typescript
 // Display all command-line arguments
@@ -328,7 +339,8 @@ if (typeof Andromeda !== "undefined") {
 }
 
 // Environment-based platform detection
-const platform = Andromeda.env.get("OS") || Andromeda.env.get("OSTYPE") || "unknown";
+const platform = Andromeda.env.get("OS") || Andromeda.env.get("OSTYPE") ||
+  "unknown";
 console.log("Platform:", platform);
 ```
 

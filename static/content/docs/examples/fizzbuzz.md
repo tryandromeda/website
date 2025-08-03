@@ -1,4 +1,10 @@
-# FizzBuzz example
+---
+title: "FizzBuzz Example"
+description: "Classic FizzBuzz implementation in Andromeda"
+section: "Examples"
+order: 13
+id: "fizzbuzz-example"
+---
 
 ```ts
 for (let i = 1; i <= 100; i++) {

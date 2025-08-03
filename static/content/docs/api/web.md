@@ -1,4 +1,10 @@
-# Web APIs
+---
+title: "Web APIs"
+description: "Standard web APIs (Events, TextEncoder/Decoder, etc.)"
+section: "API Reference"
+order: 19
+id: "web-apis"
+---
 
 Andromeda provides implementations of standard web APIs to ensure compatibility
 with existing web code and standards. This includes event handling, text
@@ -11,11 +17,13 @@ programming model for developers coming from browser environments.
 
 ## DOMException API
 
-The DOMException API provides a standardized way to represent errors that occur in web APIs, following the WHATWG DOM specification.
+The DOMException API provides a standardized way to represent errors that occur
+in web APIs, following the WHATWG DOM specification.
 
 ### DOMException Class
 
-DOMException represents an exception that occurs as a result of calling a method or accessing a property of a web API.
+DOMException represents an exception that occurs as a result of calling a method
+or accessing a property of a web API.
 
 #### Constructor
 
@@ -38,7 +46,8 @@ Creates a new DOMException object.
 
 #### Standard Exception Names
 
-DOMException supports all standard exception names as defined in the WHATWG DOM specification:
+DOMException supports all standard exception names as defined in the WHATWG DOM
+specification:
 
 ```typescript
 // Network-related errors
@@ -49,16 +58,25 @@ const timeoutError = new DOMException("Request timed out", "TimeoutError");
 const securityError = new DOMException("Access denied", "SecurityError");
 
 // Invalid state or argument errors
-const invalidStateError = new DOMException("Invalid state", "InvalidStateError");
+const invalidStateError = new DOMException(
+  "Invalid state",
+  "InvalidStateError",
+);
 const syntaxError = new DOMException("Invalid syntax", "SyntaxError");
 
 // Data errors
 const dataError = new DOMException("Invalid data", "DataError");
-const quotaExceededError = new DOMException("Quota exceeded", "QuotaExceededError");
+const quotaExceededError = new DOMException(
+  "Quota exceeded",
+  "QuotaExceededError",
+);
 
 // Operation errors
 const abortError = new DOMException("Operation aborted", "AbortError");
-const notSupportedError = new DOMException("Operation not supported", "NotSupportedError");
+const notSupportedError = new DOMException(
+  "Operation not supported",
+  "NotSupportedError",
+);
 ```
 
 ### Usage Examples
@@ -96,7 +114,7 @@ class WebAPIExample {
     if (!this.isInitialized) {
       throw new DOMException(
         "Cannot perform operation before initialization",
-        "InvalidStateError"
+        "InvalidStateError",
       );
     }
 
@@ -104,7 +122,7 @@ class WebAPIExample {
     if (Math.random() < 0.1) {
       throw new DOMException(
         "Network connection failed",
-        "NetworkError"
+        "NetworkError",
       );
     }
 
@@ -115,7 +133,7 @@ class WebAPIExample {
     if (!data || data.trim().length === 0) {
       throw new DOMException(
         "Data cannot be empty",
-        "SyntaxError"
+        "SyntaxError",
       );
     }
 
@@ -124,7 +142,7 @@ class WebAPIExample {
     } catch (error) {
       throw new DOMException(
         "Invalid JSON data format",
-        "SyntaxError"
+        "SyntaxError",
       );
     }
   }
@@ -138,7 +156,7 @@ try {
 } catch (error) {
   if (error instanceof DOMException) {
     console.error(`${error.name}: ${error.message}`);
-    
+
     // Handle specific error types
     switch (error.name) {
       case "InvalidStateError":
@@ -203,10 +221,13 @@ try {
 #### Integration with Fetch API
 
 ```typescript
-async function safeFetch(url: string, options?: RequestInit): Promise<Response> {
+async function safeFetch(
+  url: string,
+  options?: RequestInit,
+): Promise<Response> {
   try {
     const response = await fetch(url, options);
-    
+
     if (!response.ok) {
       // Convert HTTP errors to DOMExceptions
       switch (response.status) {
@@ -228,24 +249,23 @@ async function safeFetch(url: string, options?: RequestInit): Promise<Response> 
           throw new DOMException(`HTTP ${response.status}`, "NetworkError");
       }
     }
-    
+
     return response;
-    
   } catch (error) {
     // Convert network errors to DOMExceptions
     if (error instanceof TypeError) {
       throw new DOMException("Network connection failed", "NetworkError");
     }
-    
+
     if (error.name === "AbortError") {
       throw new DOMException("Request was aborted", "AbortError");
     }
-    
+
     // Re-throw DOMExceptions as-is
     if (error instanceof DOMException) {
       throw error;
     }
-    
+
     // Convert other errors
     throw new DOMException(error.message || "Unknown error", "UnknownError");
   }
@@ -259,7 +279,7 @@ try {
 } catch (error) {
   if (error instanceof DOMException) {
     console.error(`API Error - ${error.name}: ${error.message}`);
-    
+
     // Handle specific error types
     switch (error.name) {
       case "NetworkError":
@@ -769,6 +789,7 @@ implementations:
 ## Related APIs
 
 - [Console API](/docs/api/console) - For debugging and logging
-- [Performance API](/docs/api/performance) - For timing and performance measurement
+- [Performance API](/docs/api/performance) - For timing and performance
+  measurement
 - [Fetch API](/docs/api/fetch) - For network requests using standard web APIs
 - [URL API](/docs/api/url) - For URL parsing and manipulation

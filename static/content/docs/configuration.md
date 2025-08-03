@@ -1,6 +1,14 @@
-# Configuration
+---
+title: "Configuration"
+description: "Configure Andromeda for your development environment"
+section: "Getting Started"
+order: 4
+id: "configuration"
+---
 
-Andromeda supports comprehensive configuration through configuration files in JSON, TOML, or YAML format. This guide covers all available configuration options and how to use them.
+Andromeda supports comprehensive configuration through configuration files in
+JSON, TOML, or YAML format. This guide covers all available configuration
+options and how to use them.
 
 ## Configuration Files
 
@@ -11,7 +19,8 @@ Andromeda automatically searches for configuration files in the following order:
 3. `andromeda.yaml`
 4. `andromeda.yml`
 
-The search starts in the current directory and moves up through parent directories until a configuration file is found.
+The search starts in the current directory and moves up through parent
+directories until a configuration file is found.
 
 ## Configuration Management Commands
 
@@ -20,7 +29,6 @@ The search starts in the current directory and moves up through parent directori
 Create a new configuration file with default values:
 
 ```bash
-# Create JSON config (default)
 andromeda config init
 
 # Create TOML config
@@ -93,7 +101,12 @@ andromeda config validate --file ./andromeda.json
   },
   "lint": {
     "enabled": true,
-    "rules": ["empty_function", "empty_statement", "var_usage", "unused_variable"],
+    "rules": [
+      "empty_function",
+      "empty_statement",
+      "var_usage",
+      "unused_variable"
+    ],
     "disabled_rules": [],
     "max_warnings": 50
   }
@@ -182,28 +195,28 @@ lint:
 
 Basic project information that can be used by tools and documentation:
 
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| `name` | string | Project name | `null` |
-| `version` | string | Project version | `null` |
-| `description` | string | Project description | `null` |
-| `author` | string | Project author(s) | `null` |
-| `license` | string | Project license | `null` |
+| Field         | Type   | Description         | Default |
+| ------------- | ------ | ------------------- | ------- |
+| `name`        | string | Project name        | `null`  |
+| `version`     | string | Project version     | `null`  |
+| `description` | string | Project description | `null`  |
+| `author`      | string | Project author(s)   | `null`  |
+| `license`     | string | Project license     | `null`  |
 
 ### Runtime Configuration
 
 Controls how Andromeda executes your code:
 
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| `no_strict` | boolean | Disable strict mode for more lenient parsing | `false` |
-| `verbose` | boolean | Enable verbose output with execution details | `false` |
-| `disable_gc` | boolean | Disable garbage collection (debugging only) | `false` |
-| `print_internals` | boolean | Print internal debugging information | `false` |
-| `expose_internals` | boolean | Expose Nova internal APIs | `false` |
-| `include` | string[] | File patterns to include in execution | `[]` |
-| `exclude` | string[] | File patterns to exclude from execution | `[]` |
-| `timeout` | number | Runtime timeout in milliseconds | `null` |
+| Field              | Type     | Description                                  | Default |
+| ------------------ | -------- | -------------------------------------------- | ------- |
+| `no_strict`        | boolean  | Disable strict mode for more lenient parsing | `false` |
+| `verbose`          | boolean  | Enable verbose output with execution details | `false` |
+| `disable_gc`       | boolean  | Disable garbage collection (debugging only)  | `false` |
+| `print_internals`  | boolean  | Print internal debugging information         | `false` |
+| `expose_internals` | boolean  | Expose Nova internal APIs                    | `false` |
+| `include`          | string[] | File patterns to include in execution        | `[]`    |
+| `exclude`          | string[] | File patterns to exclude from execution      | `[]`    |
+| `timeout`          | number   | Runtime timeout in milliseconds              | `null`  |
 
 **Include/Exclude Patterns:**
 
@@ -230,14 +243,14 @@ Use glob patterns to specify which files to include or exclude:
 
 Controls code formatting behavior:
 
-| Field | Type | Description | Default | Range |
-|-------|------|-------------|---------|-------|
-| `line_width` | number | Maximum line width for formatting | `80` | `20-500` |
-| `use_tabs` | boolean | Use tabs instead of spaces for indentation | `false` | - |
-| `tab_width` | number | Width of tab character in spaces | `2` | `1-16` |
-| `trailing_comma` | boolean | Add trailing commas in multiline objects/arrays | `true` | - |
-| `semicolons` | boolean | Require semicolons at end of statements | `true` | - |
-| `single_quotes` | boolean | Prefer single quotes over double quotes | `false` | - |
+| Field            | Type    | Description                                     | Default | Range    |
+| ---------------- | ------- | ----------------------------------------------- | ------- | -------- |
+| `line_width`     | number  | Maximum line width for formatting               | `80`    | `20-500` |
+| `use_tabs`       | boolean | Use tabs instead of spaces for indentation      | `false` | -        |
+| `tab_width`      | number  | Width of tab character in spaces                | `2`     | `1-16`   |
+| `trailing_comma` | boolean | Add trailing commas in multiline objects/arrays | `true`  | -        |
+| `semicolons`     | boolean | Require semicolons at end of statements         | `true`  | -        |
+| `single_quotes`  | boolean | Prefer single quotes over double quotes         | `false` | -        |
 
 **Formatting Examples:**
 
@@ -245,36 +258,36 @@ Controls code formatting behavior:
 // With trailing_comma: true
 const obj = {
   a: 1,
-  b: 2,  // <- trailing comma
+  b: 2, // <- trailing comma
 };
 
 // With single_quotes: true
-const message = 'Hello, World!';
+const message = "Hello, World!";
 
 // With semicolons: false
-const value = 42  // no semicolon
+const value = 42; // no semicolon
 ```
 
 ### Lint Configuration
 
 Controls code analysis and linting:
 
-| Field | Type | Description | Default |
-|-------|------|-------------|---------|
-| `enabled` | boolean | Enable linting | `true` |
-| `rules` | string[] | List of lint rules to enable | `[]` |
-| `disabled_rules` | string[] | List of lint rules to disable | `[]` |
-| `max_warnings` | number | Maximum warnings before error | `null` |
+| Field            | Type     | Description                   | Default |
+| ---------------- | -------- | ----------------------------- | ------- |
+| `enabled`        | boolean  | Enable linting                | `true`  |
+| `rules`          | string[] | List of lint rules to enable  | `[]`    |
+| `disabled_rules` | string[] | List of lint rules to disable | `[]`    |
+| `max_warnings`   | number   | Maximum warnings before error | `null`  |
 
 **Available Lint Rules:**
 
-| Rule | Description | Example |
-|------|-------------|---------|
-| `empty_function` | Detect empty function declarations | `function test() {}` |
-| `empty_statement` | Detect empty statements | `;;` or single `;` |
-| `var_usage` | Discourage use of `var` keyword | `var x = 1;` |
-| `unused_variable` | Detect unused variable declarations | `let unused = 42;` |
-| `prefer_const` | Prefer `const` over `let` when possible | `let readonly = 'value';` |
+| Rule              | Description                             | Example                   |
+| ----------------- | --------------------------------------- | ------------------------- |
+| `empty_function`  | Detect empty function declarations      | `function test() {}`      |
+| `empty_statement` | Detect empty statements                 | `;;` or single `;`        |
+| `var_usage`       | Discourage use of `var` keyword         | `var x = 1;`              |
+| `unused_variable` | Detect unused variable declarations     | `let unused = 42;`        |
+| `prefer_const`    | Prefer `const` over `let` when possible | `let readonly = 'value';` |
 
 **Lint Configuration Examples:**
 
@@ -302,7 +315,12 @@ Controls code analysis and linting:
   },
   "lint": {
     "enabled": true,
-    "rules": ["empty_function", "empty_statement", "var_usage", "unused_variable"],
+    "rules": [
+      "empty_function",
+      "empty_statement",
+      "var_usage",
+      "unused_variable"
+    ],
     "max_warnings": 100
   }
 }
@@ -342,7 +360,9 @@ Controls code analysis and linting:
 
 ## Configuration Inheritance
 
-When multiple configuration files exist in the directory hierarchy, Andromeda uses the closest one to your current working directory. CLI arguments override configuration file settings.
+When multiple configuration files exist in the directory hierarchy, Andromeda
+uses the closest one to your current working directory. CLI arguments override
+configuration file settings.
 
 **Priority Order (highest to lowest):**
 
@@ -413,7 +433,7 @@ my-project/
 ### Configuration Tips
 
 1. **Use environment-specific configs** for different development stages
-2. **Keep configs minimal** - only specify non-default values  
+2. **Keep configs minimal** - only specify non-default values
 3. **Use include/exclude patterns** to control file processing
 4. **Set reasonable timeouts** to prevent runaway scripts
 5. **Enable verbose mode** during development for better debugging
@@ -441,7 +461,7 @@ my-project/
 
 ```json
 {
-  "name": "js-library", 
+  "name": "js-library",
   "runtime": {
     "include": ["lib/**/*.js", "index.js"],
     "no_strict": true
@@ -472,10 +492,11 @@ my-project/
 
 ## Language Server Integration
 
-The configuration system integrates with Andromeda's Language Server Protocol (LSP) implementation:
+The configuration system integrates with Andromeda's Language Server Protocol
+(LSP) implementation:
 
 - **Real-time validation** - Config changes are validated immediately
-- **Dynamic rule updates** - Lint rules are applied as configuration changes  
+- **Dynamic rule updates** - Lint rules are applied as configuration changes
 - **Workspace awareness** - Different folders can have different configurations
 - **Editor integration** - VS Code and other editors respect Andromeda config
 
@@ -514,7 +535,8 @@ andromeda run --verbose script.ts  # overrides config verbose setting
 
 ### Configuration Migration
 
-When upgrading Andromeda versions, use the validation command to ensure your configuration is still valid:
+When upgrading Andromeda versions, use the validation command to ensure your
+configuration is still valid:
 
 ```bash
 # After upgrade, validate existing config
@@ -524,6 +546,8 @@ andromeda config validate
 andromeda config init --force
 ```
 
-For more configuration examples and use cases, see the [Examples](/docs/examples) section.
+For more configuration examples and use cases, see the
+[Examples](/docs/examples) section.
 
-For more configuration examples and use cases, see the [Examples](/docs/examples) section.
+For more configuration examples and use cases, see the
+[Examples](/docs/examples) section.

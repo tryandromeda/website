@@ -1,8 +1,15 @@
-# CLI Reference
+---
+title: "CLI Reference"
+description: "Complete command-line interface documentation"
+section: "Getting Started"
+order: 5
+id: "cli-reference"
+---
 
 Complete reference for Andromeda's command-line interface.
 
-> **Latest Version**: v0.1.0-draft7 includes the new Language Server Protocol (LSP) support! See the [upgrade command](#upgrade) to get the latest features.
+> **Latest Version**: v0.1.0-draft7 includes the new Language Server Protocol
+> (LSP) support! See the [upgrade command](#upgrade) to get the latest features.
 
 ## Synopsis
 
@@ -34,7 +41,6 @@ andromeda run [OPTIONS] <FILES...>
 **Examples:**
 
 ```bash
-# Run a single file
 andromeda run script.ts
 
 # Run multiple files
@@ -277,7 +283,6 @@ andromeda compile src/main.ts dist/my-app
 
 ### CI/CD Integration
 
-
 ### `config`
 
 Manage Andromeda configuration files.
@@ -302,7 +307,8 @@ andromeda config init [OPTIONS]
 
 **Options:**
 
-- `--format <FORMAT>` - Configuration file format (json, toml, yaml) [default: json]
+- `--format <FORMAT>` - Configuration file format (json, toml, yaml) [default:
+  json]
 - `-o, --output <PATH>` - Output path for configuration file
 - `-f, --force` - Force overwrite existing configuration file
 
@@ -375,10 +381,11 @@ andromeda config validate --file ./andromeda.json
 Andromeda supports configuration in JSON, TOML, and YAML formats:
 
 - `andromeda.json` - JSON configuration
-- `andromeda.toml` - TOML configuration  
+- `andromeda.toml` - TOML configuration
 - `andromeda.yaml` / `andromeda.yml` - YAML configuration
 
-For detailed configuration options, see the [Configuration Guide](/docs/configuration).
+For detailed configuration options, see the
+[Configuration Guide](/docs/configuration).
 
 ### `completions`
 
@@ -461,20 +468,23 @@ andromeda lsp
 
 **Description:**
 
-The LSP server provides real-time diagnostics and code analysis for JavaScript and TypeScript files in your editor. It offers comprehensive linting with built-in rules for code quality.
+The LSP server provides real-time diagnostics and code analysis for JavaScript
+and TypeScript files in your editor. It offers comprehensive linting with
+built-in rules for code quality.
 
 **Features:**
 
 - **Real-time Diagnostics** - Live error reporting as you type
 - **Comprehensive Linting** - 5 built-in rules for code quality:
   - Empty function detection
-  - Empty statement detection  
+  - Empty statement detection
   - Variable usage validation
   - Unreachable code detection
   - Invalid syntax highlighting
 - **Multi-file Support** - Workspace-wide analysis
 - **Rich Error Messages** - Detailed explanations with code context
-- **Editor Integration** - Works with VS Code, Neovim, and other LSP-compatible editors
+- **Editor Integration** - Works with VS Code, Neovim, and other LSP-compatible
+  editors
 
 **Examples:**
 
@@ -485,7 +495,8 @@ andromeda lsp
 
 **Editor Setup:**
 
-Configure your editor to use `andromeda lsp` as the language server for JavaScript and TypeScript files to get instant feedback on code quality.
+Configure your editor to use `andromeda lsp` as the language server for
+JavaScript and TypeScript files to get instant feedback on code quality.
 
 ### `lint`
 
@@ -499,7 +510,8 @@ andromeda lint [PATHS...]
 
 **Arguments:**
 
-- `[PATHS...]` - Files or directories to lint (optional, defaults to current directory)
+- `[PATHS...]` - Files or directories to lint (optional, defaults to current
+  directory)
 
 **Examples:**
 

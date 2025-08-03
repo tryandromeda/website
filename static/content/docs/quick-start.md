@@ -1,4 +1,10 @@
-# Quick Start Guide
+---
+title: "Quick Start Guide"
+description: "Get up and running with Andromeda in just a few minutes"
+section: "Getting Started"
+order: 3
+id: "quick-start"
+---
 
 Get up and running with Andromeda in just a few minutes! This guide will walk
 you through creating your first Andromeda programs.
@@ -239,8 +245,8 @@ const userProfile = {
   name: "Alice",
   settings: {
     notifications: true,
-    autoSave: true
-  }
+    autoSave: true,
+  },
 };
 localStorage.setItem("profile", JSON.stringify(userProfile));
 
@@ -257,7 +263,10 @@ sessionStorage.setItem("sessionId", crypto.randomUUID());
 sessionStorage.setItem("startTime", Date.now().toString());
 
 console.log("🎫 Session ID:", sessionStorage.getItem("sessionId"));
-console.log("⏰ Session started:", new Date(parseInt(sessionStorage.getItem("startTime") || "0")));
+console.log(
+  "⏰ Session started:",
+  new Date(parseInt(sessionStorage.getItem("startTime") || "0")),
+);
 
 // Check storage info
 console.log(`📊 localStorage items: ${localStorage.length}`);
@@ -359,7 +368,6 @@ andromeda run main.ts
 Format your TypeScript/JavaScript files:
 
 ```bash
-# Format specific files
 andromeda fmt hello.ts graphics.ts
 
 # Format entire directory
@@ -431,7 +439,8 @@ andromeda compile app.ts my-app.exe
 ./my-app.exe
 ```
 
-This creates a self-contained executable that doesn't require Andromeda to be installed on the target system.
+This creates a self-contained executable that doesn't require Andromeda to be
+installed on the target system.
 
 ## Upgrading Andromeda
 
@@ -449,8 +458,8 @@ andromeda upgrade --dry-run
 
 Now that you've got the basics down:
 
-1. **Explore the APIs**: Check out the [API Documentation](/docs/api/) for detailed
-   information about available functions
+1. **Explore the APIs**: Check out the [API Documentation](/docs/api/) for
+   detailed information about available functions
 2. **Join the Community**: Connect with other developers on
    [Discord](https://discord.gg/tgjAnX2Ny3)
 

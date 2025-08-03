@@ -1,4 +1,10 @@
-# Performance API Examples
+---
+title: "Performance API Examples"
+description: "Timing and performance measurement examples"
+section: "Examples"
+order: 11
+id: "performance-examples"
+---
 
 The Performance API provides timing and performance measurement capabilities for
 optimizing your Andromeda applications.

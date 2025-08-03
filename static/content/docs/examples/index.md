@@ -1,4 +1,10 @@
-# Examples
+---
+title: "Examples Overview"
+description: "Code examples and practical demonstrations"
+section: "Examples"
+order: 1
+id: "examples-overview"
+---
 
 This directory contains practical examples demonstrating how to use Andromeda's
 APIs and features. Each example is a complete, runnable TypeScript file that
@@ -34,7 +40,6 @@ Each example includes:
 All examples are designed to run directly with Andromeda:
 
 ```bash
-# Save any example code to a .ts file
 andromeda run example.ts
 
 # Or run with verbose output for debugging

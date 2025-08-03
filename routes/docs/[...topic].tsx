@@ -10,7 +10,7 @@ import "npm:prismjs@1.29.0/components/prism-powershell.js";
 import { DocNav } from "../../islands/DocNav.tsx";
 import { ScrollProgress } from "../../islands/ScrollProgress.tsx";
 import { QuickNav } from "../../islands/QuickNav.tsx";
-import toc from "../../utils/toc.ts";
+import { getTableOfContents, parseFrontmatter } from "../../utils/docs.ts";
 
 function extractHeadings(content: string) {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
@@ -52,12 +52,30 @@ The page you're looking for doesn't exist.
     }
   }
 
-  const headings = extractHeadings(content);
-  const renderedContent = render(content, { baseUrl: new URL(props.url).host });
+  // Parse frontmatter from content
+  const { content: markdownContent } = parseFrontmatter(content);
+
+  const headings = extractHeadings(markdownContent);
+  const renderedContent = render(markdownContent, {
+    baseUrl: new URL(props.url).host,
+  });
+
+  // Get table of contents
+  const tocSections = await getTableOfContents();
+
+  // Convert to format expected by DocNav
+  const toc = tocSections.map((section) => ({
+    name: section.name,
+    children: section.children.map((child) => ({
+      name: child.title,
+      id: child.id,
+      path: child.path,
+    })),
+  }));
 
   // Find the current page in TOC for breadcrumbs and navigation
   let currentPage = null;
-  let allPages: Array<{ name: string; path: string }> = [];
+  const allPages: Array<{ name: string; path: string }> = [];
 
   // Flatten all pages for navigation
   toc.forEach((section) => {

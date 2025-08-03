@@ -1,4 +1,10 @@
-# Contributing to Andromeda
+---
+title: "Contributing to Andromeda"
+description: "How to contribute to the Andromeda project"
+section: "Development"
+order: 11
+id: "contributing"
+---
 
 Thank you for your interest in contributing to Andromeda! This guide will help
 you get started with contributing to the project.
@@ -50,7 +56,6 @@ cd andromeda
 ### 2. Install Dependencies
 
 ```bash
-# Install Rust dependencies and build
 cargo build
 ```
 

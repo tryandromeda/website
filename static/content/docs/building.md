@@ -1,4 +1,10 @@
-# Building from Source
+---
+title: "Building from Source"
+description: "Compiling Andromeda yourself from the source code"
+section: "Development"
+order: 10
+id: "building"
+---
 
 This guide walks you through building Andromeda from source code, setting up the
 development environment, and understanding the build process.
@@ -51,7 +57,6 @@ development environment, and understanding the build process.
 ### Clone the Repository
 
 ```bash
-# Clone the main repository
 git clone https://github.com/tryandromeda/andromeda
 cd andromeda
 

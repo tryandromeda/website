@@ -1,4 +1,10 @@
-# Andromeda Documentation
+---
+title: "Andromeda Documentation"
+description: "Comprehensive guides and API references for the Andromeda JavaScript/TypeScript runtime"
+section: "Getting Started"
+order: 1
+id: "overview"
+---
 
 Welcome to the Andromeda documentation! This directory contains comprehensive
 guides, API references for the Andromeda JavaScript/TypeScript runtime.
@@ -30,7 +36,8 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**Web APIs**](/docs/api/web) - Standard web APIs (Events,
   TextEncoder/Decoder, etc.)
 - [**SQLite API**](/docs/api/sqlite) - Database operations with SQLite support
-- [**Web Storage API**](/docs/api/web-storage) - localStorage and sessionStorage with SQLite backend
+- [**Web Storage API**](/docs/api/web-storage) - localStorage and sessionStorage
+  with SQLite backend
 
 ### 🔧 Development
 
@@ -42,7 +49,7 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 ### 🛠️ Developer Tools
 
 - [**REPL**](/docs/cli-reference#repl) - Interactive development environment
-- [**Formatter**](/docs/cli-reference#fmt) - Code formatting tool  
+- [**Formatter**](/docs/cli-reference#fmt) - Code formatting tool
 - [**Bundler**](/docs/cli-reference#bundle) - Module bundling
 - [**Linter**](/docs/cli-reference#lint) - Code analysis and linting
 - [**Compiler**](/docs/cli-reference#compile) - Single-file executable creation
@@ -66,21 +73,30 @@ established web standards including:
 
 ## ✨ Key Features
 
-- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no transpilation needed
-- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU backend and PNG export
+- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no
+  transpilation needed
+- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU
+  backend and PNG export
 - 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
 - � **SQLite Support** - Built-in support for SQLite databases
 - �📁 **File System Access** - Simple APIs for reading/writing files
 - � **Web Storage** - localStorage and sessionStorage APIs for data persistence
-- ⚡ **Native Performance** - Rust-powered execution with Nova's optimized JS engine
-- 🛠️ **Developer Tools** - Interactive REPL, code formatter, bundler, linter, and single-file compilation
-- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, and more
+- ⚡ **Native Performance** - Rust-powered execution with Nova's optimized JS
+  engine
+- 🛠️ **Developer Tools** - Interactive REPL, code formatter, bundler, linter,
+  and single-file compilation
+- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, and
+  more
 - 🔧 **Extensible** - Modular architecture with optional features
-- 🔧 **Self-Updating** - Built-in upgrade system to stay current with latest releases
-- 🔧 **Shell Integration** - Auto-completion support for bash, zsh, fish, and PowerShell
-- 🧑‍💻 **Language Server** - Built-in LSP support for real-time diagnostics and linting
+- 🔧 **Self-Updating** - Built-in upgrade system to stay current with latest
+  releases
+- 🔧 **Shell Integration** - Auto-completion support for bash, zsh, fish, and
+  PowerShell
+- 🧑‍💻 **Language Server** - Built-in LSP support for real-time diagnostics and
+  linting
 - 📦 **Module Support** - ES modules and TypeScript module resolution
-- 🎯 **Advanced Canvas** - Linear gradients, hardware acceleration, and image manipulation
+- 🎯 **Advanced Canvas** - Linear gradients, hardware acceleration, and image
+  manipulation
 
 ## 🆘 Getting Help
 

@@ -24,7 +24,8 @@
     "fresh": "jsr:@fresh/core@^2.0.0-alpha.34",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
     "preact": "npm:preact@^10.26.6",
-    "tailwindcss": "npm:tailwindcss@^4.1.7"
+    "tailwindcss": "npm:tailwindcss@^4.1.7",
+    "@std/path": "jsr:@std/path@1.1.1"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {

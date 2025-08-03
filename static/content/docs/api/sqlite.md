@@ -1,4 +1,10 @@
-# SQLite API
+---
+title: "SQLite API"
+description: "Database operations with SQLite support"
+section: "API Reference"
+order: 20
+id: "sqlite-api"
+---
 
 Andromeda provides comprehensive SQLite database support through a synchronous
 API that mirrors the Deno SQLite implementation, making it compatible with

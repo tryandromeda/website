@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { Copy, Check } from "lucide-preact";
+import { Check, Copy } from "lucide-preact";
 
 interface CodeCopyButtonProps {
   code: string;
@@ -29,17 +29,19 @@ export function CodeCopyButton({ code, className = "" }: CodeCopyButtonProps) {
       } ${className}`}
       title={copied ? "Copied!" : "Copy code"}
     >
-      {copied ? (
-        <>
-          <Check size={14} />
-          <span>Copied!</span>
-        </>
-      ) : (
-        <>
-          <Copy size={14} />
-          <span>Copy</span>
-        </>
-      )}
+      {copied
+        ? (
+          <>
+            <Check size={14} />
+            <span>Copied!</span>
+          </>
+        )
+        : (
+          <>
+            <Copy size={14} />
+            <span>Copy</span>
+          </>
+        )}
     </button>
   );
 }

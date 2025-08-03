@@ -6,7 +6,7 @@ export default function SearchPage() {
   return (
     <>
       <NavBar />
-      
+
       <main class="pt-32 pb-20 px-4 min-h-screen bg-base">
         <div class="container mx-auto max-w-4xl">
           <div class="text-center mb-12">
@@ -14,7 +14,8 @@ export default function SearchPage() {
               Search Documentation
             </h1>
             <p class="text-xl text-subtext1 max-w-2xl mx-auto">
-              Find APIs, guides, examples, and everything you need to build with Andromeda
+              Find APIs, guides, examples, and everything you need to build with
+              Andromeda
             </p>
           </div>
 
@@ -30,25 +31,44 @@ export default function SearchPage() {
               <ul class="space-y-2 text-subtext1">
                 <li class="flex items-start gap-2">
                   <span class="text-blue">•</span>
-                  <span>Use specific keywords like "canvas", "fetch", or "file system"</span>
+                  <span>
+                    Use specific keywords like "canvas", "fetch", or "file
+                    system"
+                  </span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-blue">•</span>
-                  <span>Search for code examples with terms like "example" or "tutorial"</span>
+                  <span>
+                    Search for code examples with terms like "example" or
+                    "tutorial"
+                  </span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-blue">•</span>
-                  <span>Find API documentation by searching for function names</span>
+                  <span>
+                    Find API documentation by searching for function names
+                  </span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-blue">•</span>
-                  <span>Use keyboard shortcuts: <kbd class="bg-surface1 px-2 py-1 rounded text-xs">Ctrl+K</kbd> (or <kbd class="bg-surface1 px-2 py-1 rounded text-xs">⌘K</kbd> on Mac)</span>
+                  <span>
+                    Use keyboard shortcuts:{" "}
+                    <kbd class="bg-surface1 px-2 py-1 rounded text-xs">
+                      Ctrl+K
+                    </kbd>{" "}
+                    (or{" "}
+                    <kbd class="bg-surface1 px-2 py-1 rounded text-xs">⌘K</kbd>
+                    {" "}
+                    on Mac)
+                  </span>
                 </li>
               </ul>
             </div>
 
             <div class="bg-surface0 rounded-xl p-6 border border-surface1">
-              <h3 class="text-lg font-semibold text-text mb-4">Popular Searches</h3>
+              <h3 class="text-lg font-semibold text-text mb-4">
+                Popular Searches
+              </h3>
               <div class="flex flex-wrap gap-2">
                 {[
                   "Canvas API",
@@ -60,15 +80,15 @@ export default function SearchPage() {
                   "Web APIs",
                   "Performance",
                   "Examples",
-                  "CLI Reference"
+                  "CLI Reference",
                 ].map((term) => (
                   <button
                     key={term}
                     class="bg-surface1 hover:bg-surface2 text-text px-3 py-1 rounded-lg text-sm transition-colors"
                     onClick={() => {
                       // Trigger search with this term
-                      const searchEvent = new CustomEvent('triggerSearch', { 
-                        detail: { query: term } 
+                      const searchEvent = new CustomEvent("triggerSearch", {
+                        detail: { query: term },
                       });
                       window.dispatchEvent(searchEvent);
                     }}
@@ -86,18 +106,22 @@ export default function SearchPage() {
               href="/docs/index"
               class="block p-6 bg-surface0 hover:bg-surface1 rounded-xl border border-surface1 transition-colors"
             >
-              <h3 class="text-lg font-semibold text-text mb-2">📚 Documentation</h3>
+              <h3 class="text-lg font-semibold text-text mb-2">
+                📚 Documentation
+              </h3>
               <p class="text-subtext1">Complete guides and references</p>
             </a>
-            
+
             <a
               href="/docs/api/index"
               class="block p-6 bg-surface0 hover:bg-surface1 rounded-xl border border-surface1 transition-colors"
             >
-              <h3 class="text-lg font-semibold text-text mb-2">🔧 API Reference</h3>
+              <h3 class="text-lg font-semibold text-text mb-2">
+                🔧 API Reference
+              </h3>
               <p class="text-subtext1">Detailed API documentation</p>
             </a>
-            
+
             <a
               href="/docs/examples/index"
               class="block p-6 bg-surface0 hover:bg-surface1 rounded-xl border border-surface1 transition-colors"

@@ -1,4 +1,10 @@
-# Installation Guide
+---
+title: "Installation Guide"
+description: "How to install and set up Andromeda on your system"
+section: "Getting Started"
+order: 2
+id: "installation"
+---
 
 This guide will walk you through installing Andromeda on your system.
 
@@ -82,7 +88,6 @@ If you want to build from source or contribute to development:
 After installation, verify that Andromeda is working correctly:
 
 ```bash
-# Check version
 andromeda --version
 
 # Start the REPL

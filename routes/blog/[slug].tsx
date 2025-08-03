@@ -62,7 +62,8 @@ export default async function BlogPost(props: PageProps) {
                       alt={post.title}
                       class="w-full h-64 md:h-96 object-cover"
                     />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent">
+                    </div>
                   </div>
                 </div>
               )}
@@ -95,7 +96,8 @@ export default async function BlogPost(props: PageProps) {
                           alt={`${post.author} avatar`}
                           class="w-12 h-12 rounded-full ring-2 ring-surface1"
                         />
-                        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue/20 to-transparent"></div>
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue/20 to-transparent">
+                        </div>
                       </div>
                     )}
                     {!post.iconUrl && <span class="text-3xl">👤</span>}
@@ -111,7 +113,11 @@ export default async function BlogPost(props: PageProps) {
                             {post.author}
                           </a>
                         )
-                        : <span class="font-semibold text-text text-lg">{post.author}</span>}
+                        : (
+                          <span class="font-semibold text-text text-lg">
+                            {post.author}
+                          </span>
+                        )}
                       <div class="text-subtext1 text-sm">Article Author</div>
                     </div>
                   </div>
@@ -137,7 +143,8 @@ export default async function BlogPost(props: PageProps) {
                 )}
 
                 {/* Reading progress indicator */}
-                <div class="w-24 h-1 bg-gradient-to-r from-blue to-mauve rounded-full mx-auto"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue to-mauve rounded-full mx-auto">
+                </div>
               </div>
             </header>
 
@@ -155,7 +162,9 @@ export default async function BlogPost(props: PageProps) {
             {/* Enhanced back to blog section */}
             <footer class="mt-20 pt-12 text-center">
               <div class="bg-gradient-to-br from-surface0/30 to-surface0/10 backdrop-blur-sm rounded-2xl p-8 border border-surface1/20">
-                <h3 class="text-2xl font-bold text-text mb-4">Enjoyed this article?</h3>
+                <h3 class="text-2xl font-bold text-text mb-4">
+                  Enjoyed this article?
+                </h3>
                 <p class="text-subtext1 mb-6 max-w-2xl mx-auto">
                   Explore more insights and updates from the Andromeda team.
                 </p>
@@ -164,7 +173,9 @@ export default async function BlogPost(props: PageProps) {
                     href="/blog"
                     class="group inline-flex items-center gap-3 bg-gradient-to-r from-blue to-mauve hover:from-blue/80 hover:to-mauve/80 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
                   >
-                    <span class="group-hover:-translate-x-1 transition-transform duration-300">←</span>
+                    <span class="group-hover:-translate-x-1 transition-transform duration-300">
+                      ←
+                    </span>
                     Back to Blog
                   </a>
                   <a
@@ -172,7 +183,9 @@ export default async function BlogPost(props: PageProps) {
                     class="group inline-flex items-center gap-3 bg-surface0/50 hover:bg-surface1 text-text px-6 py-3 rounded-xl font-semibold transition-all duration-300 border border-surface1/30 hover:border-surface2/50 backdrop-blur-sm"
                   >
                     📖 Read Documentation
-                    <span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                    <span class="group-hover:translate-x-1 transition-transform duration-300">
+                      →
+                    </span>
                   </a>
                 </div>
               </div>

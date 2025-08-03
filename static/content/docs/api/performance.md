@@ -1,4 +1,10 @@
-# Performance API
+---
+title: "Performance API"
+description: "Timing and performance monitoring utilities"
+section: "API Reference"
+order: 15
+id: "performance-api"
+---
 
 The Performance API provides high-resolution timing capabilities for measuring
 code execution time and creating performance benchmarks. It follows the Web

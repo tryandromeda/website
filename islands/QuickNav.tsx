@@ -1,25 +1,33 @@
-import { useState, useEffect } from "preact/hooks";
-import { ChevronUp, ChevronDown } from "lucide-preact";
+import { useEffect, useState } from "preact/hooks";
+import { ChevronDown, ChevronUp } from "lucide-preact";
 
 interface QuickNavProps {
-  sections: Array<{ name: string; path: string; }>;
+  sections: Array<{ name: string; path: string }>;
   currentPath: string;
 }
 
 export function QuickNav({ sections, currentPath }: QuickNavProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const currentIndex = sections.findIndex(section => section.path === currentPath);
+  const currentIndex = sections.findIndex((section) =>
+    section.path === currentPath
+  );
   const previousSection = currentIndex > 0 ? sections[currentIndex - 1] : null;
-  const nextSection = currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
+  const nextSection = currentIndex < sections.length - 1
+    ? sections[currentIndex + 1]
+    : null;
 
   return (
     <div class="fixed bottom-6 right-6 z-20">
-      <div class={`transform transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}>
+      <div
+        class={`transform transition-all duration-300 ${
+          isOpen ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+        }`}
+      >
         {isOpen && (
           <div class="mb-4 bg-base/95 backdrop-blur-xl border border-surface1 rounded-xl shadow-xl p-4 min-w-[200px]">
             <div class="space-y-3">
               {previousSection && (
-                <a 
+                <a
                   href={previousSection.path}
                   class="flex items-center space-x-2 text-sm text-subtext1 hover:text-text transition-colors p-2 rounded-lg hover:bg-surface0/50"
                 >
@@ -28,7 +36,7 @@ export function QuickNav({ sections, currentPath }: QuickNavProps) {
                 </a>
               )}
               {nextSection && (
-                <a 
+                <a
                   href={nextSection.path}
                   class="flex items-center space-x-2 text-sm text-subtext1 hover:text-text transition-colors p-2 rounded-lg hover:bg-surface0/50"
                 >
@@ -43,7 +51,7 @@ export function QuickNav({ sections, currentPath }: QuickNavProps) {
           </div>
         )}
       </div>
-      
+
       <button
         onClick={() => setIsOpen(!isOpen)}
         class="bg-surface1 hover:bg-surface2 text-text p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 border border-surface0"

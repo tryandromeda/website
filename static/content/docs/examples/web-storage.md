@@ -1,4 +1,10 @@
-# Web Storage Examples
+---
+title: "Web Storage Examples"
+description: "localStorage and sessionStorage usage examples"
+section: "Examples"
+order: 12
+id: "web-storage-examples"
+---
 
 Web Storage provides persistent client-side storage with localStorage and
 temporary storage with sessionStorage.

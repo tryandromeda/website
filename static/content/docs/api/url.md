@@ -1,4 +1,10 @@
-# URL API
+---
+title: "URL API"
+description: "URL parsing, construction, and manipulation"
+section: "API Reference"
+order: 18
+id: "url-api"
+---
 
 The URL API provides utilities for parsing, constructing, normalizing, and
 encoding URLs. It implements the WHATWG URL Standard for consistent URL

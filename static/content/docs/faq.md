@@ -1,4 +1,10 @@
-# Frequently Asked Questions (FAQ)
+---
+title: "Frequently Asked Questions"
+description: "Common questions and answers about Andromeda"
+section: "Help & Support"
+order: 10
+id: "faq"
+---
 
 This document answers common questions about Andromeda, its features,
 limitations, and usage.
@@ -39,11 +45,10 @@ Andromeda supports:
 
 ### How do I install Andromeda?
 
-See the [Installation Guide](/docs/installation) for detailed instructions. The quick
-version:
+See the [Installation Guide](/docs/installation) for detailed instructions. The
+quick version:
 
 ```bash
-# Using Cargo
 cargo install andromeda-cli
 
 # Or download from releases
@@ -133,8 +138,8 @@ support for the wider ecosystem.
 
 ### How do I contribute to Andromeda?
 
-See the [Contributing Guide](/docs/contributing) for detailed instructions. Quick
-steps:
+See the [Contributing Guide](/docs/contributing) for detailed instructions.
+Quick steps:
 
 1. Fork the repository
 2. Create a feature branch

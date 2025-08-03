@@ -1,10 +1,14 @@
 # Andromeda Website
 
-The official website and docs for [Andromeda](https://github.com/tryandromeda/andromeda), a modern JavaScript and TypeScript runtime built entirely in Rust and powered by the [Nova JavaScript engine](https://trynova.dev/).
+The official website and docs for
+[Andromeda](https://github.com/tryandromeda/andromeda), a modern JavaScript and
+TypeScript runtime built entirely in Rust and powered by the
+[Nova JavaScript engine](https://trynova.dev/).
 
 ## 🌐 Live Website
 
-Visit the live documentation at: **[tryandromeda.dev](https://tryandromeda.dev)**
+Visit the live documentation at:
+**[tryandromeda.dev](https://tryandromeda.dev)**
 
 ## 🛠️ Development
 
@@ -48,11 +52,13 @@ We welcome contributions to improve the documentation! Here's how you can help:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](https://tryandromeda.dev/docs/contributing) for details.
+We welcome contributions! Please see our
+[Contributing Guide](https://tryandromeda.dev/docs/contributing) for details.
 
 ## 📄 License
 
-This project is licensed under the [Mozilla Public License Version 2.0](LICENSE).
+This project is licensed under the
+[Mozilla Public License Version 2.0](LICENSE).
 
 ## 🆘 Support
 
@@ -62,7 +68,8 @@ This project is licensed under the [Mozilla Public License Version 2.0](LICENSE)
 
 ## 🔗 Links
 
-- **[Andromeda Runtime](https://github.com/tryandromeda/andromeda)** - Main repository
+- **[Andromeda Runtime](https://github.com/tryandromeda/andromeda)** - Main
+  repository
 - **[Nova JavaScript Engine](https://trynova.dev/)** - Underlying engine
 - **[WinterTC](https://wintertc.org/)** - Runtime compatibility standard
 

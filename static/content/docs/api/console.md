@@ -1,4 +1,10 @@
-# Console API
+---
+title: "Console API"
+description: "Simple debugging console for outputting messages to the terminal"
+section: "API Reference"
+order: 10
+id: "console-api"
+---
 
 The Console API provides a simple debugging console similar to what you'd find
 in browsers and Node.js. It allows you to output messages to the
@@ -150,5 +156,7 @@ try {
 
 ## See Also
 
-- [Performance API](/docs/api/performance) - For timing and performance measurements
-- [Process API](/docs/api/process) - For environment variables and process information
+- [Performance API](/docs/api/performance) - For timing and performance
+  measurements
+- [Process API](/docs/api/process) - For environment variables and process
+  information

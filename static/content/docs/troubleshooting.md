@@ -1,4 +1,10 @@
-# Troubleshooting Guide
+---
+title: "Troubleshooting Guide"
+description: "Common issues and solutions"
+section: "Help & Support"
+order: 11
+id: "troubleshooting"
+---
 
 Common issues and solutions for Andromeda runtime.
 
@@ -392,7 +398,6 @@ Common issues and solutions for Andromeda runtime.
 ### Enable verbose logging
 
 ```bash
-# Runtime debugging
 RUST_LOG=debug andromeda run script.ts
 
 # Extension debugging

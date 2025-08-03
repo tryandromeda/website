@@ -1,4 +1,10 @@
-# Crypto API
+---
+title: "Crypto API"
+description: "Cryptographic operations and security functions"
+section: "API Reference"
+order: 13
+id: "crypto-api"
+---
 
 The Crypto API provides cryptographic functionality similar to the Web Crypto
 API standard. It includes methods for generating random values, creating UUIDs,

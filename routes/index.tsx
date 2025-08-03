@@ -25,7 +25,8 @@ export default function Home() {
               Andromeda
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
-              A modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by{" "}
+              A modern, fast, and secure JavaScript & TypeScript runtime built
+              from the ground up in Rust 🦀 and powered by{" "}
               <a
                 href="https://trynova.dev/"
                 class="text-text hover:text-subtext0 underline font-semibold transition-colors"
@@ -34,9 +35,11 @@ export default function Home() {
               >
                 The Nova Engine
               </a>
-              . Zero-config TypeScript support, hardware-accelerated graphics, comprehensive Web APIs, and developer-first tooling for the next generation of JavaScript applications.
+              . Zero-config TypeScript support, hardware-accelerated graphics,
+              comprehensive Web APIs, and developer-first tooling for the next
+              generation of JavaScript applications.
             </p>
-            
+
             {/* Key Benefits */}
             <div class="flex flex-wrap justify-center gap-6 mb-8 text-sm text-subtext0 animate-on-scroll fade-in-up">
               <div class="flex items-center gap-2">
@@ -61,7 +64,7 @@ export default function Home() {
             <div class="max-w-4xl mx-auto mb-8 animate-on-scroll scale-in">
               <InstallToggle />
             </div>
-            
+
             <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll fade-in-up">
               <a
                 href="#features"
@@ -136,34 +139,40 @@ export default function Home() {
                 of configuring.
               </p>
             </div>
-            
+
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🧑‍💻</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Language Server
               </h3>
               <p class="text-subtext1">
-                Built-in LSP support with real-time diagnostics, comprehensive linting, and rich error messages for VS Code, Neovim, and other editors.
+                Built-in LSP support with real-time diagnostics, comprehensive
+                linting, and rich error messages for VS Code, Neovim, and other
+                editors.
               </p>
             </div>
-            
+
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">🎨</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 GPU Canvas
               </h3>
               <p class="text-subtext1">
-                Hardware-accelerated 2D Canvas API with WGPU backend, linear gradients, and PNG export capabilities for high-performance graphics.
+                Hardware-accelerated 2D Canvas API with WGPU backend, linear
+                gradients, and PNG export capabilities for high-performance
+                graphics.
               </p>
             </div>
-            
+
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">📦</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Complete Toolchain
               </h3>
               <p class="text-subtext1">
-                REPL, formatter, bundler, linter, compiler, and self-updater - everything you need for modern JavaScript/TypeScript development.
+                REPL, formatter, bundler, linter, compiler, and self-updater -
+                everything you need for modern JavaScript/TypeScript
+                development.
               </p>
             </div>
           </div>
@@ -189,7 +198,7 @@ export default function Home() {
                 <li>• Multi-threaded execution model</li>
               </ul>
             </div>
-            
+
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🌐</span> Web Standards
@@ -202,7 +211,7 @@ export default function Home() {
                 <li>• WinterTC compliance</li>
               </ul>
             </div>
-            
+
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🚀</span> Performance
@@ -215,7 +224,7 @@ export default function Home() {
                 <li>• Native binary compilation</li>
               </ul>
             </div>
-            
+
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🛠️</span> Developer Tools
@@ -228,7 +237,7 @@ export default function Home() {
                 <li>• Single-file executable compiler</li>
               </ul>
             </div>
-            
+
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">🔐</span> Security
@@ -241,7 +250,7 @@ export default function Home() {
                 <li>• No undefined behavior</li>
               </ul>
             </div>
-            
+
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
                 <span class="mr-2">📦</span> Platform Support
@@ -272,7 +281,9 @@ export default function Home() {
                   Graphics & Visualization
                 </h3>
                 <p class="text-subtext1 mb-4">
-                  Create stunning visualizations, charts, and graphics with hardware-accelerated Canvas API. Perfect for data visualization, game development, and creative coding.
+                  Create stunning visualizations, charts, and graphics with
+                  hardware-accelerated Canvas API. Perfect for data
+                  visualization, game development, and creative coding.
                 </p>
                 <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
                   <div>• Real-time data dashboards</div>
@@ -281,14 +292,16 @@ export default function Home() {
                   <div>• Image processing pipelines</div>
                 </div>
               </div>
-              
+
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">⚡</span>
                   High-Performance Scripts
                 </h3>
                 <p class="text-subtext1 mb-4">
-                  Build fast automation scripts, data processing pipelines, and system utilities with near-native performance and memory safety.
+                  Build fast automation scripts, data processing pipelines, and
+                  system utilities with near-native performance and memory
+                  safety.
                 </p>
                 <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
                   <div>• Build tools and automation</div>
@@ -298,7 +311,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             <div class="space-y-8 animate-on-scroll fade-in-right">
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
@@ -306,7 +319,9 @@ export default function Home() {
                   Web Services & APIs
                 </h3>
                 <p class="text-subtext1 mb-4">
-                  Develop lightweight web services, APIs, and microservices with built-in security features and excellent performance characteristics.
+                  Develop lightweight web services, APIs, and microservices with
+                  built-in security features and excellent performance
+                  characteristics.
                 </p>
                 <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
                   <div>• REST and GraphQL APIs</div>
@@ -315,14 +330,16 @@ export default function Home() {
                   <div>• Edge computing functions</div>
                 </div>
               </div>
-              
+
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
                   <span class="mr-3 text-2xl">🔬</span>
                   Scientific Computing
                 </h3>
                 <p class="text-subtext1 mb-4">
-                  Leverage SQLite integration, cryptographic APIs, and performance monitoring for research, analysis, and computational workflows.
+                  Leverage SQLite integration, cryptographic APIs, and
+                  performance monitoring for research, analysis, and
+                  computational workflows.
                 </p>
                 <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
                   <div>• Data analysis and modeling</div>
@@ -347,60 +364,94 @@ export default function Home() {
               <table class="w-full min-w-[600px] border-collapse bg-mantle">
                 <thead>
                   <tr class="border-b border-surface0">
-                    <th class="text-left p-3 md:p-4 text-text font-semibold min-w-[140px]">Feature</th>
-                    <th class="text-center p-3 md:p-4 text-text font-semibold min-w-[100px]">Andromeda</th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Node.js</th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Deno</th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">Bun</th>
+                    <th class="text-left p-3 md:p-4 text-text font-semibold min-w-[140px]">
+                      Feature
+                    </th>
+                    <th class="text-center p-3 md:p-4 text-text font-semibold min-w-[100px]">
+                      Andromeda
+                    </th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
+                      Node.js
+                    </th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
+                      Deno
+                    </th>
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
+                      Bun
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="text-sm">
                   <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">Zero-config TypeScript</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-subtext1">
+                      Zero-config TypeScript
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓
+                    </td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1">Memory Safety</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ Rust</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ Rust
+                    </td>
                     <td class="p-3 md:p-4 text-center text-yellow">~ GC</td>
                     <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
                     <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">GPU-Accelerated Canvas</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ WGPU</td>
+                    <td class="p-3 md:p-4 text-subtext1">
+                      GPU-Accelerated Canvas
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ WGPU
+                    </td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1">Built-in SQLite</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓
+                    </td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">Single-file Executables</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-subtext1">
+                      Single-file Executables
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓
+                    </td>
                     <td class="p-3 md:p-4 text-center text-yellow">~ pkg</td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">WinterTC Compliance</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓</td>
+                    <td class="p-3 md:p-4 text-subtext1">
+                      WinterTC Compliance
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓
+                    </td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                     <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
                     <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
                   </tr>
                   <tr>
                     <td class="p-3 md:p-4 text-subtext1">Language Server</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">✓ Built-in</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~ External</td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ Built-in
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-yellow">
+                      ~ External
+                    </td>
                     <td class="p-3 md:p-4 text-center text-green">✓</td>
                     <td class="p-3 md:p-4 text-center text-red">✗</td>
                   </tr>
@@ -418,7 +469,8 @@ export default function Home() {
             Get Started in Minutes
           </h2>
           <p class="text-xl text-subtext1 mb-12 text-center max-w-3xl mx-auto animate-on-scroll fade-in-up">
-            Experience the power of Rust-based JavaScript runtime with zero configuration
+            Experience the power of Rust-based JavaScript runtime with zero
+            configuration
           </p>
 
           <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-12">
@@ -540,7 +592,9 @@ console.log("Secure hash:", hash);`}
       {/* Documentation Section */}
       <section id="docs" class="py-20 px-4 bg-mantle">
         <div class="container mx-auto text-center">
-          <h2 class="text-4xl font-bold mb-8 text-text animate-on-scroll fade-in-up">Documentation</h2>
+          <h2 class="text-4xl font-bold mb-8 text-text animate-on-scroll fade-in-up">
+            Documentation
+          </h2>
           <p class="text-xl text-subtext1 mb-12 animate-on-scroll fade-in-up">
             Everything you need to know to get productive with Andromeda
           </p>

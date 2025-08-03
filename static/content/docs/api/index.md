@@ -1,4 +1,10 @@
-# API Reference
+---
+title: "API Reference"
+description: "Comprehensive documentation for all APIs available in Andromeda"
+section: "API Reference"
+order: 1
+id: "api-overview"
+---
 
 This section provides comprehensive documentation for all APIs available in
 Andromeda. The APIs are organized by category and follow web standards wherever
@@ -8,32 +14,38 @@ possible.
 
 ### Runtime APIs
 
-- **[Console API](/docs/api/console)** - Logging, debugging, and output functions
-- **[Performance API](/docs/api/performance)** - Timing and performance measurement
-  utilities
-- **[Process API](/docs/api/process)** - Process information and environment access
+- **[Console API](/docs/api/console)** - Logging, debugging, and output
+  functions
+- **[Performance API](/docs/api/performance)** - Timing and performance
+  measurement utilities
+- **[Process API](/docs/api/process)** - Process information and environment
+  access
 
 ### File System APIs
 
-- **[File System API](/docs/api/file-system)** - File and directory operations, path
-  manipulation
+- **[File System API](/docs/api/file-system)** - File and directory operations,
+  path manipulation
 
 ### Database APIs
 
-- **[SQLite API](/docs/api/sqlite)** - Full SQLite database support with synchronous APIs
+- **[SQLite API](/docs/api/sqlite)** - Full SQLite database support with
+  synchronous APIs
 
 ### Storage APIs
 
-- **[Web Storage API](/docs/api/web-storage)** - localStorage and sessionStorage with SQLite backend
+- **[Web Storage API](/docs/api/web-storage)** - localStorage and sessionStorage
+  with SQLite backend
 
 ### Network APIs
 
-- **[Fetch API](/docs/api/fetch)** - HTTP client functionality and Headers manipulation
+- **[Fetch API](/docs/api/fetch)** - HTTP client functionality and Headers
+  manipulation
 - **[URL API](/docs/api/url)** - URL parsing, construction, and manipulation
 
 ### Graphics APIs
 
-- **[Canvas API](/docs/api/canvas)** - 2D graphics rendering with advanced path methods (quadraticCurveTo, ellipse, roundRect) and GPU acceleration
+- **[Canvas API](/docs/api/canvas)** - 2D graphics rendering with advanced path
+  methods (quadraticCurveTo, ellipse, roundRect) and GPU acceleration
 
 ### Cryptography APIs
 
@@ -42,7 +54,8 @@ possible.
 
 ### Web Standard APIs
 
-- **[Web APIs](/docs/api/web)** - Event handling, text encoding, and other web standards
+- **[Web APIs](/docs/api/web)** - Event handling, text encoding, and other web
+  standards
   - Event API - Standard event handling and custom events
   - TextEncoder/TextDecoder - Text encoding and decoding utilities
 

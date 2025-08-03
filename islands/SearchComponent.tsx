@@ -1,5 +1,13 @@
-import { useEffect, useState, useRef } from "preact/hooks";
-import { Search, X, FileText, Code, BookOpen, MessageSquare, ExternalLink } from "lucide-preact";
+import { useEffect, useRef, useState } from "preact/hooks";
+import {
+  BookOpen,
+  Code,
+  ExternalLink,
+  FileText,
+  MessageSquare,
+  Search,
+  X,
+} from "lucide-preact";
 
 interface SearchResult {
   title: string;
@@ -23,11 +31,11 @@ interface SearchProps {
   placeholder?: string;
 }
 
-export default function SearchComponent({ 
-  isOpen = false, 
-  onClose, 
+export default function SearchComponent({
+  isOpen = false,
+  onClose,
   autoFocus = false,
-  placeholder = "Search documentation..."
+  placeholder = "Search documentation...",
 }: SearchProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -36,7 +44,7 @@ export default function SearchComponent({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const searchInputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<number>();
@@ -82,7 +90,9 @@ export default function SearchComponent({
     setError(null);
 
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}&limit=8`);
+      const response = await fetch(
+        `/api/search?q=${encodeURIComponent(searchQuery)}&limit=8`,
+      );
 
       if (!response.ok) {
         throw new Error(`Search failed: ${response.status}`);
@@ -102,7 +112,9 @@ export default function SearchComponent({
 
   const fetchSuggestions = async (searchQuery: string) => {
     try {
-      const response = await fetch(`/api/suggestions?q=${encodeURIComponent(searchQuery)}&limit=5`);
+      const response = await fetch(
+        `/api/suggestions?q=${encodeURIComponent(searchQuery)}&limit=5`,
+      );
       if (!response.ok) return;
 
       const data = await response.json();
@@ -127,16 +139,16 @@ export default function SearchComponent({
     }
 
     const totalItems = showSuggestions ? suggestions.length : results.length;
-    
+
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setSelectedIndex(prev => prev < totalItems - 1 ? prev + 1 : 0);
+      setSelectedIndex((prev) => prev < totalItems - 1 ? prev + 1 : 0);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setSelectedIndex(prev => prev > 0 ? prev - 1 : totalItems - 1);
+      setSelectedIndex((prev) => prev > 0 ? prev - 1 : totalItems - 1);
     } else if (e.key === "Enter") {
       e.preventDefault();
-      
+
       if (showSuggestions && selectedIndex >= 0) {
         // Select suggestion
         const suggestion = suggestions[selectedIndex];
@@ -163,9 +175,12 @@ export default function SearchComponent({
 
   const highlightText = (text: string, highlight: string): string => {
     if (!highlight) return text;
-    
-    const regex = new RegExp(`(${highlight.split(' ').join('|')})`, 'gi');
-    return text.replace(regex, '<mark class="bg-yellow/30 px-1 rounded">$1</mark>');
+
+    const regex = new RegExp(`(${highlight.split(" ").join("|")})`, "gi");
+    return text.replace(
+      regex,
+      '<mark class="bg-yellow/30 px-1 rounded">$1</mark>',
+    );
   };
 
   const getTypeIcon = (type: string) => {
@@ -241,7 +256,8 @@ export default function SearchComponent({
         <div ref={resultsRef} class="max-h-96 overflow-y-auto">
           {loading && (
             <div class="flex items-center justify-center py-8">
-              <div class="animate-spin rounded-full h-6 w-6 border-2 border-blue border-t-transparent"></div>
+              <div class="animate-spin rounded-full h-6 w-6 border-2 border-blue border-t-transparent">
+              </div>
               <span class="ml-2 text-subtext1">Searching...</span>
             </div>
           )}
@@ -299,10 +315,10 @@ export default function SearchComponent({
                     </div>
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-1">
-                        <h3 
+                        <h3
                           class="font-semibold text-text truncate"
-                          dangerouslySetInnerHTML={{ 
-                            __html: highlightText(result.title, query) 
+                          dangerouslySetInnerHTML={{
+                            __html: highlightText(result.title, query),
                           }}
                         />
                         <span class="text-xs bg-surface1 text-subtext1 px-2 py-0.5 rounded-full">
@@ -310,10 +326,10 @@ export default function SearchComponent({
                         </span>
                         <ExternalLink size={12} class="text-subtext1" />
                       </div>
-                      <p 
+                      <p
                         class="text-sm text-subtext1 line-clamp-2"
-                        dangerouslySetInnerHTML={{ 
-                          __html: highlightText(result.excerpt, query) 
+                        dangerouslySetInnerHTML={{
+                          __html: highlightText(result.excerpt, query),
                         }}
                       />
                       {result.highlights.length > 0 && (
@@ -336,11 +352,14 @@ export default function SearchComponent({
           )}
 
           {/* No Results */}
-          {!loading && !showSuggestions && query.trim() && results.length === 0 && (
+          {!loading && !showSuggestions && query.trim() &&
+            results.length === 0 && (
             <div class="text-center py-8 text-subtext1">
               <Search size={32} class="mx-auto mb-2 opacity-50" />
               <p>No results found for "{query}"</p>
-              <p class="text-sm mt-1">Try different keywords or check the spelling</p>
+              <p class="text-sm mt-1">
+                Try different keywords or check the spelling
+              </p>
             </div>
           )}
 
@@ -350,9 +369,23 @@ export default function SearchComponent({
               <Search size={32} class="mx-auto mb-2 opacity-50" />
               <p>Start typing to search documentation...</p>
               <div class="mt-4 text-xs space-y-1">
-                <p><kbd class="bg-surface1 px-2 py-1 rounded text-xs">↑</kbd> <kbd class="bg-surface1 px-2 py-1 rounded text-xs">↓</kbd> to navigate</p>
-                <p><kbd class="bg-surface1 px-2 py-1 rounded text-xs">Enter</kbd> to select</p>
-                <p><kbd class="bg-surface1 px-2 py-1 rounded text-xs">Esc</kbd> to close</p>
+                <p>
+                  <kbd class="bg-surface1 px-2 py-1 rounded text-xs">↑</kbd>
+                  {" "}
+                  <kbd class="bg-surface1 px-2 py-1 rounded text-xs">↓</kbd>
+                  {" "}
+                  to navigate
+                </p>
+                <p>
+                  <kbd class="bg-surface1 px-2 py-1 rounded text-xs">Enter</kbd>
+                  {" "}
+                  to select
+                </p>
+                <p>
+                  <kbd class="bg-surface1 px-2 py-1 rounded text-xs">Esc</kbd>
+                  {" "}
+                  to close
+                </p>
               </div>
             </div>
           )}

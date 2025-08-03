@@ -1,7 +1,14 @@
-# Fetch API
+---
+title: "Fetch API"
+description: "HTTP client functionality and Headers manipulation"
+section: "API Reference"
+order: 12
+id: "fetch-api"
+---
 
 The Fetch API provides an interface for fetching resources from across the
-network. It's a modern replacement for XMLHttpRequest that uses promises and integrates seamlessly with async/await syntax.
+network. It's a modern replacement for XMLHttpRequest that uses promises and
+integrates seamlessly with async/await syntax.
 
 ## Overview
 
@@ -28,11 +35,11 @@ console.log(data);
 // With error handling
 try {
   const response = await fetch("https://api.example.com/data");
-  
+
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-  
+
   const data = await response.json();
   console.log(data);
 } catch (error) {
@@ -45,16 +52,16 @@ try {
 ```typescript
 const postData = {
   name: "John Doe",
-  email: "john@example.com"
+  email: "john@example.com",
 };
 
 const response = await fetch("https://api.example.com/users", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer your-token"
+    "Authorization": "Bearer your-token",
   },
-  body: JSON.stringify(postData)
+  body: JSON.stringify(postData),
 });
 
 const result = await response.json();
@@ -71,8 +78,8 @@ const request = new Request("https://api.example.com/data", {
   method: "GET",
   headers: {
     "Accept": "application/json",
-    "User-Agent": "Andromeda/1.0"
-  }
+    "User-Agent": "Andromeda/1.0",
+  },
 });
 
 // Use the Request object
@@ -83,16 +90,16 @@ const response = await fetch(request);
 
 ```typescript
 const options = {
-  method: "POST",           // HTTP method
-  headers: {               // Request headers
+  method: "POST", // HTTP method
+  headers: { // Request headers
     "Content-Type": "application/json",
-    "Authorization": "Bearer token"
+    "Authorization": "Bearer token",
   },
   body: JSON.stringify(data), // Request body
-  mode: "cors",            // Request mode
-  credentials: "include",   // Credentials policy
-  cache: "no-cache",       // Cache policy
-  redirect: "follow",      // Redirect policy
+  mode: "cors", // Request mode
+  credentials: "include", // Credentials policy
+  cache: "no-cache", // Cache policy
+  redirect: "follow", // Redirect policy
   referrer: "no-referrer", // Referrer policy
 };
 
@@ -106,12 +113,12 @@ const response = await fetch(url, options);
 ```typescript
 const response = await fetch("https://api.example.com/data");
 
-console.log(response.status);     // 200
+console.log(response.status); // 200
 console.log(response.statusText); // "OK"
-console.log(response.ok);         // true (status 200-299)
-console.log(response.url);        // Final URL after redirects
-console.log(response.headers);    // Headers object
-console.log(response.type);       // Response type
+console.log(response.ok); // true (status 200-299)
+console.log(response.url); // Final URL after redirects
+console.log(response.headers); // Headers object
+console.log(response.type); // Response type
 ```
 
 ### Reading Response Body
@@ -314,9 +321,9 @@ class ApiClient {
     this.baseUrl = baseUrl;
     this.defaultHeaders = new Headers({
       "Content-Type": "application/json",
-      "Accept": "application/json"
+      "Accept": "application/json",
     });
-    
+
     if (token) {
       this.defaultHeaders.set("Authorization", `Bearer ${token}`);
     }
@@ -325,9 +332,9 @@ class ApiClient {
   async get(endpoint: string) {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "GET",
-      headers: this.defaultHeaders
+      headers: this.defaultHeaders,
     });
-    
+
     return this.handleResponse(response);
   }
 
@@ -335,9 +342,9 @@ class ApiClient {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "POST",
       headers: this.defaultHeaders,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
-    
+
     return this.handleResponse(response);
   }
 
@@ -345,18 +352,18 @@ class ApiClient {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "PUT",
       headers: this.defaultHeaders,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
-    
+
     return this.handleResponse(response);
   }
 
   async delete(endpoint: string) {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "DELETE",
-      headers: this.defaultHeaders
+      headers: this.defaultHeaders,
     });
-    
+
     return this.handleResponse(response);
   }
 
@@ -365,12 +372,12 @@ class ApiClient {
       const error = await response.text();
       throw new Error(`HTTP ${response.status}: ${error}`);
     }
-    
+
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       return response.json();
     }
-    
+
     return response.text();
   }
 }
@@ -381,10 +388,10 @@ const api = new ApiClient("https://jsonplaceholder.typicode.com", "your-token");
 try {
   const users = await api.get("/users");
   console.log("Users:", users);
-  
+
   const newUser = await api.post("/users", {
     name: "John Doe",
-    email: "john@example.com"
+    email: "john@example.com",
   });
   console.log("Created:", newUser);
 } catch (error) {
@@ -430,14 +437,14 @@ try {
 ```typescript
 async function downloadWithProgress(url: string, filename: string) {
   const response = await fetch(url);
-  
+
   if (!response.ok) {
     throw new Error(`Download failed: ${response.statusText}`);
   }
 
   const contentLength = response.headers.get("content-length");
   const total = contentLength ? parseInt(contentLength, 10) : 0;
-  
+
   const reader = response.body?.getReader();
   if (!reader) {
     throw new Error("Response body is not readable");
@@ -448,12 +455,12 @@ async function downloadWithProgress(url: string, filename: string) {
 
   while (true) {
     const { done, value } = await reader.read();
-    
+
     if (done) break;
-    
+
     chunks.push(value);
     received += value.length;
-    
+
     if (total > 0) {
       const progress = (received / total) * 100;
       console.log(`Download progress: ${progress.toFixed(1)}%`);
@@ -477,7 +484,7 @@ async function downloadWithProgress(url: string, filename: string) {
 try {
   const data = await downloadWithProgress(
     "https://example.com/large-file.zip",
-    "download.zip"
+    "download.zip",
   );
   console.log("Download complete!");
 } catch (error) {
@@ -492,7 +499,7 @@ async function fetchWithRetry(
   url: string,
   options: RequestInit = {},
   retries = 3,
-  timeout = 5000
+  timeout = 5000,
 ) {
   for (let i = 0; i <= retries; i++) {
     const controller = new AbortController();
@@ -501,7 +508,7 @@ async function fetchWithRetry(
     try {
       const response = await fetch(url, {
         ...options,
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
@@ -519,7 +526,6 @@ async function fetchWithRetry(
       if (i === retries) {
         throw new Error(`Server error: ${response.status}`);
       }
-
     } catch (error) {
       clearTimeout(timeoutId);
 
@@ -530,7 +536,7 @@ async function fetchWithRetry(
       // Wait before retry with exponential backoff
       const delay = Math.pow(2, i) * 1000;
       console.log(`Retry ${i + 1}/${retries} in ${delay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 }
@@ -553,7 +559,7 @@ try {
 async function robustFetch(url: string, options?: RequestInit) {
   try {
     const response = await fetch(url, options);
-    
+
     // Check if request was successful
     if (!response.ok) {
       // Handle different status codes
@@ -569,23 +575,24 @@ async function robustFetch(url: string, options?: RequestInit) {
         case 500:
           throw new Error("Internal Server Error: Try again later");
         default:
-          throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `HTTP Error: ${response.status} ${response.statusText}`,
+          );
       }
     }
-    
+
     return response;
-    
   } catch (error) {
     // Handle network errors
     if (error instanceof TypeError) {
       throw new Error("Network error: Check your internet connection");
     }
-    
+
     // Handle abort errors
     if (error.name === "AbortError") {
       throw new Error("Request was cancelled");
     }
-    
+
     // Re-throw other errors
     throw error;
   }
@@ -603,24 +610,26 @@ interface User {
 
 async function fetchUser(id: number): Promise<User> {
   const response = await fetch(`https://api.example.com/users/${id}`);
-  
+
   if (!response.ok) {
     throw new Error(`Failed to fetch user: ${response.statusText}`);
   }
-  
+
   const data = await response.json();
-  
+
   // Validate response structure
   if (!data || typeof data !== "object") {
     throw new Error("Invalid response format");
   }
-  
-  if (typeof data.id !== "number" || 
-      typeof data.name !== "string" || 
-      typeof data.email !== "string") {
+
+  if (
+    typeof data.id !== "number" ||
+    typeof data.name !== "string" ||
+    typeof data.email !== "string"
+  ) {
     throw new Error("Invalid user data structure");
   }
-  
+
   return data as User;
 }
 
@@ -642,21 +651,21 @@ try {
 const baseRequest = new Request("https://api.example.com", {
   headers: {
     "Connection": "keep-alive",
-    "User-Agent": "Andromeda/1.0"
-  }
+    "User-Agent": "Andromeda/1.0",
+  },
 });
 
 // Reuse the base configuration
 async function apiCall(endpoint: string, options: RequestInit = {}) {
   const url = new URL(endpoint, baseRequest.url);
-  
+
   return fetch(url.toString(), {
     ...baseRequest,
     ...options,
     headers: {
       ...baseRequest.headers,
-      ...options.headers
-    }
+      ...options.headers,
+    },
   });
 }
 ```
@@ -671,23 +680,23 @@ class CachedFetcher {
   async fetch(url: string, options?: RequestInit): Promise<Response> {
     const cacheKey = url + JSON.stringify(options);
     const cached = this.cache.get(cacheKey);
-    
+
     if (cached && Date.now() - cached.timestamp < this.ttl) {
       console.log("Cache hit for:", url);
       return new Response(JSON.stringify(cached.data), {
         status: 200,
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     console.log("Cache miss for:", url);
     const response = await fetch(url, options);
-    
+
     if (response.ok) {
       const data = await response.clone().json();
       this.cache.set(cacheKey, { data, timestamp: Date.now() });
     }
-    
+
     return response;
   }
 

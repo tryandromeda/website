@@ -1,5 +1,5 @@
-import { useState, useEffect } from "preact/hooks";
-import { Search, Command } from "lucide-preact";
+import { useEffect, useState } from "preact/hooks";
+import { Command, Search } from "lucide-preact";
 import SearchComponent from "./SearchComponent.tsx";
 
 interface SearchTriggerProps {
@@ -7,12 +7,14 @@ interface SearchTriggerProps {
   className?: string;
 }
 
-export default function SearchTrigger({ variant = "navbar", className = "" }: SearchTriggerProps) {
+export default function SearchTrigger(
+  { variant = "navbar", className = "" }: SearchTriggerProps,
+) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     // Open search with Cmd+K (Mac) or Ctrl+K (Windows/Linux)
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
       e.preventDefault();
       setIsSearchOpen(true);
     }
@@ -27,11 +29,17 @@ export default function SearchTrigger({ variant = "navbar", className = "" }: Se
     // Add global keyboard listener
     document.addEventListener("keydown", handleKeyDown);
     // Add custom search event listener
-    window.addEventListener("triggerSearch", handleTriggerSearch as EventListener);
+    window.addEventListener(
+      "triggerSearch",
+      handleTriggerSearch as EventListener,
+    );
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("triggerSearch", handleTriggerSearch as EventListener);
+      window.removeEventListener(
+        "triggerSearch",
+        handleTriggerSearch as EventListener,
+      );
     };
   }, []);
 
@@ -47,16 +55,21 @@ export default function SearchTrigger({ variant = "navbar", className = "" }: Se
             <span class="hidden sm:inline text-sm">Search docs...</span>
             <div class="hidden sm:flex items-center gap-1 ml-2">
               <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">
-                {typeof navigator !== "undefined" && navigator.platform?.toLowerCase().includes("mac") ? "⌘" : "Ctrl"}
+                {typeof navigator !== "undefined" &&
+                    navigator.platform?.toLowerCase().includes("mac")
+                  ? "⌘"
+                  : "Ctrl"}
               </kbd>
-              <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">K</kbd>
+              <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">
+                K
+              </kbd>
             </div>
           </button>
         );
-        
+
       case "inline":
         return (
-          <div 
+          <div
             onClick={() => setIsSearchOpen(true)}
             class={`cursor-pointer flex items-center gap-3 p-4 bg-surface0 hover:bg-surface1 transition-colors border border-surface1 rounded-xl ${className}`}
           >
@@ -65,17 +78,24 @@ export default function SearchTrigger({ variant = "navbar", className = "" }: Se
             </div>
             <div class="flex-1">
               <h3 class="font-semibold text-text mb-1">Search Documentation</h3>
-              <p class="text-sm text-subtext1">Find APIs, guides, examples, and more</p>
+              <p class="text-sm text-subtext1">
+                Find APIs, guides, examples, and more
+              </p>
             </div>
             <div class="flex items-center gap-1">
               <kbd class="bg-surface1 text-subtext1 px-2 py-1 rounded text-xs">
-                {typeof navigator !== "undefined" && navigator.platform?.toLowerCase().includes("mac") ? "⌘" : "Ctrl"}
+                {typeof navigator !== "undefined" &&
+                    navigator.platform?.toLowerCase().includes("mac")
+                  ? "⌘"
+                  : "Ctrl"}
               </kbd>
-              <kbd class="bg-surface1 text-subtext1 px-2 py-1 rounded text-xs">K</kbd>
+              <kbd class="bg-surface1 text-subtext1 px-2 py-1 rounded text-xs">
+                K
+              </kbd>
             </div>
           </div>
         );
-        
+
       case "button":
         return (
           <button
@@ -86,7 +106,7 @@ export default function SearchTrigger({ variant = "navbar", className = "" }: Se
             Search
           </button>
         );
-        
+
       default:
         return null;
     }
@@ -95,8 +115,8 @@ export default function SearchTrigger({ variant = "navbar", className = "" }: Se
   return (
     <>
       {renderTrigger()}
-      <SearchComponent 
-        isOpen={isSearchOpen} 
+      <SearchComponent
+        isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         autoFocus={true}
       />

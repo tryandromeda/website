@@ -1,6 +1,15 @@
-# Web Storage API
+---
+title: "Web Storage API"
+description: "localStorage and sessionStorage with SQLite backend"
+section: "API Reference"
+order: 21
+id: "web-storage-api"
+---
 
-Andromeda provides a comprehensive Web Storage API that implements the standard `localStorage` and `sessionStorage` interfaces. The storage is backed by SQLite for persistence and follows WHATWG specifications for compatibility with web applications.
+Andromeda provides a comprehensive Web Storage API that implements the standard
+`localStorage` and `sessionStorage` interfaces. The storage is backed by SQLite
+for persistence and follows WHATWG specifications for compatibility with web
+applications.
 
 ## Overview
 
@@ -9,11 +18,13 @@ The Web Storage API provides two storage mechanisms:
 - **localStorage**: Persistent storage that survives application restarts
 - **sessionStorage**: Session-based storage that's cleared when the session ends
 
-Both storage mechanisms provide the same interface and are backed by SQLite for reliability and performance.
+Both storage mechanisms provide the same interface and are backed by SQLite for
+reliability and performance.
 
 ## localStorage
 
-The `localStorage` object provides persistent storage that remains available across application restarts.
+The `localStorage` object provides persistent storage that remains available
+across application restarts.
 
 ### Properties
 
@@ -121,7 +132,8 @@ Returns the key at the specified index.
 
 - `index` - The index of the key to retrieve
 
-**Returns:** The key at the specified index, or `null` if the index is out of range
+**Returns:** The key at the specified index, or `null` if the index is out of
+range
 
 **Example:**
 
@@ -141,7 +153,8 @@ for (let i = 0; i < localStorage.length; i++) {
 
 ## sessionStorage
 
-The `sessionStorage` object provides session-based storage that's cleared when the session ends. It has the same interface as `localStorage`.
+The `sessionStorage` object provides session-based storage that's cleared when
+the session ends. It has the same interface as `localStorage`.
 
 ### Properties and Methods
 
@@ -207,7 +220,7 @@ const preferences = {
   theme: "dark",
   language: "en",
   notifications: true,
-  fontSize: 16
+  fontSize: 16,
 };
 
 UserPreferences.save(preferences);
@@ -227,7 +240,7 @@ class CacheManager {
     const item = {
       data: data,
       timestamp: Date.now(),
-      ttl: ttl || null // Time to live in milliseconds
+      ttl: ttl || null, // Time to live in milliseconds
     };
 
     localStorage.setItem(this.PREFIX + key, JSON.stringify(item));
@@ -239,7 +252,7 @@ class CacheManager {
       if (!item) return null;
 
       const parsed = JSON.parse(item);
-      
+
       // Check if item has expired
       if (parsed.ttl && Date.now() - parsed.timestamp > parsed.ttl) {
         this.remove(key);
@@ -310,10 +323,13 @@ class SessionState {
   private static readonly SESSION_KEY = "app_session";
 
   static saveState(state: object): void {
-    sessionStorage.setItem(this.SESSION_KEY, JSON.stringify({
-      ...state,
-      lastUpdated: Date.now()
-    }));
+    sessionStorage.setItem(
+      this.SESSION_KEY,
+      JSON.stringify({
+        ...state,
+        lastUpdated: Date.now(),
+      }),
+    );
   }
 
   static getState(): object | null {
@@ -333,7 +349,7 @@ class SessionState {
   static isStateValid(maxAge: number = 3600000): boolean {
     const state = this.getState() as any;
     if (!state || !state.lastUpdated) return false;
-    
+
     return Date.now() - state.lastUpdated < maxAge;
   }
 }
@@ -342,7 +358,7 @@ class SessionState {
 SessionState.saveState({
   currentView: "dashboard",
   userId: 123,
-  filters: { category: "electronics", priceRange: [10, 100] }
+  filters: { category: "electronics", priceRange: [10, 100] },
 });
 
 // Update specific parts of the state
@@ -360,24 +376,24 @@ if (SessionState.isStateValid()) {
 ```typescript
 class StorageUtils {
   // Get storage usage information
-  static getStorageInfo(): { local: number, session: number } {
+  static getStorageInfo(): { local: number; session: number } {
     return {
       local: localStorage.length,
-      session: sessionStorage.length
+      session: sessionStorage.length,
     };
   }
 
   // Export all localStorage data
   static exportLocalStorage(): object {
     const data: { [key: string]: string } = {};
-    
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key) {
         data[key] = localStorage.getItem(key)!;
       }
     }
-    
+
     return data;
   }
 
@@ -391,30 +407,33 @@ class StorageUtils {
   // Find keys matching a pattern
   static findKeys(pattern: RegExp, storage: Storage = localStorage): string[] {
     const keys: string[] = [];
-    
+
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i);
       if (key && pattern.test(key)) {
         keys.push(key);
       }
     }
-    
+
     return keys;
   }
 
   // Bulk remove keys matching pattern
-  static removeByPattern(pattern: RegExp, storage: Storage = localStorage): number {
+  static removeByPattern(
+    pattern: RegExp,
+    storage: Storage = localStorage,
+  ): number {
     const keysToRemove = this.findKeys(pattern, storage);
-    
-    keysToRemove.forEach(key => storage.removeItem(key));
-    
+
+    keysToRemove.forEach((key) => storage.removeItem(key));
+
     return keysToRemove.length;
   }
 
   // Storage size estimation (approximate)
   static estimateSize(storage: Storage = localStorage): number {
     let total = 0;
-    
+
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i);
       if (key) {
@@ -422,7 +441,7 @@ class StorageUtils {
         total += key.length + (value?.length || 0);
       }
     }
-    
+
     return total; // Size in characters
   }
 }
@@ -447,7 +466,8 @@ StorageUtils.importLocalStorage(backup);
 
 ## Error Handling
 
-Web Storage operations can fail due to various reasons. Always handle errors appropriately:
+Web Storage operations can fail due to various reasons. Always handle errors
+appropriately:
 
 ```typescript
 function safeLocalStorageSet(key: string, value: string): boolean {
@@ -495,10 +515,12 @@ Andromeda's Web Storage is backed by SQLite, providing:
 
 ### Best Practices
 
-1. **Serialize Data Properly**: Always use `JSON.stringify()` and `JSON.parse()` for objects
+1. **Serialize Data Properly**: Always use `JSON.stringify()` and `JSON.parse()`
+   for objects
 2. **Handle Errors**: Wrap storage operations in try-catch blocks
 3. **Avoid Large Values**: Store large data in files, keep storage for metadata
-4. **Use Appropriate Storage**: Use `sessionStorage` for temporary data, `localStorage` for persistent data
+4. **Use Appropriate Storage**: Use `sessionStorage` for temporary data,
+   `localStorage` for persistent data
 5. **Clean Up**: Regularly remove outdated or unnecessary data
 
 ```typescript
@@ -517,7 +539,7 @@ function storeUserData(userData: object): boolean {
 function getUserData(): object | null {
   const data = localStorage.getItem("user");
   if (!data) return null;
-  
+
   try {
     return JSON.parse(data);
   } catch (error) {
@@ -530,18 +552,23 @@ function getUserData(): object | null {
 
 ## Browser Compatibility
 
-Andromeda's Web Storage API is designed to be fully compatible with browser implementations:
+Andromeda's Web Storage API is designed to be fully compatible with browser
+implementations:
 
-- **Standard Interface**: Same methods and properties as browser `localStorage`/`sessionStorage`
+- **Standard Interface**: Same methods and properties as browser
+  `localStorage`/`sessionStorage`
 - **Behavior Compatibility**: Handles edge cases the same way as browsers
-- **Error Handling**: Throws the same types of exceptions as browser implementations
+- **Error Handling**: Throws the same types of exceptions as browser
+  implementations
 - **Data Types**: Stores everything as strings, just like browsers
 
-This means existing web applications using Web Storage can run on Andromeda with minimal or no modifications.
+This means existing web applications using Web Storage can run on Andromeda with
+minimal or no modifications.
 
 ## Related APIs
 
-- [SQLite API](/docs/api/sqlite) - Direct database access for complex storage needs
+- [SQLite API](/docs/api/sqlite) - Direct database access for complex storage
+  needs
 - [File System API](/docs/api/file-system) - File-based storage for large data
 - [Fetch API](/docs/api/fetch) - Network requests that might use cached data
 - [Console API](/docs/api/console) - Debugging storage operations

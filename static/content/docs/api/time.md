@@ -1,4 +1,10 @@
-# Time API
+---
+title: "Time API"
+description: "Date, time, and timing utilities"
+section: "API Reference"
+order: 17
+id: "time-api"
+---
 
 The Time API provides functionality for working with timers, intervals, and
 asynchronous time-based operations. It includes both immediate timing functions
@@ -534,6 +540,7 @@ function cleanup(): void {
 
 ## See Also
 
-- [Performance API](/docs/api/performance) - For high-resolution timing measurements
+- [Performance API](/docs/api/performance) - For high-resolution timing
+  measurements
 - [Console API](/docs/api/console) - For logging timed operations
 - [Process API](/docs/api/process) - For process-related timing

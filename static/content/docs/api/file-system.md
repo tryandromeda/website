@@ -1,4 +1,10 @@
-# File System API
+---
+title: "File System API"
+description: "File I/O operations and path manipulation"
+section: "API Reference"
+order: 11
+id: "file-system-api"
+---
 
 Andromeda provides a comprehensive file system API for reading, writing, and
 managing files and directories.
@@ -360,7 +366,8 @@ const fd = Andromeda.openSync("data.txt", "r");
 Andromeda.closeSync(fd);
 ```
 
-**Note:** This is a low-level API. Use `readFileSync` and `writeFileSync` for most use cases.
+**Note:** This is a low-level API. Use `readFileSync` and `writeFileSync` for
+most use cases.
 
 ## Path Utilities
 

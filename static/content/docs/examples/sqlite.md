@@ -1,4 +1,10 @@
-# SQLite Examples
+---
+title: "SQLite Examples"
+description: "Database operations and SQL query examples"
+section: "Examples"
+order: 10
+id: "sqlite-examples"
+---
 
 This page demonstrates various SQLite database operations using Andromeda's
 built-in SQLite support.

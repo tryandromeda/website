@@ -2,7 +2,7 @@ import type { Handlers } from "fresh";
 
 const suggestions = [
   "Installation Guide",
-  "Quick Start", 
+  "Quick Start",
   "Fetch API",
   "File System API",
   "Canvas API",
@@ -17,17 +17,17 @@ const suggestions = [
   "Graphics",
   "HTTP requests",
   "File operations",
-  "Getting started"
+  "Getting started",
 ];
 
 export const handler: Handlers = {
   GET(req: Request) {
     console.log("Suggestions handler called with GET method, URL:", req.url);
-    
+
     if (!req || !req.url) {
       return new Response(
         JSON.stringify({ error: "Invalid request", suggestions: [] }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -37,49 +37,47 @@ export const handler: Handlers = {
 
     if (!query) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "Query parameter 'q' is required",
-          suggestions: []
+          suggestions: [],
         }),
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
 
     try {
       const queryLower = query.toLowerCase();
       const filteredSuggestions = suggestions
-        .filter(suggestion => 
-          suggestion.toLowerCase().includes(queryLower)
-        )
+        .filter((suggestion) => suggestion.toLowerCase().includes(queryLower))
         .slice(0, limit);
 
       return new Response(
         JSON.stringify({
           query,
-          suggestions: filteredSuggestions
+          suggestions: filteredSuggestions,
         }),
         {
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Suggestions API error:", error);
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "Internal server error",
-          suggestions: []
+          suggestions: [],
         }),
         {
           status: 500,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
-  }
+  },
 };

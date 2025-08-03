@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v7"; // Increment this when you have new features
+const CACHE_VERSION = "v8"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 

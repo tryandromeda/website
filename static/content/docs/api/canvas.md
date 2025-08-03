@@ -1,7 +1,15 @@
-# Canvas API
+---
+title: "Canvas API"
+description: "GPU-accelerated 2D graphics rendering with hardware acceleration and PNG export"
+section: "API Reference"
+order: 14
+id: "canvas-api"
+---
 
-Andromeda provides a comprehensive, **GPU-accelerated** Canvas API for creating 2D graphics,
-drawings, and visualizations. The API is powered by the WGPU backend for hardware acceleration and is based on the standard HTML5 Canvas specification.
+Andromeda provides a comprehensive, **GPU-accelerated** Canvas API for creating
+2D graphics, drawings, and visualizations. The API is powered by the WGPU
+backend for hardware acceleration and is based on the standard HTML5 Canvas
+specification.
 
 ## Overview
 
@@ -222,7 +230,9 @@ ctx.font = "48px Arial";
 ctx.fillText("Gradient Text", 10, 50);
 ```
 
-**Hardware Acceleration**: Linear gradients in Andromeda are GPU-accelerated using the WGPU backend, providing superior performance for complex gradient operations.
+**Hardware Acceleration**: Linear gradients in Andromeda are GPU-accelerated
+using the WGPU backend, providing superior performance for complex gradient
+operations.
 
 #### Line Styles
 
