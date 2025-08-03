@@ -15,6 +15,12 @@ export default [
         children: [],
       },
       {
+        name: "Configuration",
+        path: "/docs/configuration",
+        id: "configuration",
+        children: [],
+      },
+      {
         name: "CLI Reference",
         path: "/docs/cli-reference",
         id: "cli-reference",
@@ -95,6 +101,12 @@ export default [
         name: "SQLite API",
         path: "/docs/api/sqlite",
         id: "sqlite-api",
+        children: [],
+      },
+      {
+        name: "Web Storage API",
+        path: "/docs/api/web-storage",
+        id: "web-storage-api",
         children: [],
       },
     ],

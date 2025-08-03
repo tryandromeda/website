@@ -30,6 +30,7 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**Web APIs**](/docs/api/web) - Standard web APIs (Events,
   TextEncoder/Decoder, etc.)
 - [**SQLite API**](/docs/api/sqlite) - Database operations with SQLite support
+- [**Web Storage API**](/docs/api/web-storage) - localStorage and sessionStorage with SQLite backend
 
 ### 🔧 Development
 

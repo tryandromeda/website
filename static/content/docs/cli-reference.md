@@ -277,7 +277,108 @@ andromeda compile src/main.ts dist/my-app
 
 ### CI/CD Integration
 
-TODO: Write up
+
+### `config`
+
+Manage Andromeda configuration files.
+
+**Syntax:**
+
+```bash
+andromeda config <SUBCOMMAND>
+```
+
+**Subcommands:**
+
+#### `config init`
+
+Initialize a new configuration file with default values.
+
+**Syntax:**
+
+```bash
+andromeda config init [OPTIONS]
+```
+
+**Options:**
+
+- `--format <FORMAT>` - Configuration file format (json, toml, yaml) [default: json]
+- `-o, --output <PATH>` - Output path for configuration file
+- `-f, --force` - Force overwrite existing configuration file
+
+**Examples:**
+
+```bash
+# Create default JSON config
+andromeda config init
+
+# Create TOML config
+andromeda config init --format toml
+
+# Create config in custom location
+andromeda config init --output ./config/andromeda.json
+
+# Force overwrite existing config
+andromeda config init --force
+```
+
+#### `config show`
+
+Display the current active configuration.
+
+**Syntax:**
+
+```bash
+andromeda config show [OPTIONS]
+```
+
+**Options:**
+
+- `-f, --file <PATH>` - Show configuration from specific file
+
+**Examples:**
+
+```bash
+# Show current active config
+andromeda config show
+
+# Show specific config file
+andromeda config show --file ./custom-config.toml
+```
+
+#### `config validate`
+
+Validate configuration file format and values.
+
+**Syntax:**
+
+```bash
+andromeda config validate [OPTIONS]
+```
+
+**Options:**
+
+- `-f, --file <PATH>` - Config file to validate
+
+**Examples:**
+
+```bash
+# Validate current config
+andromeda config validate
+
+# Validate specific file
+andromeda config validate --file ./andromeda.json
+```
+
+**Configuration Files:**
+
+Andromeda supports configuration in JSON, TOML, and YAML formats:
+
+- `andromeda.json` - JSON configuration
+- `andromeda.toml` - TOML configuration  
+- `andromeda.yaml` / `andromeda.yml` - YAML configuration
+
+For detailed configuration options, see the [Configuration Guide](/docs/configuration).
 
 ### `completions`
 

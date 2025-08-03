@@ -18,6 +18,14 @@ possible.
 - **[File System API](/docs/api/file-system)** - File and directory operations, path
   manipulation
 
+### Database APIs
+
+- **[SQLite API](/docs/api/sqlite)** - Full SQLite database support with synchronous APIs
+
+### Storage APIs
+
+- **[Web Storage API](/docs/api/web-storage)** - localStorage and sessionStorage with SQLite backend
+
 ### Network APIs
 
 - **[Fetch API](/docs/api/fetch)** - HTTP client functionality and Headers manipulation
@@ -25,7 +33,7 @@ possible.
 
 ### Graphics APIs
 
-- **[Canvas API](/docs/api/canvas)** - 2D graphics rendering and image manipulation
+- **[Canvas API](/docs/api/canvas)** - 2D graphics rendering with advanced path methods (quadraticCurveTo, ellipse, roundRect) and GPU acceleration
 
 ### Cryptography APIs
 
@@ -126,7 +134,7 @@ APIs that perform I/O operations are typically async:
 
 ```typescript
 // File operations
-const content = await Deno.readTextFile("file.txt");
+const content = await Andromeda.readTextFile("file.txt");
 
 // Network operations
 const response = await fetch("https://api.example.com/data");
@@ -160,7 +168,7 @@ const decoder = new TextDecoder("utf-8", {
 console.log("Hello, Andromeda!");
 
 // File operations
-const content = await Deno.readTextFile("config.json");
+const content = await Andromeda.readTextFile("config.json");
 const config = JSON.parse(content);
 
 // HTTP requests
@@ -184,7 +192,7 @@ async function processData() {
 
   try {
     // Read input file
-    const input = await Deno.readTextFile("input.txt");
+    const input = await Andromeda.readTextFile("input.txt");
 
     // Process with crypto
     const encoder = new TextEncoder();

@@ -223,6 +223,53 @@ selectNotes.finalize();
 db.close();
 ```
 
+## Web Storage
+
+Use localStorage and sessionStorage for client-side data persistence:
+
+```typescript
+// storage-example.ts
+
+// Store user preferences
+localStorage.setItem("theme", "dark");
+localStorage.setItem("language", "en");
+
+// Store complex data as JSON
+const userProfile = {
+  name: "Alice",
+  settings: {
+    notifications: true,
+    autoSave: true
+  }
+};
+localStorage.setItem("profile", JSON.stringify(userProfile));
+
+// Read data back
+const theme = localStorage.getItem("theme");
+const profileData = localStorage.getItem("profile");
+const profile = profileData ? JSON.parse(profileData) : null;
+
+console.log("💾 Stored theme:", theme);
+console.log("👤 User profile:", profile);
+
+// Session storage for temporary data
+sessionStorage.setItem("sessionId", crypto.randomUUID());
+sessionStorage.setItem("startTime", Date.now().toString());
+
+console.log("🎫 Session ID:", sessionStorage.getItem("sessionId"));
+console.log("⏰ Session started:", new Date(parseInt(sessionStorage.getItem("startTime") || "0")));
+
+// Check storage info
+console.log(`📊 localStorage items: ${localStorage.length}`);
+console.log(`📊 sessionStorage items: ${sessionStorage.length}`);
+```
+
+Run it:
+
+```bash
+andromeda run storage-example.ts
+```
+
 ## Using the Interactive REPL
 
 Start the REPL for interactive development:

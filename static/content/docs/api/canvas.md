@@ -97,6 +97,77 @@ ctx.fillStyle = "#ffff00";
 ctx.fill();
 ```
 
+#### Advanced Path Methods
+
+##### Quadratic Curves
+
+```typescript
+// Quadratic Bézier curve
+ctx.beginPath();
+ctx.moveTo(20, 20);
+ctx.quadraticCurveTo(100, 100, 200, 20); // Control point and end point
+ctx.strokeStyle = "#ff0000";
+ctx.stroke();
+
+// Multiple curves for smooth paths
+ctx.beginPath();
+ctx.moveTo(50, 100);
+ctx.quadraticCurveTo(100, 50, 150, 100);
+ctx.quadraticCurveTo(200, 150, 250, 100);
+ctx.strokeStyle = "#00ff00";
+ctx.lineWidth = 3;
+ctx.stroke();
+```
+
+##### Ellipses
+
+```typescript
+// Complete ellipse
+ctx.beginPath();
+ctx.ellipse(100, 100, 50, 30, 0, 0, Math.PI * 2); // x, y, radiusX, radiusY, rotation, startAngle, endAngle
+ctx.fillStyle = "#0000ff";
+ctx.fill();
+
+// Rotated ellipse
+ctx.beginPath();
+ctx.ellipse(200, 200, 60, 20, Math.PI / 4, 0, Math.PI * 2); // 45-degree rotation
+ctx.strokeStyle = "#ff00ff";
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Elliptical arc
+ctx.beginPath();
+ctx.ellipse(300, 100, 40, 25, 0, 0, Math.PI); // Half ellipse
+ctx.fillStyle = "#ffff00";
+ctx.fill();
+```
+
+##### Rounded Rectangles
+
+```typescript
+// Basic rounded rectangle
+ctx.beginPath();
+ctx.roundRect(50, 50, 100, 80, 10); // x, y, width, height, radius
+ctx.fillStyle = "#ff6b6b";
+ctx.fill();
+
+// Rounded rectangle with different corner radii
+ctx.beginPath();
+ctx.roundRect(200, 50, 120, 80, [20, 10, 5, 15]); // Different radius for each corner
+ctx.strokeStyle = "#4ecdc4";
+ctx.lineWidth = 3;
+ctx.stroke();
+
+// Rounded rectangle with stroke and fill
+ctx.beginPath();
+ctx.roundRect(50, 200, 150, 60, 25);
+ctx.fillStyle = "#45b7d1";
+ctx.fill();
+ctx.strokeStyle = "#2c3e50";
+ctx.lineWidth = 2;
+ctx.stroke();
+```
+
 ### Colors and Styles
 
 #### Fill and Stroke Colors

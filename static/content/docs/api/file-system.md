@@ -222,6 +222,24 @@ Andromeda.remove("old-project/");
 
 **Warning:** This operation is irreversible!
 
+#### `Andromeda.removeSync(path: string): void`
+
+Synchronously removes a file or directory and all its contents.
+
+**Parameters:**
+
+- `path` - Path to remove
+
+**Example:**
+
+```typescript
+// Remove a file synchronously
+Andromeda.removeSync("temp-file.txt");
+
+// Remove a directory synchronously
+Andromeda.removeSync("cache/");
+```
+
 #### `Andromeda.copy(from: string, to: string): void`
 
 Copies a file or directory.
@@ -239,6 +257,25 @@ Andromeda.copy("template.txt", "new-file.txt");
 
 // Copy a directory
 Andromeda.copy("src/", "backup/src/");
+```
+
+#### `Andromeda.copyFileSync(from: string, to: string): void`
+
+Synchronously copies a file from one location to another.
+
+**Parameters:**
+
+- `from` - Source file path
+- `to` - Destination file path
+
+**Example:**
+
+```typescript
+// Copy a single file
+Andromeda.copyFileSync("source.txt", "destination.txt");
+
+// Copy with different name
+Andromeda.copyFileSync("config.json", "config.backup.json");
 ```
 
 #### `Andromeda.move(from: string, to: string): void`
@@ -259,6 +296,71 @@ Andromeda.move("old-name.txt", "new-name.txt");
 // Move to different directory
 Andromeda.move("temp/file.txt", "permanent/file.txt");
 ```
+
+#### `Andromeda.renameSync(from: string, to: string): void`
+
+Synchronously renames or moves a file or directory.
+
+**Parameters:**
+
+- `from` - Current path
+- `to` - New path
+
+**Example:**
+
+```typescript
+// Rename a file
+Andromeda.renameSync("oldname.txt", "newname.txt");
+
+// Move to different directory
+Andromeda.renameSync("temp/file.txt", "archive/file.txt");
+```
+
+### Advanced File Operations
+
+#### `Andromeda.createSync(path: string): void`
+
+Creates a new empty file at the specified path.
+
+**Parameters:**
+
+- `path` - Path where the file should be created
+
+**Example:**
+
+```typescript
+// Create an empty file
+Andromeda.createSync("newfile.txt");
+
+// Create file in subdirectory (directory must exist)
+Andromeda.createSync("logs/app.log");
+```
+
+#### `Andromeda.openSync(path: string, mode?: string): number`
+
+Opens a file and returns a file descriptor for low-level operations.
+
+**Parameters:**
+
+- `path` - Path to the file
+- `mode` - Opening mode (optional)
+
+**Returns:** File descriptor (number)
+
+**Example:**
+
+```typescript
+// Open file for reading
+const fd = Andromeda.openSync("data.txt", "r");
+
+// Use file descriptor for operations
+// ... perform file operations ...
+
+// Close file descriptor when done
+Andromeda.closeSync(fd);
+```
+
+**Note:** This is a low-level API. Use `readFileSync` and `writeFileSync` for most use cases.
 
 ## Path Utilities
 
