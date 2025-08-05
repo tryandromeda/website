@@ -112,7 +112,10 @@ export default function Home() {
             </div>
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift">
               <div class="flex justify-center mb-4">
-                <Zap size={48} class="text-subtext0 hover:text-yellow transition-colors duration-300 hover:scale-110 transform" />
+                <Zap
+                  size={48}
+                  class="text-subtext0 hover:text-yellow transition-colors duration-300 hover:scale-110 transform"
+                />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Nova Powered
@@ -131,9 +134,15 @@ export default function Home() {
                 experience with promising performance potential.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation" style="animation-delay: 1s;">
+            <div
+              class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation"
+              style="animation-delay: 1s;"
+            >
               <div class="flex justify-center mb-4">
-                <Target size={48} class="text-subtext0 hover:text-green transition-colors duration-300 hover:rotate-45 transform" />
+                <Target
+                  size={48}
+                  class="text-subtext0 hover:text-green transition-colors duration-300 hover:rotate-45 transform"
+                />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Simple & Clean
@@ -363,104 +372,164 @@ export default function Home() {
           <h2 class="text-4xl font-bold text-center mb-16 text-text animate-on-scroll fade-in-up">
             How Andromeda Compares
           </h2>
-          <div class="max-w-6xl mx-auto animate-on-scroll scale-in">
+          <div class="max-w-5xl mx-auto animate-on-scroll scale-in">
             <div class="overflow-x-auto rounded-lg border border-surface0">
-              <table class="w-full min-w-[600px] border-collapse bg-mantle">
+              <table class="w-full min-w-[500px] border-collapse bg-mantle">
                 <thead>
                   <tr class="border-b border-surface0">
-                    <th class="text-left p-3 md:p-4 text-text font-semibold min-w-[140px]">
+                    <th class="text-left p-3 md:p-4 text-text font-semibold min-w-[160px]">
                       Feature
                     </th>
-                    <th class="text-center p-3 md:p-4 text-text font-semibold min-w-[100px]">
+                    <th class="text-center p-3 md:p-4 text-text font-semibold min-w-[120px]">
                       Andromeda
                     </th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[100px]">
                       Node.js
                     </th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
+                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[100px]">
                       Deno
-                    </th>
-                    <th class="text-center p-3 md:p-4 text-subtext1 min-w-[80px]">
-                      Bun
                     </th>
                   </tr>
                 </thead>
                 <tbody class="text-sm">
                   <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Memory Usage (Base)
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ~12MB
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-red">~40MB</td>
+                    <td class="p-3 md:p-4 text-center text-yellow">~25MB</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Zero-config TypeScript
                     </td>
                     <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                  </tr>
-                  <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">Memory Safety</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓ Rust
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~ GC</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~ Mixed</td>
-                  </tr>
-                  <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">
-                      GPU-Accelerated Canvas
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓ WGPU
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                  </tr>
-                  <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">Built-in SQLite</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                  </tr>
-                  <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">
-                      Single-file Executables
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~ pkg</td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                  </tr>
-                  <tr class="border-b border-surface0/50">
-                    <td class="p-3 md:p-4 text-subtext1">
-                      WinterTC Compliance
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
-                      ✓
-                    </td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">Partial</td>
-                  </tr>
-                  <tr>
-                    <td class="p-3 md:p-4 text-subtext1">Language Server</td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
                       ✓ Built-in
                     </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">
-                      ~ External
+                    <td class="p-3 md:p-4 text-center text-red">
+                      ✗ Requires setup
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">✓</td>
-                    <td class="p-3 md:p-4 text-center text-red">✗</td>
+                    <td class="p-3 md:p-4 text-center text-green">✓ Native</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Runtime Engine
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      Nova (Rust)
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      V8 (C++)
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      V8 (C++)
+                    </td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Hardware-Accelerated Graphics
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ WGPU Canvas
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-red">✗ No Canvas</td>
+                    <td class="p-3 md:p-4 text-center text-red">✗ No Canvas</td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Built-in Database
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ SQLite Native
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ SQLite (v22+)
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ SQLite API
+                    </td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Single-file Compilation
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ Native
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-yellow">
+                      ~ Third-party
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ Built-in
+                    </td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      WinterTC Web Standards
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ Full compliance
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ Compatible
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ Compatible
+                    </td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Language Server Protocol
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      ✓ Integrated
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-yellow">
+                      ~ TypeScript LSP
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ Built-in
+                    </td>
+                  </tr>
+                  <tr class="border-b border-surface0/50">
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Package Manager
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-yellow font-medium">
+                      None yet
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      npm/yarn/pnpm
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      ✓ Built-in
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-3 md:p-4 text-subtext1 font-medium">
+                      Security Model
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                      Memory safe
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-yellow">
+                      Runtime checks
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-green">
+                      Permissions
+                    </td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div class="mt-6 text-center">
+              <p class="text-sm text-subtext0">
+                * Performance data based on initial benchmarks. Results may vary
+                depending on workload and hardware.
+              </p>
             </div>
           </div>
         </div>
@@ -482,7 +551,7 @@ export default function Home() {
             <div class="animate-on-scroll fade-in-left">
               <InstallToggle />
             </div>
-            
+
             {/* Animated Code Example */}
             <div class="animate-on-scroll fade-in-right">
               <AnimatedCodeBlock />

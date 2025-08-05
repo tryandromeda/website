@@ -68,6 +68,39 @@
   }
 }
 
+/* Dark mode selection colors */
+.dark ::selection {
+  background-color: var(--color-sapphire);
+  color: var(--color-crust);
+}
+
+.dark ::-moz-selection {
+  background-color: var(--color-sapphire);
+  color: var(--color-crust);
+}
+
+.dark .markdown-body ::selection {
+  background-color: var(--color-sky);
+  color: var(--color-crust);
+}
+
+.dark .markdown-body ::-moz-selection {
+  background-color: var(--color-sky);
+  color: var(--color-crust);
+}
+
+.dark pre ::selection,
+.dark code ::selection {
+  background-color: var(--color-lavender);
+  color: var(--color-surface2);
+}
+
+.dark pre ::-moz-selection,
+.dark code ::-moz-selection {
+  background-color: var(--color-lavender);
+  color: var(--color-surface2);
+}
+
 :root {
   --color-canvas-default-transparent: rgba(255, 255, 255, 0);
   --color-prettylights-syntax-comment: var(--color-gray-500);
@@ -901,6 +934,54 @@ mark {
   color: inherit;
   padding: 2px 4px;
   border-radius: 4px;
+}
+
+/* Custom mouse text selection highlighting */
+::selection {
+  background-color: var(--color-blue);
+  color: var(--color-base);
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background-color: var(--color-blue);
+  color: var(--color-base);
+  text-shadow: none;
+}
+
+/* Selection styling for different contexts */
+.markdown-body ::selection {
+  background-color: var(--color-lavender);
+  color: var(--color-base);
+}
+
+.markdown-body ::-moz-selection {
+  background-color: var(--color-lavender);
+  color: var(--color-base);
+}
+
+/* Code block selection highlighting */
+pre ::selection,
+code ::selection {
+  background-color: var(--color-mauve);
+  color: var(--color-base);
+}
+
+pre ::-moz-selection,
+code ::-moz-selection {
+  background-color: var(--color-mauve);
+  color: var(--color-base);
+}
+
+/* Terminal and special element selections */
+.terminal-window ::selection {
+  background-color: var(--color-green);
+  color: var(--color-surface2);
+}
+
+.terminal-window ::-moz-selection {
+  background-color: var(--color-green);
+  color: var(--color-surface2);
 }
 
 kbd {
