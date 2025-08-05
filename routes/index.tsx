@@ -6,14 +6,18 @@ import InstallToggle from "../islands/InstallToggle.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
 import RecentActivity from "../islands/RecentActivity.tsx";
 import ScrollAnimations from "../islands/ScrollAnimations.tsx";
+import TerminalDemo from "../islands/TerminalDemo.tsx";
+import ParticleBackground from "../islands/ParticleBackground.tsx";
+import AnimatedCodeBlock from "../islands/AnimatedCodeBlock.tsx";
 
 export default function Home() {
   return (
     <>
+      <ParticleBackground />
       <ScrollAnimations />
       <NavBar />
       {/* Hero Section */}
-      <section class="pt-32 pb-20 px-4 bg-base">
+      <section class="pt-32 pb-20 px-4 bg-base relative z-10">
         <div class="container mx-auto text-center">
           <img
             src="/logo.svg"
@@ -68,19 +72,19 @@ export default function Home() {
             <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll fade-in-up">
               <a
                 href="#features"
-                class="border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+                class="interactive-button border border-surface1 bg-crust hover:bg-mantle text-text px-8 py-3 rounded-lg font-semibold transition-all hover-lift"
               >
                 Learn More
               </a>
               <a
                 href="/docs/index"
-                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+                class="interactive-button border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-all hover-lift"
               >
                 Documentation
               </a>
               <a
                 href="/blog"
-                class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
+                class="interactive-button border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-all hover-lift"
               >
                 Blog
               </a>
@@ -96,7 +100,7 @@ export default function Home() {
             Why Andromeda?
           </h2>
           <div class="grid md:grid-cols-3 gap-8 stagger-children animate-on-scroll">
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation">
               <div class="text-4xl mb-4">🦀</div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Built in Rust
@@ -106,9 +110,9 @@ export default function Home() {
                 lightning-fast runtime experience.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift">
               <div class="flex justify-center mb-4">
-                <Zap size={48} class="text-subtext0" />
+                <Zap size={48} class="text-subtext0 hover:text-yellow transition-colors duration-300 hover:scale-110 transform" />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Nova Powered
@@ -117,7 +121,7 @@ export default function Home() {
                 Leveraging the innovative{" "}
                 <a
                   href="https://trynova.dev/"
-                  class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+                  class="text-text hover:text-subtext0 underline font-semibold transition-colors glitch-effect"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -127,9 +131,9 @@ export default function Home() {
                 experience with promising performance potential.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation" style="animation-delay: 1s;">
               <div class="flex justify-center mb-4">
-                <Target size={48} class="text-subtext0" />
+                <Target size={48} class="text-subtext0 hover:text-green transition-colors duration-300 hover:rotate-45 transform" />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Simple & Clean
@@ -475,59 +479,43 @@ export default function Home() {
 
           <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-12">
             {/* Installation */}
-            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden animate-on-scroll fade-in-left hover:border-surface2 transition-all">
-              <div class="p-4 bg-surface0 border-b border-surface1">
-                <h4 class="font-semibold flex items-center gap-2 text-text">
-                  <span>📦</span> Installation
-                </h4>
-              </div>
-              <div class="p-4">
-                <pre class="text-sm font-mono leading-relaxed overflow-x-auto text-text whitespace-pre-wrap break-words">
-                  <code>{`# Quick install via Cargo
-cargo install --git https://github.com/tryandromeda/andromeda
-
-# Or use platform-specific installers
-curl -fsSL https://tryandromeda.dev/install.sh | bash  # Linux/macOS
-irm tryandromeda.dev/install.ps1 | iex                # Windows
-
-# Verify installation
-andromeda --version`}</code>
-                </pre>
-              </div>
+            <div class="animate-on-scroll fade-in-left">
+              <InstallToggle />
             </div>
-
-            {/* First Program */}
-            <div class="bg-mantle rounded-xl border border-surface1 overflow-hidden animate-on-scroll fade-in-right hover:border-surface2 transition-all">
-              <div class="p-4 bg-surface0 border-b border-surface1">
-                <h4 class="font-semibold flex items-center gap-2 text-text">
-                  <span>🚀</span> Your First Program
-                </h4>
-              </div>
-              <div class="p-4">
-                <pre class="text-sm font-mono leading-relaxed overflow-x-auto text-text whitespace-pre-wrap break-words">
-                  <code>{`// hello.ts - TypeScript works out of the box
-console.log("Hello, Andromeda! 🌌");
-
-// Built-in APIs ready to use
-const canvas = new OffscreenCanvas(200, 100);
-const ctx = canvas.getContext("2d")!;
-ctx.fillStyle = "#4ecdc4";
-ctx.fillRect(0, 0, 200, 100);
-canvas.saveAsPng("hello.png");
-
-// Run with: andromeda run hello.ts`}</code>
-                </pre>
-              </div>
+            
+            {/* Animated Code Example */}
+            <div class="animate-on-scroll fade-in-right">
+              <AnimatedCodeBlock />
             </div>
+          </div>
+
+          {/* Live Terminal Demo Section */}
+          <div class="max-w-4xl mx-auto mb-12 animate-on-scroll scale-in">
+            <div class="text-center mb-6">
+              <h4 class="text-2xl font-semibold text-text mb-2">
+                See Andromeda In Action
+              </h4>
+              <p class="text-subtext1">
+                Watch a live demonstration of Andromeda's capabilities
+              </p>
+            </div>
+            <TerminalDemo />
           </div>
 
           {/* Feature Examples */}
           <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto stagger-children animate-on-scroll">
-            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced">
+              <div class="terminal-header mb-4">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="text-xs text-subtext1 ml-2">graphics.ts</span>
+              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🎨</span> Graphics
               </h4>
-              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+              <div class="terminal-window">
+                <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words matrix-text">
 {`const canvas = new OffscreenCanvas(400, 300);
 const ctx = canvas.getContext("2d")!;
 
@@ -541,14 +529,22 @@ gradient.addColorStop(1, "#4ecdc4");
 ctx.fillStyle = gradient;
 ctx.fillRect(0, 0, 400, 300);
 canvas.saveAsPng("gradient.png");`}
-              </pre>
+                </pre>
+              </div>
             </div>
 
-            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced float-animation">
+              <div class="terminal-header mb-4">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="text-xs text-subtext1 ml-2">database.ts</span>
+              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🗄️</span> Database
               </h4>
-              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+              <div class="terminal-window">
+                <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
 {`const db = new DatabaseSync("app.db");
 
 db.exec(\`CREATE TABLE IF NOT EXISTS users (
@@ -561,14 +557,22 @@ const stmt = db.prepare(
   "INSERT INTO users (name, email) VALUES (?, ?)"
 );
 stmt.run("Alice", "alice@example.com");`}
-              </pre>
+                </pre>
+              </div>
             </div>
 
-            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced">
+              <div class="terminal-header mb-4">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="text-xs text-subtext1 ml-2">crypto.ts</span>
+              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">🔐</span> Crypto
               </h4>
-              <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
+              <div class="terminal-window">
+                <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
 {`// Generate secure random values
 const id = crypto.randomUUID();
 const bytes = crypto.getRandomValues(
@@ -583,7 +587,8 @@ const hash = await crypto.subtle.digest(
 );
 
 console.log("Secure hash:", hash);`}
-              </pre>
+                </pre>
+              </div>
             </div>
           </div>
         </div>

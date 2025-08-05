@@ -10,14 +10,14 @@ export default function NavBar() {
           <div class="flex items-center justify-between">
             <a
               href="/"
-              class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0"
+              class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 group transition-all duration-300 hover:scale-105"
             >
               <img
                 src="/logo.svg"
                 alt="Andromeda"
-                class="w-6 h-6 sm:w-8 sm:h-8"
+                class="w-6 h-6 sm:w-8 sm:h-8 group-hover:rotate-12 transition-transform duration-300"
               />
-              <span class="text-lg sm:text-xl font-bold text-text">
+              <span class="text-lg sm:text-xl font-bold text-text group-hover:text-blue transition-colors duration-300">
                 Andromeda
               </span>
             </a>
@@ -25,25 +25,28 @@ export default function NavBar() {
               <SearchTrigger variant="navbar" />
               <a
                 href="/#features"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
+                class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Features
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue transition-all duration-300 group-hover:w-full"></span>
               </a>
               <a
                 href="/docs/index"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
+                class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Documentation
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green transition-all duration-300 group-hover:w-full"></span>
               </a>
               <a
                 href="/blog"
-                class="text-subtext1 hover:text-text transition-colors font-medium text-sm"
+                class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Blog
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow transition-all duration-300 group-hover:w-full"></span>
               </a>
               <a
                 href="https://github.com/tryandromeda/andromeda"
-                class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-200 border border-surface2 flex-shrink-0"
+                class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-300 border border-surface2 flex-shrink-0 hover:scale-110 hover:border-blue"
               >
                 <GithubIcon class="w-4 h-4 lg:w-5 lg:h-5" />
               </a>

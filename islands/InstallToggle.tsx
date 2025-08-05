@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { Copy, Download, Monitor, Terminal, Zap } from "lucide-preact";
 
 interface Platform {
@@ -41,8 +41,42 @@ const platforms: Platform[] = [
 
 export default function InstallToggle() {
   const [selectedPlatform, setSelectedPlatform] = useState("bash");
+  const [displayedCommand, setDisplayedCommand] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
 
   const currentPlatform = platforms.find((p) => p.id === selectedPlatform)!;
+
+  // Typing animation effect
+  useEffect(() => {
+    const command = currentPlatform.command;
+    setIsTyping(true);
+    setDisplayedCommand("");
+    
+    let typeInterval: number;
+    
+    const typeCommand = () => {
+      let i = 0;
+      typeInterval = setInterval(() => {
+        if (i < command.length) {
+          setDisplayedCommand(command.slice(0, i + 1));
+          i++;
+        } else {
+          clearInterval(typeInterval);
+          setIsTyping(false);
+        }
+      }, 30); // Typing speed
+    };
+
+    const timeout = setTimeout(typeCommand, 200); // Small delay before typing starts
+    
+    return () => {
+      clearTimeout(timeout);
+      if (typeInterval) {
+        clearInterval(typeInterval);
+      }
+      setIsTyping(false);
+    };
+  }, [currentPlatform.command]);
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -93,16 +127,17 @@ export default function InstallToggle() {
                   key={platform.id}
                   type="button"
                   onClick={() => setSelectedPlatform(platform.id)}
-                  class={`group relative overflow-hidden p-4 rounded-lg border transition-all duration-300 transform ${
+                  class={`group relative overflow-hidden p-4 rounded-lg border transition-all duration-500 transform hover:scale-105 ${
                     isSelected
-                      ? `bg-${platform.color} text-base border-${platform.color} shadow-lg scale-105`
-                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:scale-102 hover:shadow-md"
+                      ? `bg-${platform.color} text-base border-${platform.color} shadow-lg scale-105 animate-pulse-glow`
+                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-xl hover:shadow-blue/10"
                   }`}
                   style={isSelected
                     ? {
                       backgroundColor: `var(--color-${platform.color})`,
                       borderColor: `var(--color-${platform.color})`,
                       color: "var(--color-base)",
+                      boxShadow: `0 0 20px color-mix(in srgb, var(--color-${platform.color}) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15)`,
                     }
                     : {
                       color: "var(--color-text)",
@@ -164,38 +199,48 @@ export default function InstallToggle() {
                 <button
                   type="button"
                   onClick={downloadScript}
-                  class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
+                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-110 shadow-md hover:shadow-xl relative overflow-hidden"
                   style={{
                     backgroundColor: "var(--color-yellow)",
                     color: "var(--color-base)",
                   }}
                   title="Download script"
                 >
-                  <Download size={16} />
-                  <span class="hidden sm:inline">Download</span>
+                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  <Download size={16} class="group-hover:rotate-12 transition-transform duration-300" />
+                  <span class="hidden sm:inline relative z-10">Download</span>
                 </button>{" "}
                 <button
                   type="button"
                   onClick={() => copyToClipboard(currentPlatform.command)}
-                  class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg"
+                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-110 shadow-md hover:shadow-xl relative overflow-hidden"
                   style={{
                     backgroundColor: "var(--color-green)",
                     color: "var(--color-base)",
                   }}
                   title="Copy to clipboard"
                 >
-                  <Copy size={16} />
-                  <span class="hidden sm:inline">Copy</span>
+                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  <Copy size={16} class="group-hover:scale-125 transition-transform duration-300" />
+                  <span class="hidden sm:inline relative z-10">Copy</span>
                 </button>
               </div>
             </div>
             {/* Command display */}
-            <div class="p-4">
+            <div class="p-4 relative">
               <pre
-                class="text-sm sm:text-base font-mono leading-relaxed overflow-x-auto"
+                class="text-sm sm:text-base font-mono leading-relaxed overflow-x-auto min-h-[2.5rem] flex items-center"
                 style={{ color: "var(--color-text)" }}
               >
-                <code>{currentPlatform.command}</code>
+                <code>
+                  {displayedCommand}
+                  {isTyping && (
+                    <span
+                      class="inline-block w-2 h-5 ml-1 animate-pulse"
+                      style={{ backgroundColor: "var(--color-green)" }}
+                    />
+                  )}
+                </code>
               </pre>
             </div>
           </div>

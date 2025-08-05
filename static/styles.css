@@ -1234,6 +1234,346 @@ body {
   color: var(--color-text);
 }
 
+/* Terminal and Code Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-blue) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px color-mix(in srgb, var(--color-blue) 60%, transparent), 0 12px 35px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Terminal Typing Effect */
+@keyframes terminal-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-cursor {
+  animation: terminal-blink 1s infinite;
+}
+
+/* Matrix-style text effect for code blocks */
+@keyframes matrix-glow {
+  0% { text-shadow: 0 0 5px color-mix(in srgb, var(--color-green) 80%, transparent); }
+  50% { text-shadow: 0 0 10px color-mix(in srgb, var(--color-green) 80%, transparent), 0 0 15px color-mix(in srgb, var(--color-green) 60%, transparent); }
+  100% { text-shadow: 0 0 5px color-mix(in srgb, var(--color-green) 80%, transparent); }
+}
+
+.matrix-text {
+  animation: matrix-glow 2s ease-in-out infinite;
+}
+
+/* Floating animation for cards */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Gradient animation for backgrounds */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-animate {
+  background: linear-gradient(-45deg, var(--color-blue), var(--color-mauve), var(--color-green), var(--color-yellow));
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Enhanced hover effects with more pronounced animations */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Code block enhancements */
+.code-block-enhanced {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-surface1) 0%, var(--color-surface0) 100%);
+  border: 1px solid var(--color-surface2);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.code-block-enhanced:hover {
+  border-color: var(--color-blue);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 20px var(--color-blue)20;
+}
+
+.code-block-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-red), var(--color-yellow), var(--color-green));
+}
+
+/* Terminal window styling */
+.terminal-window {
+  background: var(--color-surface1);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-surface2);
+}
+
+.terminal-header {
+  background: var(--color-surface2);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background-color: var(--color-red); }
+.terminal-dot.yellow { background-color: var(--color-yellow); }
+.terminal-dot.green { background-color: var(--color-green); }
+
+/* Glitch effect for special elements */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  10% { transform: translate(-2px, 2px); }
+  20% { transform: translate(-2px, -2px); }
+  30% { transform: translate(2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  50% { transform: translate(-2px, 2px); }
+  60% { transform: translate(-2px, -2px); }
+  70% { transform: translate(2px, 2px); }
+  80% { transform: translate(-2px, -2px); }
+  90% { transform: translate(2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch-effect:hover {
+  animation: glitch 0.3s ease-in-out;
+}
+
+/* Loading spinner animation */
+@keyframes spin-glow {
+  0% { 
+    transform: rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  100% { 
+    transform: rotate(360deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+.spin-glow {
+  animation: spin-glow 3s linear infinite;
+}
+
+/* Parallax container */
+.parallax-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.parallax-element {
+  transition: transform 0.1s ease-out;
+}
+
+/* Interactive button states */
+.interactive-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.interactive-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.interactive-button:hover::before {
+  left: 100%;
+}
+
+.interactive-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Additional professional animations */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+}
+
+/* Professional card hover effects */
+.group:hover .group-hover\:rotate-12 {
+  transform: rotate(12deg);
+}
+
+.group:hover .group-hover\:scale-125 {
+  transform: scale(1.25);
+}
+
+.group:hover .group-hover\:rotate-45 {
+  transform: rotate(45deg);
+}
+
+/* Code highlighting colors */
+.text-purple {
+  color: var(--color-mauve);
+}
+
+/* Ensure all theme color utility classes are available */
+.text-red { color: var(--color-red); }
+.text-green { color: var(--color-green); }
+.text-blue { color: var(--color-blue); }
+.text-yellow { color: var(--color-yellow); }
+.text-teal { color: var(--color-teal); }
+.text-sky { color: var(--color-sky); }
+.text-lavender { color: var(--color-lavender); }
+.text-mauve { color: var(--color-mauve); }
+.text-pink { color: var(--color-pink); }
+.text-peach { color: var(--color-peach); }
+
+.bg-red { background-color: var(--color-red); }
+.bg-green { background-color: var(--color-green); }
+.bg-blue { background-color: var(--color-blue); }
+.bg-yellow { background-color: var(--color-yellow); }
+.bg-teal { background-color: var(--color-teal); }
+.bg-sky { background-color: var(--color-sky); }
+.bg-lavender { background-color: var(--color-lavender); }
+.bg-mauve { background-color: var(--color-mauve); }
+.bg-pink { background-color: var(--color-pink); }
+.bg-peach { background-color: var(--color-peach); }
+
+.border-red { border-color: var(--color-red); }
+.border-green { border-color: var(--color-green); }
+.border-blue { border-color: var(--color-blue); }
+.border-yellow { border-color: var(--color-yellow); }
+.border-teal { border-color: var(--color-teal); }
+.border-sky { border-color: var(--color-sky); }
+.border-lavender { border-color: var(--color-lavender); }
+.border-mauve { border-color: var(--color-mauve); }
+.border-pink { border-color: var(--color-pink); }
+.border-peach { border-color: var(--color-peach); }
+
+/* Enhanced responsiveness for animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .float-animation,
+  .spin-glow,
+  .animate-pulse-glow {
+    animation: none !important;
+  }
+}
+
+/* Smooth scrolling enhancements */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    var(--color-surface0) 25%, 
+    var(--color-surface1) 50%, 
+    var(--color-surface0) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
