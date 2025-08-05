@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-window
 import { useEffect, useState } from "preact/hooks";
 
 export function ScrollProgress() {
@@ -12,10 +13,10 @@ export function ScrollProgress() {
       setScrollProgress(progress);
     };
 
-    window.addEventListener("scroll", updateScrollProgress);
+    addEventListener("scroll", updateScrollProgress);
     updateScrollProgress(); // Initial calculation
 
-    return () => window.removeEventListener("scroll", updateScrollProgress);
+    return () => removeEventListener("scroll", updateScrollProgress);
   }, []);
 
   return (

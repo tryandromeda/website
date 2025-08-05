@@ -359,7 +359,7 @@ function generateOfflinePage(title, message) {
              <a href="/" class="block bg-blue hover:bg-blue/80 text-base px-4 py-2 rounded transition-colors">
                Home
              </a>
-             <a href="/docs" class="block border border-surface1 hover:border-surface2 text-text px-4 py-2 rounded transition-colors">
+             <a href="/docs/index" class="block border border-surface1 hover:border-surface2 text-text px-4 py-2 rounded transition-colors">
                Documentation
              </a>
            </div>

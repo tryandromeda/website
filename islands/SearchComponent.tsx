@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-window react-no-danger
 import { useEffect, useRef, useState } from "preact/hooks";
 import {
   BookOpen,
@@ -231,6 +232,7 @@ export default function SearchComponent({
           />
           {query && (
             <button
+              type="button"
               onClick={() => {
                 setQuery("");
                 setResults([]);
@@ -244,6 +246,7 @@ export default function SearchComponent({
           )}
           {onClose && (
             <button
+              type="button"
               onClick={onClose}
               class="text-subtext1 hover:text-text transition-colors ml-2"
             >
@@ -266,6 +269,7 @@ export default function SearchComponent({
             <div class="p-4 text-center text-red">
               <p>Search error: {error}</p>
               <button
+                type="button"
                 onClick={() => performSearch(query)}
                 class="mt-2 text-sm text-blue hover:underline"
               >
@@ -282,6 +286,7 @@ export default function SearchComponent({
               </div>
               {suggestions.map((suggestion, index) => (
                 <button
+                  type="button"
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   class={`w-full text-left px-4 py-2 hover:bg-surface0 transition-colors flex items-center gap-2 ${

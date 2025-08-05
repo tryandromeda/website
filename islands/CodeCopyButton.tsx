@@ -21,6 +21,7 @@ export function CodeCopyButton({ code, className = "" }: CodeCopyButtonProps) {
 
   return (
     <button
+      type="button"
       onClick={copyToClipboard}
       className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
         copied

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 interface TerminalLine {
   text: string;
@@ -8,7 +8,11 @@ interface TerminalLine {
 
 const demoSequence: TerminalLine[] = [
   { text: "$ andromeda --version", type: "command", delay: 1000 },
-  { text: "andromeda 0.1.0 (Rust 1.75.0, Nova Engine)", type: "output", delay: 500 },
+  {
+    text: "andromeda 0.1.0 (Rust 1.75.0, Nova Engine)",
+    type: "output",
+    delay: 500,
+  },
   { text: "$ andromeda run hello.ts", type: "command", delay: 1500 },
   { text: "Hello, Andromeda! 🌌", type: "output", delay: 600 },
   { text: "$ andromeda repl", type: "command", delay: 2000 },
@@ -37,15 +41,15 @@ export default function TerminalDemo() {
     const currentLine = demoSequence[currentIndex];
     const timeout = setTimeout(() => {
       setIsTyping(true);
-      
+
       // Simulate typing animation
       let typedText = "";
       let charIndex = 0;
-      
+
       const typeInterval = setInterval(() => {
         if (charIndex < currentLine.text.length) {
           typedText += currentLine.text[charIndex];
-          setLines(prev => {
+          setLines((prev) => {
             const newLines = [...prev];
             if (newLines.length === currentIndex) {
               newLines.push({ ...currentLine, text: typedText });
@@ -58,7 +62,7 @@ export default function TerminalDemo() {
         } else {
           clearInterval(typeInterval);
           setIsTyping(false);
-          setCurrentIndex(prev => prev + 1);
+          setCurrentIndex((prev) => prev + 1);
         }
       }, currentLine.type === "command" ? 80 : 30);
 
@@ -79,27 +83,37 @@ export default function TerminalDemo() {
         </div>
         <div class="text-sm text-subtext1 ml-3 font-mono">andromeda-demo</div>
       </div>
-      
+
       {/* Terminal Content */}
       <div class="p-4 font-mono text-sm min-h-[300px] bg-gradient-to-br from-surface1 to-surface0">
         {lines.map((line, index) => (
-          <div key={index} class={`mb-1 ${line.type === "command" ? "text-green" : line.type === "error" ? "text-red" : "text-subtext1"}`}>
-            {line.type === "command" && !line.text.startsWith("$") && !line.text.startsWith(">") && (
-              <span class="text-blue">$ </span>
-            )}
-            <span class={line.type === "command" ? "text-yellow" : ""}>{line.text}</span>
+          <div
+            key={index}
+            class={`mb-1 ${
+              line.type === "command"
+                ? "text-green"
+                : line.type === "error"
+                ? "text-red"
+                : "text-subtext1"
+            }`}
+          >
+            {line.type === "command" && !line.text.startsWith("$") &&
+              !line.text.startsWith(">") && <span class="text-blue">$</span>}
+            <span class={line.type === "command" ? "text-yellow" : ""}>
+              {line.text}
+            </span>
           </div>
         ))}
-        
+
         {/* Cursor */}
         {isTyping && (
           <span class="inline-block w-2 h-4 bg-green animate-pulse ml-1"></span>
         )}
-        
+
         {/* Interactive prompt when demo is complete */}
         {currentIndex >= demoSequence.length && (
           <div class="text-green animate-pulse">
-            <span class="text-blue">$ </span>
+            <span class="text-blue">$</span>
             <span class="text-yellow">_</span>
           </div>
         )}

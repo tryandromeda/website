@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Copy, Download, Monitor, Terminal, Zap } from "lucide-preact";
 
 interface Platform {
@@ -51,9 +51,9 @@ export default function InstallToggle() {
     const command = currentPlatform.command;
     setIsTyping(true);
     setDisplayedCommand("");
-    
+
     let typeInterval: number;
-    
+
     const typeCommand = () => {
       let i = 0;
       typeInterval = setInterval(() => {
@@ -68,7 +68,7 @@ export default function InstallToggle() {
     };
 
     const timeout = setTimeout(typeCommand, 200); // Small delay before typing starts
-    
+
     return () => {
       clearTimeout(timeout);
       if (typeInterval) {
@@ -137,7 +137,8 @@ export default function InstallToggle() {
                       backgroundColor: `var(--color-${platform.color})`,
                       borderColor: `var(--color-${platform.color})`,
                       color: "var(--color-base)",
-                      boxShadow: `0 0 20px color-mix(in srgb, var(--color-${platform.color}) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15)`,
+                      boxShadow:
+                        `0 0 20px color-mix(in srgb, var(--color-${platform.color}) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15)`,
                     }
                     : {
                       color: "var(--color-text)",
@@ -206,8 +207,12 @@ export default function InstallToggle() {
                   }}
                   title="Download script"
                 >
-                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <Download size={16} class="group-hover:rotate-12 transition-transform duration-300" />
+                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
+                  </div>
+                  <Download
+                    size={16}
+                    class="group-hover:rotate-12 transition-transform duration-300"
+                  />
                   <span class="hidden sm:inline relative z-10">Download</span>
                 </button>{" "}
                 <button
@@ -220,8 +225,12 @@ export default function InstallToggle() {
                   }}
                   title="Copy to clipboard"
                 >
-                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                  <Copy size={16} class="group-hover:scale-125 transition-transform duration-300" />
+                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
+                  </div>
+                  <Copy
+                    size={16}
+                    class="group-hover:scale-125 transition-transform duration-300"
+                  />
                   <span class="hidden sm:inline relative z-10">Copy</span>
                 </button>
               </div>

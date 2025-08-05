@@ -1318,10 +1318,14 @@ body {
 /* Terminal and Code Animations */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px color-mix(in srgb, var(--color-blue) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--color-blue) 40%, transparent),
+      0 8px 25px rgba(0, 0, 0, 0.15);
   }
   50% {
-    box-shadow: 0 0 30px color-mix(in srgb, var(--color-blue) 60%, transparent), 0 12px 35px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 0 30px color-mix(in srgb, var(--color-blue) 60%, transparent),
+      0 12px 35px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -1331,8 +1335,12 @@ body {
 
 /* Terminal Typing Effect */
 @keyframes terminal-blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
 }
 
 .terminal-cursor {
@@ -1341,9 +1349,19 @@ body {
 
 /* Matrix-style text effect for code blocks */
 @keyframes matrix-glow {
-  0% { text-shadow: 0 0 5px color-mix(in srgb, var(--color-green) 80%, transparent); }
-  50% { text-shadow: 0 0 10px color-mix(in srgb, var(--color-green) 80%, transparent), 0 0 15px color-mix(in srgb, var(--color-green) 60%, transparent); }
-  100% { text-shadow: 0 0 5px color-mix(in srgb, var(--color-green) 80%, transparent); }
+  0% {
+    text-shadow: 0 0 5px
+      color-mix(in srgb, var(--color-green) 80%, transparent);
+  }
+  50% {
+    text-shadow:
+      0 0 10px color-mix(in srgb, var(--color-green) 80%, transparent),
+      0 0 15px color-mix(in srgb, var(--color-green) 60%, transparent);
+  }
+  100% {
+    text-shadow: 0 0 5px
+      color-mix(in srgb, var(--color-green) 80%, transparent);
+  }
 }
 
 .matrix-text {
@@ -1352,8 +1370,12 @@ body {
 
 /* Floating animation for cards */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .float-animation {
@@ -1362,13 +1384,25 @@ body {
 
 /* Gradient animation for backgrounds */
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .gradient-animate {
-  background: linear-gradient(-45deg, var(--color-blue), var(--color-mauve), var(--color-green), var(--color-yellow));
+  background: linear-gradient(
+    -45deg,
+    var(--color-blue),
+    var(--color-mauve),
+    var(--color-green),
+    var(--color-yellow)
+  );
   background-size: 400% 400%;
   animation: gradient-shift 8s ease infinite;
 }
@@ -1401,7 +1435,7 @@ body {
 }
 
 .ripple-effect::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1421,7 +1455,11 @@ body {
 /* Code block enhancements */
 .code-block-enhanced {
   position: relative;
-  background: linear-gradient(135deg, var(--color-surface1) 0%, var(--color-surface0) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface1) 0%,
+    var(--color-surface0) 100%
+  );
   border: 1px solid var(--color-surface2);
   border-radius: 12px;
   overflow: hidden;
@@ -1430,17 +1468,22 @@ body {
 
 .code-block-enhanced:hover {
   border-color: var(--color-blue);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 20px var(--color-blue)20;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 20px var(--color-blue) 20;
 }
 
 .code-block-enhanced::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-red), var(--color-yellow), var(--color-green));
+  background: linear-gradient(
+    90deg,
+    var(--color-red),
+    var(--color-yellow),
+    var(--color-green)
+  );
 }
 
 /* Terminal window styling */
@@ -1466,23 +1509,51 @@ body {
   border-radius: 50%;
 }
 
-.terminal-dot.red { background-color: var(--color-red); }
-.terminal-dot.yellow { background-color: var(--color-yellow); }
-.terminal-dot.green { background-color: var(--color-green); }
+.terminal-dot.red {
+  background-color: var(--color-red);
+}
+.terminal-dot.yellow {
+  background-color: var(--color-yellow);
+}
+.terminal-dot.green {
+  background-color: var(--color-green);
+}
 
 /* Glitch effect for special elements */
 @keyframes glitch {
-  0% { transform: translate(0); }
-  10% { transform: translate(-2px, 2px); }
-  20% { transform: translate(-2px, -2px); }
-  30% { transform: translate(2px, 2px); }
-  40% { transform: translate(2px, -2px); }
-  50% { transform: translate(-2px, 2px); }
-  60% { transform: translate(-2px, -2px); }
-  70% { transform: translate(2px, 2px); }
-  80% { transform: translate(-2px, -2px); }
-  90% { transform: translate(2px, 2px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+  }
+  20% {
+    transform: translate(-2px, -2px);
+  }
+  30% {
+    transform: translate(2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+  }
+  70% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(-2px, -2px);
+  }
+  90% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 .glitch-effect:hover {
@@ -1491,11 +1562,11 @@ body {
 
 /* Loading spinner animation */
 @keyframes spin-glow {
-  0% { 
+  0% {
     transform: rotate(0deg);
     filter: hue-rotate(0deg);
   }
-  100% { 
+  100% {
     transform: rotate(360deg);
     filter: hue-rotate(360deg);
   }
@@ -1523,13 +1594,18 @@ body {
 }
 
 .interactive-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -1577,38 +1653,98 @@ body {
 }
 
 /* Ensure all theme color utility classes are available */
-.text-red { color: var(--color-red); }
-.text-green { color: var(--color-green); }
-.text-blue { color: var(--color-blue); }
-.text-yellow { color: var(--color-yellow); }
-.text-teal { color: var(--color-teal); }
-.text-sky { color: var(--color-sky); }
-.text-lavender { color: var(--color-lavender); }
-.text-mauve { color: var(--color-mauve); }
-.text-pink { color: var(--color-pink); }
-.text-peach { color: var(--color-peach); }
+.text-red {
+  color: var(--color-red);
+}
+.text-green {
+  color: var(--color-green);
+}
+.text-blue {
+  color: var(--color-blue);
+}
+.text-yellow {
+  color: var(--color-yellow);
+}
+.text-teal {
+  color: var(--color-teal);
+}
+.text-sky {
+  color: var(--color-sky);
+}
+.text-lavender {
+  color: var(--color-lavender);
+}
+.text-mauve {
+  color: var(--color-mauve);
+}
+.text-pink {
+  color: var(--color-pink);
+}
+.text-peach {
+  color: var(--color-peach);
+}
 
-.bg-red { background-color: var(--color-red); }
-.bg-green { background-color: var(--color-green); }
-.bg-blue { background-color: var(--color-blue); }
-.bg-yellow { background-color: var(--color-yellow); }
-.bg-teal { background-color: var(--color-teal); }
-.bg-sky { background-color: var(--color-sky); }
-.bg-lavender { background-color: var(--color-lavender); }
-.bg-mauve { background-color: var(--color-mauve); }
-.bg-pink { background-color: var(--color-pink); }
-.bg-peach { background-color: var(--color-peach); }
+.bg-red {
+  background-color: var(--color-red);
+}
+.bg-green {
+  background-color: var(--color-green);
+}
+.bg-blue {
+  background-color: var(--color-blue);
+}
+.bg-yellow {
+  background-color: var(--color-yellow);
+}
+.bg-teal {
+  background-color: var(--color-teal);
+}
+.bg-sky {
+  background-color: var(--color-sky);
+}
+.bg-lavender {
+  background-color: var(--color-lavender);
+}
+.bg-mauve {
+  background-color: var(--color-mauve);
+}
+.bg-pink {
+  background-color: var(--color-pink);
+}
+.bg-peach {
+  background-color: var(--color-peach);
+}
 
-.border-red { border-color: var(--color-red); }
-.border-green { border-color: var(--color-green); }
-.border-blue { border-color: var(--color-blue); }
-.border-yellow { border-color: var(--color-yellow); }
-.border-teal { border-color: var(--color-teal); }
-.border-sky { border-color: var(--color-sky); }
-.border-lavender { border-color: var(--color-lavender); }
-.border-mauve { border-color: var(--color-mauve); }
-.border-pink { border-color: var(--color-pink); }
-.border-peach { border-color: var(--color-peach); }
+.border-red {
+  border-color: var(--color-red);
+}
+.border-green {
+  border-color: var(--color-green);
+}
+.border-blue {
+  border-color: var(--color-blue);
+}
+.border-yellow {
+  border-color: var(--color-yellow);
+}
+.border-teal {
+  border-color: var(--color-teal);
+}
+.border-sky {
+  border-color: var(--color-sky);
+}
+.border-lavender {
+  border-color: var(--color-lavender);
+}
+.border-mauve {
+  border-color: var(--color-mauve);
+}
+.border-pink {
+  border-color: var(--color-pink);
+}
+.border-peach {
+  border-color: var(--color-peach);
+}
 
 /* Enhanced responsiveness for animations */
 @media (prefers-reduced-motion: reduce) {
@@ -1617,7 +1753,7 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .float-animation,
   .spin-glow,
   .animate-pulse-glow {
@@ -1641,9 +1777,10 @@ a:focus-visible {
 
 /* Loading states */
 .loading-shimmer {
-  background: linear-gradient(90deg, 
-    var(--color-surface0) 25%, 
-    var(--color-surface1) 50%, 
+  background: linear-gradient(
+    90deg,
+    var(--color-surface0) 25%,
+    var(--color-surface1) 50%,
     var(--color-surface0) 75%
   );
   background-size: 200% 100%;
@@ -1651,8 +1788,12 @@ a:focus-visible {
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .markdown-body h1,

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any no-explicit-any no-explicit-any
 import Fuse from "npm:fuse.js";
 import { useEffect, useState } from "preact/hooks";
-import { ArrowLeft, Book, ExternalLink, Menu, Search, X } from "lucide-preact";
+import { ArrowLeft, ExternalLink, Menu, Search, X } from "lucide-preact";
 
 interface DocEntry {
   name: string;
@@ -123,6 +123,7 @@ export function DocNav({
               </div>
             </div>
             <button
+              type="button"
               onClick={closeNav}
               class="md:hidden p-2 hover:bg-surface0 rounded-lg transition-colors"
               aria-label="Close navigation"
@@ -146,6 +147,7 @@ export function DocNav({
             />
             {searchTerm && (
               <button
+                type="button"
                 onClick={() => setSearchTerm("")}
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-subtext0 hover:text-text"
               >
@@ -211,6 +213,7 @@ export function DocNav({
                     return (
                       <div key={topicName} class="space-y-1">
                         <button
+                          type="button"
                           onClick={() => toggleSection(topicName)}
                           class={`w-full flex items-center justify-between py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
                             hasCurrentPage

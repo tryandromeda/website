@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-window
 import { useEffect } from "preact/hooks";
 
 export default function ScrollAnimations() {
@@ -42,7 +43,7 @@ export default function ScrollAnimations() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    addEventListener("scroll", handleScroll, { passive: true });
 
     const handleParallax = () => {
       const scrollY = window.scrollY;
@@ -60,7 +61,7 @@ export default function ScrollAnimations() {
       }
     };
 
-    window.addEventListener("scroll", handleParallax, { passive: true });
+    addEventListener("scroll", handleParallax, { passive: true });
 
     const handlePageLoad = () => {
       document.body.classList.add("page-loaded");
@@ -69,14 +70,14 @@ export default function ScrollAnimations() {
     if (document.readyState === "complete") {
       handlePageLoad();
     } else {
-      window.addEventListener("load", handlePageLoad);
+      addEventListener("load", handlePageLoad);
     }
 
     return () => {
       animateOnScroll.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("scroll", handleParallax);
-      window.removeEventListener("load", handlePageLoad);
+      removeEventListener("scroll", handleScroll);
+      removeEventListener("scroll", handleParallax);
+      removeEventListener("load", handlePageLoad);
     };
   }, []);
 

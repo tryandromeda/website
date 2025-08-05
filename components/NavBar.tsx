@@ -28,21 +28,24 @@ export default function NavBar() {
                 class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Features
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue transition-all duration-300 group-hover:w-full">
+                </span>
               </a>
               <a
                 href="/docs/index"
                 class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Documentation
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green transition-all duration-300 group-hover:w-full">
+                </span>
               </a>
               <a
                 href="/blog"
                 class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >
                 Blog
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow transition-all duration-300 group-hover:w-full"></span>
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow transition-all duration-300 group-hover:w-full">
+                </span>
               </a>
               <a
                 href="https://github.com/tryandromeda/andromeda"

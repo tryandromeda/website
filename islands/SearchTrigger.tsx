@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { Command, Search } from "lucide-preact";
+import { Search } from "lucide-preact";
 import SearchComponent from "./SearchComponent.tsx";
 
 interface SearchTriggerProps {
@@ -20,7 +20,7 @@ export default function SearchTrigger(
     }
   };
 
-  const handleTriggerSearch = (e: CustomEvent) => {
+  const handleTriggerSearch = (_e: CustomEvent) => {
     setIsSearchOpen(true);
     // The query will be handled by the SearchComponent
   };
@@ -29,14 +29,14 @@ export default function SearchTrigger(
     // Add global keyboard listener
     document.addEventListener("keydown", handleKeyDown);
     // Add custom search event listener
-    window.addEventListener(
+    addEventListener(
       "triggerSearch",
       handleTriggerSearch as EventListener,
     );
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener(
+      removeEventListener(
         "triggerSearch",
         handleTriggerSearch as EventListener,
       );
@@ -48,6 +48,7 @@ export default function SearchTrigger(
       case "navbar":
         return (
           <button
+            type="button"
             onClick={() => setIsSearchOpen(true)}
             class={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-subtext1 hover:text-text transition-colors border border-surface1 rounded-lg hover:border-surface2 bg-surface0/50 ${className}`}
           >
@@ -99,6 +100,7 @@ export default function SearchTrigger(
       case "button":
         return (
           <button
+            type="button"
             onClick={() => setIsSearchOpen(true)}
             class={`inline-flex items-center gap-2 px-4 py-2 bg-blue hover:bg-blue/90 text-white rounded-lg transition-colors font-medium ${className}`}
           >
@@ -118,7 +120,7 @@ export default function SearchTrigger(
       <SearchComponent
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        autoFocus={true}
+        autoFocus
       />
     </>
   );

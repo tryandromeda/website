@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 const codeLines = [
   { text: "// hello.ts - TypeScript works out of the box", type: "comment" },
@@ -21,12 +21,12 @@ export default function AnimatedCodeBlock() {
   useEffect(() => {
     const animateLines = async () => {
       setIsTyping(true);
-      
+
       for (let i = 0; i <= codeLines.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await new Promise((resolve) => setTimeout(resolve, 400));
         setVisibleLines(i);
       }
-      
+
       setIsTyping(false);
     };
 
@@ -41,14 +41,18 @@ export default function AnimatedCodeBlock() {
     if (type === "comment") {
       return <span class="text-green opacity-80 italic">{text}</span>;
     }
-    
+
     if (type === "code") {
       // Simple syntax highlighting
-      const parts = text.split(/(\bconst\b|\blet\b|\bvar\b|\bnew\b|\bfunction\b|"[^"]*"|'[^']*'|\/\/.*$|\d+)/g);
-      
+      const parts = text.split(
+        /(\bconst\b|\blet\b|\bvar\b|\bnew\b|\bfunction\b|"[^"]*"|'[^']*'|\/\/.*$|\d+)/g,
+      );
+
       return parts.map((part, index) => {
         if (part.match(/\bconst\b|\blet\b|\bvar\b|\bnew\b|\bfunction\b/)) {
-          return <span key={index} class="text-purple font-semibold">{part}</span>;
+          return (
+            <span key={index} class="text-purple font-semibold">{part}</span>
+          );
         } else if (part.match(/"[^"]*"|'[^']*'/)) {
           return <span key={index} class="text-green">{part}</span>;
         } else if (part.match(/\d+/)) {
@@ -59,7 +63,7 @@ export default function AnimatedCodeBlock() {
         return <span key={index} class="text-text">{part}</span>;
       });
     }
-    
+
     return <span class="text-text">{text}</span>;
   };
 
@@ -75,13 +79,13 @@ export default function AnimatedCodeBlock() {
           <span>🚀</span> Your First Program
         </h4>
       </div>
-      
+
       <div class="p-4">
         <pre class="text-sm font-mono leading-relaxed overflow-x-auto text-text whitespace-pre-wrap break-words min-h-[240px]">
           <code>
             {codeLines.slice(0, visibleLines).map((line, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 class={`transition-all duration-300 ${index === visibleLines - 1 ? 'animate-fade-in-up' : ''}`}
               >
                 {highlightSyntax(line.text, line.type)}

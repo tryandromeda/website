@@ -1,7 +1,7 @@
+// deno-lint-ignore-file no-explicit-any
 import { useState } from "preact/hooks";
 import {
   BookOpen,
-  Calendar,
   ChevronDown,
   Code,
   FileText,
@@ -91,6 +91,7 @@ export default function SearchFilters(
     <div class="bg-surface0 rounded-xl border border-surface1 overflow-hidden">
       {/* Filter Header */}
       <button
+        type="button"
         onClick={() => setIsExpanded(!isExpanded)}
         class="w-full flex items-center justify-between p-4 text-left hover:bg-surface1 transition-colors"
       >
@@ -106,6 +107,7 @@ export default function SearchFilters(
         <div class="flex items-center gap-2">
           {hasActiveFilters && (
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 clearFilters();
@@ -135,6 +137,7 @@ export default function SearchFilters(
             <div class="grid grid-cols-2 gap-2">
               {typeOptions.map((option) => (
                 <button
+                  type="button"
                   key={option.value}
                   onClick={() =>
                     updateFilters({
@@ -168,6 +171,7 @@ export default function SearchFilters(
             <div class="flex flex-wrap gap-2">
               {popularTags.map((tag) => (
                 <button
+                  type="button"
                   key={tag}
                   onClick={() => {
                     const currentTags = localFilters.tags || [];
@@ -202,6 +206,7 @@ export default function SearchFilters(
             <div class="flex gap-2">
               {[100, 300, 500, 1000].map((count) => (
                 <button
+                  type="button"
                   key={count}
                   onClick={() =>
                     updateFilters({
@@ -228,8 +233,8 @@ export default function SearchFilters(
             </label>
             <select
               value={localFilters.sortBy || "relevance"}
-              onChange={(e) =>
-                updateFilters({ sortBy: e.target.value as any })}
+              onChange={(e: any) =>
+                updateFilters({ sortBy: e!.target!.value })}
               class="w-full px-3 py-2 bg-surface1 border border-surface2 rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-blue/50"
             >
               {sortOptions.map((option) => (
@@ -253,7 +258,7 @@ export default function SearchFilters(
                   value={localFilters.dateRange?.from?.toISOString().split(
                     "T",
                   )[0] || ""}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const from = e.target.value
                       ? new Date(e.target.value)
                       : undefined;
@@ -271,7 +276,7 @@ export default function SearchFilters(
                   value={localFilters.dateRange?.to?.toISOString().split(
                     "T",
                   )[0] || ""}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     const to = e.target.value
                       ? new Date(e.target.value)
                       : undefined;

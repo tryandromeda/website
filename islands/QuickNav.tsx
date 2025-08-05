@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { ChevronDown, ChevronUp } from "lucide-preact";
 
 interface QuickNavProps {
@@ -53,6 +53,7 @@ export function QuickNav({ sections, currentPath }: QuickNavProps) {
       </div>
 
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         class="bg-surface1 hover:bg-surface2 text-text p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 border border-surface0"
         title="Quick Navigation"
