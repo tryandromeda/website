@@ -43,6 +43,10 @@ possible.
   manipulation
 - **[URL API](/docs/api/url)** - URL parsing, construction, and manipulation
 
+### Module System APIs
+
+- **[Import Maps API](/docs/api/import-maps)** - Modern module resolution with bare specifiers and CDN integration
+
 ### Graphics APIs
 
 - **[Canvas API](/docs/api/canvas)** - 2D graphics rendering with advanced path
