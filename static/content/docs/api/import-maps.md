@@ -1,7 +1,7 @@
 ---
 title: "Import Maps API"
 description: "Documentation for the Import Maps API in Andromeda"
-section: "Import Maps"
+section: "API Reference"
 order: 1
 id: "import-maps"
 ---
