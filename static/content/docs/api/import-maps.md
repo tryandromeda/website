@@ -1,3 +1,11 @@
+---
+title: "Import Maps API"
+description: "Documentation for the Import Maps API in Andromeda"
+section: "Import Maps"
+order: 1
+id: "import-maps"
+---
+
 # Import Maps API
 
 Import Maps provide modern module resolution with bare specifiers and CDN integration in Andromeda, following the [Web Import Maps specification](https://github.com/WICG/import-maps).
