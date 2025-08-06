@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v12"; // Increment this when you have new features
+const CACHE_VERSION = "v14"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   "/docs/installation",
   "/docs/quick-start",
   "/docs/cli-reference",
+  "/docs/configuration",
   "/docs/building",
   "/docs/testing",
   "/docs/troubleshooting",
@@ -35,6 +36,11 @@ const STATIC_ASSETS = [
   "/docs/api/url",
   "/docs/api/web",
   "/docs/api/sqlite",
+  "/docs/api/web-storage",
+  "/docs/api/cron",
+  "/docs/api/cache-storage",
+  "/docs/api/file",
+  "/docs/api/streams",
 
   // Examples
   "/docs/examples",

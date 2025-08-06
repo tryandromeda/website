@@ -1,6 +1,6 @@
 ---
 title: "Configuration"
-description: "Configure Andromeda for your development environment"
+description: "Configure Andromeda with project-specific settings and new features"
 section: "Getting Started"
 order: 4
 id: "configuration"
@@ -8,7 +8,7 @@ id: "configuration"
 
 Andromeda supports comprehensive configuration through configuration files in
 JSON, TOML, or YAML format. This guide covers all available configuration
-options and how to use them.
+options including new features like cron scheduling, cache storage, and enhanced console styling.
 
 ## Configuration Files
 

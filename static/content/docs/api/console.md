@@ -93,6 +93,153 @@ console.debug("Debug info:", { x: 10, y: 20 });
 console.debug("Function called with args:", arguments);
 ```
 
+## CSS Styling Support
+
+Andromeda's console supports CSS-like styling for enhanced visual output. You can use special formatting directives to style your console messages.
+
+### `console.log(message, ...styles)`
+
+When the first argument contains `%c` placeholders, subsequent arguments are treated as CSS-like style strings.
+
+**Supported CSS Properties:**
+
+- `color` - Text color (named colors, hex, rgb)
+- `background-color` - Background color  
+- `font-weight` - Font weight (normal, bold)
+- `font-style` - Font style (normal, italic)
+- `text-decoration` - Text decoration (none, underline)
+
+**Example:**
+
+```typescript
+// Basic colored text
+console.log("%cHello World!", "color: red");
+
+// Multiple styles
+console.log("%cSuccess!", "color: green; font-weight: bold");
+
+// Background colors
+console.log("%cWarning", "background-color: yellow; color: black");
+
+// Multiple styled sections
+console.log(
+  "%cError: %cOperation failed", 
+  "color: red; font-weight: bold", 
+  "color: gray"
+);
+```
+
+### Advanced Styling Examples
+
+```typescript
+// Header styling
+console.log(
+  "%c🚀 Application Started", 
+  "color: blue; font-weight: bold; background-color: lightblue"
+);
+
+// Success message
+console.log(
+  "%c✅ Success: %cData saved successfully", 
+  "color: green; font-weight: bold", 
+  "color: gray"
+);
+
+// Error styling
+console.log(
+  "%c❌ Error: %cConnection failed", 
+  "color: red; font-weight: bold", 
+  "color: darkred"
+);
+
+// Debug with styling
+console.log(
+  "%c[DEBUG] %cUser action: %c%s", 
+  "color: purple; font-weight: bold",
+  "color: blue",
+  "color: black; font-style: italic",
+  "button_clicked"
+);
+```
+
+### Color Examples
+
+```typescript
+// Named colors
+console.log("%cRed text", "color: red");
+console.log("%cBlue text", "color: blue");
+console.log("%cGreen text", "color: green");
+
+// Hex colors
+console.log("%cCustom color", "color: #ff6b6b");
+console.log("%cAnother color", "color: #4ecdc4");
+
+// RGB colors
+console.log("%cRGB color", "color: rgb(255, 107, 107)");
+console.log("%cRGBA color", "color: rgba(78, 205, 196, 0.8)");
+```
+
+### Practical Styling Patterns
+
+```typescript
+// Log levels with styling
+function styledLog(level: string, message: string, ...args: any[]) {
+  const styles = {
+    info: "color: blue; font-weight: bold",
+    warn: "color: orange; font-weight: bold", 
+    error: "color: red; font-weight: bold",
+    success: "color: green; font-weight: bold"
+  };
+  
+  console.log(`%c[${level.toUpperCase()}] %c${message}`, 
+    styles[level] || "color: gray", 
+    "color: black", 
+    ...args
+  );
+}
+
+// Usage
+styledLog("info", "Server starting on port 3000");
+styledLog("warn", "Deprecated API usage detected");
+styledLog("error", "Database connection failed");
+styledLog("success", "User authenticated successfully");
+```
+
+### Component-based Styling
+
+```typescript
+class Logger {
+  private static readonly STYLES = {
+    timestamp: "color: gray; font-size: 0.8em",
+    level: {
+      info: "color: blue; font-weight: bold",
+      warn: "color: orange; font-weight: bold",
+      error: "color: red; font-weight: bold",
+      debug: "color: purple; font-weight: bold"
+    },
+    message: "color: black"
+  };
+
+  static log(level: keyof typeof Logger.STYLES.level, message: string) {
+    const timestamp = new Date().toISOString();
+    console.log(
+      "%c[%s] %c%s %c%s",
+      Logger.STYLES.timestamp,
+      timestamp,
+      Logger.STYLES.level[level],
+      level.toUpperCase(),
+      Logger.STYLES.message,
+      message
+    );
+  }
+}
+
+// Usage
+Logger.log("info", "Application initialized");
+Logger.log("warn", "Configuration file not found, using defaults");
+Logger.log("error", "Failed to connect to database");
+```
+
 ## Output Formatting
 
 The console automatically converts objects to string representations for

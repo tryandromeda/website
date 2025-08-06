@@ -8,8 +8,7 @@ id: "cli-reference"
 
 Complete reference for Andromeda's command-line interface.
 
-> **Latest Version**: v0.1.0-draft7 includes the new Language Server Protocol
-> (LSP) support! See the [upgrade command](#upgrade) to get the latest features.
+> **Latest Version**: v0.1.0-draft12 includes new cron functionality and improved formatter! See the [upgrade command](#upgrade) to get the latest features.
 
 ## Synopsis
 

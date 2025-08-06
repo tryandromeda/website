@@ -41,6 +41,46 @@ console.log("Config:", content);
 - `Error` if there are permission issues
 - `Error` if the file is not valid UTF-8
 
+#### `Andromeda.readTextFile(path: string): Promise<string>`
+
+Asynchronously reads the entire contents of a file as a UTF-8 encoded string.
+
+**Parameters:**
+
+- `path` - Path to the file to read
+
+**Returns:** Promise that resolves to a string containing the file contents
+
+**Example:**
+
+```typescript
+const content = await Andromeda.readTextFile("config.json");
+console.log("Config:", content);
+```
+
+**Throws:**
+
+- `Error` if the file doesn't exist
+- `Error` if there are permission issues
+- `Error` if the file is not valid UTF-8
+
+#### `Andromeda.readFile(path: string): Promise<Uint8Array>`
+
+Asynchronously reads the entire contents of a file as raw bytes.
+
+**Parameters:**
+
+- `path` - Path to the file to read
+
+**Returns:** Promise that resolves to a `Uint8Array` containing the file bytes
+
+**Example:**
+
+```typescript
+const bytes = await Andromeda.readFile("image.png");
+console.log(`File size: ${bytes.length} bytes`);
+```
+
 #### `Andromeda.readFileSync(path: string): Uint8Array`
 
 Synchronously reads the entire contents of a file as raw bytes.
@@ -97,6 +137,55 @@ Synchronously writes raw bytes to a file.
 ```typescript
 const data = new Uint8Array([0x89, 0x50, 0x4E, 0x47]); // PNG header
 Andromeda.writeFileSync("test.png", data);
+```
+
+#### `Andromeda.writeTextFile(path: string, data: string, options?: WriteOptions): Promise<void>`
+
+Asynchronously writes a string to a file, creating the file if it doesn't exist.
+
+**Parameters:**
+
+- `path` - Path to the file to write
+- `data` - String data to write
+- `options` - Optional write options
+
+**Options:**
+
+- `append?: boolean` - If true, append to existing file instead of overwriting
+- `create?: boolean` - If true, create file if it doesn't exist (default: true)
+- `createNew?: boolean` - If true, fail if file already exists
+
+**Example:**
+
+```typescript
+const data = JSON.stringify({ name: "John", age: 30 }, null, 2);
+await Andromeda.writeTextFile("user.json", data);
+console.log("✅ File written successfully");
+
+// Append to existing file
+await Andromeda.writeTextFile("log.txt", "New entry\n", { append: true });
+```
+
+**Notes:**
+
+- Creates parent directories if they don't exist
+- Uses UTF-8 encoding
+
+#### `Andromeda.writeFile(path: string, data: Uint8Array, options?: WriteOptions): Promise<void>`
+
+Asynchronously writes raw bytes to a file.
+
+**Parameters:**
+
+- `path` - Path to the file to write
+- `data` - Byte data to write
+- `options` - Optional write options
+
+**Example:**
+
+```typescript
+const data = new Uint8Array([0x89, 0x50, 0x4E, 0x47]); // PNG header
+await Andromeda.writeFile("test.png", data);
 ```
 
 ### File Information

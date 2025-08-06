@@ -35,6 +35,7 @@ possible.
 
 - **[Web Storage API](/docs/api/web-storage)** - localStorage and sessionStorage
   with SQLite backend
+- **[Cache Storage API](/docs/api/cache-storage)** - Web-standard cache storage for HTTP responses and offline functionality
 
 ### Network APIs
 
@@ -58,10 +59,13 @@ possible.
   standards
   - Event API - Standard event handling and custom events
   - TextEncoder/TextDecoder - Text encoding and decoding utilities
+- **[File API](/docs/api/file)** - Web-standard File objects and file metadata
+- **[Streams API](/docs/api/streams)** - Web-standard streaming data processing
 
 ### Utility APIs
 
 - **[Time API](/docs/api/time)** - Date, time, and timing utilities
+- **[Cron API](/docs/api/cron)** - Schedule and manage recurring tasks with cron expressions
 
 ## API Categories
 
