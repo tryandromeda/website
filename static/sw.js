@@ -1,6 +1,9 @@
-const CACHE_VERSION = "v18"; // Increment this when you have new features
+const CACHE_VERSION = "v19"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
+
+// Detect local development host where we don't want service worker caching
+const IS_LOCALHOST_DEV = (self.location && self.location.hostname === "localhost" && self.location.port === "8000");
 
 // Define what to cache
 const STATIC_ASSETS = [
@@ -85,6 +88,12 @@ const CACHEABLE_PATTERNS = [
 // Install event - cache static assets
 self.addEventListener("install", (event) => {
   console.log("[SW] Installing service worker...");
+  if (IS_LOCALHOST_DEV) {
+    console.log("[SW] Detected localhost:8000 - skipping precache in dev mode");
+    // Just skip waiting so dev reloads aren't blocked by precache
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
 
   event.waitUntil(
     Promise.all([
@@ -144,23 +153,14 @@ self.addEventListener("install", (event) => {
             }
           }
 
-          // Cache discovered documentation pages
-          return caches.open(DYNAMIC_CACHE)
-            .then((cache) => {
-              console.log(
-                "[SW] Caching discovered documentation pages:",
-                docUrls,
-              );
-              return Promise.allSettled(
-                docUrls.map((url) =>
-                  fetch(url)
-                    .then((response) =>
-                      response.ok ? cache.put(url, response) : null
-                    )
-                    .catch(() => null)
-                ),
-              );
-            });
+          // Cache discovered documentation pages (use cache helper)
+          return Promise.allSettled(
+            docUrls.map((url) =>
+              fetch(url)
+                .then((response) => (response.ok ? cacheIfAllowed(url, response) : null))
+                .catch(() => null)
+            ),
+          );
         })
         .catch(() =>
           console.log("[SW] Could not discover documentation pages")
@@ -215,6 +215,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // If running on localhost:8000 during development, always go to network
+  if (IS_LOCALHOST_DEV) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
   // Network-first strategy for dynamic content
   if (NETWORK_FIRST.some((path) => url.pathname.startsWith(path))) {
     event.respondWith(
@@ -222,8 +228,7 @@ self.addEventListener("fetch", (event) => {
         .then((response) => {
           if (response.ok) {
             const responseClone = response.clone();
-            caches.open(DYNAMIC_CACHE)
-              .then((cache) => cache.put(request, responseClone));
+            cacheIfAllowed(request, responseClone);
           }
           return response;
         })
@@ -246,8 +251,7 @@ self.addEventListener("fetch", (event) => {
           if (response.ok) {
             // Cache the fresh response
             const responseClone = response.clone();
-            caches.open(DYNAMIC_CACHE)
-              .then((cache) => cache.put(request, responseClone));
+              cacheIfAllowed(request, responseClone);
             return response;
           }
 
@@ -323,10 +327,7 @@ self.addEventListener("fetch", (event) => {
             const responseClone = response.clone();
 
             // Cache the response
-            caches.open(DYNAMIC_CACHE)
-              .then((cache) => {
-                cache.put(request, responseClone);
-              });
+                cacheIfAllowed(request, responseClone);
 
             return response;
           })
@@ -343,6 +344,36 @@ self.addEventListener("fetch", (event) => {
       }),
   );
 });
+
+// Trim cache helper
+async function trimCache(cacheName, maxItems) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  if (keys.length > maxItems) {
+    const deleteCount = keys.length - maxItems;
+    for (let i = 0; i < deleteCount; i++) {
+      await cache.delete(keys[i]);
+    }
+  }
+}
+
+// Cache response helper: skip images, videos, fonts to avoid large caches
+async function cacheIfAllowed(request, response, cacheName = DYNAMIC_CACHE, maxItems = 50) {
+  try {
+    if (!response || !response.ok) return;
+    const ct = (response.headers && response.headers.get && response.headers.get("content-type")) || "";
+    if (ct.startsWith("image/") || ct.includes("video") || ct.includes("font") || ct.includes("audio")) {
+      // skip caching large media files
+      return;
+    }
+    const cache = await caches.open(cacheName);
+    await cache.put(request, response.clone());
+    await trimCache(cacheName, maxItems);
+  } catch (e) {
+    // Don't let caching failures break the response
+    console.warn("[SW] cacheIfAllowed failed", e);
+  }
+}
 
 // Helper function to generate offline pages
 function generateOfflinePage(title, message) {
