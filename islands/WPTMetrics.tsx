@@ -29,6 +29,14 @@ export default function WPTMetrics() {
   const [metrics, setMetrics] = useState<WPTMetricsJson | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [meta, setMeta] = useState<
+    {
+      lastModified?: string | null;
+      etag?: string | null;
+      rawUrl?: string;
+      commitUrl?: string;
+    } | null
+  >(null);
 
   useEffect(() => {
     const url =
@@ -37,9 +45,14 @@ export default function WPTMetrics() {
     const fetchMetrics = async () => {
       try {
         setLoading(true);
-        const res = await fetch(url);
+        const res = await fetch(url, { cache: "no-cache" });
         if (!res.ok) throw new Error(`Failed to fetch metrics: ${res.status}`);
         const data: WPTMetricsJson = await res.json();
+        const lastModified = res.headers.get("last-modified");
+        const etag = res.headers.get("etag");
+        const commitUrl =
+          "https://github.com/tryandromeda/andromeda/blob/main/tests/metrics.json";
+        setMeta({ lastModified, etag, rawUrl: url, commitUrl });
         setMetrics(data);
         setError(null);
       } catch (err) {
@@ -90,10 +103,36 @@ export default function WPTMetrics() {
 
   return (
     <div class="bg-surface0 rounded-2xl p-6 border border-surface1 hover:border-surface2 transition-colors">
-      <h3 class="text-lg font-semibold text-text mb-4 flex items-center gap-2">
+      <h3 class="text-lg font-semibold text-text mb-2 flex items-center gap-2">
         <BarChart size={20} class="text-blue" />
         WPT Metrics
       </h3>
+
+      <div class="text-xs text-subtext1 mb-4">
+        <div>
+          Source: {metrics.project} v{metrics.version} —
+          {meta?.rawUrl
+            ? (
+              <a
+                class="text-blue-400 ml-1 hover:underline"
+                href={meta.rawUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                raw metrics.json
+              </a>
+            )
+            : <span class="ml-1">raw metrics.json</span>}
+        </div>
+        <div class="mt-1">
+          Last updated: {meta?.lastModified ?? "unknown"}
+        </div>
+        <div class="mt-2 text-xxs text-subtext2">
+          Note: These numbers are produced by the project's test harness and may
+          not be directly comparable across different runtimes or hardware. See
+          the raw data and test harness for details and reproduction steps.
+        </div>
+      </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="text-center">

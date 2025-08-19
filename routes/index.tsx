@@ -397,29 +397,31 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Memory Usage (Base)
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ~12MB
                     </td>
-                    <td class="p-3 md:p-4 text-center text-red">~40MB</td>
-                    <td class="p-3 md:p-4 text-center text-yellow">~25MB</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">~40MB</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">~25MB</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Zero-config TypeScript
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ Built-in
                     </td>
-                    <td class="p-3 md:p-4 text-center text-red">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✗ Requires setup
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">✓ Native</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      ✓ Native
+                    </td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Runtime Engine
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       Nova (Rust)
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1">
@@ -433,23 +435,27 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Hardware-Accelerated Graphics
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ WGPU Canvas
                     </td>
-                    <td class="p-3 md:p-4 text-center text-red">✗ No Canvas</td>
-                    <td class="p-3 md:p-4 text-center text-red">✗ No Canvas</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      ✗ No Canvas
+                    </td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">
+                      Partial
+                    </td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Built-in Database
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ SQLite Native
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ SQLite (v22+)
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ SQLite API
                     </td>
                   </tr>
@@ -457,13 +463,13 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Single-file Compilation
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ Native
                     </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ~ Third-party
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ Built-in
                     </td>
                   </tr>
@@ -471,13 +477,13 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       WinterTC Web Standards
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ Full compliance
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ Compatible
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ Compatible
                     </td>
                   </tr>
@@ -485,13 +491,13 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Language Server Protocol
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       ✓ Integrated
                     </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ~ TypeScript LSP
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ Built-in
                     </td>
                   </tr>
@@ -499,13 +505,13 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Package Manager
                     </td>
-                    <td class="p-3 md:p-4 text-center text-yellow font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       None yet
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1">
                       npm/yarn/pnpm
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       ✓ Built-in
                     </td>
                   </tr>
@@ -513,13 +519,13 @@ export default function Home() {
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Security Model
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green font-medium">
+                    <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
                       Memory safe
                     </td>
-                    <td class="p-3 md:p-4 text-center text-yellow">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       Runtime checks
                     </td>
-                    <td class="p-3 md:p-4 text-center text-green">
+                    <td class="p-3 md:p-4 text-center text-subtext1">
                       Permissions
                     </td>
                   </tr>
@@ -528,8 +534,10 @@ export default function Home() {
             </div>
             <div class="mt-6 text-center">
               <p class="text-sm text-subtext0">
-                * Performance data based on initial benchmarks. Results may vary
-                depending on workload and hardware.
+                * Performance numbers are from the project's test harness and
+                may not be directly comparable across different runtimes or
+                hardware. See the WPT Metrics below for raw data and links to
+                the test artifacts.
               </p>
             </div>
             <div class="mt-8 animate-on-scroll fade-in-up">

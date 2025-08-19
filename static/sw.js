@@ -1,9 +1,10 @@
-const CACHE_VERSION = "v19"; // Increment this when you have new features
+const CACHE_VERSION = "v20"; // Increment this when you have new features
 const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
 // Detect local development host where we don't want service worker caching
-const IS_LOCALHOST_DEV = (self.location && self.location.hostname === "localhost" && self.location.port === "8000");
+const IS_LOCALHOST_DEV = self.location &&
+  self.location.hostname === "localhost" && self.location.port === "8000";
 
 // Define what to cache
 const STATIC_ASSETS = [
@@ -157,7 +158,9 @@ self.addEventListener("install", (event) => {
           return Promise.allSettled(
             docUrls.map((url) =>
               fetch(url)
-                .then((response) => (response.ok ? cacheIfAllowed(url, response) : null))
+                .then((
+                  response,
+                ) => (response.ok ? cacheIfAllowed(url, response) : null))
                 .catch(() => null)
             ),
           );
@@ -251,7 +254,7 @@ self.addEventListener("fetch", (event) => {
           if (response.ok) {
             // Cache the fresh response
             const responseClone = response.clone();
-              cacheIfAllowed(request, responseClone);
+            cacheIfAllowed(request, responseClone);
             return response;
           }
 
@@ -327,7 +330,7 @@ self.addEventListener("fetch", (event) => {
             const responseClone = response.clone();
 
             // Cache the response
-                cacheIfAllowed(request, responseClone);
+            cacheIfAllowed(request, responseClone);
 
             return response;
           })
@@ -358,11 +361,20 @@ async function trimCache(cacheName, maxItems) {
 }
 
 // Cache response helper: skip images, videos, fonts to avoid large caches
-async function cacheIfAllowed(request, response, cacheName = DYNAMIC_CACHE, maxItems = 50) {
+async function cacheIfAllowed(
+  request,
+  response,
+  cacheName = DYNAMIC_CACHE,
+  maxItems = 50,
+) {
   try {
     if (!response || !response.ok) return;
-    const ct = (response.headers && response.headers.get && response.headers.get("content-type")) || "";
-    if (ct.startsWith("image/") || ct.includes("video") || ct.includes("font") || ct.includes("audio")) {
+    const ct = (response.headers && response.headers.get &&
+      response.headers.get("content-type")) || "";
+    if (
+      ct.startsWith("image/") || ct.includes("video") || ct.includes("font") ||
+      ct.includes("audio")
+    ) {
       // skip caching large media files
       return;
     }
