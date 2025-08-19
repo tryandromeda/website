@@ -3,6 +3,7 @@ import { CodeBlock } from "../../components/CodeBlock.tsx";
 import { Content as MarkdownContent } from "../../components/Content.tsx";
 import NavBar from "../../components/NavBar.tsx";
 import Footer from "../../components/Footer.tsx";
+import { isHtmlRequest } from "../../utils/mod.ts";
 
 interface TreeItem {
   name: string;
@@ -95,6 +96,38 @@ export default async function StdPage(props: PageProps<never>) {
     }
   } catch (err) {
     error = String(err);
+  }
+  if (!isHtmlRequest(props.req)) {
+    if (isFile && content) {
+      const lower = path.toLowerCase();
+      let contentType = "application/octet-stream";
+      if (lower.endsWith(".md")) contentType = "text/markdown; charset=utf-8";
+      else if (lower.endsWith(".ts") || lower.endsWith(".tsx")) {
+        contentType = "application/typescript; charset=utf-8";
+      } else if (
+        lower.endsWith(".js") || lower.endsWith(".mjs") ||
+        lower.endsWith(".cjs") || lower.endsWith(".jsx")
+      ) contentType = "application/javascript; charset=utf-8";
+      else if (lower.endsWith(".json")) {
+        contentType = "application/json; charset=utf-8";
+      } else if (lower.endsWith(".sh") || lower.endsWith(".bash")) {
+        contentType = "text/x-sh; charset=utf-8";
+      }
+
+      return new Response(content, {
+        headers: {
+          "Content-Type": contentType,
+        },
+      });
+    }
+
+    if (!isFile && items) {
+      return new Response(JSON.stringify(items), {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      });
+    }
+
+    return new Response("Not found", { status: 404 });
   }
 
   const parentPath = segments.slice(0, -1).join("/");
