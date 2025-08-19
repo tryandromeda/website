@@ -25,7 +25,8 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
   manipulation
 - [**Canvas API**](/docs/api/canvas) - 2D graphics and image generation
 - [**Crypto API**](/docs/api/crypto) - Cryptographic operations and security
-- [**Console API**](/docs/api/console) - Enhanced console output and debugging with CSS styling support
+- [**Console API**](/docs/api/console) - Enhanced console output and debugging
+  with CSS styling support
 - [**Performance API**](/docs/api/performance) - Timing and performance
   monitoring
 - [**Process API**](/docs/api/process) - System interaction and environment
@@ -38,10 +39,12 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 - [**SQLite API**](/docs/api/sqlite) - Database operations with SQLite support
 - [**Web Storage API**](/docs/api/web-storage) - localStorage and sessionStorage
   with SQLite backend
-- [**Cache Storage API**](/docs/api/cache-storage) - Web-standard cache storage for HTTP responses and offline functionality
+- [**Cache Storage API**](/docs/api/cache-storage) - Web-standard cache storage
+  for HTTP responses and offline functionality
 - [**File API**](/docs/api/file) - Web-standard File objects and file metadata
 - [**Streams API**](/docs/api/streams) - Web-standard streaming data processing
-- [**Cron API**](/docs/api/cron) - Schedule and manage recurring tasks with cron expressions
+- [**Cron API**](/docs/api/cron) - Schedule and manage recurring tasks with cron
+  expressions
 
 ### 🔧 Development
 
@@ -83,15 +86,17 @@ established web standards including:
   backend and PNG export
 - 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
 - 📒 **SQLite Support** - Built-in support for SQLite databases
-- 📁 **File System Access** - Simple APIs for reading/writing files with async support
+- 📁 **File System Access** - Simple APIs for reading/writing files with async
+  support
 - 💾 **Web Storage** - localStorage and sessionStorage APIs for data persistence
-- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and offline functionality
+- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and
+  offline functionality
 - ⚡ **Native Performance** - Rust-powered execution with Nova's optimized JS
   engine
 - 🛠️ **Developer Tools** - Interactive REPL, code formatter, bundler, linter,
   and single-file compilation
-- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, File API, Streams API, and
-  more
+- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, File
+  API, Streams API, and more
 - 🔧 **Extensible** - Modular architecture with optional features
 - 🔧 **Self-Updating** - Built-in upgrade system to stay current with latest
   releases
@@ -105,7 +110,8 @@ established web standards including:
 - ⏰ **Task Scheduling** - Built-in cron functionality for recurring tasks
 - 🎨 **Enhanced Console** - CSS-style formatting for beautiful console output
 - 🌊 **Streaming Data** - Web-standard Streams API for efficient data processing
-- ⚙️ **Configuration** - Flexible project configuration with JSON, TOML, and YAML support
+- ⚙️ **Configuration** - Flexible project configuration with JSON, TOML, and
+  YAML support
 
 ## 🆘 Getting Help
 

@@ -6,7 +6,9 @@ order: 16
 id: "file-api"
 ---
 
-The File API provides a web-standard interface for working with file objects, file metadata, and file reading operations. It complements the File System API by providing higher-level abstractions for file handling.
+The File API provides a web-standard interface for working with file objects,
+file metadata, and file reading operations. It complements the File System API
+by providing higher-level abstractions for file handling.
 
 ## Overview
 
@@ -26,19 +28,19 @@ The File API in Andromeda allows you to:
 // Create a File from text content
 const textFile = new File(["Hello, World!"], "hello.txt", {
   type: "text/plain",
-  lastModified: Date.now()
+  lastModified: Date.now(),
 });
 
 // Create a File from binary data
 const binaryData = new Uint8Array([72, 101, 108, 108, 111]); // "Hello"
 const binaryFile = new File([binaryData], "data.bin", {
-  type: "application/octet-stream"
+  type: "application/octet-stream",
 });
 
 // Create a File from JSON data
 const jsonData = { message: "Hello", timestamp: Date.now() };
 const jsonFile = new File([JSON.stringify(jsonData)], "data.json", {
-  type: "application/json"
+  type: "application/json",
 });
 ```
 
@@ -78,7 +80,8 @@ new File(fileBits, fileName, options?)
 
 **Parameters:**
 
-- `fileBits` (Array): Array of data chunks (strings, Uint8Array, ArrayBuffer, etc.)
+- `fileBits` (Array): Array of data chunks (strings, Uint8Array, ArrayBuffer,
+  etc.)
 - `fileName` (string): Name of the file
 - `options` (object, optional): File options
 
@@ -92,7 +95,7 @@ new File(fileBits, fileName, options?)
 ```typescript
 const file = new File(["content"], "example.txt", {
   type: "text/plain",
-  lastModified: Date.now()
+  lastModified: Date.now(),
 });
 ```
 
@@ -300,64 +303,64 @@ class FileProcessor {
     if (!file.type.startsWith("text/")) {
       throw new Error("Not a text file");
     }
-    
+
     const content = await file.text();
-    const lines = content.split('\n');
-    
+    const lines = content.split("\n");
+
     return {
       filename: file.name,
       size: file.size,
       lineCount: lines.length,
       wordCount: content.split(/\s+/).length,
-      characterCount: content.length
+      characterCount: content.length,
     };
   }
-  
+
   static async processImageFile(file: File) {
     if (!file.type.startsWith("image/")) {
       throw new Error("Not an image file");
     }
-    
+
     const buffer = await file.arrayBuffer();
-    
+
     // Basic image analysis (simplified)
     return {
       filename: file.name,
       size: file.size,
       type: file.type,
-      dataSize: buffer.byteLength
+      dataSize: buffer.byteLength,
     };
   }
-  
+
   static async processJsonFile(file: File) {
     if (file.type !== "application/json" && !file.name.endsWith(".json")) {
       throw new Error("Not a JSON file");
     }
-    
+
     const content = await file.text();
     const data = JSON.parse(content);
-    
+
     return {
       filename: file.name,
       size: file.size,
-      structure: this.analyzeJsonStructure(data)
+      structure: this.analyzeJsonStructure(data),
     };
   }
-  
+
   private static analyzeJsonStructure(obj: any): any {
     if (Array.isArray(obj)) {
       return {
         type: "array",
         length: obj.length,
-        elementTypes: [...new Set(obj.map(item => typeof item))]
+        elementTypes: [...new Set(obj.map((item) => typeof item))],
       };
     } else if (typeof obj === "object" && obj !== null) {
       return {
         type: "object",
         keys: Object.keys(obj),
         propertyTypes: Object.fromEntries(
-          Object.entries(obj).map(([key, value]) => [key, typeof value])
-        )
+          Object.entries(obj).map(([key, value]) => [key, typeof value]),
+        ),
       };
     } else {
       return { type: typeof obj };
@@ -367,7 +370,7 @@ class FileProcessor {
 
 // Usage
 const textFile = new File(["Hello\nWorld\nHow are you?"], "greeting.txt", {
-  type: "text/plain"
+  type: "text/plain",
 });
 
 const analysis = await FileProcessor.processTextFile(textFile);
@@ -384,45 +387,47 @@ class FileUploader {
     "application/json",
     "image/jpeg",
     "image/png",
-    "application/pdf"
+    "application/pdf",
   ];
-  
+
   static async validateFile(file: File): Promise<boolean> {
     // Check file size
     if (file.size > this.MAX_FILE_SIZE) {
-      throw new Error(`File too large: ${file.size} bytes. Max: ${this.MAX_FILE_SIZE}`);
+      throw new Error(
+        `File too large: ${file.size} bytes. Max: ${this.MAX_FILE_SIZE}`,
+      );
     }
-    
+
     // Check file type
     if (!this.ALLOWED_TYPES.includes(file.type)) {
       throw new Error(`File type not allowed: ${file.type}`);
     }
-    
+
     // Additional validation based on type
     if (file.type.startsWith("image/")) {
       return this.validateImage(file);
     } else if (file.type === "application/json") {
       return this.validateJson(file);
     }
-    
+
     return true;
   }
-  
+
   private static async validateImage(file: File): Promise<boolean> {
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    
+
     // Check for valid image headers
     if (file.type === "image/jpeg") {
       return bytes[0] === 0xFF && bytes[1] === 0xD8;
     } else if (file.type === "image/png") {
-      return bytes[0] === 0x89 && bytes[1] === 0x50 && 
-             bytes[2] === 0x4E && bytes[3] === 0x47;
+      return bytes[0] === 0x89 && bytes[1] === 0x50 &&
+        bytes[2] === 0x4E && bytes[3] === 0x47;
     }
-    
+
     return true;
   }
-  
+
   private static async validateJson(file: File): Promise<boolean> {
     try {
       const content = await file.text();
@@ -432,50 +437,58 @@ class FileUploader {
       throw new Error("Invalid JSON format");
     }
   }
-  
+
   static async uploadFile(file: File, destination: string) {
     await this.validateFile(file);
-    
-    console.log(`Uploading ${file.name} (${file.size} bytes) to ${destination}`);
-    
+
+    console.log(
+      `Uploading ${file.name} (${file.size} bytes) to ${destination}`,
+    );
+
     // Simulate chunked upload
     const chunkSize = 64 * 1024; // 64KB chunks
     const stream = file.stream();
     const reader = stream.getReader();
-    
+
     let uploaded = 0;
-    
+
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         // Simulate upload of chunk
         await this.uploadChunk(value, destination, uploaded);
         uploaded += value.byteLength;
-        
+
         const progress = (uploaded / file.size) * 100;
         console.log(`Upload progress: ${progress.toFixed(1)}%`);
       }
     } finally {
       reader.releaseLock();
     }
-    
+
     console.log(`Upload completed: ${file.name}`);
   }
-  
-  private static async uploadChunk(chunk: Uint8Array, destination: string, offset: number) {
+
+  private static async uploadChunk(
+    chunk: Uint8Array,
+    destination: string,
+    offset: number,
+  ) {
     // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 10));
-    
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
     // In a real implementation, you would send the chunk to a server
-    console.log(`Uploaded chunk: ${chunk.byteLength} bytes at offset ${offset}`);
+    console.log(
+      `Uploaded chunk: ${chunk.byteLength} bytes at offset ${offset}`,
+    );
   }
 }
 
 // Usage
 const file = new File(["Large file content..."], "document.txt", {
-  type: "text/plain"
+  type: "text/plain",
 });
 
 await FileUploader.uploadFile(file, "/uploads/documents/");
@@ -488,75 +501,84 @@ class FileConverter {
   static async textToFile(text: string, filename: string): Promise<File> {
     return new File([text], filename, {
       type: "text/plain",
-      lastModified: Date.now()
+      lastModified: Date.now(),
     });
   }
-  
+
   static async jsonToFile(data: any, filename: string): Promise<File> {
     const jsonString = JSON.stringify(data, null, 2);
     return new File([jsonString], filename, {
       type: "application/json",
-      lastModified: Date.now()
+      lastModified: Date.now(),
     });
   }
-  
+
   static async csvToFile(data: any[], filename: string): Promise<File> {
     if (data.length === 0) {
       throw new Error("No data to convert");
     }
-    
+
     const headers = Object.keys(data[0]);
     const csvRows = [
       headers.join(","),
-      ...data.map(row => headers.map(field => {
-        const value = row[field];
-        return typeof value === "string" && value.includes(",") 
-          ? `"${value}"` 
-          : value;
-      }).join(","))
+      ...data.map((row) =>
+        headers.map((field) => {
+          const value = row[field];
+          return typeof value === "string" && value.includes(",")
+            ? `"${value}"`
+            : value;
+        }).join(",")
+      ),
     ];
-    
+
     const csvContent = csvRows.join("\n");
     return new File([csvContent], filename, {
       type: "text/csv",
-      lastModified: Date.now()
+      lastModified: Date.now(),
     });
   }
-  
+
   static async fileToBase64(file: File): Promise<string> {
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
-    
+
     // Convert to base64
-    let binary = '';
+    let binary = "";
     for (let i = 0; i < bytes.length; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    
+
     return btoa(binary);
   }
-  
-  static async base64ToFile(base64: string, filename: string, type: string): Promise<File> {
+
+  static async base64ToFile(
+    base64: string,
+    filename: string,
+    type: string,
+  ): Promise<File> {
     const binary = atob(base64);
     const bytes = new Uint8Array(binary.length);
-    
+
     for (let i = 0; i < binary.length; i++) {
       bytes[i] = binary.charCodeAt(i);
     }
-    
+
     return new File([bytes], filename, {
       type: type,
-      lastModified: Date.now()
+      lastModified: Date.now(),
     });
   }
 }
 
 // Usage examples
-const textFile = await FileConverter.textToFile("Hello, World!", "greeting.txt");
+const textFile = await FileConverter.textToFile(
+  "Hello, World!",
+  "greeting.txt",
+);
 
 const data = [
   { name: "Alice", age: 30, city: "New York" },
-  { name: "Bob", age: 25, city: "San Francisco" }
+  { name: "Bob", age: 25, city: "San Francisco" },
 ];
 const csvFile = await FileConverter.csvToFile(data, "users.csv");
 
@@ -578,41 +600,43 @@ class FileComparator {
       identical: false,
       sizeDifference: file1.size - file2.size,
       typeDifference: file1.type !== file2.type,
-      contentDifference: undefined as string | undefined
+      contentDifference: undefined as string | undefined,
     };
-    
+
     // Quick checks first
     if (result.sizeDifference !== 0 || result.typeDifference) {
       return result;
     }
-    
+
     // Compare content
     const [content1, content2] = await Promise.all([
       file1.arrayBuffer(),
-      file2.arrayBuffer()
+      file2.arrayBuffer(),
     ]);
-    
+
     const bytes1 = new Uint8Array(content1);
     const bytes2 = new Uint8Array(content2);
-    
+
     for (let i = 0; i < bytes1.length; i++) {
       if (bytes1[i] !== bytes2[i]) {
-        result.contentDifference = `Difference at byte ${i}: ${bytes1[i]} vs ${bytes2[i]}`;
+        result.contentDifference = `Difference at byte ${i}: ${bytes1[i]} vs ${
+          bytes2[i]
+        }`;
         return result;
       }
     }
-    
+
     result.identical = true;
     return result;
   }
-  
+
   static async checksumFile(file: File): Promise<string> {
     const buffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
     const hashArray = new Uint8Array(hashBuffer);
-    
+
     return Array.from(hashArray)
-      .map(b => b.toString(16).padStart(2, "0"))
+      .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   }
 }
@@ -638,13 +662,13 @@ async function processLargeFile(file: File) {
   if (file.size > 100 * 1024 * 1024) { // 100MB
     const stream = file.stream();
     const reader = stream.getReader();
-    
+
     try {
       // Process in chunks
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         // Process chunk
         await processChunk(value);
       }
@@ -668,7 +692,7 @@ async function safeFileOperation(file: File) {
     if (!file.name || file.size === 0) {
       throw new Error("Invalid file");
     }
-    
+
     const content = await file.text();
     return content;
   } catch (error) {
@@ -690,19 +714,19 @@ function isValidFileType(file: File, allowedTypes: string[]): boolean {
   if (allowedTypes.includes(file.type)) {
     return true;
   }
-  
+
   // Check file extension as fallback
-  const extension = file.name.toLowerCase().split('.').pop();
+  const extension = file.name.toLowerCase().split(".").pop();
   const typeMap: Record<string, string> = {
-    'txt': 'text/plain',
-    'json': 'application/json',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'png': 'image/png'
+    "txt": "text/plain",
+    "json": "application/json",
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
+    "png": "image/png",
   };
-  
-  const inferredType = typeMap[extension || ''];
-  return allowedTypes.includes(inferredType || '');
+
+  const inferredType = typeMap[extension || ""];
+  return allowedTypes.includes(inferredType || "");
 }
 ```
 

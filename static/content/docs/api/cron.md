@@ -6,7 +6,9 @@ order: 14
 id: "cron-api"
 ---
 
-The Cron API provides functionality for scheduling and managing recurring tasks in Andromeda. It allows you to execute functions at specified intervals using familiar cron syntax.
+The Cron API provides functionality for scheduling and managing recurring tasks
+in Andromeda. It allows you to execute functions at specified intervals using
+familiar cron syntax.
 
 ## Overview
 
@@ -123,17 +125,17 @@ console.log("Next execution:", nextRun.toISOString());
 
 ## Common Cron Expressions
 
-| Expression | Description |
-|------------|-------------|
-| `* * * * *` | Every minute |
-| `0 * * * *` | Every hour |
-| `0 0 * * *` | Every day at midnight |
-| `0 0 * * 1` | Every Monday at midnight |
-| `0 9 * * 1-5` | Weekdays at 9 AM |
-| `0 0 1 * *` | First day of every month |
-| `0 0 1 1 *` | January 1st every year |
-| `*/15 * * * *` | Every 15 minutes |
-| `0 */6 * * *` | Every 6 hours |
+| Expression     | Description              |
+| -------------- | ------------------------ |
+| `* * * * *`    | Every minute             |
+| `0 * * * *`    | Every hour               |
+| `0 0 * * *`    | Every day at midnight    |
+| `0 0 * * 1`    | Every Monday at midnight |
+| `0 9 * * 1-5`  | Weekdays at 9 AM         |
+| `0 0 1 * *`    | First day of every month |
+| `0 0 1 1 *`    | January 1st every year   |
+| `*/15 * * * *` | Every 15 minutes         |
+| `0 */6 * * *`  | Every 6 hours            |
 
 ## Examples
 
@@ -143,15 +145,15 @@ console.log("Next execution:", nextRun.toISOString());
 // Backup data every day at 3 AM
 const backupJob = Andromeda.cron("0 3 * * *", async () => {
   console.log("Starting daily backup...");
-  
+
   try {
     // Read application data
     const data = await Andromeda.readTextFile("data.json");
-    
+
     // Create backup filename with timestamp
     const timestamp = new Date().toISOString().slice(0, 10);
     const backupFile = `backup-${timestamp}.json`;
-    
+
     // Write backup
     await Andromeda.writeTextFile(backupFile, data);
     console.log(`Backup created: ${backupFile}`);
@@ -167,28 +169,28 @@ const backupJob = Andromeda.cron("0 3 * * *", async () => {
 // Check system health every 5 minutes
 const healthCheckJob = Andromeda.cron("*/5 * * * *", async () => {
   const startTime = performance.now();
-  
+
   try {
     // Check memory usage
     const memoryInfo = process.memoryUsage();
-    
+
     // Check if critical files exist
     const configExists = await Andromeda.exists("config.json");
-    
+
     const health = {
       timestamp: new Date().toISOString(),
       memory: memoryInfo,
       configFile: configExists,
-      responseTime: performance.now() - startTime
+      responseTime: performance.now() - startTime,
     };
-    
+
     console.log("Health check:", health);
-    
+
     // Save health log
     await Andromeda.writeTextFile(
-      "health.log", 
+      "health.log",
       JSON.stringify(health) + "\n",
-      { append: true }
+      { append: true },
     );
   } catch (error) {
     console.error("Health check failed:", error);
@@ -202,16 +204,16 @@ const healthCheckJob = Andromeda.cron("*/5 * * * *", async () => {
 // Clean up temporary files every Sunday at midnight
 const cleanupJob = Andromeda.cron("0 0 * * 0", async () => {
   console.log("Starting weekly cleanup...");
-  
+
   try {
     const tempDir = "./temp";
     const files = await Andromeda.readDir(tempDir);
     const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-    
+
     for (const file of files) {
       const filePath = `${tempDir}/${file}`;
       const stats = await Andromeda.stat(filePath);
-      
+
       if (stats.mtime < oneWeekAgo) {
         await Andromeda.remove(filePath);
         console.log(`Deleted old file: ${file}`);
@@ -229,22 +231,22 @@ const cleanupJob = Andromeda.cron("0 0 * * 0", async () => {
 // Sync data with external API every 30 minutes
 const syncJob = Andromeda.cron("*/30 * * * *", async () => {
   console.log("Starting data sync...");
-  
+
   try {
     // Fetch latest data from API
     const response = await fetch("https://api.example.com/data");
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status}`);
     }
-    
+
     const apiData = await response.json();
-    
+
     // Update local data file
     await Andromeda.writeTextFile(
-      "api-data.json", 
-      JSON.stringify(apiData, null, 2)
+      "api-data.json",
+      JSON.stringify(apiData, null, 2),
     );
-    
+
     console.log(`Synced ${apiData.length} records`);
   } catch (error) {
     console.error("Sync failed:", error);
@@ -288,18 +290,18 @@ const job = Andromeda.cron("* * * * *", async () => {
     await riskyOperation();
   } catch (error) {
     console.error("Scheduled task failed:", error);
-    
+
     // Log error to file
     const errorLog = {
       timestamp: new Date().toISOString(),
       error: error.message,
-      stack: error.stack
+      stack: error.stack,
     };
-    
+
     await Andromeda.writeTextFile(
       "error.log",
       JSON.stringify(errorLog) + "\n",
-      { append: true }
+      { append: true },
     );
   }
 });
@@ -344,7 +346,7 @@ const job = Andromeda.cron("*/5 * * * *", async () => {
     console.log("Previous task still running, skipping...");
     return;
   }
-  
+
   isRunning = true;
   try {
     await longRunningTask();
@@ -366,4 +368,5 @@ const job = Andromeda.cron("*/5 * * * *", async () => {
 
 - **[Time API](/docs/api/time)** - Date and time utilities
 - **[Performance API](/docs/api/performance)** - Performance monitoring
-- **[File System API](/docs/api/file-system)** - File operations for scheduled tasks
+- **[File System API](/docs/api/file-system)** - File operations for scheduled
+  tasks

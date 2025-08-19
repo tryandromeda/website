@@ -8,7 +8,8 @@ id: "configuration"
 
 Andromeda supports comprehensive configuration through configuration files in
 JSON, TOML, or YAML format. This guide covers all available configuration
-options including new features like cron scheduling, cache storage, and enhanced console styling.
+options including new features like cron scheduling, cache storage, and enhanced
+console styling.
 
 ## Configuration Files
 

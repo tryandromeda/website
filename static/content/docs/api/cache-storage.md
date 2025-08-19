@@ -6,7 +6,9 @@ order: 15
 id: "cache-storage-api"
 ---
 
-The Cache Storage API provides a web-standard interface for caching HTTP responses and other data. It's designed for storing network requests and responses, enabling offline functionality and improved performance.
+The Cache Storage API provides a web-standard interface for caching HTTP
+responses and other data. It's designed for storing network requests and
+responses, enabling offline functionality and improved performance.
 
 ## Overview
 
@@ -44,7 +46,7 @@ await cache.put("https://api.example.com/data", response);
 const urls = [
   "https://api.example.com/users",
   "https://api.example.com/posts",
-  "https://api.example.com/comments"
+  "https://api.example.com/comments",
 ];
 
 for (const url of urls) {
@@ -253,7 +255,7 @@ await cache.addAll([
   "/api/users",
   "/api/posts",
   "/static/app.css",
-  "/static/app.js"
+  "/static/app.js",
 ]);
 ```
 
@@ -309,24 +311,24 @@ const apiKeys = await cache.keys("/api/");
 ```typescript
 async function fetchWithCache(url: string) {
   const cache = await caches.open("api-cache");
-  
+
   // Try to get from cache first
   let response = await cache.match(url);
-  
+
   if (response) {
     console.log("Using cached response");
     return response;
   }
-  
+
   // Fetch from network
   console.log("Fetching from network");
   response = await fetch(url);
-  
+
   // Cache the response
   if (response.ok) {
     await cache.put(url, response.clone());
   }
-  
+
   return response;
 }
 
@@ -340,13 +342,13 @@ const users = await data.json();
 ```typescript
 async function cacheFirst(url: string, cacheName: string = "default") {
   const cache = await caches.open(cacheName);
-  
+
   // Always try cache first
   const cachedResponse = await cache.match(url);
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   // Fallback to network
   try {
     const networkResponse = await fetch(url);
@@ -366,7 +368,7 @@ async function cacheFirst(url: string, cacheName: string = "default") {
 ```typescript
 async function networkFirst(url: string, cacheName: string = "default") {
   const cache = await caches.open(cacheName);
-  
+
   try {
     // Try network first
     const networkResponse = await fetch(url);
@@ -377,13 +379,13 @@ async function networkFirst(url: string, cacheName: string = "default") {
   } catch (error) {
     console.warn("Network failed, trying cache:", error);
   }
-  
+
   // Fallback to cache
   const cachedResponse = await cache.match(url);
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   throw new Error("Both network and cache failed");
 }
 ```
@@ -394,37 +396,37 @@ async function networkFirst(url: string, cacheName: string = "default") {
 class CacheManager {
   private static readonly CACHE_VERSION = "v1";
   private static readonly MAX_CACHE_AGE = 24 * 60 * 60 * 1000; // 24 hours
-  
+
   static async preloadEssentialResources() {
     const cache = await caches.open(`app-${this.CACHE_VERSION}`);
-    
+
     const essentialUrls = [
       "/api/config",
       "/api/user/profile",
       "/static/critical.css",
-      "/static/app.js"
+      "/static/app.js",
     ];
-    
+
     await cache.addAll(essentialUrls);
     console.log("Essential resources cached");
   }
-  
+
   static async cleanupOldCaches() {
     const cacheNames = await caches.keys();
     const currentCache = `app-${this.CACHE_VERSION}`;
-    
+
     const deletePromises = cacheNames
-      .filter(name => name.startsWith("app-") && name !== currentCache)
-      .map(name => caches.delete(name));
-    
+      .filter((name) => name.startsWith("app-") && name !== currentCache)
+      .map((name) => caches.delete(name));
+
     await Promise.all(deletePromises);
     console.log("Old caches cleaned up");
   }
-  
+
   static async clearExpiredEntries(cacheName: string) {
     const cache = await caches.open(cacheName);
     const requests = await cache.keys();
-    
+
     for (const request of requests) {
       const response = await cache.match(request);
       if (response) {
@@ -451,18 +453,18 @@ await CacheManager.cleanupOldCaches();
 ```typescript
 async function smartCache(url: string) {
   const cache = await caches.open("smart-cache");
-  
+
   // Check if URL should be cached
   const shouldCache = (url: string) => {
-    return url.includes("/api/") && 
-           !url.includes("/user/") && 
-           !url.includes("/auth/");
+    return url.includes("/api/") &&
+      !url.includes("/user/") &&
+      !url.includes("/auth/");
   };
-  
+
   if (!shouldCache(url)) {
     return fetch(url);
   }
-  
+
   // Use cache for cacheable URLs
   const cached = await cache.match(url);
   if (cached) {
@@ -472,7 +474,7 @@ async function smartCache(url: string) {
       return cached;
     }
   }
-  
+
   // Fetch fresh data
   const response = await fetch(url);
   if (response.ok) {
@@ -482,14 +484,14 @@ async function smartCache(url: string) {
       statusText: response.statusText,
       headers: {
         ...Object.fromEntries(response.headers.entries()),
-        "x-cache-time": Date.now().toString()
-      }
+        "x-cache-time": Date.now().toString(),
+      },
     });
-    
+
     await cache.put(url, responseToCache);
     return response;
   }
-  
+
   return response;
 }
 ```
@@ -499,77 +501,76 @@ async function smartCache(url: string) {
 ```typescript
 class OfflineApp {
   private static readonly CACHE_NAME = "offline-app-v1";
-  
+
   static async initialize() {
     await this.cacheEssentialResources();
     this.setupFetchHandler();
   }
-  
+
   private static async cacheEssentialResources() {
     const cache = await caches.open(this.CACHE_NAME);
-    
+
     const resources = [
       "/",
       "/offline.html",
       "/app.css",
       "/app.js",
-      "/api/config"
+      "/api/config",
     ];
-    
+
     await cache.addAll(resources);
   }
-  
+
   private static setupFetchHandler() {
     // In a service worker context, you would use:
     // self.addEventListener('fetch', this.handleFetch);
-    
+
     // For demonstration, wrapping fetch
     const originalFetch = globalThis.fetch;
     globalThis.fetch = this.handleFetch.bind(this);
   }
-  
+
   private static async handleFetch(request: RequestInfo): Promise<Response> {
     const cache = await caches.open(this.CACHE_NAME);
-    const url = typeof request === 'string' ? request : request.url;
-    
+    const url = typeof request === "string" ? request : request.url;
+
     try {
       // Try network first for API calls
-      if (url.includes('/api/')) {
+      if (url.includes("/api/")) {
         const networkResponse = await fetch(request);
         if (networkResponse.ok) {
           await cache.put(request, networkResponse.clone());
         }
         return networkResponse;
       }
-      
+
       // For other resources, try cache first
       const cachedResponse = await cache.match(request);
       if (cachedResponse) {
         return cachedResponse;
       }
-      
+
       const networkResponse = await fetch(request);
       if (networkResponse.ok) {
         await cache.put(request, networkResponse.clone());
       }
       return networkResponse;
-      
     } catch (error) {
       console.warn("Network failed, trying cache");
-      
+
       const cachedResponse = await cache.match(request);
       if (cachedResponse) {
         return cachedResponse;
       }
-      
+
       // Return offline page for navigation requests
-      if (url.endsWith('.html') || !url.includes('.')) {
-        const offlinePage = await cache.match('/offline.html');
+      if (url.endsWith(".html") || !url.includes(".")) {
+        const offlinePage = await cache.match("/offline.html");
         if (offlinePage) {
           return offlinePage;
         }
       }
-      
+
       throw error;
     }
   }
@@ -609,12 +610,12 @@ return response; // Original can still be consumed
 async function manageCacheSize(cacheName: string, maxEntries: number) {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
-  
+
   if (keys.length > maxEntries) {
     // Remove oldest entries (FIFO)
     const entriesToRemove = keys.slice(0, keys.length - maxEntries);
     await Promise.all(
-      entriesToRemove.map(key => cache.delete(key))
+      entriesToRemove.map((key) => cache.delete(key)),
     );
   }
 }
@@ -626,7 +627,7 @@ async function manageCacheSize(cacheName: string, maxEntries: number) {
 async function robustCacheOperation(url: string) {
   try {
     const cache = await caches.open("my-cache");
-    
+
     try {
       const cached = await cache.match(url);
       if (cached) {
@@ -635,9 +636,9 @@ async function robustCacheOperation(url: string) {
     } catch (cacheError) {
       console.warn("Cache read failed:", cacheError);
     }
-    
+
     const response = await fetch(url);
-    
+
     try {
       if (response.ok) {
         await cache.put(url, response.clone());
@@ -645,7 +646,7 @@ async function robustCacheOperation(url: string) {
     } catch (cacheError) {
       console.warn("Cache write failed:", cacheError);
     }
-    
+
     return response;
   } catch (error) {
     console.error("Operation failed:", error);
@@ -656,11 +657,13 @@ async function robustCacheOperation(url: string) {
 
 ## Notes
 
-- Cache Storage follows web standards and is persistent across application restarts
+- Cache Storage follows web standards and is persistent across application
+  restarts
 - Cached responses maintain their original headers and status codes
 - Always clone responses when you need to cache and consume them
 - Consider cache size limits and implement cleanup strategies
-- Cache names are case-sensitive and should follow a consistent naming convention
+- Cache names are case-sensitive and should follow a consistent naming
+  convention
 
 ## See Also
 

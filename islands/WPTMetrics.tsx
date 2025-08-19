@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { BarChart, Activity } from "lucide-preact";
+import { Activity, BarChart } from "lucide-preact";
 
 interface WPTSuite {
   total_tests: number;
@@ -97,7 +97,9 @@ export default function WPTMetrics() {
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="text-center">
-          <div class="text-2xl font-bold text-yellow mb-1">{overall.total_tests}</div>
+          <div class="text-2xl font-bold text-yellow mb-1">
+            {overall.total_tests}
+          </div>
           <div class="text-xs text-subtext1">Total Tests</div>
         </div>
 
@@ -112,7 +114,9 @@ export default function WPTMetrics() {
         </div>
 
         <div class="text-center">
-          <div class="text-2xl font-bold text-mauve mb-1">{formatPercent(overall.pass_rate)}</div>
+          <div class="text-2xl font-bold text-mauve mb-1">
+            {formatPercent(overall.pass_rate)}
+          </div>
           <div class="text-xs text-subtext1">Pass Rate</div>
         </div>
       </div>
@@ -121,7 +125,10 @@ export default function WPTMetrics() {
         <h4 class="text-sm font-medium text-subtext0 mb-3">Suites</h4>
         <div class="space-y-3">
           {Object.entries(suites).map(([name, s]) => (
-            <div class="bg-surface1 rounded-lg p-3 flex items-center justify-between" key={name}>
+            <div
+              class="bg-surface1 rounded-lg p-3 flex items-center justify-between"
+              key={name}
+            >
               <div>
                 <div class="text-text font-medium">{name}</div>
                 <div class="text-xs text-subtext1">{s.total_tests} tests</div>
@@ -130,7 +137,9 @@ export default function WPTMetrics() {
               <div class="flex items-center gap-4">
                 <div class="text-sm text-green">Pass {s.pass}</div>
                 <div class="text-sm text-red">Fail {s.fail}</div>
-                <div class="text-sm text-subtext1">{formatPercent(s.pass_rate)}</div>
+                <div class="text-sm text-subtext1">
+                  {formatPercent(s.pass_rate)}
+                </div>
               </div>
             </div>
           ))}

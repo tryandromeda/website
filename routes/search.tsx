@@ -82,19 +82,13 @@ export default function SearchPage() {
                   "Examples",
                   "CLI Reference",
                 ].map((term) => (
-                  <button
+                  <a
                     key={term}
-                    class="bg-surface1 hover:bg-surface2 text-text px-3 py-1 rounded-lg text-sm transition-colors"
-                    onClick={() => {
-                      // Trigger search with this term
-                      const searchEvent = new CustomEvent("triggerSearch", {
-                        detail: { query: term },
-                      });
-                      window.dispatchEvent(searchEvent);
-                    }}
+                    href={`/search?q=${encodeURIComponent(term)}`}
+                    class="bg-surface1 hover:bg-surface2 text-text px-3 py-1 rounded-lg text-sm transition-colors inline-block"
                   >
                     {term}
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>

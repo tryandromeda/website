@@ -8,13 +8,16 @@ id: "import-maps"
 
 # Import Maps API
 
-Import Maps provide modern module resolution with bare specifiers and CDN integration in Andromeda, following the [Web Import Maps specification](https://github.com/WICG/import-maps).
+Import Maps provide modern module resolution with bare specifiers and CDN
+integration in Andromeda, following the
+[Web Import Maps specification](https://github.com/WICG/import-maps).
 
 ## Overview
 
 Import Maps allow you to control how module specifiers are resolved, enabling:
 
-- **Bare specifiers** - Use simple names like `@std/path` instead of relative paths
+- **Bare specifiers** - Use simple names like `@std/path` instead of relative
+  paths
 - **CDN integration** - Map specifiers to remote URLs for dependencies
 - **Version management** - Control which versions of libraries are loaded
 - **Local development** - Map to local files during development
@@ -25,7 +28,8 @@ Import Maps can be configured in several ways:
 
 ### 1. In Andromeda Configuration File
 
-Add import maps directly to your `andromeda.json`, `andromeda.toml`, or `andromeda.yml`:
+Add import maps directly to your `andromeda.json`, `andromeda.toml`, or
+`andromeda.yml`:
 
 ```json
 {
@@ -203,11 +207,14 @@ import React from "react"; // Uses React 16.14.0
 
 Andromeda follows the standard Import Maps resolution algorithm:
 
-1. **Check for relative/absolute specifiers** - Skip mapping for `./`, `../`, `/`, or URLs with protocols
-2. **Apply scope-specific mappings** - If the importing module is within a scope, check scope mappings first
+1. **Check for relative/absolute specifiers** - Skip mapping for `./`, `../`,
+   `/`, or URLs with protocols
+2. **Apply scope-specific mappings** - If the importing module is within a
+   scope, check scope mappings first
 3. **Apply global mappings** - Check the global `imports` for exact matches
 4. **Try prefix matching** - For directory mappings ending with `/`
-5. **Fall back to standard resolution** - Use normal module resolution if no mapping found
+5. **Fall back to standard resolution** - Use normal module resolution if no
+   mapping found
 
 ## API Reference
 
@@ -260,7 +267,8 @@ let import_map = ImportMap::from_file("./importmap.json")?;
 let hooks = RuntimeHostHooks::with_import_map(host_data, base_path, import_map);
 ```
 
-The import map resolution happens transparently during module loading, so your TypeScript/JavaScript code can use bare specifiers without any special syntax.
+The import map resolution happens transparently during module loading, so your
+TypeScript/JavaScript code can use bare specifiers without any special syntax.
 
 ## Best Practices
 
@@ -360,7 +368,8 @@ Import Maps provide clear error messages for common issues:
 
 - **Module not found**: When a mapped specifier points to a non-existent file
 - **Invalid JSON**: When import map files contain syntax errors
-- **Resolution errors**: When circular dependencies or invalid mappings are detected
+- **Resolution errors**: When circular dependencies or invalid mappings are
+  detected
 
 ```typescript
 // Error examples
@@ -370,11 +379,14 @@ import cycles from "@app/cycles"; // Error: Circular import detected
 
 ## Compatibility
 
-Andromeda's Import Maps implementation follows the [WHATWG Import Maps specification](https://github.com/WICG/import-maps), ensuring compatibility with:
+Andromeda's Import Maps implementation follows the
+[WHATWG Import Maps specification](https://github.com/WICG/import-maps),
+ensuring compatibility with:
 
 - **Web browsers** supporting Import Maps
 - **Deno** runtime import maps
 - **Node.js** with appropriate tooling
 - **Bundlers** that support Import Maps
 
-This makes your code portable across different JavaScript runtimes and build tools.
+This makes your code portable across different JavaScript runtimes and build
+tools.

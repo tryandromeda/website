@@ -35,7 +35,8 @@ possible.
 
 - **[Web Storage API](/docs/api/web-storage)** - localStorage and sessionStorage
   with SQLite backend
-- **[Cache Storage API](/docs/api/cache-storage)** - Web-standard cache storage for HTTP responses and offline functionality
+- **[Cache Storage API](/docs/api/cache-storage)** - Web-standard cache storage
+  for HTTP responses and offline functionality
 
 ### Network APIs
 
@@ -45,7 +46,8 @@ possible.
 
 ### Module System APIs
 
-- **[Import Maps API](/docs/api/import-maps)** - Modern module resolution with bare specifiers and CDN integration
+- **[Import Maps API](/docs/api/import-maps)** - Modern module resolution with
+  bare specifiers and CDN integration
 
 ### Graphics APIs
 
@@ -69,7 +71,8 @@ possible.
 ### Utility APIs
 
 - **[Time API](/docs/api/time)** - Date, time, and timing utilities
-- **[Cron API](/docs/api/cron)** - Schedule and manage recurring tasks with cron expressions
+- **[Cron API](/docs/api/cron)** - Schedule and manage recurring tasks with cron
+  expressions
 
 ## API Categories
 

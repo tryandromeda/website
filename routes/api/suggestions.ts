@@ -1,5 +1,3 @@
-import type { Handlers } from "fresh";
-
 const suggestions = [
   "Installation Guide",
   "Quick Start",
@@ -20,7 +18,7 @@ const suggestions = [
   "Getting started",
 ];
 
-export const handler: Handlers = {
+export const handler = {
   GET(req: Request) {
     console.log("Suggestions handler called with GET method, URL:", req.url);
 

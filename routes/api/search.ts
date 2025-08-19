@@ -4,10 +4,9 @@ interface SearchResult {
   excerpt: string;
   type: "doc" | "api" | "example" | "blog";
   score: number;
-  highlights: any[];
+  highlights: string[];
 }
 
-// Simple in-memory search index
 const searchIndex = [
   {
     title: "Installation Guide",
@@ -185,7 +184,7 @@ function simpleSearch(query: string, limit: number = 10): SearchResult[] {
 
   const results = searchIndex.map((item) => {
     let score = 0;
-    const highlights: any[] = [];
+    const highlights: string[] = [];
 
     // Title matching (highest weight)
     if (item.title.toLowerCase().includes(queryLower)) {
@@ -229,9 +228,7 @@ function simpleSearch(query: string, limit: number = 10): SearchResult[] {
   return results;
 }
 
-import type { Handlers } from "fresh";
-
-export const handler: Handlers = {
+export const handler = {
   GET(req: Request) {
     console.log("Search handler called with GET method, URL:", req.url);
 
