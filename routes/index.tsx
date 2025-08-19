@@ -9,6 +9,7 @@ import ScrollAnimations from "../islands/ScrollAnimations.tsx";
 import TerminalDemo from "../islands/TerminalDemo.tsx";
 import ParticleBackground from "../islands/ParticleBackground.tsx";
 import AnimatedCodeBlock from "../islands/AnimatedCodeBlock.tsx";
+import WPTMetrics from "../islands/WPTMetrics.tsx";
 
 export default function Home() {
   return (
@@ -530,6 +531,9 @@ export default function Home() {
                 * Performance data based on initial benchmarks. Results may vary
                 depending on workload and hardware.
               </p>
+            </div>
+            <div class="mt-8 animate-on-scroll fade-in-up">
+              <WPTMetrics />
             </div>
           </div>
         </div>
