@@ -163,7 +163,7 @@ install_andromeda() {
     if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
         print_warning "Install directory '$INSTALL_DIR' is not in your PATH."
         print_warning "Add the following line to your shell profile (.bashrc, .zshrc, etc.):"
-        echo -e "\${YELLOW}export PATH=\\"\\$PATH:$INSTALL_DIR\\"\${NC}"
+        echo "\${YELLOW}export PATH=\\"\\$PATH:$INSTALL_DIR\\"\${NC}" 1>&2
         echo ""
         print_warning "Or run: echo 'export PATH=\\"\\$PATH:$INSTALL_DIR\\"' >> ~/.bashrc"
         print_warning "Then restart your terminal or run: source ~/.bashrc"
