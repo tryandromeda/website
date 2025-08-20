@@ -29,7 +29,7 @@ async function fetchGitHubPath(path: string) {
   const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${
     encodeURI(path)
   }`;
-  console.log(Deno.env.get("GITHUB_TOKEN"))
+  console.log(Deno.env.get("GITHUB_TOKEN") !== undefined)
   const res = await fetch(apiUrl, {
     headers: {
       "Authorization": Deno.env.get("GITHUB_TOKEN")
