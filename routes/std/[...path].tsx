@@ -144,17 +144,15 @@ export default async function StdPage(props: PageProps<never>) {
       } else if (lower.endsWith(".sh") || lower.endsWith(".bash")) {
         contentType = "text/x-sh; charset=utf-8";
       }
-
+      if (!isFile && items) {
+        return new Response(JSON.stringify(items), {
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+        });
+      }
       return new Response(content, {
         headers: {
           "Content-Type": contentType,
         },
-      });
-    }
-
-    if (!isFile && items) {
-      return new Response(JSON.stringify(items), {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
       });
     }
 

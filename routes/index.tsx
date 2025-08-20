@@ -719,8 +719,12 @@ console.log("Secure hash:", hash);`}
               class="block p-6 bg-base rounded-lg hover:shadow-md transition-all border border-surface0 hover:border-surface1"
               aria-label="Open standard library documentation"
             >
-              <h3 class="text-lg font-semibold mb-2 text-text">Standard Library</h3>
-              <p class="text-subtext1">Browse the runtime's standard library documentation</p>
+              <h3 class="text-lg font-semibold mb-2 text-text">
+                Standard Library
+              </h3>
+              <p class="text-subtext1">
+                Browse the runtime's standard library documentation
+              </p>
             </a>
           </div>
           <div class="mt-12 animate-on-scroll fade-in-up">
