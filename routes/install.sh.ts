@@ -43,19 +43,19 @@ get_latest_version() {
 
 # Function to print colored output
 print_status() {
-    echo -e "\${BLUE}[INFO]\${NC} $1"
+    echo "\${BLUE}[INFO]\${NC} $1" 1>&2
 }
 
 print_success() {
-    echo -e "\${GREEN}[SUCCESS]\${NC} $1"
+    echo "\${GREEN}[SUCCESS]\${NC} $1" 1>&2
 }
 
 print_error() {
-    echo -e "\${RED}[ERROR]\${NC} $1"
+    echo "\${RED}[ERROR]\${NC} $1" 1>&2
 }
 
 print_warning() {
-    echo -e "\${YELLOW}[WARNING]\${NC} $1"
+    echo "\${YELLOW}[WARNING]\${NC} $1" 1>&2
 }
 
 # Function to detect OS and architecture
@@ -163,7 +163,7 @@ install_andromeda() {
     if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
         print_warning "Install directory '$INSTALL_DIR' is not in your PATH."
         print_warning "Add the following line to your shell profile (.bashrc, .zshrc, etc.):"
-        echo -e "\${YELLOW}export PATH=\\"\\$PATH:$INSTALL_DIR\\"\${NC}"
+        echo "\${YELLOW}export PATH=\\"\\$PATH:$INSTALL_DIR\\"\${NC}" 1>&2
         echo ""
         print_warning "Or run: echo 'export PATH=\\"\\$PATH:$INSTALL_DIR\\"' >> ~/.bashrc"
         print_warning "Then restart your terminal or run: source ~/.bashrc"
