@@ -31,7 +31,10 @@ async function fetchGitHubPath(path: string) {
   }`;
   const res = await fetch(apiUrl, {
     headers: {
-      Accept: "application/vnd.github.v3+json",
+      "Authorization": Deno.env.get("GITHUB_TOKEN")
+        ? `token ${Deno.env.get("GITHUB_TOKEN")}`
+        : "",
+      "Accept": "application/vnd.github.v3+json",
     },
   });
   if (!res.ok) {
@@ -64,6 +67,7 @@ export default async function StdPage(props: PageProps<never>) {
 
   let items: TreeItem[] | undefined;
   let content: string | undefined;
+  let readmePreview: { path: string; content: string } | undefined;
   let isFile = false;
   let error: string | undefined;
 
@@ -80,6 +84,33 @@ export default async function StdPage(props: PageProps<never>) {
         });
         items = json as TreeItem[];
         isFile = false;
+        try {
+          const readmeItem = items.find((it) =>
+            it.type === "file" && /readme\.md$/i.test(it.name)
+          );
+          if (readmeItem && readmeItem.path) {
+            const r = await fetchGitHubPath(readmeItem.path);
+            if (r.ok && r.json && r.json.content) {
+              const raw = r.json;
+              let readmeContent = "";
+              if (raw.encoding === "base64" && raw.content) {
+                readmeContent = atob(raw.content.replace(/\n/g, ""));
+              } else if (raw.content) {
+                readmeContent = raw.content;
+              } else if (raw.download_url) {
+                const rr = await fetch(raw.download_url);
+                readmeContent = await rr.text();
+              }
+              if (readmeContent) {
+                // limit preview to first ~800 characters to keep layout sane
+                const preview = readmeContent.slice(0, 800);
+                readmePreview = { path: readmeItem.path, content: preview };
+              }
+            }
+          }
+        } catch (_e) {
+          // non-fatal; just don't show preview
+        }
       } else if (json && json.type === "file") {
         isFile = true;
         if (json.encoding === "base64" && json.content) {
@@ -234,6 +265,18 @@ export default async function StdPage(props: PageProps<never>) {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* README preview for directories */}
+          {!isFile && items && readmePreview && (
+            <div class="mt-6 rounded-lg border border-surface1 p-6 bg-surface">
+              <div class="prose max-w-none">
+                <MarkdownContent
+                  markdown={readmePreview.content}
+                  baseUrl={`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${readmePreview.path}`}
+                />
               </div>
             </div>
           )}
