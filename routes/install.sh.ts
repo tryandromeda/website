@@ -43,19 +43,19 @@ get_latest_version() {
 
 # Function to print colored output
 print_status() {
-    echo -e "\${BLUE}[INFO]\${NC} $1"
+    echo "\${BLUE}[INFO]\${NC} $1" 1>&2
 }
 
 print_success() {
-    echo -e "\${GREEN}[SUCCESS]\${NC} $1"
+    echo "\${GREEN}[SUCCESS]\${NC} $1" 1>&2
 }
 
 print_error() {
-    echo -e "\${RED}[ERROR]\${NC} $1"
+    echo "\${RED}[ERROR]\${NC} $1" 1>&2
 }
 
 print_warning() {
-    echo -e "\${YELLOW}[WARNING]\${NC} $1"
+    echo "\${YELLOW}[WARNING]\${NC} $1" 1>&2
 }
 
 # Function to detect OS and architecture
