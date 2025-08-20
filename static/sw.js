@@ -24,7 +24,6 @@ const STATIC_ASSETS = [
   "/docs/troubleshooting",
   "/docs/faq",
   "/docs/contributing",
-  "/docs/pwa",
 
   // API documentation
   "/docs/api",

@@ -14,6 +14,7 @@
     "jsr:@std/bytes@^1.0.2": "1.0.6",
     "jsr:@std/crypto@1": "1.0.5",
     "jsr:@std/datetime@~0.225.2": "0.225.5",
+    "jsr:@std/dotenv@*": "0.225.5",
     "jsr:@std/encoding@1": "1.0.10",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/encoding@^1.0.5": "1.0.10",
@@ -28,10 +29,10 @@
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@*": "1.1.0",
     "jsr:@std/path@0.203": "0.203.0",
-    "jsr:@std/path@1": "1.1.0",
+    "jsr:@std/path@1": "1.1.1",
     "jsr:@std/path@1.1.1": "1.1.1",
-    "jsr:@std/path@^1.0.6": "1.1.0",
-    "jsr:@std/path@^1.1.0": "1.1.0",
+    "jsr:@std/path@^1.0.6": "1.1.1",
+    "jsr:@std/path@^1.1.0": "1.1.1",
     "jsr:@std/semver@1": "1.0.5",
     "npm:@opentelemetry/api@^1.9.0": "1.9.0",
     "npm:@preact/signals@^2.0.4": "2.2.0_preact@10.26.9",
@@ -141,6 +142,9 @@
     },
     "@std/datetime@0.225.5": {
       "integrity": "9f650f6caec546b80172e95a4edb8478d5fe060c4c937f7ede242ffceab6efc9"
+    },
+    "@std/dotenv@0.225.5": {
+      "integrity": "9ce6f9d0ec3311f74a32535aa1b8c62ed88b1ab91b7f0815797d77a6f60c922f"
     },
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
