@@ -45,8 +45,7 @@ export default function Home() {
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
               A modern, fast, and secure JavaScript & TypeScript runtime built
-              from the ground up in Rust{" "}
-              <Package size={16} class="inline-block mx-1 align-text-bottom" />
+              from the ground up in Rust 🦀
               {" "}
               and powered by{" "}
               <a
