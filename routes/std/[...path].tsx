@@ -224,23 +224,47 @@ export default async function StdPage(props: PageProps<never>) {
                     >
                       <div class="flex items-center justify-between">
                         <div>
-                          {it.type === "dir"
-                            ? (
-                              <a
-                                class="text-blue-300 hover:underline font-medium"
-                                href={`/std/${it.path}`}
-                              >
-                                📁 {it.name}
-                              </a>
-                            )
-                            : (
+                          {(() => {
+                            if (it.type === "dir") {
+                              return (
+                                <a
+                                  class="text-blue-300 hover:underline font-medium"
+                                  href={`/std/${it.path}`}
+                                >
+                                  📁 {it.name}
+                                </a>
+                              );
+                            }
+                            const isReadme = /readme\.md$/i.test(
+                              it.name || "",
+                            );
+                            if (isReadme) {
+                              const dir = it.path
+                                ? it.path.replace(/readme\.md$/i, "").replace(
+                                  /\/$/,
+                                  "",
+                                )
+                                : "";
+                              const href = dir ? `/std/${dir}` : "/std";
+                              return (
+                                <a
+                                  class="text-sky-200 hover:underline font-medium"
+                                  href={href}
+                                >
+                                  📄 {it.name}
+                                </a>
+                              );
+                            }
+
+                            return (
                               <a
                                 class="text-sky-200 hover:underline font-medium"
                                 href={`/std/${it.path}`}
                               >
                                 📄 {it.name}
                               </a>
-                            )}
+                            );
+                          })()}
                           {typeof it.size === "number" && (
                             <div class="text-xs text-subtext1">
                               {it.size} bytes
