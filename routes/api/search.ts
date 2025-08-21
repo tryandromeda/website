@@ -5,6 +5,8 @@ interface SearchResult {
   url: string;
   excerpt: string;
   type: "doc" | "api" | "example" | "blog" | "std";
+  // human-friendly label for UI badges (e.g. "Docs", "Std")
+  label: string;
   score: number;
   highlights: string[];
 }
@@ -150,6 +152,20 @@ async function buildIndex(): Promise<SearchResult[]> {
     url: it.url,
     excerpt: it.excerpt || "",
     type: it.type,
+    label: (() => {
+      switch (it.type) {
+        case "api":
+          return "API";
+        case "example":
+          return "Example";
+        case "blog":
+          return "Blog";
+        case "std":
+          return "Std";
+        default:
+          return "Docs";
+      }
+    })(),
     score: 0,
     highlights: [],
   }));
@@ -216,7 +232,7 @@ function scoreAndFilter(results: SearchResult[], query: string, limit = 10) {
 
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, limit).map((s) => ({
-    ...s.r,
+  ...s.r,
     score: s.score,
     highlights: s.highlights,
   }));
@@ -269,6 +285,20 @@ export const handler = {
             url: it.url,
             excerpt: it.excerpt || "",
             type: it.type,
+            label: (() => {
+              switch (it.type) {
+                case "api":
+                  return "API";
+                case "example":
+                  return "Example";
+                case "blog":
+                  return "Blog";
+                case "std":
+                  return "Std";
+                default:
+                  return "Docs";
+              }
+            })(),
             score: 0,
             highlights: [],
           })),

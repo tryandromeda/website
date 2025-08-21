@@ -14,9 +14,11 @@ interface SearchResult {
   title: string;
   url: string;
   excerpt: string;
-  type: "doc" | "api" | "example" | "blog";
+  type: "doc" | "api" | "example" | "blog" | "std";
   score: number;
   highlights: SearchHighlight[];
+  // label from server (e.g. "Docs", "Std", "API")
+  label?: string;
 }
 
 interface SearchHighlight {
@@ -36,7 +38,7 @@ export default function SearchComponent({
   isOpen = false,
   onClose,
   autoFocus = false,
-  placeholder = "Search documentation...",
+  placeholder = "Search",
 }: SearchProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -327,7 +329,7 @@ export default function SearchComponent({
                           }}
                         />
                         <span class="text-xs bg-surface1 text-subtext1 px-2 py-0.5 rounded-full">
-                          {getTypeLabel(result.type)}
+                          {result.label ?? getTypeLabel(result.type)}
                         </span>
                         <ExternalLink size={12} class="text-subtext1" />
                       </div>
@@ -372,7 +374,7 @@ export default function SearchComponent({
           {!query.trim() && (
             <div class="text-center py-8 text-subtext1">
               <Search size={32} class="mx-auto mb-2 opacity-50" />
-              <p>Start typing to search documentation...</p>
+              <p>Start typing to search the website...</p>
               <div class="mt-4 text-xs space-y-1">
                 <p>
                   <kbd class="bg-surface1 px-2 py-1 rounded text-xs">↑</kbd>

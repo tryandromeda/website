@@ -140,7 +140,7 @@ export function DocNav({
             />
             <input
               type="text"
-              placeholder="Search documentation..."
+              placeholder="Search"
               value={searchTerm}
               onChange={(e) => setSearchTerm((e.target as any).value)}
               class="w-full pl-10 pr-4 py-3 rounded-lg border border-surface1 bg-surface0 text-text placeholder-subtext0 focus:outline-none focus:ring-2 focus:ring-text/20 focus:border-text transition-all duration-200"

@@ -53,7 +53,7 @@ export default function SearchTrigger(
             class={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 text-subtext1 hover:text-text transition-colors border border-surface1 rounded-lg hover:border-surface2 bg-surface0/50 ${className}`}
           >
             <Search class="w-3 h-3 sm:w-4 sm:h-4" />
-            <span class="hidden sm:inline text-sm">Search docs...</span>
+            <span class="hidden sm:inline text-sm">Search</span>
             <div class="hidden sm:flex items-center gap-1 ml-2">
               <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">
                 {typeof navigator !== "undefined" &&
