@@ -102,9 +102,7 @@ export default async function StdPage(props: PageProps<never>) {
                 readmeContent = await rr.text();
               }
               if (readmeContent) {
-                // limit preview to first ~800 characters to keep layout sane
-                const preview = readmeContent.slice(0, 800);
-                readmePreview = { path: readmeItem.path, content: preview };
+                readmePreview = { path: readmeItem.path, content: readmeContent };
               }
             }
           }
