@@ -1,4 +1,18 @@
-import { Target, Zap } from "lucide-preact";
+import {
+  Bolt,
+  Cpu,
+  Database,
+  Github,
+  Globe,
+  Image,
+  Lock,
+  MessageSquare,
+  Package,
+  Rocket,
+  Target,
+  Wrench,
+  Zap,
+} from "lucide-preact";
 
 import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
@@ -31,7 +45,10 @@ export default function Home() {
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
               A modern, fast, and secure JavaScript & TypeScript runtime built
-              from the ground up in Rust 🦀 and powered by{" "}
+              from the ground up in Rust{" "}
+              <Package size={16} class="inline-block mx-1 align-text-bottom" />
+              {" "}
+              and powered by{" "}
               <a
                 href="https://trynova.dev/"
                 class="text-text hover:text-subtext0 underline font-semibold transition-colors"
@@ -102,7 +119,9 @@ export default function Home() {
           </h2>
           <div class="grid md:grid-cols-3 gap-8 stagger-children animate-on-scroll">
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation">
-              <div class="text-4xl mb-4">🦀</div>
+              <div class="text-4xl mb-4">
+                <Package size={36} class="mx-auto text-subtext0" />
+              </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Built in Rust
               </h3>
@@ -155,7 +174,9 @@ export default function Home() {
             </div>
 
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
-              <div class="text-4xl mb-4">🧑‍💻</div>
+              <div class="text-4xl mb-4">
+                <Cpu size={36} class="mx-auto text-subtext0" />
+              </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Language Server
               </h3>
@@ -167,7 +188,9 @@ export default function Home() {
             </div>
 
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
-              <div class="text-4xl mb-4">🎨</div>
+              <div class="text-4xl mb-4">
+                <Image size={36} class="mx-auto text-subtext0" />
+              </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 GPU Canvas
               </h3>
@@ -179,7 +202,9 @@ export default function Home() {
             </div>
 
             <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
-              <div class="text-4xl mb-4">📦</div>
+              <div class="text-4xl mb-4">
+                <Package size={36} class="mx-auto text-subtext0" />
+              </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
                 Complete Toolchain
               </h3>
@@ -202,7 +227,10 @@ export default function Home() {
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto stagger-children animate-on-scroll">
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">🏗️</span> Architecture
+                <span class="mr-2">
+                  <Github size={18} class="inline-block" />
+                </span>{" "}
+                Architecture
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Rust-based runtime engine</li>
@@ -215,7 +243,10 @@ export default function Home() {
 
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">🌐</span> Web Standards
+                <span class="mr-2">
+                  <Globe size={18} class="inline-block" />
+                </span>{" "}
+                Web Standards
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• WHATWG Fetch API</li>
@@ -228,7 +259,10 @@ export default function Home() {
 
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">🚀</span> Performance
+                <span class="mr-2">
+                  <Rocket size={18} class="inline-block" />
+                </span>{" "}
+                Performance
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Sub-10ms startup time</li>
@@ -241,7 +275,10 @@ export default function Home() {
 
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">🛠️</span> Developer Tools
+                <span class="mr-2">
+                  <Wrench size={18} class="inline-block" />
+                </span>{" "}
+                Developer Tools
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Built-in Language Server Protocol</li>
@@ -254,7 +291,10 @@ export default function Home() {
 
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">🔐</span> Security
+                <span class="mr-2">
+                  <Lock size={18} class="inline-block" />
+                </span>{" "}
+                Security
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Memory-safe Rust foundation</li>
@@ -267,7 +307,10 @@ export default function Home() {
 
             <div class="p-6 bg-mantle rounded-lg border border-surface0 hover:border-surface1 transition-all">
               <h3 class="text-lg font-semibold mb-4 text-text flex items-center">
-                <span class="mr-2">📦</span> Platform Support
+                <span class="mr-2">
+                  <Package size={18} class="inline-block" />
+                </span>{" "}
+                Platform Support
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Linux (x86_64, ARM64)</li>
@@ -291,7 +334,9 @@ export default function Home() {
             <div class="space-y-8 animate-on-scroll fade-in-left">
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
-                  <span class="mr-3 text-2xl">🎨</span>
+                  <span class="mr-3 text-2xl">
+                    <Image size={20} class="inline-block" />
+                  </span>
                   Graphics & Visualization
                 </h3>
                 <p class="text-subtext1 mb-4">
@@ -309,7 +354,9 @@ export default function Home() {
 
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
-                  <span class="mr-3 text-2xl">⚡</span>
+                  <span class="mr-3 text-2xl">
+                    <Bolt size={20} class="inline-block" />
+                  </span>
                   High-Performance Scripts
                 </h3>
                 <p class="text-subtext1 mb-4">
@@ -329,7 +376,9 @@ export default function Home() {
             <div class="space-y-8 animate-on-scroll fade-in-right">
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
-                  <span class="mr-3 text-2xl">🌐</span>
+                  <span class="mr-3 text-2xl">
+                    <Globe size={20} class="inline-block" />
+                  </span>
                   Web Services & APIs
                 </h3>
                 <p class="text-subtext1 mb-4">
@@ -347,7 +396,9 @@ export default function Home() {
 
               <div class="p-6 bg-base rounded-lg border border-surface0 hover:border-surface1 transition-all">
                 <h3 class="text-xl font-semibold mb-3 text-text flex items-center">
-                  <span class="mr-3 text-2xl">🔬</span>
+                  <span class="mr-3 text-2xl">
+                    <Cpu size={20} class="inline-block" />
+                  </span>
                   Scientific Computing
                 </h3>
                 <p class="text-subtext1 mb-4">
@@ -593,7 +644,10 @@ export default function Home() {
                 <span class="text-xs text-subtext1 ml-2">graphics.ts</span>
               </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
-                <span class="mr-2">🎨</span> Graphics
+                <span class="mr-2">
+                  <Image size={16} class="inline-block mr-1" />
+                </span>{" "}
+                Graphics
               </h4>
               <div class="terminal-window">
                 <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words matrix-text">
@@ -622,7 +676,10 @@ canvas.saveAsPng("gradient.png");`}
                 <span class="text-xs text-subtext1 ml-2">database.ts</span>
               </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
-                <span class="mr-2">🗄️</span> Database
+                <span class="mr-2">
+                  <Database size={16} class="inline-block mr-1" />
+                </span>{" "}
+                Database
               </h4>
               <div class="terminal-window">
                 <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
@@ -650,7 +707,10 @@ stmt.run("Alice", "alice@example.com");`}
                 <span class="text-xs text-subtext1 ml-2">crypto.ts</span>
               </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
-                <span class="mr-2">🔐</span> Crypto
+                <span class="mr-2">
+                  <Lock size={16} class="inline-block mr-1" />
+                </span>{" "}
+                Crypto
               </h4>
               <div class="terminal-window">
                 <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
@@ -766,7 +826,7 @@ console.log("Secure hash:", hash);`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ⭐ Star on GitHub
+                <Github size={16} class="inline-block mr-2" /> Star on GitHub
               </a>
               <a
                 href="https://discord.gg/tgjAnX2Ny3"
@@ -774,13 +834,14 @@ console.log("Secure hash:", hash);`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                💬 Join Discord
+                <MessageSquare size={16} class="inline-block mr-2" />{" "}
+                Join Discord
               </a>
               <a
                 href="/docs/contributing"
                 class="border border-surface1 hover:border-surface2 text-text px-8 py-3 rounded-lg font-semibold transition-colors"
               >
-                🚀 Contribute
+                <Rocket size={16} class="inline-block mr-2" /> Contribute
               </a>
             </div>
           </div>
