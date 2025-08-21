@@ -23,6 +23,8 @@ interface RawIndexItem {
   type: SearchResult["type"];
   keywords?: string[];
   body?: string;
+  headings?: string[];
+  code?: string[];
 }
 
 interface GitTreeItem {
@@ -47,6 +49,8 @@ function ensureOrama() {
         title: "string",
         excerpt: "string",
         body: "string",
+        headings: "string",
+        code: "string",
         type: "string",
         url: "string",
         label: "string",
@@ -89,6 +93,9 @@ async function buildIndex(): Promise<SearchResult[]> {
     console.warn("Failed to build docs index:", err);
   }
 
+  const mdHeadingRegex = /^#{1,6}\s+(.*)$/gm;
+  const codeFenceRegex = /```(?:[a-zA-Z0-9_-]+)?\n([\s\S]*?)\n```/g;
+
   try {
     for await (const entry of Deno.readDir("static/content/blog")) {
       if (!entry.isFile) continue;
@@ -112,8 +119,45 @@ async function buildIndex(): Promise<SearchResult[]> {
         console.warn("Failed to read blog post:", entry.name, e);
       }
     }
-  } catch (_e) {
-    // no blog dir - ignore
+  } catch {
+    // ignore
+  }
+  try {
+    for await (const file of Deno.readDir("content/docs")) {
+      if (!file.isFile || !file.name.endsWith(".md")) continue;
+      try {
+        const path = `content/docs/${file.name}`;
+        const text = await Deno.readTextFile(path);
+        const titleMatch = text.match(/^#\s+(.*)$/m);
+        const title = titleMatch
+          ? titleMatch[1].trim()
+          : file.name.replace(/\.md$/, "");
+        const url = `/docs/${file.name.replace(/\.md$/, "")}`;
+        const excerpt = text.split(/\n\n/)[1] || text.slice(0, 200);
+        const headings: string[] = [];
+        const code: string[] = [];
+        let m;
+        while ((m = mdHeadingRegex.exec(text)) !== null) {
+          headings.push(m[1].trim());
+        }
+        while ((m = codeFenceRegex.exec(text)) !== null) {
+          code.push(m[1].trim());
+        }
+        items.push({
+          title,
+          url,
+          excerpt,
+          type: "doc",
+          body: text,
+          headings,
+          code,
+        });
+      } catch {
+        // ignore
+      }
+    }
+  } catch {
+    // ignore
   }
   try {
     const OWNER = "tryandromeda";
@@ -223,6 +267,8 @@ async function buildIndex(): Promise<SearchResult[]> {
         title: it.title,
         excerpt: it.excerpt || "",
         body: it.body || "",
+        headings: (it.headings || []).join(" "),
+        code: (it.code || []).join(" "),
         type: it.type,
         url: it.url,
         label: (() => {
@@ -394,27 +440,81 @@ export const handler = {
                 const hits =
                   (oramaRes as unknown as { hits: Array<unknown> }).hits;
                 const mapped: SearchResult[] = hits.map((h) => {
-                  const hit = h as unknown as {
-                    id?: string;
-                    score?: number;
-                    document?: Record<string, unknown>;
-                  };
-                  const doc = hit.document || {};
-                  const title = (doc.title as string) || (doc.name as string) ||
-                    "";
-                  const urlVal = (doc.url as string) || hit.id || "";
-                  const excerpt = (doc.excerpt as string) || "";
-                  const typeVal = (doc.type as string) ||
-                    (doc.label as string) || "doc";
-                  const labelVal = (doc.label as string) || "Docs";
+                  const hitObj = h as unknown as Record<string, unknown>;
+                  const doc = (hitObj.document as Record<string, unknown>) ||
+                    {};
+
+                  const title = typeof doc.title === "string"
+                    ? doc.title
+                    : (typeof doc.name === "string" ? doc.name : "");
+                  const urlVal = typeof doc.url === "string"
+                    ? doc.url
+                    : (typeof hitObj.id === "string" ? hitObj.id : "");
+                  const excerpt = typeof doc.excerpt === "string"
+                    ? doc.excerpt
+                    : "";
+                  const typeVal = typeof doc.type === "string"
+                    ? doc.type
+                    : (typeof doc.label === "string" ? doc.label : "doc");
+                  const labelVal = typeof doc.label === "string"
+                    ? doc.label
+                    : "Docs";
+
+                  const highlights: string[] = [];
+                  const matches = Array.isArray(hitObj.matches)
+                    ? hitObj.matches as unknown[]
+                    : undefined;
+                  if (matches) {
+                    for (const m of matches) {
+                      if (!m || typeof m !== "object") continue;
+                      const mo = m as Record<string, unknown>;
+                      const frag = typeof mo.match === "string"
+                        ? mo.match
+                        : (typeof mo.fragment === "string"
+                          ? mo.fragment
+                          : undefined);
+                      if (typeof frag === "string") {
+                        highlights.push(frag.slice(0, 300));
+                        continue;
+                      }
+                      if (typeof mo.field === "string") {
+                        const f = mo.field;
+                        const fv = doc[f];
+                        if (typeof fv === "string") {
+                          highlights.push(fv.slice(0, 300));
+                        }
+                      }
+                    }
+                  } else if (Array.isArray(hitObj.highlights)) {
+                    const hh = hitObj.highlights as unknown[];
+                    for (const item of hh.slice(0, 3)) {
+                      if (typeof item === "string") highlights.push(item);
+                    }
+                  } else {
+                    const raw = rawIndexCache &&
+                      rawIndexCache.find((r) => r.url === urlVal);
+                    if (raw && raw.body) {
+                      const bodyLower = raw.body.toLowerCase();
+                      const qLower = q.toLowerCase();
+                      const pos = bodyLower.indexOf(qLower);
+                      if (pos >= 0) {
+                        highlights.push(makeSnippet(raw.body, pos, 80));
+                      } else if (raw.headings && raw.headings.length) {
+                        highlights.push(raw.headings.slice(0, 3).join(" — "));
+                      }
+                    }
+                  }
+
                   return {
                     title,
                     url: urlVal,
                     excerpt,
                     type: (typeVal as string) as SearchResult["type"],
                     label: labelVal,
-                    score: typeof hit.score === "number" ? hit.score : 0,
-                    highlights: [],
+                    score: typeof hitObj.score === "number"
+                      ? (hitObj.score as number)
+                      : 0,
+                    highlights,
                   };
                 });
 
