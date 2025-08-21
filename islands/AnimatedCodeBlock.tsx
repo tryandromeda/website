@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import { Rocket } from "lucide-preact";
 
 const codeLines = [
   { text: "// hello.ts - TypeScript works out of the box", type: "comment" },
@@ -75,8 +76,8 @@ export default function AnimatedCodeBlock() {
           <div class="terminal-dot yellow"></div>
           <div class="terminal-dot green"></div>
         </div>
-        <h4 class="font-semibold flex items-center gap-2 text-text mt-2">
-          <span>🚀</span> Your First Program
+        <h4 class="font-semibold flex items-center gap-2 text-text mt-2 ml-5">
+          <Rocket size={18} class="inline-block" /> Your First Program
         </h4>
       </div>
 

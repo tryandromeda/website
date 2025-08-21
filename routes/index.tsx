@@ -636,12 +636,6 @@ export default function Home() {
           {/* Feature Examples */}
           <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto stagger-children animate-on-scroll">
             <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced">
-              <div class="terminal-header mb-4">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="text-xs text-subtext1 ml-2">graphics.ts</span>
-              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">
                   <Image size={16} class="inline-block mr-1" />
@@ -668,12 +662,6 @@ canvas.saveAsPng("gradient.png");`}
             </div>
 
             <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced float-animation">
-              <div class="terminal-header mb-4">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="text-xs text-subtext1 ml-2">database.ts</span>
-              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">
                   <Database size={16} class="inline-block mr-1" />
@@ -699,12 +687,6 @@ stmt.run("Alice", "alice@example.com");`}
             </div>
 
             <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced">
-              <div class="terminal-header mb-4">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="text-xs text-subtext1 ml-2">crypto.ts</span>
-              </div>
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">
                   <Lock size={16} class="inline-block mr-1" />
