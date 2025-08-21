@@ -207,7 +207,18 @@ async function buildIndex(): Promise<SearchResult[]> {
     const db = ensureOrama();
     if (db) {
       // Prepare docs for Orama inserting. Keep id as url to make it stable.
-      const docs = items.map((it) => ({
+      // Deduplicate by URL to avoid inserting the same id multiple times which
+      // causes Orama DOCUMENT_ALREADY_EXISTS errors (seen e.g. for "/docs/index").
+      const seen = new Set<string>();
+      const uniqueItems = items.filter((it) => {
+        const id = String(it.url || "");
+        if (!id) return true;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      });
+
+      const docs = uniqueItems.map((it) => ({
         id: it.url,
         title: it.title,
         excerpt: it.excerpt || "",
@@ -229,16 +240,32 @@ async function buildIndex(): Promise<SearchResult[]> {
           }
         })(),
       }));
+
       if (typeof insertMultiple === "function") {
-        Promise.resolve(insertMultiple(db, docs))
-          .then(() => {})
-          .catch((e: Error) => {
-            console.warn("Orama insertMultiple failed:", e);
-          });
+        // insertMultiple may throw synchronously or return a Promise.
+        // Catch both to prevent the outer try/catch from receiving the error
+        // and to log the failure without breaking the search API.
+        try {
+          const res = insertMultiple(db, docs);
+          if (res && typeof (res as Promise<unknown>).then === "function") {
+            (res as Promise<unknown>).catch((e: Error) => {
+              console.warn("Orama insertMultiple failed:", e);
+            });
+          }
+        } catch (e) {
+          console.warn("Orama insertMultiple failed:", e);
+        }
       } else {
         for (const d of docs) {
           // @ts-ignore: best-effort insert, allow unknown signature
-          insert(db, d).catch(() => {});
+          try {
+            const r = insert(db, d);
+            if (r && typeof (r as Promise<unknown>).then === "function") {
+              (r as Promise<unknown>).catch(() => {});
+            }
+          } catch {
+            // ignore individual insert errors
+          }
         }
       }
     }
