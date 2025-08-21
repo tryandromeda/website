@@ -1,11 +1,16 @@
 import { getTableOfContents, parseFrontmatter } from "../../utils/docs.ts";
+import {
+  create,
+  insert,
+  insertMultiple,
+  search as oramaSearch,
+} from "@orama/orama";
 
 interface SearchResult {
   title: string;
   url: string;
   excerpt: string;
   type: "doc" | "api" | "example" | "blog" | "std";
-  // human-friendly label for UI badges (e.g. "Docs", "Std")
   label: string;
   score: number;
   highlights: string[];
@@ -30,7 +35,30 @@ interface GitTreeItem {
 let indexCache: SearchResult[] | null = null;
 let rawIndexCache: RawIndexItem[] | null = null;
 let lastIndexTime = 0;
-const INDEX_CACHE_DURATION = 60 * 1000; // 60s
+const INDEX_CACHE_DURATION = 60 * 1000;
+
+let oramaDb: ReturnType<typeof create> | null = null;
+
+function ensureOrama() {
+  if (oramaDb) return oramaDb;
+  try {
+    oramaDb = create({
+      schema: {
+        title: "string",
+        excerpt: "string",
+        body: "string",
+        type: "string",
+        url: "string",
+        label: "string",
+      },
+    });
+    return oramaDb;
+  } catch (e) {
+    console.warn("Orama init failed, falling back to built-in search:", e);
+    oramaDb = null;
+    return null;
+  }
+}
 
 async function buildIndex(): Promise<SearchResult[]> {
   const now = Date.now();
@@ -173,6 +201,50 @@ async function buildIndex(): Promise<SearchResult[]> {
   rawIndexCache = items;
   indexCache = results;
   lastIndexTime = Date.now();
+
+  // Attempt to index into Orama (best-effort). Use insertMultiple when possible.
+  try {
+    const db = ensureOrama();
+    if (db) {
+      // Prepare docs for Orama inserting. Keep id as url to make it stable.
+      const docs = items.map((it) => ({
+        id: it.url,
+        title: it.title,
+        excerpt: it.excerpt || "",
+        body: it.body || "",
+        type: it.type,
+        url: it.url,
+        label: (() => {
+          switch (it.type) {
+            case "api":
+              return "API";
+            case "example":
+              return "Example";
+            case "blog":
+              return "Blog";
+            case "std":
+              return "Std";
+            default:
+              return "Docs";
+          }
+        })(),
+      }));
+      if (typeof insertMultiple === "function") {
+        Promise.resolve(insertMultiple(db, docs))
+          .then(() => {})
+          .catch((e: Error) => {
+            console.warn("Orama insertMultiple failed:", e);
+          });
+      } else {
+        for (const d of docs) {
+          // @ts-ignore: best-effort insert, allow unknown signature
+          insert(db, d).catch(() => {});
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Failed to populate Orama DB:", e);
+  }
   return results;
 }
 
@@ -232,7 +304,7 @@ function scoreAndFilter(results: SearchResult[], query: string, limit = 10) {
 
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, limit).map((s) => ({
-  ...s.r,
+    ...s.r,
     score: s.score,
     highlights: s.highlights,
   }));
@@ -279,32 +351,90 @@ export const handler = {
           parseInt(url.searchParams.get("pageSize") || String(limit)),
         );
 
-        const scored = scoreAndFilter(
-          filtered.map((it) => ({
-            title: it.title,
-            url: it.url,
-            excerpt: it.excerpt || "",
-            type: it.type,
-            label: (() => {
-              switch (it.type) {
-                case "api":
-                  return "API";
-                case "example":
-                  return "Example";
-                case "blog":
-                  return "Blog";
-                case "std":
-                  return "Std";
-                default:
-                  return "Docs";
+        const q = query as string;
+
+        let scored: SearchResult[] = [];
+        try {
+          const db = oramaDb || ensureOrama();
+          if (db) {
+            try {
+              // @ts-ignore: imported from npm specifier in Deno environment
+              const oramaRes = await oramaSearch(db, { term: query });
+              if (
+                oramaRes &&
+                Array.isArray((oramaRes as unknown as { hits?: unknown }).hits)
+              ) {
+                const hits =
+                  (oramaRes as unknown as { hits: Array<unknown> }).hits;
+                const mapped: SearchResult[] = hits.map((h) => {
+                  const hit = h as unknown as {
+                    id?: string;
+                    score?: number;
+                    document?: Record<string, unknown>;
+                  };
+                  const doc = hit.document || {};
+                  const title = (doc.title as string) || (doc.name as string) ||
+                    "";
+                  const urlVal = (doc.url as string) || hit.id || "";
+                  const excerpt = (doc.excerpt as string) || "";
+                  const typeVal = (doc.type as string) ||
+                    (doc.label as string) || "doc";
+                  const labelVal = (doc.label as string) || "Docs";
+                  return {
+                    title,
+                    url: urlVal,
+                    excerpt,
+                    type: (typeVal as string) as SearchResult["type"],
+                    label: labelVal,
+                    score: typeof hit.score === "number" ? hit.score : 0,
+                    highlights: [],
+                  };
+                });
+
+                const filteredHits = allowedTypes
+                  ? mapped.filter((m) => allowedTypes.includes(m.type))
+                  : mapped;
+                scored = filteredHits;
               }
-            })(),
-            score: 0,
-            highlights: [],
-          })),
-          query,
-          filtered.length,
-        );
+            } catch (e) {
+              console.warn("Orama search call failed:", e);
+            }
+          }
+        } catch (e) {
+          console.warn(
+            "Orama search failed, falling back to legacy scorer:",
+            e,
+          );
+        }
+
+        if (!scored || scored.length === 0) {
+          scored = scoreAndFilter(
+            filtered.map((it) => ({
+              title: it.title,
+              url: it.url,
+              excerpt: it.excerpt || "",
+              type: it.type,
+              label: (() => {
+                switch (it.type) {
+                  case "api":
+                    return "API";
+                  case "example":
+                    return "Example";
+                  case "blog":
+                    return "Blog";
+                  case "std":
+                    return "Std";
+                  default:
+                    return "Docs";
+                }
+              })(),
+              score: 0,
+              highlights: [],
+            })),
+            q,
+            filtered.length,
+          );
+        }
 
         const total = scored.length;
         const start = (page - 1) * pageSize;

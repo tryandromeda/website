@@ -35,6 +35,7 @@
     "jsr:@std/path@^1.1.0": "1.1.1",
     "jsr:@std/semver@1": "1.0.5",
     "npm:@opentelemetry/api@^1.9.0": "1.9.0",
+    "npm:@orama/orama@3.1.11": "3.1.11",
     "npm:@preact/signals@^2.0.4": "2.2.0_preact@10.26.9",
     "npm:@tailwindcss/postcss@^4.1.7": "4.1.10",
     "npm:esbuild-wasm@0.23.1": "0.23.1",
@@ -391,6 +392,9 @@
     },
     "@opentelemetry/api@1.9.0": {
       "integrity": "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg=="
+    },
+    "@orama/orama@3.1.11": {
+      "integrity": "sha512-Szki0cgFiXE5F9RLx2lUyEtJllnuCSQ4B8RLDwIjXkVit6qZjoDAxH+xhJs29MjKLDz0tbPLdKFa6QrQ/qoGGA=="
     },
     "@preact/signals-core@1.10.0": {
       "integrity": "sha512-qlKeXlfqtlC+sjxCPHt6Sk0/dXBrKZVcPlianqjNc/vW263YBFiP5mRrgKpHoO0q222Thm1TdYQWfCKpbbgvwA=="
@@ -843,6 +847,7 @@
     }
   },
   "remote": {
+    "https://cdn.jsdelivr.net/npm/@orama/orama@3.1.11/+esm": "f0a77e239c817eb581849b382b7013affd4ce37527fe387599b66776c41f1dae",
     "https://deno.land/std@0.140.0/_util/assert.ts": "e94f2eb37cebd7f199952e242c77654e43333c1ac4c5c700e929ea3aa5489f74",
     "https://deno.land/std@0.140.0/_util/os.ts": "3b4c6e27febd119d36a416d7a97bd3b0251b77c88942c8f16ee5953ea13e2e49",
     "https://deno.land/std@0.140.0/bytes/bytes_list.ts": "67eb118e0b7891d2f389dad4add35856f4ad5faab46318ff99653456c23b025d",
@@ -1145,6 +1150,7 @@
       "jsr:@fresh/core@^2.0.0-alpha.34",
       "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
       "jsr:@std/path@1.1.1",
+      "npm:@orama/orama@3.1.11",
       "npm:@preact/signals@^2.0.4",
       "npm:lucide-preact@0.513",
       "npm:preact@^10.26.6",
