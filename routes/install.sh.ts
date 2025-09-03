@@ -75,14 +75,7 @@ detect_platform() {
     # Detect architecture
     case "$(uname -m)" in
         x86_64|amd64)   arch="amd64" ;;
-        arm64|aarch64)  
-            if [ "$os" = "macos" ]; then
-                arch="arm64"
-            else
-                print_error "ARM64 is only supported on macOS"
-                exit 1
-            fi
-            ;;
+        arm64|aarch64)  arch="arm64" ;;
         *)              print_error "Unsupported architecture: $(uname -m)"; exit 1 ;;
     esac
 
