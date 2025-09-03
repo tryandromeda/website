@@ -10,7 +10,6 @@ param(
 
 # Configuration
 $Repo = "tryandromeda/andromeda"
-$AssetName = "andromeda-windows-amd64.exe"
 
 # Colors for output
 $Colors = @{
@@ -54,6 +53,36 @@ function Write-Warning {
     Write-ColoredOutput -Message $Message -Color $Colors.Yellow -Prefix "WARNING"
 }
 
+function Get-PlatformAsset {
+    Write-Status "Detecting platform architecture..."
+    
+    # Detect architecture
+    $Architecture = $env:PROCESSOR_ARCHITECTURE
+    $ArchitecturePlatform = $env:PROCESSOR_ARCHITEW6432
+    
+    # Determine the correct architecture
+    $Arch = switch ($Architecture) {
+        "AMD64" { "amd64" }
+        "EM64T" { "amd64" }
+        "ARM64" { "arm64" }
+        default {
+            if ($ArchitecturePlatform -eq "AMD64") {
+                "amd64"
+            } elseif ($ArchitecturePlatform -eq "ARM64") {
+                "arm64"
+            } else {
+                Write-Error "Unsupported architecture: $Architecture"
+                exit 1
+            }
+        }
+    }
+    
+    $AssetName = "andromeda-windows-$Arch.exe"
+    Write-Status "Detected platform: $AssetName"
+    
+    return $AssetName
+}
+
 function Show-Help {
     Write-Host "Andromeda Installation Script for Windows" -ForegroundColor $Colors.Blue
     Write-Host ""
@@ -77,6 +106,8 @@ function Test-Administrator {
 }
 
 function Get-LatestRelease {
+    param([string]$AssetName)
+    
     Write-Status "Getting latest release information..."
     
     $ReleaseApiUrl = "https://api.github.com/repos/$Repo/releases/latest"
@@ -116,8 +147,11 @@ function Get-LatestRelease {
 function Install-Andromeda {
     Write-Status "Preparing to install Andromeda for Windows..."
     
+    # Detect platform and get asset name
+    $AssetName = Get-PlatformAsset
+    
     # Get latest release info
-    $ReleaseInfo = Get-LatestRelease
+    $ReleaseInfo = Get-LatestRelease -AssetName $AssetName
     $Version = $ReleaseInfo.Version
     $DownloadUrl = $ReleaseInfo.DownloadUrl
     

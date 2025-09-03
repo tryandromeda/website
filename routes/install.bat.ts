@@ -7,7 +7,6 @@ REM This script downloads and installs Andromeda on Windows systems
 
 REM Configuration
 set "REPO=tryandromeda/andromeda"
-set "ASSET_NAME=andromeda-windows-amd64.exe"
 set "INSTALL_DIR=%USERPROFILE%\\.local\\bin"
 
 REM Colors (limited in batch)
@@ -20,6 +19,22 @@ REM Check for help
 if "%1"=="--help" goto :show_help
 if "%1"=="-h" goto :show_help
 if "%1"=="/?" goto :show_help
+
+REM Detect architecture
+echo %INFO_PREFIX% Detecting platform architecture...
+set "ARCH=amd64"
+
+REM Check PROCESSOR_ARCHITECTURE first
+if /i "%PROCESSOR_ARCHITECTURE%"=="ARM64" set "ARCH=arm64"
+if /i "%PROCESSOR_ARCHITECTURE%"=="AMD64" set "ARCH=amd64"
+if /i "%PROCESSOR_ARCHITECTURE%"=="EM64T" set "ARCH=amd64"
+
+REM Check PROCESSOR_ARCHITEW6432 for WOW64 scenarios
+if /i "%PROCESSOR_ARCHITEW6432%"=="ARM64" set "ARCH=arm64"
+if /i "%PROCESSOR_ARCHITEW6432%"=="AMD64" set "ARCH=amd64"
+
+set "ASSET_NAME=andromeda-windows-!ARCH!.exe"
+echo %INFO_PREFIX% Detected platform: !ASSET_NAME!
 
 echo %INFO_PREFIX% Fetching latest release information...
 
