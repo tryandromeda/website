@@ -20,12 +20,12 @@
   "imports": {
     "@deno/gfm": "jsr:@deno/gfm@^0.11.0",
     "@pakornv/fresh-plugin-tailwindcss": "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
-    "@preact/signals": "npm:@preact/signals@^2.0.4",
+    "@preact/signals": "npm:@preact/signals@^2.3.1",
     "@orama/orama": "npm:@orama/orama@3.1.11",
-    "fresh": "jsr:@fresh/core@^2.0.0-alpha.34",
+    "fresh": "jsr:@fresh/core@^2.0.0-beta.3",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
-    "preact": "npm:preact@^10.26.6",
-    "tailwindcss": "npm:tailwindcss@^4.1.7",
+    "preact": "npm:preact@^10.27.1",
+    "tailwindcss": "npm:tailwindcss@^4.1.12",
     "@std/path": "jsr:@std/path@1.1.1"
   },
   "nodeModulesDir": "auto",
