@@ -32,3 +32,5 @@ jobs:
           project: "andromeda"
           entrypoint: "main.ts"
           root: "."
+          
+          
