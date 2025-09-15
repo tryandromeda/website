@@ -40,5 +40,3 @@ jobs:
           project: "andromeda"
           entrypoint: "_fresh/server.js"
           root: "."
-          
-          

@@ -62,7 +62,7 @@ const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 //   "/install.bat",
 
 //   // Static assets
-//   "/static/styles.css",
+//   "/assets/styles.css",
 //   "/logo.svg",
 //   "/favicon.ico",
 //   "/manifest.json",
@@ -402,7 +402,7 @@ function generateOfflinePage(title, message) {
        <meta charset="utf-8">
        <meta name="viewport" content="width=device-width, initial-scale=1">
        <title>${title} - Andromeda</title>
-       <link rel="stylesheet" href="/static/styles.css">
+       <link rel="stylesheet" href="/assets/styles.css">
        <link rel="icon" href="/logo.svg">
      </head>
      <body class="min-h-screen bg-base text-text">

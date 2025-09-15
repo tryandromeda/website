@@ -23,7 +23,7 @@ export default function App({ Component }: PageProps) {
           name="keywords"
           content="Andromeda, Rust, JavaScript, TypeScript, runtime"
         />
-        <link rel="stylesheet" href="/styles.css" />
+        {/* <link rel="stylesheet" href="/styles.css" /> */}
         <link rel="icon" href="/logo.svg" />
 
         {/* PWA Manifest */}

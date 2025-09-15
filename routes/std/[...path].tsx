@@ -102,7 +102,10 @@ export default async function StdPage(props: PageProps<never>) {
                 readmeContent = await rr.text();
               }
               if (readmeContent) {
-                readmePreview = { path: readmeItem.path, content: readmeContent };
+                readmePreview = {
+                  path: readmeItem.path,
+                  content: readmeContent,
+                };
               }
             }
           }

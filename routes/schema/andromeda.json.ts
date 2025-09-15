@@ -7,27 +7,28 @@ export function handler(): Response {
     "type": "object",
     "properties": {
       "runtime": {
-        "$ref": "#/definitions/RuntimeConfig"
+        "$ref": "#/definitions/RuntimeConfig",
       },
       "format": {
-        "$ref": "#/definitions/FormatConfig"
+        "$ref": "#/definitions/FormatConfig",
       },
       "lint": {
-        "$ref": "#/definitions/LintConfig"
+        "$ref": "#/definitions/LintConfig",
       },
       "tasks": {
         "type": "object",
         "description": "Task definitions",
         "additionalProperties": {
-          "$ref": "#/definitions/TaskDefinition"
-        }
+          "$ref": "#/definitions/TaskDefinition",
+        },
       },
       "imports": {
         "type": "object",
-        "description": "Direct module specifier mappings (Web Import Maps spec)",
+        "description":
+          "Direct module specifier mappings (Web Import Maps spec)",
         "additionalProperties": {
-          "type": "string"
-        }
+          "type": "string",
+        },
       },
       "scopes": {
         "type": "object",
@@ -35,44 +36,45 @@ export function handler(): Response {
         "additionalProperties": {
           "type": "object",
           "additionalProperties": {
-            "type": "string"
-          }
-        }
+            "type": "string",
+          },
+        },
       },
       "integrity": {
         "type": "object",
         "description": "Integrity metadata mappings (Web Import Maps spec)",
         "additionalProperties": {
-          "type": "string"
-        }
+          "type": "string",
+        },
       },
       "import_map_files": {
         "type": "array",
-        "description": "Additional import map files to load (Andromeda extension)",
+        "description":
+          "Additional import map files to load (Andromeda extension)",
         "items": {
-          "type": "string"
-        }
+          "type": "string",
+        },
       },
       "name": {
         "type": "string",
-        "description": "Project name"
+        "description": "Project name",
       },
       "version": {
         "type": "string",
-        "description": "Project version"
+        "description": "Project version",
       },
       "description": {
         "type": "string",
-        "description": "Project description"
+        "description": "Project description",
       },
       "author": {
         "type": "string",
-        "description": "Project author(s)"
+        "description": "Project author(s)",
       },
       "license": {
         "type": "string",
-        "description": "License"
-      }
+        "description": "License",
+      },
     },
     "additionalProperties": false,
     "definitions": {
@@ -83,51 +85,51 @@ export function handler(): Response {
           "no_strict": {
             "type": "boolean",
             "description": "Disable strict mode",
-            "default": false
+            "default": false,
           },
           "verbose": {
             "type": "boolean",
             "description": "Enable verbose output",
-            "default": false
+            "default": false,
           },
           "disable_gc": {
             "type": "boolean",
             "description": "Disable garbage collection (for debugging)",
-            "default": false
+            "default": false,
           },
           "print_internals": {
             "type": "boolean",
             "description": "Print internal debugging information",
-            "default": false
+            "default": false,
           },
           "expose_internals": {
             "type": "boolean",
             "description": "Expose Nova internal APIs",
-            "default": false
+            "default": false,
           },
           "include": {
             "type": "array",
             "description": "List of files to include in runtime",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "exclude": {
             "type": "array",
             "description": "List of files to exclude from runtime",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "timeout": {
             "type": "integer",
             "description": "Runtime timeout in milliseconds",
-            "minimum": 1
-          }
+            "minimum": 1,
+          },
         },
-        "additionalProperties": false
+        "additionalProperties": false,
       },
       "FormatConfig": {
         "type": "object",
@@ -138,53 +140,53 @@ export function handler(): Response {
             "description": "Line width for formatting",
             "minimum": 20,
             "maximum": 500,
-            "default": 80
+            "default": 80,
           },
           "use_tabs": {
             "type": "boolean",
             "description": "Use tabs instead of spaces",
-            "default": false
+            "default": false,
           },
           "tab_width": {
             "type": "integer",
             "description": "Tab width",
             "minimum": 1,
             "maximum": 16,
-            "default": 2
+            "default": 2,
           },
           "trailing_comma": {
             "type": "boolean",
             "description": "Trailing commas",
-            "default": false
+            "default": false,
           },
           "semicolons": {
             "type": "boolean",
             "description": "Semicolons preference",
-            "default": true
+            "default": true,
           },
           "single_quotes": {
             "type": "boolean",
             "description": "Single quotes preference",
-            "default": false
+            "default": false,
           },
           "include": {
             "type": "array",
             "description": "Files or directories to include (glob patterns)",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "exclude": {
             "type": "array",
             "description": "Files or directories to exclude (glob patterns)",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
-          }
+            "default": [],
+          },
         },
-        "additionalProperties": false
+        "additionalProperties": false,
       },
       "LintConfig": {
         "type": "object",
@@ -193,53 +195,53 @@ export function handler(): Response {
           "enabled": {
             "type": "boolean",
             "description": "Enable linting",
-            "default": true
+            "default": true,
           },
           "rules": {
             "type": "array",
             "description": "Lint rules to enable",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "disabled_rules": {
             "type": "array",
             "description": "Lint rules to disable",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "max_warnings": {
             "type": "integer",
             "description": "Maximum number of warnings before error",
-            "minimum": 1
+            "minimum": 1,
           },
           "include": {
             "type": "array",
             "description": "Files or directories to include (glob patterns)",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
+            "default": [],
           },
           "exclude": {
             "type": "array",
             "description": "Files or directories to exclude (glob patterns)",
             "items": {
-              "type": "string"
+              "type": "string",
             },
-            "default": []
-          }
+            "default": [],
+          },
         },
-        "additionalProperties": false
+        "additionalProperties": false,
       },
       "TaskDefinition": {
         "oneOf": [
           {
             "type": "string",
-            "description": "Simple string command"
+            "description": "Simple string command",
           },
           {
             "type": "object",
@@ -247,39 +249,39 @@ export function handler(): Response {
             "properties": {
               "description": {
                 "type": "string",
-                "description": "Description of the task"
+                "description": "Description of the task",
               },
               "command": {
                 "type": "string",
-                "description": "Command to execute"
+                "description": "Command to execute",
               },
               "dependencies": {
                 "type": "array",
                 "description": "Dependencies that must run before this task",
                 "items": {
-                  "type": "string"
+                  "type": "string",
                 },
-                "default": []
+                "default": [],
               },
               "cwd": {
                 "type": "string",
-                "description": "Working directory for the task"
+                "description": "Working directory for the task",
               },
               "env": {
                 "type": "object",
                 "description": "Environment variables for the task",
                 "additionalProperties": {
-                  "type": "string"
+                  "type": "string",
                 },
-                "default": {}
-              }
+                "default": {},
+              },
             },
             "required": ["command"],
-            "additionalProperties": false
-          }
-        ]
-      }
-    }
+            "additionalProperties": false,
+          },
+        ],
+      },
+    },
   };
 
   return new Response(JSON.stringify(schema, null, 2), {

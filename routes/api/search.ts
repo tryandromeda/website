@@ -5,6 +5,7 @@ import {
   insertMultiple,
   search as oramaSearch,
 } from "@orama/orama";
+import { FreshContext } from "fresh";
 
 interface SearchResult {
   title: string;
@@ -384,7 +385,9 @@ function scoreAndFilter(results: SearchResult[], query: string, limit = 10) {
 }
 
 export const handler = {
-  GET(req: Request) {
+  GET(ctx: FreshContext) {
+    const req = ctx.req;
+
     console.log("Search handler called with GET method, URL:", req.url);
 
     const url = new URL(req.url);
