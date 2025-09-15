@@ -1,15 +1,13 @@
 #!/usr/bin/env -S deno run -A --watch=static/,routes/
-import { tailwind } from "@pakornv/fresh-plugin-tailwindcss";
+import { tailwind } from "@fresh/plugin-tailwind";
 import { Builder } from "fresh/dev";
 
 const builder = new Builder();
 
+tailwind(builder);
+
 if (Deno.args.includes("build")) {
   await builder.build();
 } else {
-  await builder.listen(async () => {
-    const { app } = await import("./main.ts");
-    tailwind(builder, app);
-    return app;
-  });
+  await builder.listen(() => import("./main.ts"));
 }

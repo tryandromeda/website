@@ -3,7 +3,7 @@
     "check": "deno fmt --check . && deno lint . && deno check **/*.ts && deno check **/*.tsx",
     "dev": "deno run -A --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
-    "start": "deno run -A main.ts",
+    "start": "deno serve -A _fresh/server.js",
     "update": "deno run -A -r jsr:@fresh/update ."
   },
   "lint": {
@@ -19,10 +19,10 @@
   ],
   "imports": {
     "@deno/gfm": "jsr:@deno/gfm@^0.11.0",
-    "@pakornv/fresh-plugin-tailwindcss": "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
+    "@fresh/plugin-tailwind": "jsr:@fresh/plugin-tailwind@^1.0.0",
     "@preact/signals": "npm:@preact/signals@^2.3.1",
     "@orama/orama": "npm:@orama/orama@3.1.11",
-    "fresh": "jsr:@fresh/core@^2.0.0-beta.3",
+    "fresh": "jsr:@fresh/core@^2.1.0",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
     "preact": "npm:preact@^10.27.1",
     "tailwindcss": "npm:tailwindcss@^4.1.12",
