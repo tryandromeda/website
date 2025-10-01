@@ -1,4 +1,7 @@
-export function handler(req: Request): Response {
+import { FreshContext } from "fresh";
+
+export function handler(ctx: FreshContext): Response {
+  const req = ctx.req;
   const url = new URL(req.url);
   const baseUrl = `${url.protocol}//${url.host}`;
 

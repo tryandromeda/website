@@ -45,9 +45,7 @@ export default function Home() {
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
               A modern, fast, and secure JavaScript & TypeScript runtime built
-              from the ground up in Rust 🦀
-              {" "}
-              and powered by{" "}
+              from the ground up in Rust 🦀 and powered by{" "}
               <a
                 href="https://trynova.dev/"
                 class="text-text hover:text-subtext0 underline font-semibold transition-colors"

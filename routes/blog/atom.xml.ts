@@ -1,4 +1,5 @@
 import { type BlogPost, getAllBlogPosts } from "../../utils/blog.ts";
+import { FreshContext } from "fresh";
 
 function escapeXml(text: string): string {
   return text.replace(/[<>&'"]/g, (c) => {
@@ -66,7 +67,9 @@ ${entries}
 </feed>`;
 }
 
-export async function handler(req: Request): Promise<Response> {
+export async function handler(ctx: FreshContext): Promise<Response> {
+  const req = ctx.req;
+
   try {
     const url = new URL(req.url);
     const baseUrl = `${url.protocol}//${url.host}`;
