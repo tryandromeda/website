@@ -14,15 +14,15 @@ import {
   Zap,
 } from "lucide-preact";
 
-import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
-import InstallToggle from "../islands/InstallToggle.tsx";
+import NavBar from "../components/NavBar.tsx";
+import AnimatedCodeBlock from "../islands/AnimatedCodeBlock.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
+import InstallToggle from "../islands/InstallToggle.tsx";
+import ParticleBackground from "../islands/ParticleBackground.tsx";
 import RecentActivity from "../islands/RecentActivity.tsx";
 import ScrollAnimations from "../islands/ScrollAnimations.tsx";
 import TerminalDemo from "../islands/TerminalDemo.tsx";
-import ParticleBackground from "../islands/ParticleBackground.tsx";
-import AnimatedCodeBlock from "../islands/AnimatedCodeBlock.tsx";
 import WPTMetrics from "../islands/WPTMetrics.tsx";
 
 export default function Home() {
@@ -45,9 +45,7 @@ export default function Home() {
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
               A modern, fast, and secure JavaScript & TypeScript runtime built
-              from the ground up in Rust 🦀
-              {" "}
-              and powered by{" "}
+              from the ground up in Rust 🦀 and powered by{" "}
               <a
                 href="https://trynova.dev/"
                 class="text-text hover:text-subtext0 underline font-semibold transition-colors"

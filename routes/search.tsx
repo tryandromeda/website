@@ -1,5 +1,5 @@
-import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
+import NavBar from "../components/NavBar.tsx";
 import SearchTrigger from "../islands/SearchTrigger.tsx";
 
 export default function SearchPage() {

@@ -21,9 +21,9 @@ function escapeXml(text: string): string {
 
 function generateAtomFeed(posts: BlogPost[], baseUrl: string): string {
   const now = new Date().toISOString();
-  const latestPostDate = posts.length > 0
-    ? new Date(posts[0].date).toISOString()
-    : now;
+  const latestPostDate = posts.length > 0 ?
+    new Date(posts[0].date).toISOString() :
+    now;
 
   const entries = posts.map((post) => {
     const postUrl = `${baseUrl}/blog/${post.slug}`;
@@ -37,10 +37,10 @@ function generateAtomFeed(posts: BlogPost[], baseUrl: string): string {
     <summary type="text">${escapeXml(post.excerpt)}</summary>
     <author>
       <name>${escapeXml(post.author)}</name>${
-      post.authorUrl
-        ? `
-      <uri>${escapeXml(post.authorUrl)}</uri>`
-        : ""
+      post.authorUrl ?
+        `
+      <uri>${escapeXml(post.authorUrl)}</uri>` :
+        ""
     }
     </author>
     ${

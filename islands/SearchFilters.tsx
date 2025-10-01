@@ -1,5 +1,4 @@
 // deno-lint-ignore-file no-explicit-any
-import { useState } from "preact/hooks";
 import {
   BookOpen,
   ChevronDown,
@@ -10,6 +9,7 @@ import {
   MessageSquare,
   X,
 } from "lucide-preact";
+import { useState } from "preact/hooks";
 
 interface SearchFiltersProps {
   onFiltersChange: (filters: SearchFilters) => void;
@@ -19,7 +19,7 @@ interface SearchFiltersProps {
 interface SearchFilters {
   type?: "doc" | "api" | "example" | "blog";
   tags?: string[];
-  dateRange?: { from?: Date; to?: Date };
+  dateRange?: { from?: Date; to?: Date; };
   minWordCount?: number;
   sortBy?: "relevance" | "date" | "title" | "wordCount";
 }
@@ -141,21 +141,21 @@ export default function SearchFilters(
                   key={option.value}
                   onClick={() =>
                     updateFilters({
-                      type: localFilters.type === option.value
-                        ? undefined
-                        : option.value as any,
+                      type: localFilters.type === option.value ?
+                        undefined :
+                        option.value as any,
                     })}
                   class={`flex items-center gap-2 p-3 rounded-lg border transition-all ${
-                    localFilters.type === option.value
-                      ? "border-blue bg-blue/10 text-blue"
-                      : "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
+                    localFilters.type === option.value ?
+                      "border-blue bg-blue/10 text-blue" :
+                      "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
                   }`}
                 >
                   <option.icon
                     size={16}
-                    class={localFilters.type === option.value
-                      ? "text-blue"
-                      : option.color}
+                    class={localFilters.type === option.value ?
+                      "text-blue" :
+                      option.color}
                   />
                   <span class="text-sm">{option.label}</span>
                 </button>
@@ -175,17 +175,17 @@ export default function SearchFilters(
                   key={tag}
                   onClick={() => {
                     const currentTags = localFilters.tags || [];
-                    const newTags = currentTags.includes(tag)
-                      ? currentTags.filter((t) => t !== tag)
-                      : [...currentTags, tag];
+                    const newTags = currentTags.includes(tag) ?
+                      currentTags.filter((t) => t !== tag) :
+                      [...currentTags, tag];
                     updateFilters({
                       tags: newTags.length > 0 ? newTags : undefined,
                     });
                   }}
                   class={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm border transition-all ${
-                    localFilters.tags?.includes(tag)
-                      ? "border-blue bg-blue/10 text-blue"
-                      : "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
+                    localFilters.tags?.includes(tag) ?
+                      "border-blue bg-blue/10 text-blue" :
+                      "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
                   }`}
                 >
                   <Hash size={12} />
@@ -210,14 +210,14 @@ export default function SearchFilters(
                   key={count}
                   onClick={() =>
                     updateFilters({
-                      minWordCount: localFilters.minWordCount === count
-                        ? undefined
-                        : count,
+                      minWordCount: localFilters.minWordCount === count ?
+                        undefined :
+                        count,
                     })}
                   class={`px-3 py-2 rounded-lg text-sm border transition-all ${
-                    localFilters.minWordCount === count
-                      ? "border-blue bg-blue/10 text-blue"
-                      : "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
+                    localFilters.minWordCount === count ?
+                      "border-blue bg-blue/10 text-blue" :
+                      "border-surface1 hover:border-surface2 text-subtext1 hover:text-text"
                   }`}
                 >
                   {count}+ words
@@ -259,9 +259,9 @@ export default function SearchFilters(
                     "T",
                   )[0] || ""}
                   onChange={(e: any) => {
-                    const from = e.target.value
-                      ? new Date(e.target.value)
-                      : undefined;
+                    const from = e.target.value ?
+                      new Date(e.target.value) :
+                      undefined;
                     updateFilters({
                       dateRange: { ...localFilters.dateRange, from },
                     });
@@ -277,9 +277,9 @@ export default function SearchFilters(
                     "T",
                   )[0] || ""}
                   onChange={(e: any) => {
-                    const to = e.target.value
-                      ? new Date(e.target.value)
-                      : undefined;
+                    const to = e.target.value ?
+                      new Date(e.target.value) :
+                      undefined;
                     updateFilters({
                       dateRange: { ...localFilters.dateRange, to },
                     });

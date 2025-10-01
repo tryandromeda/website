@@ -1,5 +1,5 @@
-import { useState } from "preact/hooks";
 import { Check, Copy } from "lucide-preact";
+import { useState } from "preact/hooks";
 
 interface CodeCopyButtonProps {
   code: string;
@@ -24,20 +24,20 @@ export function CodeCopyButton({ code, className = "" }: CodeCopyButtonProps) {
       type="button"
       onClick={copyToClipboard}
       className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
-        copied
-          ? "bg-green/20 text-green border border-green/30"
-          : "bg-surface1/80 text-subtext1 border border-surface2/50 hover:bg-surface2/80 hover:text-text"
+        copied ?
+          "bg-green/20 text-green border border-green/30" :
+          "bg-surface1/80 text-subtext1 border border-surface2/50 hover:bg-surface2/80 hover:text-text"
       } ${className}`}
       title={copied ? "Copied!" : "Copy code"}
     >
-      {copied
-        ? (
+      {copied ?
+        (
           <>
             <Check size={14} />
             <span>Copied!</span>
           </>
-        )
-        : (
+        ) :
+        (
           <>
             <Copy size={14} />
             <span>Copy</span>

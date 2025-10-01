@@ -1,13 +1,13 @@
 // deno-lint-ignore-file react-no-danger
-import type { PageProps } from "fresh";
 import { render } from "@deno/gfm";
+import type { PageProps } from "fresh";
 import "npm:prismjs@1.29.0/components/prism-typescript.js";
 import "npm:prismjs@1.29.0/components/prism-bash.js";
 import "npm:prismjs@1.29.0/components/prism-rust.js";
 import "npm:prismjs@1.29.0/components/prism-javascript.js";
 
-import NavBar from "../../components/NavBar.tsx";
 import Footer from "../../components/Footer.tsx";
+import NavBar from "../../components/NavBar.tsx";
 import { formatDate, getBlogPost, getReadingTime } from "../../utils/blog.ts";
 
 export default async function BlogPost(props: PageProps) {
@@ -102,8 +102,8 @@ export default async function BlogPost(props: PageProps) {
                     )}
                     {!post.iconUrl && <span class="text-3xl">👤</span>}
                     <div class="text-left">
-                      {post.authorUrl
-                        ? (
+                      {post.authorUrl ?
+                        (
                           <a
                             href={post.authorUrl}
                             class="font-semibold text-text hover:text-blue transition-colors duration-300 text-lg"
@@ -112,8 +112,8 @@ export default async function BlogPost(props: PageProps) {
                           >
                             {post.author}
                           </a>
-                        )
-                        : (
+                        ) :
+                        (
                           <span class="font-semibold text-text text-lg">
                             {post.author}
                           </span>

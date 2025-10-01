@@ -1,5 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
 import { GitFork, Star } from "lucide-preact";
+import { useEffect, useState } from "preact/hooks";
 
 interface GitHubRepo {
   stargazers_count: number;

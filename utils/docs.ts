@@ -34,7 +34,7 @@ export interface FrontmatterMeta {
  */
 export function parseFrontmatter(
   content: string,
-): { meta: FrontmatterMeta; content: string } {
+): { meta: FrontmatterMeta; content: string; } {
   // Handle both Unix (\n) and Windows (\r\n) line endings
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
@@ -118,9 +118,9 @@ async function scanDocsDirectory(
           if (isIndex) {
             docPath = basePath ? `/docs/${basePath}` : "/docs/index";
           } else {
-            docPath = basePath
-              ? `/docs/${basePath}/${filename}`
-              : `/docs/${filename}`;
+            docPath = basePath ?
+              `/docs/${basePath}/${filename}` :
+              `/docs/${filename}`;
           }
 
           // Create doc metadata with defaults
@@ -182,7 +182,7 @@ export async function buildTableOfContents(): Promise<DocSection[]> {
   }
 
   // Define section order and icons
-  const sectionConfig: Record<string, { order: number; icon: string }> = {
+  const sectionConfig: Record<string, { order: number; icon: string; }> = {
     "Getting Started": { order: 1, icon: "🚀" },
     "API Reference": { order: 2, icon: "⚡" },
     "Examples": { order: 3, icon: "📝" },

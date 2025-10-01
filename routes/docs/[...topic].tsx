@@ -1,15 +1,15 @@
 // deno-lint-ignore-file react-no-danger
 // [...topic].tsx
-import type { PageProps } from "fresh";
 import { render } from "@deno/gfm";
+import type { PageProps } from "fresh";
 import "npm:prismjs@1.29.0/components/prism-typescript.js";
 import "npm:prismjs@1.29.0/components/prism-bash.js";
 import "npm:prismjs@1.29.0/components/prism-json.js";
 import "npm:prismjs@1.29.0/components/prism-powershell.js";
 
 import { DocNav } from "../../islands/DocNav.tsx";
-import { ScrollProgress } from "../../islands/ScrollProgress.tsx";
 import { QuickNav } from "../../islands/QuickNav.tsx";
+import { ScrollProgress } from "../../islands/ScrollProgress.tsx";
 import { getTableOfContents, parseFrontmatter } from "../../utils/docs.ts";
 
 function extractHeadings(content: string) {
@@ -75,7 +75,7 @@ The page you're looking for doesn't exist.
 
   // Find the current page in TOC for breadcrumbs and navigation
   let currentPage = null;
-  const allPages: Array<{ name: string; path: string }> = [];
+  const allPages: Array<{ name: string; path: string; }> = [];
 
   // Flatten all pages for navigation
   toc.forEach((section) => {

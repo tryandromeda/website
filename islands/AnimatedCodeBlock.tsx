@@ -1,5 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
 import { Rocket } from "lucide-preact";
+import { useEffect, useState } from "preact/hooks";
 
 const codeLines = [
   { text: "// hello.ts - TypeScript works out of the box", type: "comment" },

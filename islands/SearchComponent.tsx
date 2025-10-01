@@ -1,5 +1,4 @@
 // deno-lint-ignore-file no-window react-no-danger
-import { useEffect, useRef, useState } from "preact/hooks";
 import {
   BookOpen,
   Code,
@@ -9,6 +8,7 @@ import {
   Search,
   X,
 } from "lucide-preact";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 interface SearchResult {
   title: string;

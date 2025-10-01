@@ -1,5 +1,5 @@
-import NavBar from "../components/NavBar.tsx";
 import Footer from "../components/Footer.tsx";
+import NavBar from "../components/NavBar.tsx";
 import TryAgainButton from "../islands/TryAgainButton.tsx";
 
 export default function Offline() {

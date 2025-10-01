@@ -1,7 +1,7 @@
 import { type BlogPost, getAllBlogPosts } from "../../utils/blog.ts";
 
 function escapeXml(unsafe: string): string {
-  return unsafe.replace(/[<>&'"]/g, function (c) {
+  return unsafe.replace(/[<>&'"]/g, function(c) {
     switch (c) {
       case "<":
         return "&lt;";
