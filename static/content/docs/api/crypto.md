@@ -71,13 +71,9 @@ Generates a digest of the given data using the specified algorithm.
 
 - `algorithm` - The hash algorithm to use (e.g., "SHA-1", "SHA-256", "SHA-384",
   "SHA-512")
-- `data` - The data to hash (Uint8Array, ArrayBuffer, or other binary data)
+- `data` - The data to hash (Uint8Array, ArrayBuffer, TypedArray, or DataView)
 
-**Returns:** `Promise<string>` - A promise that resolves to the hex-encoded hash
-
-**Note:** The current implementation returns a hex string instead of an
-ArrayBuffer for convenience. This is non-standard behavior that may change in
-future versions.
+**Returns:** `Promise<ArrayBuffer>` - A promise that resolves to the hash as an ArrayBuffer
 
 **Example:**
 
@@ -85,15 +81,24 @@ future versions.
 const encoder = new TextEncoder();
 const data = encoder.encode("Hello, World!");
 
-crypto.subtle.digest("SHA-256", data)
-  .then((hash) => {
-    console.log("SHA-256 hash:", hash);
-    // Output: SHA-256 hash: dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f
-  });
+const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-// Using async/await
-const hash = await crypto.subtle.digest("SHA-256", data);
-console.log("Hash:", hash);
+// Convert to hex string for display
+const hashArray = new Uint8Array(hashBuffer);
+const hashHex = Array.from(hashArray)
+  .map(b => b.toString(16).padStart(2, '0'))
+  .join('');
+
+console.log("SHA-256 hash:", hashHex);
+// Output: SHA-256 hash: dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f
+
+// Working with ArrayBuffer directly
+const buffer = new ArrayBuffer(16);
+const view = new Uint8Array(buffer);
+view.set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+const hash = await crypto.subtle.digest("SHA-512", buffer);
+console.log("Hash from ArrayBuffer:", hash);
 ```
 
 ### Supported Hash Algorithms
@@ -136,7 +141,13 @@ const sessionId = crypto.randomUUID();
 async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
-  return await crypto.subtle.digest("SHA-256", data);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  
+  // Convert ArrayBuffer to hex string
+  const hashArray = new Uint8Array(hashBuffer);
+  return Array.from(hashArray)
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 const hashedPassword = await hashPassword("mySecretPassword");
@@ -150,7 +161,11 @@ async function verifyFileIntegrity(
   fileData: Uint8Array,
   expectedHash: string,
 ): Promise<boolean> {
-  const actualHash = await crypto.subtle.digest("SHA-256", fileData);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", fileData);
+  const hashArray = new Uint8Array(hashBuffer);
+  const actualHash = Array.from(hashArray)
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
   return actualHash === expectedHash;
 }
 

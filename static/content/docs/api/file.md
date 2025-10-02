@@ -19,6 +19,7 @@ The File API in Andromeda allows you to:
 - Handle file metadata (name, size, type, modification time)
 - Work with Blob objects for binary data
 - Process files in a standardized way
+- Handle FormData for form submissions and multipart data
 
 ## Basic Usage
 
@@ -727,6 +728,207 @@ function isValidFileType(file: File, allowedTypes: string[]): boolean {
 
   const inferredType = typeMap[extension || ""];
   return allowedTypes.includes(inferredType || "");
+}
+```
+
+## FormData API
+
+The FormData interface provides a way to construct key/value pairs representing form fields and their values for form submissions and multipart data handling.
+
+### Creating FormData
+
+```typescript
+// Create an empty FormData
+const formData = new FormData();
+
+// Append different types of data
+formData.append("username", "john_doe");
+formData.append("email", "john@example.com");
+
+// Append a file
+const file = new File(["file content"], "document.txt", { type: "text/plain" });
+formData.append("document", file);
+
+// Append a Blob
+const blob = new Blob(["binary data"], { type: "application/octet-stream" });
+formData.append("data", blob, "data.bin");
+```
+
+### FormData Methods
+
+#### `append(name, value, filename?)`
+
+Appends a new value to an existing key, or adds the key/value pair if it doesn't exist.
+
+```typescript
+const formData = new FormData();
+
+// Append string values
+formData.append("name", "John");
+formData.append("age", "30");
+
+// Append files with optional filename
+formData.append("profile", file, "profile.jpg");
+
+// Multiple values for the same key
+formData.append("hobby", "reading");
+formData.append("hobby", "gaming");
+```
+
+#### `set(name, value, filename?)`
+
+Sets a new value for an existing key, or adds the key/value pair if it doesn't exist. Unlike `append()`, this replaces existing values.
+
+```typescript
+formData.set("name", "Jane"); // Replaces any existing "name" values
+formData.set("avatar", avatarFile, "avatar.png");
+```
+
+#### `get(name)`
+
+Returns the first value associated with the given name.
+
+```typescript
+const name = formData.get("name"); // Returns string or File
+console.log("Name:", name);
+
+const file = formData.get("document"); // Returns File object if it was a file
+if (file instanceof File) {
+  console.log("File name:", file.name);
+}
+```
+
+#### `getAll(name)`
+
+Returns all values associated with the given name.
+
+```typescript
+const hobbies = formData.getAll("hobby"); // Returns array of values
+console.log("Hobbies:", hobbies); // ["reading", "gaming"]
+```
+
+#### `has(name)`
+
+Returns whether a FormData object contains a certain key.
+
+```typescript
+if (formData.has("email")) {
+  console.log("Email field is present");
+}
+```
+
+#### `delete(name)`
+
+Deletes a key and all its values from the FormData object.
+
+```typescript
+formData.delete("temp_field");
+```
+
+#### Iteration Methods
+
+FormData supports iteration through its entries:
+
+```typescript
+// Iterate over all entries
+for (const [key, value] of formData.entries()) {
+  console.log(`${key}:`, value);
+}
+
+// Get all keys
+for (const key of formData.keys()) {
+  console.log("Key:", key);
+}
+
+// Get all values
+for (const value of formData.values()) {
+  console.log("Value:", value);
+}
+
+// Convert to array
+const entries = Array.from(formData.entries());
+```
+
+### FormData with Fetch
+
+FormData is commonly used with the Fetch API for submitting forms:
+
+```typescript
+async function submitForm() {
+  const formData = new FormData();
+  
+  formData.append("username", "user123");
+  formData.append("profile_pic", profileFile);
+  formData.append("description", "User profile update");
+
+  try {
+    const response = await fetch("/api/profile", {
+      method: "POST",
+      body: formData, // Browser automatically sets Content-Type: multipart/form-data
+    });
+
+    if (response.ok) {
+      console.log("Profile updated successfully");
+    }
+  } catch (error) {
+    console.error("Upload failed:", error);
+  }
+}
+```
+
+### Advanced FormData Usage
+
+```typescript
+// Building form data from an HTML form
+function createFormDataFromForm(form: HTMLFormElement): FormData {
+  const formData = new FormData();
+  
+  const inputs = form.querySelectorAll('input, select, textarea');
+  inputs.forEach((input) => {
+    if (input.type === 'file') {
+      const files = input.files;
+      if (files) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append(input.name, files[i]);
+        }
+      }
+    } else if (input.type === 'checkbox') {
+      if (input.checked) {
+        formData.append(input.name, input.value);
+      }
+    } else {
+      formData.append(input.name, input.value);
+    }
+  });
+  
+  return formData;
+}
+
+// Cloning FormData
+function cloneFormData(original: FormData): FormData {
+  const clone = new FormData();
+  
+  for (const [key, value] of original.entries()) {
+    clone.append(key, value);
+  }
+  
+  return clone;
+}
+
+// Converting FormData to URL-encoded string
+function formDataToUrlEncoded(formData: FormData): string {
+  const params = new URLSearchParams();
+  
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === 'string') {
+      params.append(key, value);
+    } else {
+      // For File/Blob objects, use their name or convert to string
+      params.append(key, value.name || value.toString());
+    }
+  }
+  
+  return params.toString();
 }
 ```
 

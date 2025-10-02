@@ -59,6 +59,53 @@ const ctx = canvas.getContext("2d");
 
 The context provides all drawing methods and properties.
 
+### Coordinate Transformations
+
+The Canvas API provides transformation methods to manipulate the coordinate system:
+
+```typescript
+// Scale the context
+ctx.scale(scaleX: number, scaleY: number): void
+
+// Translate the context
+ctx.translate(x: number, y: number): void
+
+// Apply a transformation matrix
+ctx.transform(a: number, b: number, c: number, d: number, e: number, f: number): void
+
+// Set the transformation matrix (replaces current transform)
+ctx.setTransform(a: number, b: number, c: number, d: number, e: number, f: number): void
+
+// Reset to identity matrix
+ctx.resetTransform(): void
+
+// Get current transformation matrix
+ctx.getTransform(): DOMMatrix
+```
+
+**Example - Using transformations:**
+
+```typescript
+const canvas = new OffscreenCanvas(400, 400);
+const ctx = canvas.getContext("2d");
+
+// Save the original state
+ctx.save();
+
+// Move to center and scale
+ctx.translate(200, 200);
+ctx.scale(2, 2);
+
+// Draw a rectangle (will be transformed)
+ctx.fillRect(-25, -25, 50, 50);
+
+// Restore original state
+ctx.restore();
+
+// Reset transformations completely
+ctx.resetTransform();
+```
+
 ### Basic Shapes
 
 #### Rectangles
