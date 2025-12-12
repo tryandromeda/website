@@ -446,23 +446,23 @@ export default function Home() {
                       Memory Usage (Base)
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
-                      ~12MB
+                      ~41MB
                     </td>
-                    <td class="p-3 md:p-4 text-center text-subtext1">~40MB</td>
-                    <td class="p-3 md:p-4 text-center text-subtext1">~25MB</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">~89MB</td>
+                    <td class="p-3 md:p-4 text-center text-subtext1">~116MB</td>
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
                       Zero-config TypeScript
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
-                      ✓ Built-in
+                      ✓ Handled natively
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1">
-                      ✗ Requires setup
+                      ✓ Type step
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1">
-                      ✓ Native
+                      ✓ Type step
                     </td>
                   </tr>
                   <tr class="border-b border-surface0/50">
