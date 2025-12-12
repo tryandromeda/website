@@ -32,6 +32,14 @@ export default function NavBar() {
                 </span>
               </a>
               <a
+                href="/satellites"
+                class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
+              >
+                Satellites
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue transition-all duration-300 group-hover:w-full">
+                </span>
+              </a>
+              <a
                 href="/blog"
                 class="text-subtext1 hover:text-text transition-all duration-300 font-medium text-sm relative group"
               >

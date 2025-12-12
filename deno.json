@@ -46,5 +46,9 @@
       "html",
       "head"
     ]
+  },
+  "allowScripts": {
+    "allow": [],
+    "deny": ["npm:@tailwindcss/oxide@4.1.10", "npm:esbuild@0.23.1"]
   }
 }
