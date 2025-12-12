@@ -1,6 +1,6 @@
 import { App, fsRoutes, staticFiles } from "fresh";
 import { type State } from "./utils.ts";
-import "jsr:@std/dotenv/load";
+import "jsr:@std/dotenv@0.225.5/load";
 export const app = new App<State>();
 
 app.use(staticFiles());

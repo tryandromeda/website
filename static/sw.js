@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-unused-vars
-const CACHE_VERSION = "v26"; // Increment this when you have new features
+const CACHE_VERSION = "v27"; // Increment this when you have new features
 // const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
@@ -188,7 +188,8 @@ self.addEventListener("activate", (event) => {
   console.log("[SW] Activating service worker...");
 
   event.waitUntil(
-    caches.keys()
+    caches
+      .keys()
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
@@ -375,10 +376,15 @@ async function cacheIfAllowed(
 ) {
   try {
     if (!response || !response.ok) return;
-    const ct = (response.headers && response.headers.get &&
-      response.headers.get("content-type")) || "";
+    const ct =
+      (response.headers &&
+        response.headers.get &&
+        response.headers.get("content-type")) ||
+      "";
     if (
-      ct.startsWith("image/") || ct.includes("video") || ct.includes("font") ||
+      ct.startsWith("image/") ||
+      ct.includes("video") ||
+      ct.includes("font") ||
       ct.includes("audio")
     ) {
       // skip caching large media files
@@ -480,8 +486,6 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   if (event.action === "view") {
-    event.waitUntil(
-      self.clients.openWindow("/"),
-    );
+    event.waitUntil(self.clients.openWindow("/"));
   }
 });
