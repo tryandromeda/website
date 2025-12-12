@@ -1,47 +1,34 @@
 ---
 title: "Canvas API"
-description: "GPU-accelerated 2D graphics rendering with hardware acceleration and PNG export"
+description: "Hardware-accelerated 2D graphics with GPU-powered Canvas API"
 section: "API Reference"
-order: 14
-id: "canvas-api"
+order: 2
+id: "canvas"
 ---
 
-Andromeda provides a comprehensive, **GPU-accelerated** Canvas API for creating
-2D graphics, drawings, and visualizations. The API is powered by the WGPU
-backend for hardware acceleration and is based on the standard HTML5 Canvas
-specification.
+Andromeda provides a hardware-accelerated 2D Canvas API powered by WGPU, enabling high-performance graphics rendering with full support for the standard Canvas 2D Context specification.
 
 ## Overview
 
 The Canvas API allows you to:
 
-- Draw shapes, lines, and text with hardware acceleration
-- Render images and apply transformations
-- Create complex graphics and visualizations with linear gradients
-- Export graphics to PNG format
-- Leverage GPU performance for intensive drawing operations
+- Create and manipulate 2D graphics
+- Draw shapes, paths, text, and images
+- Apply colors, gradients, and styles
+- Export graphics as PNG images
+- Hardware-accelerated rendering with GPU
 
 ## Creating a Canvas
 
-### `OffscreenCanvas`
+### OffscreenCanvas
 
-Create a canvas that renders off-screen:
-
-```typescript
-const canvas = new OffscreenCanvas(width, height);
-const ctx = canvas.getContext("2d");
-```
-
-**Parameters:**
-
-- `width` - Canvas width in pixels
-- `height` - Canvas height in pixels
-
-**Example:**
+Use `OffscreenCanvas` to create a canvas without a DOM:
 
 ```typescript
-// Create a 800x600 canvas
-const canvas = new OffscreenCanvas(800, 600);
+// Create a 400x300 canvas
+const canvas = new OffscreenCanvas(400, 300);
+
+// Get the 2D rendering context
 const ctx = canvas.getContext("2d");
 
 if (!ctx) {
@@ -49,683 +36,515 @@ if (!ctx) {
 }
 ```
 
-## Drawing Context
+## Canvas Context
 
 ### Getting the Context
 
 ```typescript
-const ctx = canvas.getContext("2d");
-```
-
-The context provides all drawing methods and properties.
-
-### Coordinate Transformations
-
-The Canvas API provides transformation methods to manipulate the coordinate system:
-
-```typescript
-// Scale the context
-ctx.scale(scaleX: number, scaleY: number): void
-
-// Translate the context
-ctx.translate(x: number, y: number): void
-
-// Apply a transformation matrix
-ctx.transform(a: number, b: number, c: number, d: number, e: number, f: number): void
-
-// Set the transformation matrix (replaces current transform)
-ctx.setTransform(a: number, b: number, c: number, d: number, e: number, f: number): void
-
-// Reset to identity matrix
-ctx.resetTransform(): void
-
-// Get current transformation matrix
-ctx.getTransform(): DOMMatrix
-```
-
-**Example - Using transformations:**
-
-```typescript
-const canvas = new OffscreenCanvas(400, 400);
+const canvas = new OffscreenCanvas(800, 600);
 const ctx = canvas.getContext("2d");
 
-// Save the original state
-ctx.save();
-
-// Move to center and scale
-ctx.translate(200, 200);
-ctx.scale(2, 2);
-
-// Draw a rectangle (will be transformed)
-ctx.fillRect(-25, -25, 50, 50);
-
-// Restore original state
-ctx.restore();
-
-// Reset transformations completely
-ctx.resetTransform();
+// Check if context was created successfully
+if (!ctx) {
+  console.error("Failed to get 2D context");
+}
 ```
 
-### Basic Shapes
+## Drawing Shapes
 
-#### Rectangles
+### Rectangles
 
 ```typescript
-// Filled rectangle
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
+
+// Fill a rectangle
 ctx.fillStyle = "#ff0000";
-ctx.fillRect(x, y, width, height);
+ctx.fillRect(50, 50, 100, 80);
 
-// Outlined rectangle
-ctx.strokeStyle = "#00ff00";
-ctx.lineWidth = 2;
-ctx.strokeRect(x, y, width, height);
-
-// Clear rectangle (make transparent)
-ctx.clearRect(x, y, width, height);
-```
-
-#### Circles and Arcs
-
-```typescript
-// Circle
-ctx.beginPath();
-ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-ctx.fillStyle = "#0000ff";
-ctx.fill();
-
-// Arc
-ctx.beginPath();
-ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-ctx.strokeStyle = "#ff00ff";
-ctx.stroke();
-```
-
-#### Custom Paths
-
-```typescript
-ctx.beginPath();
-ctx.moveTo(50, 50); // Move to starting point
-ctx.lineTo(150, 50); // Draw line to point
-ctx.lineTo(100, 150); // Draw line to another point
-ctx.closePath(); // Close the path
-ctx.fillStyle = "#ffff00";
-ctx.fill();
-```
-
-#### Advanced Path Methods
-
-##### Quadratic Curves
-
-```typescript
-// Quadratic Bézier curve
-ctx.beginPath();
-ctx.moveTo(20, 20);
-ctx.quadraticCurveTo(100, 100, 200, 20); // Control point and end point
-ctx.strokeStyle = "#ff0000";
-ctx.stroke();
-
-// Multiple curves for smooth paths
-ctx.beginPath();
-ctx.moveTo(50, 100);
-ctx.quadraticCurveTo(100, 50, 150, 100);
-ctx.quadraticCurveTo(200, 150, 250, 100);
+// Stroke (outline) a rectangle
 ctx.strokeStyle = "#00ff00";
 ctx.lineWidth = 3;
-ctx.stroke();
+ctx.strokeRect(200, 50, 100, 80);
+
+// Clear a rectangular area
+ctx.clearRect(60, 60, 30, 30);
 ```
 
-##### Ellipses
+### Paths
 
 ```typescript
-// Complete ellipse
-ctx.beginPath();
-ctx.ellipse(100, 100, 50, 30, 0, 0, Math.PI * 2); // x, y, radiusX, radiusY, rotation, startAngle, endAngle
-ctx.fillStyle = "#0000ff";
-ctx.fill();
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
 
-// Rotated ellipse
+// Begin a new path
 ctx.beginPath();
-ctx.ellipse(200, 200, 60, 20, Math.PI / 4, 0, Math.PI * 2); // 45-degree rotation
-ctx.strokeStyle = "#ff00ff";
-ctx.lineWidth = 2;
-ctx.stroke();
 
-// Elliptical arc
-ctx.beginPath();
-ctx.ellipse(300, 100, 40, 25, 0, 0, Math.PI); // Half ellipse
-ctx.fillStyle = "#ffff00";
-ctx.fill();
-```
+// Move to starting point
+ctx.moveTo(100, 100);
 
-##### Rounded Rectangles
+// Draw lines
+ctx.lineTo(200, 100);
+ctx.lineTo(150, 200);
+ctx.lineTo(100, 100);
 
-```typescript
-// Basic rounded rectangle
-ctx.beginPath();
-ctx.roundRect(50, 50, 100, 80, 10); // x, y, width, height, radius
-ctx.fillStyle = "#ff6b6b";
-ctx.fill();
+// Close the path
+ctx.closePath();
 
-// Rounded rectangle with different corner radii
-ctx.beginPath();
-ctx.roundRect(200, 50, 120, 80, [20, 10, 5, 15]); // Different radius for each corner
-ctx.strokeStyle = "#4ecdc4";
-ctx.lineWidth = 3;
-ctx.stroke();
-
-// Rounded rectangle with stroke and fill
-ctx.beginPath();
-ctx.roundRect(50, 200, 150, 60, 25);
-ctx.fillStyle = "#45b7d1";
+// Fill or stroke the path
+ctx.fillStyle = "#4ecdc4";
 ctx.fill();
 ctx.strokeStyle = "#2c3e50";
-ctx.lineWidth = 2;
 ctx.stroke();
 ```
 
-### Colors and Styles
-
-#### Fill and Stroke Colors
+### Circles and Arcs
 
 ```typescript
-// Solid colors
-ctx.fillStyle = "#ff0000"; // Hex
-ctx.fillStyle = "rgb(255, 0, 0)"; // RGB
-ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // RGBA
-ctx.fillStyle = "red"; // Named color
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
 
-// Apply to shapes
-ctx.fillRect(10, 10, 100, 100);
-```
-
-#### Gradients
-
-Andromeda supports both linear and radial gradients with hardware acceleration:
-
-```typescript
-// Linear gradient
-const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-gradient.addColorStop(0, "#ff0000");
-gradient.addColorStop(0.5, "#00ff00");
-gradient.addColorStop(1, "#0000ff");
-ctx.fillStyle = gradient;
-ctx.fillRect(0, 0, 200, 100);
-
-// Advanced linear gradient with multiple stops
-const advancedGradient = ctx.createLinearGradient(0, 0, 300, 0);
-advancedGradient.addColorStop(0, "rgba(255, 0, 0, 1)");
-advancedGradient.addColorStop(0.25, "rgba(255, 255, 0, 0.8)");
-advancedGradient.addColorStop(0.5, "rgba(0, 255, 0, 0.6)");
-advancedGradient.addColorStop(0.75, "rgba(0, 255, 255, 0.8)");
-advancedGradient.addColorStop(1, "rgba(0, 0, 255, 1)");
-ctx.fillStyle = advancedGradient;
-ctx.fillRect(0, 100, 300, 50);
-
-// Radial gradient
-const radialGradient = ctx.createRadialGradient(100, 100, 0, 100, 100, 100);
-radialGradient.addColorStop(0, "#fff");
-radialGradient.addColorStop(1, "#000");
-ctx.fillStyle = radialGradient;
-ctx.fillRect(0, 0, 200, 200);
-
-// Gradient for text
-const textGradient = ctx.createLinearGradient(0, 0, 200, 0);
-textGradient.addColorStop(0, "#ff6b6b");
-textGradient.addColorStop(1, "#4ecdc4");
-ctx.fillStyle = textGradient;
-ctx.font = "48px Arial";
-ctx.fillText("Gradient Text", 10, 50);
-```
-
-**Hardware Acceleration**: Linear gradients in Andromeda are GPU-accelerated
-using the WGPU backend, providing superior performance for complex gradient
-operations.
-
-#### Line Styles
-
-```typescript
-ctx.lineWidth = 5;
-ctx.lineCap = "round"; // "butt", "round", "square"
-ctx.lineJoin = "round"; // "miter", "round", "bevel"
-ctx.strokeStyle = "#000";
-```
-
-### Text Rendering
-
-#### Basic Text
-
-```typescript
-ctx.font = "24px Arial";
-ctx.fillStyle = "#000";
-ctx.fillText("Hello, World!", x, y);
-
-// Outlined text
-ctx.strokeStyle = "#ff0000";
-ctx.strokeText("Outlined Text", x, y);
-```
-
-#### Text Properties
-
-```typescript
-ctx.font = "bold 32px 'Times New Roman'";
-ctx.textAlign = "center"; // "start", "end", "left", "right", "center"
-ctx.textBaseline = "middle"; // "top", "hanging", "middle", "alphabetic", "ideographic", "bottom"
-ctx.fillText("Centered Text", canvas.width / 2, canvas.height / 2);
-```
-
-#### Text Measurements
-
-```typescript
-const text = "Measure me!";
-const metrics = ctx.measureText(text);
-console.log(`Text width: ${metrics.width}px`);
-```
-
-### Transformations
-
-#### Translation
-
-```typescript
-ctx.save(); // Save current state
-ctx.translate(100, 50); // Move origin
-ctx.fillRect(0, 0, 50, 50); // Draw at new origin
-ctx.restore(); // Restore previous state
-```
-
-#### Rotation
-
-```typescript
-ctx.save();
-ctx.translate(canvas.width / 2, canvas.height / 2); // Move to center
-ctx.rotate(Math.PI / 4); // Rotate 45 degrees
-ctx.fillRect(-25, -25, 50, 50); // Draw centered square
-ctx.restore();
-```
-
-#### Scaling
-
-```typescript
-ctx.save();
-ctx.scale(2, 2); // Scale 2x
-ctx.fillRect(10, 10, 50, 50); // Will appear as 100x100
-ctx.restore();
-```
-
-#### Custom Transforms
-
-```typescript
-// Matrix transformation: transform(a, b, c, d, e, f)
-ctx.transform(1, 0.5, -0.5, 1, 30, 10);
-ctx.fillRect(0, 0, 50, 50);
-```
-
-### Clipping and Compositing
-
-#### Clipping Paths
-
-```typescript
-// Create clipping region
+// Draw a circle
 ctx.beginPath();
-ctx.arc(100, 100, 50, 0, Math.PI * 2);
-ctx.clip();
+ctx.arc(200, 150, 50, 0, Math.PI * 2);
+ctx.fillStyle = "#e74c3c";
+ctx.fill();
 
-// Everything drawn now will be clipped to the circle
-ctx.fillStyle = "red";
-ctx.fillRect(0, 0, 200, 200); // Only the part inside circle shows
+// Draw a semi-circle
+ctx.beginPath();
+ctx.arc(100, 150, 40, 0, Math.PI);
+ctx.fillStyle = "#3498db";
+ctx.fill();
+
+// Draw an arc
+ctx.beginPath();
+ctx.arc(300, 150, 40, 0, Math.PI * 1.5);
+ctx.strokeStyle = "#2ecc71";
+ctx.lineWidth = 4;
+ctx.stroke();
 ```
 
-#### Global Composite Operations
+## Colors and Styles
+
+### Solid Colors
 
 ```typescript
-ctx.globalCompositeOperation = "multiply";
-// Other options: "source-over", "source-in", "source-out", "destination-over", etc.
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
+
+// Hex colors
+ctx.fillStyle = "#ff6b6b";
+ctx.fillRect(10, 10, 80, 80);
+
+// RGB colors
+ctx.fillStyle = "rgb(255, 165, 0)";
+ctx.fillRect(100, 10, 80, 80);
+
+// RGBA colors (with transparency)
+ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
+ctx.fillRect(190, 10, 80, 80);
+
+// Named colors
+ctx.fillStyle = "rebeccapurple";
+ctx.fillRect(280, 10, 80, 80);
+```
+
+### Gradients
+
+Andromeda supports linear gradients for advanced visual effects:
+
+```typescript
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
+
+// Create a linear gradient
+const gradient = ctx.createLinearGradient(0, 0, 400, 0);
+
+// Add color stops
+gradient.addColorStop(0, "#ff6b6b");
+gradient.addColorStop(0.5, "#4ecdc4");
+gradient.addColorStop(1, "#45b7d1");
+
+// Use the gradient as a fill style
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 400, 300);
+```
+
+### Transparency
+
+```typescript
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
+
+// Set global alpha (affects all subsequent drawing operations)
+ctx.globalAlpha = 0.5;
 
 ctx.fillStyle = "red";
 ctx.fillRect(50, 50, 100, 100);
 
 ctx.fillStyle = "blue";
-ctx.fillRect(100, 100, 100, 100); // Will multiply with red
+ctx.fillRect(100, 100, 100, 100);
+
+// Reset global alpha
+ctx.globalAlpha = 1.0;
 ```
 
-#### Global Alpha
+## Text Rendering
+
+### Drawing Text
 
 ```typescript
-ctx.globalAlpha = 0.5; // 50% transparency
-ctx.fillStyle = "red";
-ctx.fillRect(10, 10, 100, 100); // Semi-transparent
+const canvas = new OffscreenCanvas(600, 200);
+const ctx = canvas.getContext("2d")!;
 
-ctx.globalAlpha = 1.0; // Reset to opaque
+// Set font properties
+ctx.font = "48px sans-serif";
+ctx.fillStyle = "#2c3e50";
+
+// Fill text
+ctx.fillText("Hello, Andromeda!", 50, 100);
+
+// Stroke text
+ctx.strokeStyle = "#e74c3c";
+ctx.lineWidth = 2;
+ctx.strokeText("Hello, Andromeda!", 50, 150);
 ```
 
-## Advanced Features
-
-### Shadows
+### Font Styles
 
 ```typescript
-ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-ctx.shadowOffsetX = 5;
-ctx.shadowOffsetY = 5;
-ctx.shadowBlur = 10;
-
-ctx.fillStyle = "blue";
-ctx.fillRect(50, 50, 100, 100); // Rectangle with shadow
-```
-
-### Image Data Manipulation
-
-```typescript
-// Get image data
-const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-const data = imageData.data; // Uint8ClampedArray (RGBA values)
-
-// Manipulate pixels (invert colors)
-for (let i = 0; i < data.length; i += 4) {
-  data[i] = 255 - data[i]; // Red
-  data[i + 1] = 255 - data[i + 1]; // Green
-  data[i + 2] = 255 - data[i + 2]; // Blue
-  // data[i + 3] is alpha, leave unchanged
-}
-
-// Put modified data back
-ctx.putImageData(imageData, 0, 0);
-```
-
-### Patterns
-
-```typescript
-// Create a pattern from another canvas
-const patternCanvas = new OffscreenCanvas(20, 20);
-const patternCtx = patternCanvas.getContext("2d")!;
-
-// Draw pattern
-patternCtx.fillStyle = "#ff0000";
-patternCtx.fillRect(0, 0, 10, 10);
-patternCtx.fillStyle = "#0000ff";
-patternCtx.fillRect(10, 10, 10, 10);
-
-// Use pattern
-const pattern = ctx.createPattern(patternCanvas, "repeat");
-ctx.fillStyle = pattern;
-ctx.fillRect(0, 0, 200, 200);
-```
-
-## Exporting Graphics
-
-### Save as PNG
-
-```typescript
-// Render the canvas
-canvas.render();
-
-// Save to file
-canvas.saveAsPng("output.png");
-console.log("✅ Image saved as output.png");
-```
-
-### Get Image Data
-
-```typescript
-// Get raw RGBA pixel data
-const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-console.log(`Image data: ${imageData.width}x${imageData.height}`);
-```
-
-## Practical Examples
-
-### Drawing a Chart
-
-```typescript
-function drawBarChart(canvas: OffscreenCanvas, data: number[]) {
-  const ctx = canvas.getContext("2d")!;
-
-  // Clear canvas
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Chart settings
-  const padding = 40;
-  const chartWidth = canvas.width - padding * 2;
-  const chartHeight = canvas.height - padding * 2;
-  const barWidth = chartWidth / data.length;
-  const maxValue = Math.max(...data);
-
-  // Draw bars
-  data.forEach((value, index) => {
-    const barHeight = (value / maxValue) * chartHeight;
-    const x = padding + index * barWidth;
-    const y = canvas.height - padding - barHeight;
-
-    // Bar
-    ctx.fillStyle = `hsl(${index * 40}, 70%, 50%)`;
-    ctx.fillRect(x, y, barWidth - 2, barHeight);
-
-    // Value label
-    ctx.fillStyle = "#000";
-    ctx.font = "12px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(value.toString(), x + barWidth / 2, y - 5);
-  });
-
-  // Title
-  ctx.fillStyle = "#000";
-  ctx.font = "bold 18px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText("Sales Data", canvas.width / 2, 25);
-}
-
-// Usage
 const canvas = new OffscreenCanvas(600, 400);
-drawBarChart(canvas, [25, 40, 35, 60, 45, 55]);
-canvas.render();
-canvas.saveAsPng("chart.png");
+const ctx = canvas.getContext("2d")!;
+
+// Different font styles
+ctx.font = "bold 32px Arial";
+ctx.fillText("Bold Arial", 50, 50);
+
+ctx.font = "italic 28px Georgia";
+ctx.fillText("Italic Georgia", 50, 100);
+
+ctx.font = "24px monospace";
+ctx.fillText("Monospace Font", 50, 150);
+
+ctx.font = "36px sans-serif";
+ctx.fillText("Sans-serif", 50, 200);
 ```
 
-### Creating a Logo
+## Line Styles
+
+### Line Properties
 
 ```typescript
-function createLogo(canvas: OffscreenCanvas) {
-  const ctx = canvas.getContext("2d")!;
+const canvas = new OffscreenCanvas(400, 300);
+const ctx = canvas.getContext("2d")!;
 
-  // Background
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, "#667eea");
-  gradient.addColorStop(1, "#764ba2");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+// Line width
+ctx.lineWidth = 5;
+ctx.strokeStyle = "#2c3e50";
+ctx.beginPath();
+ctx.moveTo(50, 50);
+ctx.lineTo(350, 50);
+ctx.stroke();
 
-  // Center circle
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
+// Different line widths
+ctx.lineWidth = 10;
+ctx.beginPath();
+ctx.moveTo(50, 100);
+ctx.lineTo(350, 100);
+ctx.stroke();
 
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
-  ctx.fillStyle = "#ffffff";
-  ctx.fill();
-
-  // Inner design
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 60, 0, Math.PI * 2);
-  ctx.fillStyle = "#4c51bf";
-  ctx.fill();
-
-  // Text
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 24px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText("LOGO", centerX, centerY);
-}
-
-// Usage
-const canvas = new OffscreenCanvas(300, 300);
-createLogo(canvas);
-canvas.render();
-canvas.saveAsPng("logo.png");
+ctx.lineWidth = 15;
+ctx.beginPath();
+ctx.moveTo(50, 150);
+ctx.lineTo(350, 150);
+ctx.stroke();
 ```
 
-### Animated Visualization
+## Saving Canvas as PNG
+
+### saveAsPng()
+
+Export your canvas as a PNG image file:
 
 ```typescript
-function drawFrame(canvas: OffscreenCanvas, frame: number) {
-  const ctx = canvas.getContext("2d")!;
+const canvas = new OffscreenCanvas(600, 400);
+const ctx = canvas.getContext("2d")!;
 
-  // Clear canvas
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+// Draw something
+ctx.fillStyle = "#f0f0f0";
+ctx.fillRect(0, 0, 600, 400);
 
-  // Draw rotating elements
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
+ctx.fillStyle = "#e74c3c";
+ctx.fillRect(100, 100, 200, 150);
 
-  for (let i = 0; i < 8; i++) {
-    ctx.save();
+// Save as PNG
+const success = canvas.saveAsPng("output.png");
 
-    // Position and rotate
-    ctx.translate(centerX, centerY);
-    ctx.rotate((frame * 0.02) + (i * Math.PI / 4));
-    ctx.translate(60, 0);
+if (success) {
+  console.log("✅ Image saved successfully!");
+} else {
+  console.error("❌ Failed to save image");
+}
+```
 
-    // Draw shape
-    ctx.beginPath();
-    ctx.arc(0, 0, 20, 0, Math.PI * 2);
-    ctx.fillStyle = `hsl(${(frame + i * 45) % 360}, 70%, 50%)`;
-    ctx.fill();
+## Complete Examples
 
-    ctx.restore();
-  }
+### Colorful Grid
+
+```typescript
+const canvas = new OffscreenCanvas(600, 400);
+const ctx = canvas.getContext("2d")!;
+
+// Background
+ctx.fillStyle = "#1a1a1a";
+ctx.fillRect(0, 0, 600, 400);
+
+// Draw colorful grid
+const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#96ceb4", "#feca57", "#ee5a6f"];
+
+for (let i = 0; i < colors.length; i++) {
+  ctx.fillStyle = colors[i];
+  ctx.fillRect(50 + i * 80, 50, 70, 70);
+  ctx.fillRect(50 + i * 80, 140, 70, 70);
+  ctx.fillRect(50 + i * 80, 230, 70, 70);
 }
 
-// Create animation frames
-const canvas = new OffscreenCanvas(400, 400);
-for (let frame = 0; frame < 60; frame++) {
-  drawFrame(canvas, frame);
-  canvas.render();
-  canvas.saveAsPng(`animation-${frame.toString().padStart(3, "0")}.png`);
-}
+// Add text
+ctx.fillStyle = "#ffffff";
+ctx.font = "32px sans-serif";
+ctx.fillText("Colorful Grid Demo", 150, 350);
+
+canvas.saveAsPng("colorful-grid.png");
+```
+
+### Gradient Banner
+
+```typescript
+const canvas = new OffscreenCanvas(800, 200);
+const ctx = canvas.getContext("2d")!;
+
+// Create gradient background
+const gradient = ctx.createLinearGradient(0, 0, 800, 0);
+gradient.addColorStop(0, "#667eea");
+gradient.addColorStop(0.5, "#764ba2");
+gradient.addColorStop(1, "#f093fb");
+
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 800, 200);
+
+// Add text with shadow effect
+ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+ctx.font = "bold 56px Arial";
+ctx.fillText("Andromeda", 152, 112);
+
+ctx.fillStyle = "#ffffff";
+ctx.fillText("Andromeda", 150, 110);
+
+canvas.saveAsPng("gradient-banner.png");
 ```
 
 ### Data Visualization
 
 ```typescript
-interface DataPoint {
-  x: number;
-  y: number;
-  label: string;
+const canvas = new OffscreenCanvas(600, 400);
+const ctx = canvas.getContext("2d")!;
+
+// Background
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(0, 0, 600, 400);
+
+// Sample data
+const data = [65, 28, 80, 45, 92, 38, 71];
+const barWidth = 60;
+const maxHeight = 250;
+
+// Draw bars
+for (let i = 0; i < data.length; i++) {
+  const barHeight = (data[i] / 100) * maxHeight;
+  const x = 50 + i * (barWidth + 20);
+  const y = 300 - barHeight;
+
+  // Bar gradient
+  const gradient = ctx.createLinearGradient(x, y, x, 300);
+  gradient.addColorStop(0, "#4facfe");
+  gradient.addColorStop(1, "#00f2fe");
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(x, y, barWidth, barHeight);
+
+  // Value label
+  ctx.fillStyle = "#2c3e50";
+  ctx.font = "16px Arial";
+  ctx.fillText(data[i].toString(), x + 20, y - 10);
 }
 
-function drawScatterPlot(canvas: OffscreenCanvas, data: DataPoint[]) {
-  const ctx = canvas.getContext("2d")!;
+// Title
+ctx.fillStyle = "#2c3e50";
+ctx.font = "bold 24px Arial";
+ctx.fillText("Monthly Data", 200, 40);
 
-  // Settings
-  const padding = 60;
-  const plotWidth = canvas.width - padding * 2;
-  const plotHeight = canvas.height - padding * 2;
-
-  // Find data ranges
-  const xMin = Math.min(...data.map((d) => d.x));
-  const xMax = Math.max(...data.map((d) => d.x));
-  const yMin = Math.min(...data.map((d) => d.y));
-  const yMax = Math.max(...data.map((d) => d.y));
-
-  // Helper function to convert data coordinates to canvas coordinates
-  const toCanvasX = (x: number) =>
-    padding + ((x - xMin) / (xMax - xMin)) * plotWidth;
-  const toCanvasY = (y: number) =>
-    canvas.height - padding - ((y - yMin) / (yMax - yMin)) * plotHeight;
-
-  // Clear background
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw axes
-  ctx.strokeStyle = "#000";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(padding, padding);
-  ctx.lineTo(padding, canvas.height - padding);
-  ctx.lineTo(canvas.width - padding, canvas.height - padding);
-  ctx.stroke();
-
-  // Draw data points
-  data.forEach((point, index) => {
-    const x = toCanvasX(point.x);
-    const y = toCanvasY(point.y);
-
-    // Point
-    ctx.beginPath();
-    ctx.arc(x, y, 6, 0, Math.PI * 2);
-    ctx.fillStyle = `hsl(${index * 30}, 70%, 50%)`;
-    ctx.fill();
-
-    // Label
-    ctx.fillStyle = "#000";
-    ctx.font = "10px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(point.label, x, y - 10);
-  });
-
-  // Axis labels
-  ctx.fillStyle = "#000";
-  ctx.font = "14px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText("X Axis", canvas.width / 2, canvas.height - 10);
-
-  ctx.save();
-  ctx.translate(15, canvas.height / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillText("Y Axis", 0, 0);
-  ctx.restore();
-}
-
-// Usage
-const data: DataPoint[] = [
-  { x: 1, y: 2, label: "A" },
-  { x: 2, y: 4, label: "B" },
-  { x: 3, y: 3, label: "C" },
-  { x: 4, y: 6, label: "D" },
-  { x: 5, y: 5, label: "E" },
-];
-
-const canvas = new OffscreenCanvas(500, 400);
-drawScatterPlot(canvas, data);
-canvas.render();
-canvas.saveAsPng("scatter-plot.png");
+canvas.saveAsPng("data-visualization.png");
 ```
+
+### Transparency and Overlays
+
+```typescript
+const canvas = new OffscreenCanvas(400, 400);
+const ctx = canvas.getContext("2d")!;
+
+// Background
+ctx.fillStyle = "#ecf0f1";
+ctx.fillRect(0, 0, 400, 400);
+
+// Draw overlapping shapes with transparency
+ctx.globalAlpha = 0.6;
+
+ctx.fillStyle = "#e74c3c";
+ctx.fillRect(50, 50, 150, 150);
+
+ctx.fillStyle = "#3498db";
+ctx.fillRect(125, 125, 150, 150);
+
+ctx.fillStyle = "#2ecc71";
+ctx.fillRect(200, 50, 150, 150);
+
+// Reset alpha
+ctx.globalAlpha = 1.0;
+
+// Add border
+ctx.strokeStyle = "#34495e";
+ctx.lineWidth = 3;
+ctx.strokeRect(0, 0, 400, 400);
+
+canvas.saveAsPng("transparency-demo.png");
+```
+
+## Properties and Methods Reference
+
+### Canvas Properties
+
+- `width: number` - Canvas width in pixels
+- `height: number` - Canvas height in pixels
+
+### Context Properties
+
+- `fillStyle: string | CanvasGradient` - Fill color or gradient
+- `strokeStyle: string` - Stroke color
+- `lineWidth: number` - Line width for strokes
+- `font: string` - Text font specification
+- `globalAlpha: number` - Global transparency (0.0 to 1.0)
+
+### Context Methods
+
+#### Shape Drawing
+- `fillRect(x, y, width, height)` - Draw filled rectangle
+- `strokeRect(x, y, width, height)` - Draw rectangle outline
+- `clearRect(x, y, width, height)` - Clear rectangular area
+
+#### Path Drawing
+- `beginPath()` - Start a new path
+- `closePath()` - Close the current path
+- `moveTo(x, y)` - Move to point without drawing
+- `lineTo(x, y)` - Draw line to point
+- `arc(x, y, radius, startAngle, endAngle)` - Draw arc/circle
+- `fill()` - Fill the current path
+- `stroke()` - Stroke the current path
+
+#### Text Drawing
+- `fillText(text, x, y)` - Draw filled text
+- `strokeText(text, x, y)` - Draw text outline
+
+#### Gradients
+- `createLinearGradient(x0, y0, x1, y1)` - Create linear gradient
+- `gradient.addColorStop(offset, color)` - Add color to gradient
+
+#### Export
+- `canvas.saveAsPng(filename)` - Save canvas as PNG file
 
 ## Performance Tips
 
-1. **Batch drawing operations** - Group similar operations together
-2. **Use save/restore carefully** - Only when necessary, as they have overhead
-3. **Avoid frequent context switches** - Set styles once for multiple operations
-4. **Use appropriate canvas size** - Larger canvases require more memory
-5. **Clear efficiently** - Use `clearRect` instead of drawing over with white
+1. **Minimize Context State Changes**: Group drawing operations with the same style together
+
+```typescript
+// Good - set style once
+ctx.fillStyle = "red";
+ctx.fillRect(0, 0, 50, 50);
+ctx.fillRect(100, 0, 50, 50);
+ctx.fillRect(200, 0, 50, 50);
+
+// Less efficient - changes style repeatedly
+ctx.fillStyle = "red";
+ctx.fillRect(0, 0, 50, 50);
+ctx.fillStyle = "blue";
+ctx.fillRect(100, 0, 50, 50);
+ctx.fillStyle = "red";
+ctx.fillRect(200, 0, 50, 50);
+```
+
+2. **Use Appropriate Canvas Size**: Create canvases at the size you need
+
+```typescript
+// For web thumbnail
+const thumbnail = new OffscreenCanvas(320, 240);
+
+// For high-res poster
+const poster = new OffscreenCanvas(3840, 2160);
+```
+
+3. **Reuse Canvas Objects**: Don't create new canvases unnecessarily
+
+## Hardware Acceleration
+
+Andromeda's Canvas API is powered by WGPU, providing:
+
+- **GPU Acceleration** - All rendering operations use the GPU
+- **High Performance** - Efficient for complex graphics and animations
+- **Cross-Platform** - Works consistently across Windows, macOS, and Linux
 
 ## Best Practices
 
-1. **Always check context** - Ensure `getContext("2d")` returns a valid context
-2. **Handle errors gracefully** - Wrap canvas operations in try-catch blocks
-3. **Use meaningful coordinates** - Define coordinate systems that make sense
-4. **Document complex drawings** - Comment your drawing logic
-5. **Test output** - Always verify that images are saved correctly
-
+1. **Always check context creation**:
 ```typescript
-// Good error handling
-function safeDrawing(canvas: OffscreenCanvas) {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("Could not get 2D context");
-  }
-
-  try {
-    // Drawing code here
-    ctx.fillRect(0, 0, 100, 100);
-
-    canvas.render();
-    canvas.saveAsPng("output.png");
-
-    console.log("✅ Drawing completed successfully");
-  } catch (error) {
-    console.error("❌ Drawing failed:", error.message);
-  }
+const ctx = canvas.getContext("2d");
+if (!ctx) {
+  throw new Error("Failed to get 2D context");
 }
 ```
+
+2. **Use gradients for smooth color transitions**:
+```typescript
+const gradient = ctx.createLinearGradient(0, 0, width, 0);
+gradient.addColorStop(0, "red");
+gradient.addColorStop(1, "blue");
+ctx.fillStyle = gradient;
+```
+
+3. **Reset globalAlpha after using transparency**:
+```typescript
+ctx.globalAlpha = 0.5;
+// ... draw transparent elements ...
+ctx.globalAlpha = 1.0; // Reset
+```
+
+4. **Save frequently to avoid data loss**:
+```typescript
+// Save intermediate results
+canvas.saveAsPng("work-in-progress.png");
+```
+
+## Limitations
+
+Current limitations in Andromeda's Canvas implementation:
+
+- No image loading (ImageData not yet supported)
+- Radial gradients not yet implemented
+- Pattern fills not yet supported
+- Advanced compositing modes limited
+
+These features are planned for future releases.
+
+## See Also
+
+- [Canvas Example](/docs/examples/canvas) - Complete working examples
+- [Performance API](/docs/api/performance) - Measure rendering performance
+- [File System API](/docs/api/file-system) - Save and load image files

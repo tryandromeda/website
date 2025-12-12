@@ -51,12 +51,12 @@ console.log("✅ File written successfully!");
 
 // Read the file back
 const content = Andromeda.readTextFileSync("notes.md");
-console.log("📄 File contents:");
+console.log("File contents:");
 console.log(content);
 
 // Check environment variables
 const home = Andromeda.env.get("HOME") || Andromeda.env.get("USERPROFILE");
-console.log("🏠 Home directory:", home);
+console.log("Home directory:", home);
 ```
 
 Run it:
@@ -94,7 +94,6 @@ ctx.font = "24px Arial";
 ctx.fillText("Hello, Andromeda!", 100, 50);
 
 // Save the image
-canvas.render();
 canvas.saveAsPng("my-first-graphic.png");
 
 console.log("🎨 Image saved as 'my-first-graphic.png'");
@@ -126,13 +125,19 @@ console.log(
 
 // Hash some data
 const data = new TextEncoder().encode("Hello, Andromeda!");
-const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-const hashArray = new Uint8Array(hashBuffer);
-const hashHex = Array.from(hashArray).map((b) =>
-  b.toString(16).padStart(2, "0")
-).join("");
+const hash = await crypto.subtle.digest("SHA-256", data);
 
-console.log("🔒 SHA-256 hash:", hashHex);
+// Note: Current implementation returns hex string directly
+// This will be updated to return ArrayBuffer in future versions
+if (typeof hash === "string") {
+  console.log("🔒 SHA-256 hash:", hash);
+} else {
+  const hashArray = new Uint8Array(hash);
+  const hashHex = Array.from(hashArray).map((b) =>
+    b.toString(16).padStart(2, "0")
+  ).join("");
+  console.log("🔒 SHA-256 hash:", hashHex);
+}
 ```
 
 Run it:
@@ -194,7 +199,7 @@ Andromeda includes built-in SQLite support for data persistence:
 // sqlite-example.ts
 
 // Create or open a database
-const db = new DatabaseSync("notes.db");
+const db = new Database("notes.db");
 
 // Create table
 db.exec(`
@@ -210,9 +215,9 @@ db.exec(`
 const insertNote = db.prepare(
   "INSERT INTO notes (title, content) VALUES (?, ?)",
 );
-const result = insertNote.run("My First Note", "This is stored in SQLite!");
+insertNote.run("My First Note", "This is stored in SQLite!");
 
-console.log(`📝 Created note with ID: ${result.lastInsertRowid}`);
+console.log(`📝 Note created successfully!`);
 
 // Query data
 const selectNotes = db.prepare("SELECT * FROM notes ORDER BY created_at DESC");
@@ -224,8 +229,6 @@ for (const note of notes) {
 }
 
 // Clean up
-insertNote.finalize();
-selectNotes.finalize();
 db.close();
 ```
 
@@ -306,7 +309,7 @@ Try these commands in the REPL:
 "Hello from REPL!"
 
 // SQLite database
-> const db = new DatabaseSync(":memory:")
+> const db = new Database(":memory:")
 > db.exec("CREATE TABLE test (id INTEGER, name TEXT)")
 > const stmt = db.prepare("INSERT INTO test VALUES (?, ?)")
 > stmt.run(1, "Test Item")
@@ -483,12 +486,21 @@ try {
 async function hashData(input: string) {
   const data = new TextEncoder().encode(input);
   const hash = await crypto.subtle.digest("SHA-256", data);
-  return new Uint8Array(hash);
+  
+  // Handle both string and ArrayBuffer return types
+  if (typeof hash === "string") {
+    return hash;
+  }
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 const result = await hashData("Hello, World!");
 console.log("Hash result:", result);
 ```
+</text>
+
 
 ### Environment Configuration
 

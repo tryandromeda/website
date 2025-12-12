@@ -1,478 +1,469 @@
 ---
-title: "SQLite Examples"
-description: "Database operations and SQL query examples"
+title: "SQLite Database Example"
+description: "Working with SQLite databases in Andromeda"
 section: "Examples"
-order: 10
-id: "sqlite-examples"
+order: 4
+id: "sqlite"
 ---
 
-This page demonstrates various SQLite database operations using Andromeda's
-built-in SQLite support.
+This example demonstrates how to use SQLite databases in Andromeda for data persistence and management.
 
 ## Basic Database Operations
 
-### Creating and Setting Up a Database
-
 ```typescript
-// Create a new SQLite database
-const db = new DatabaseSync("example.db");
+// Create or open a database
+const db = new Database("my-app.db");
 
-// Create tables
+// Create a table
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
+    age INTEGER,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
 
+// Insert data using prepared statements
+const insertStmt = db.prepare(
+  "INSERT INTO users (name, email, age) VALUES (?, ?, ?)"
+);
+
+insertStmt.run("Alice Smith", "alice@example.com", 30);
+insertStmt.run("Bob Johnson", "bob@example.com", 25);
+insertStmt.run("Charlie Brown", "charlie@example.com", 35);
+
+console.log("✅ Users inserted successfully");
+
+// Query all users
+const allUsers = db.prepare("SELECT * FROM users ORDER BY name").all();
+console.log("\n📋 All users:");
+for (const user of allUsers) {
+  console.log(`  - ${user.name} (${user.age}): ${user.email}`);
+}
+
+// Query with parameters
+const olderUsers = db.prepare("SELECT * FROM users WHERE age > ?").all(26);
+console.log("\n👴 Users over 26:");
+for (const user of olderUsers) {
+  console.log(`  - ${user.name} (${user.age})`);
+}
+
+// Get a single user
+const user = db.prepare("SELECT * FROM users WHERE email = ?").get("alice@example.com");
+console.log("\n👤 User lookup:");
+console.log(`  Name: ${user.name}, Age: ${user.age}`);
+
+// Update data
+const updateStmt = db.prepare("UPDATE users SET age = ? WHERE name = ?");
+updateStmt.run(31, "Alice Smith");
+console.log("\n✅ User updated");
+
+// Delete data
+const deleteStmt = db.prepare("DELETE FROM users WHERE name = ?");
+deleteStmt.run("Bob Johnson");
+console.log("✅ User deleted");
+
+// Clean up
+db.close();
+console.log("\n✅ Database closed");
+```
+
+## Complete Blog Application
+
+```typescript
+// blog.ts - A complete blog database application
+
+// Create database
+const db = new Database("blog.db");
+
+// Create schema
 db.exec(`
   CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     content TEXT,
+    author TEXT NOT NULL,
+    published INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    author TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id)
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_posts_author ON posts(author);
+  CREATE INDEX IF NOT EXISTS idx_posts_published ON posts(published);
+  CREATE INDEX IF NOT EXISTS idx_comments_post ON comments(post_id);
+`);
+
+console.log("✅ Database schema created");
+
+// Insert some posts
+const insertPost = db.prepare(
+  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)"
+);
+
+insertPost.run(
+  "Getting Started with Andromeda",
+  "Andromeda is a modern JavaScript runtime built in Rust...",
+  "Alice",
+  1
+);
+
+insertPost.run(
+  "SQLite Integration Guide",
+  "Learn how to use SQLite databases in your Andromeda applications...",
+  "Bob",
+  1
+);
+
+insertPost.run(
+  "Advanced Performance Tips",
+  "Optimize your Andromeda applications with these techniques...",
+  "Alice",
+  1
+);
+
+insertPost.run(
+  "Draft: Future Features",
+  "Coming soon to Andromeda...",
+  "Charlie",
+  0
+);
+
+console.log("✅ Posts inserted");
+
+// Insert comments
+const insertComment = db.prepare(
+  "INSERT INTO comments (post_id, author, content) VALUES (?, ?, ?)"
+);
+
+insertComment.run(1, "Bob", "Great introduction!");
+insertComment.run(1, "Charlie", "Very helpful, thanks!");
+insertComment.run(2, "Alice", "Nice guide!");
+
+console.log("✅ Comments inserted");
+
+// Query published posts with comment count
+const publishedPosts = db.prepare(`
+  SELECT 
+    p.id,
+    p.title,
+    p.author,
+    p.created_at,
+    COUNT(c.id) as comment_count
+  FROM posts p
+  LEFT JOIN comments c ON p.id = c.post_id
+  WHERE p.published = 1
+  GROUP BY p.id
+  ORDER BY p.created_at DESC
+`).all();
+
+console.log("\n📚 Published posts:");
+for (const post of publishedPosts) {
+  console.log(`  - "${post.title}" by ${post.author} (${post.comment_count} comments)`);
+}
+
+// Get posts by author
+const getPostsByAuthor = db.prepare(
+  "SELECT * FROM posts WHERE author = ? ORDER BY created_at DESC"
+);
+
+const alicePosts = getPostsByAuthor.all("Alice");
+console.log(`\n✍️  Alice has written ${alicePosts.length} posts`);
+
+// Get a post with its comments
+function getPostWithComments(postId: number) {
+  const post = db.prepare("SELECT * FROM posts WHERE id = ?").get(postId);
+  
+  if (!post) {
+    return null;
+  }
+
+  const comments = db.prepare(
+    "SELECT * FROM comments WHERE post_id = ? ORDER BY created_at ASC"
+  ).all(postId);
+
+  return { ...post, comments };
+}
+
+const postWithComments = getPostWithComments(1);
+console.log(`\n📝 Post: "${postWithComments.title}"`);
+console.log(`   Author: ${postWithComments.author}`);
+console.log(`   Comments (${postWithComments.comments.length}):`);
+for (const comment of postWithComments.comments) {
+  console.log(`     - ${comment.author}: ${comment.content}`);
+}
+
+// Search posts
+const searchPosts = db.prepare(
+  "SELECT * FROM posts WHERE title LIKE ? OR content LIKE ?"
+);
+
+const searchTerm = "%Andromeda%";
+const searchResults = searchPosts.all(searchTerm, searchTerm);
+console.log(`\n🔍 Found ${searchResults.length} posts matching "Andromeda"`);
+
+// Update post
+const updatePost = db.prepare(
+  "UPDATE posts SET published = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
+);
+updatePost.run(4);
+console.log("\n✅ Published draft post");
+
+// Statistics
+const stats = db.prepare(`
+  SELECT 
+    (SELECT COUNT(*) FROM posts) as total_posts,
+    (SELECT COUNT(*) FROM posts WHERE published = 1) as published_posts,
+    (SELECT COUNT(*) FROM comments) as total_comments,
+    (SELECT COUNT(DISTINCT author) FROM posts) as unique_authors
+`).get();
+
+console.log("\n📊 Blog Statistics:");
+console.log(`   Total posts: ${stats.total_posts}`);
+console.log(`   Published: ${stats.published_posts}`);
+console.log(`   Comments: ${stats.total_comments}`);
+console.log(`   Authors: ${stats.unique_authors}`);
+
+// Clean up
+db.close();
+console.log("\n✅ Database closed");
+```
+
+## Using Transactions
+
+```typescript
+// transactions.ts - Demonstrating transaction usage
+
+const db = new Database("transactions.db");
+
+// Create accounts table
+db.exec(`
+  CREATE TABLE IF NOT EXISTS accounts (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    balance REAL NOT NULL DEFAULT 0.0
   )
 `);
 
-console.log("✅ Database and tables created successfully!");
-```
+// Insert initial accounts
+const insertAccount = db.prepare("INSERT INTO accounts (id, name, balance) VALUES (?, ?, ?)");
+insertAccount.run(1, "Alice", 1000.0);
+insertAccount.run(2, "Bob", 500.0);
 
-### Basic CRUD Operations
+console.log("✅ Initial accounts created");
 
-```typescript
-// Prepare statements for reuse
-const insertUser = db.prepare(`
-  INSERT INTO users (username, email) VALUES (?, ?)
-`);
+// Transfer money between accounts using a transaction
+function transferMoney(fromId: number, toId: number, amount: number): boolean {
+  try {
+    // Start transaction
+    db.exec("BEGIN TRANSACTION");
 
-const selectUser = db.prepare(`
-  SELECT * FROM users WHERE username = ?
-`);
-
-const updateUser = db.prepare(`
-  UPDATE users SET email = ? WHERE id = ?
-`);
-
-const deleteUser = db.prepare(`
-  DELETE FROM users WHERE id = ?
-`);
-
-// CREATE - Insert users
-console.log("Creating users...");
-const user1 = insertUser.run("alice", "alice@example.com");
-const user2 = insertUser.run("bob", "bob@example.com");
-const user3 = insertUser.run("charlie", "charlie@example.com");
-
-console.log(`Created user Alice with ID: ${user1.lastInsertRowid}`);
-console.log(`Created user Bob with ID: ${user2.lastInsertRowid}`);
-console.log(`Created user Charlie with ID: ${user3.lastInsertRowid}`);
-
-// READ - Query users
-console.log("\nQuerying users...");
-const alice = selectUser.get("alice");
-console.log("Alice's data:", alice);
-
-const allUsers = db.prepare("SELECT * FROM users ORDER BY username").all();
-console.log("All users:", allUsers);
-
-// UPDATE - Modify user
-console.log("\nUpdating user...");
-const updateResult = updateUser.run("alice.smith@example.com", alice.id);
-console.log(`Updated ${updateResult.changes} user(s)`);
-
-// DELETE - Remove user
-console.log("\nDeleting user...");
-const deleteResult = deleteUser.run(user3.id);
-console.log(`Deleted ${deleteResult.changes} user(s)`);
-
-// Verify final state
-const remainingUsers = db.prepare("SELECT COUNT(*) as count FROM users").get();
-console.log(`Remaining users: ${remainingUsers.count}`);
-```
-
-## Advanced Examples
-
-### Blog System
-
-```typescript
-// Blog system with users and posts
-class BlogDatabase {
-  #db: DatabaseSync;
-
-  constructor(filename: string) {
-    this.#db = new Database(filename);
-    this.#setupTables();
-  }
-
-  #setupTables() {
-    this.#db.exec(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        bio TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    this.#db.exec(`
-      CREATE TABLE IF NOT EXISTS posts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        title TEXT NOT NULL,
-        content TEXT,
-        published BOOLEAN DEFAULT FALSE,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id)
-      )
-    `);
-
-    this.#db.exec(`
-      CREATE TABLE IF NOT EXISTS comments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        post_id INTEGER NOT NULL,
-        user_id INTEGER NOT NULL,
-        content TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (post_id) REFERENCES posts (id),
-        FOREIGN KEY (user_id) REFERENCES users (id)
-      )
-    `);
-  }
-
-  createUser(username: string, email: string, bio?: string) {
-    const stmt = this.#db.prepare(`
-      INSERT INTO users (username, email, bio) VALUES (?, ?, ?)
-    `);
-    const result = stmt.run(username, email, bio || null);
-    stmt.finalize();
-    return result.lastInsertRowid;
-  }
-
-  createPost(
-    userId: number,
-    title: string,
-    content: string,
-    published = false,
-  ) {
-    const stmt = this.#db.prepare(`
-      INSERT INTO posts (user_id, title, content, published) VALUES (?, ?, ?, ?)
-    `);
-    const result = stmt.run(userId, title, content, published);
-    stmt.finalize();
-    return result.lastInsertRowid;
-  }
-
-  getPostsWithAuthors(limit = 10) {
-    const stmt = this.#db.prepare(`
-      SELECT 
-        p.id,
-        p.title,
-        p.content,
-        p.published,
-        p.created_at,
-        u.username as author,
-        u.email as author_email
-      FROM posts p
-      JOIN users u ON p.user_id = u.id
-      WHERE p.published = TRUE
-      ORDER BY p.created_at DESC
-      LIMIT ?
-    `);
-    const posts = stmt.all(limit);
-    stmt.finalize();
-    return posts;
-  }
-
-  addComment(postId: number, userId: number, content: string) {
-    const stmt = this.#db.prepare(`
-      INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)
-    `);
-    const result = stmt.run(postId, userId, content);
-    stmt.finalize();
-    return result.lastInsertRowid;
-  }
-
-  getPostWithComments(postId: number) {
-    // Get post with author
-    const postStmt = this.#db.prepare(`
-      SELECT 
-        p.*,
-        u.username as author,
-        u.email as author_email,
-        u.bio as author_bio
-      FROM posts p
-      JOIN users u ON p.user_id = u.id
-      WHERE p.id = ?
-    `);
-    const post = postStmt.get(postId);
-    postStmt.finalize();
-
-    if (!post) return null;
-
-    // Get comments with authors
-    const commentsStmt = this.#db.prepare(`
-      SELECT 
-        c.*,
-        u.username as commenter
-      FROM comments c
-      JOIN users u ON c.user_id = u.id
-      WHERE c.post_id = ?
-      ORDER BY c.created_at ASC
-    `);
-    const comments = commentsStmt.all(postId);
-    commentsStmt.finalize();
-
-    return { ...post, comments };
-  }
-
-  close() {
-    this.#db.close();
-  }
-}
-
-// Usage example
-const blog = new BlogDatabase("blog.db");
-
-// Create users
-const aliceId = blog.createUser(
-  "alice",
-  "alice@blog.com",
-  "Tech enthusiast and blogger",
-);
-const bobId = blog.createUser("bob", "bob@blog.com", "Software developer");
-
-// Create posts
-const post1Id = blog.createPost(
-  aliceId as number,
-  "Getting Started with Andromeda",
-  "Andromeda is an amazing JavaScript runtime...",
-  true,
-);
-
-const post2Id = blog.createPost(
-  bobId as number,
-  "SQLite in Andromeda",
-  "Today we'll explore the built-in SQLite support...",
-  true,
-);
-
-// Add comments
-blog.addComment(post1Id as number, bobId as number, "Great article, Alice!");
-blog.addComment(post1Id as number, aliceId as number, "Thanks, Bob!");
-
-// Query data
-console.log("Recent blog posts:");
-const recentPosts = blog.getPostsWithAuthors(5);
-recentPosts.forEach((post) => {
-  console.log(`📝 "${post.title}" by ${post.author} (${post.created_at})`);
-});
-
-console.log("\nPost with comments:");
-const postWithComments = blog.getPostWithComments(post1Id as number);
-if (postWithComments) {
-  console.log(`📄 ${postWithComments.title}`);
-  console.log(`👤 Author: ${postWithComments.author}`);
-  console.log(`💬 Comments: ${postWithComments.comments.length}`);
-
-  postWithComments.comments.forEach((comment) => {
-    console.log(`  - ${comment.commenter}: ${comment.content}`);
-  });
-}
-
-blog.close();
-```
-
-### Data Analytics Example
-
-```typescript
-// Analytics system for tracking events
-class AnalyticsDatabase {
-  #db: DatabaseSync;
-
-  constructor(filename: string) {
-    this.#db = new Database(filename);
-    this.#setupTables();
-  }
-
-  #setupTables() {
-    this.#db.exec(`
-      CREATE TABLE IF NOT EXISTS events (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        event_type TEXT NOT NULL,
-        user_id TEXT,
-        session_id TEXT,
-        properties TEXT, -- JSON string
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    this.#db.exec(`
-      CREATE INDEX IF NOT EXISTS idx_events_type_time 
-      ON events(event_type, timestamp)
-    `);
-
-    this.#db.exec(`
-      CREATE INDEX IF NOT EXISTS idx_events_user_time 
-      ON events(user_id, timestamp)
-    `);
-  }
-
-  trackEvent(
-    eventType: string,
-    userId?: string,
-    sessionId?: string,
-    properties?: any,
-  ) {
-    const stmt = this.#db.prepare(`
-      INSERT INTO events (event_type, user_id, session_id, properties)
-      VALUES (?, ?, ?, ?)
-    `);
-
-    const result = stmt.run(
-      eventType,
-      userId || null,
-      sessionId || null,
-      properties ? JSON.stringify(properties) : null,
+    // Deduct from source account
+    const deduct = db.prepare(
+      "UPDATE accounts SET balance = balance - ? WHERE id = ?"
     );
+    deduct.run(amount, fromId);
 
-    stmt.finalize();
-    return result.lastInsertRowid;
-  }
-
-  getEventCounts(days = 7) {
-    const stmt = this.#db.prepare(`
-      SELECT 
-        event_type,
-        COUNT(*) as count,
-        DATE(timestamp) as date
-      FROM events
-      WHERE timestamp >= datetime('now', '-${days} days')
-      GROUP BY event_type, DATE(timestamp)
-      ORDER BY date DESC, count DESC
-    `);
-
-    const results = stmt.all();
-    stmt.finalize();
-    return results;
-  }
-
-  getUserActivity(userId: string, days = 30) {
-    const stmt = this.#db.prepare(`
-      SELECT 
-        event_type,
-        COUNT(*) as count,
-        MIN(timestamp) as first_seen,
-        MAX(timestamp) as last_seen
-      FROM events
-      WHERE user_id = ? AND timestamp >= datetime('now', '-${days} days')
-      GROUP BY event_type
-      ORDER BY count DESC
-    `);
-
-    const results = stmt.all(userId);
-    stmt.finalize();
-    return results;
-  }
-
-  getTopUsers(eventType?: string, limit = 10) {
-    let query = `
-      SELECT 
-        user_id,
-        COUNT(*) as event_count,
-        COUNT(DISTINCT session_id) as session_count,
-        MIN(timestamp) as first_seen,
-        MAX(timestamp) as last_seen
-      FROM events
-      WHERE user_id IS NOT NULL
-    `;
-
-    const params: any[] = [];
-
-    if (eventType) {
-      query += ` AND event_type = ?`;
-      params.push(eventType);
+    // Check if source has sufficient balance
+    const fromAccount = db.prepare("SELECT balance FROM accounts WHERE id = ?").get(fromId);
+    if (fromAccount.balance < 0) {
+      throw new Error("Insufficient funds");
     }
 
-    query += `
-      GROUP BY user_id
-      ORDER BY event_count DESC
-      LIMIT ?
-    `;
-    params.push(limit);
+    // Add to destination account
+    const add = db.prepare(
+      "UPDATE accounts SET balance = balance + ? WHERE id = ?"
+    );
+    add.run(amount, toId);
 
-    const stmt = this.#db.prepare(query);
-    const results = stmt.all(...params);
-    stmt.finalize();
-    return results;
-  }
+    // Commit transaction
+    db.exec("COMMIT");
+    console.log(`✅ Transferred $${amount} from account ${fromId} to account ${toId}`);
+    return true;
 
-  close() {
-    this.#db.close();
+  } catch (error) {
+    // Rollback on error
+    db.exec("ROLLBACK");
+    console.error(`❌ Transfer failed: ${error.message}`);
+    return false;
   }
 }
 
-const analytics = new AnalyticsDatabase("analytics.db");
-
-// Simulate user events
-const users = ["user1", "user2", "user3"];
-const events = ["page_view", "click", "purchase", "signup"];
-
-console.log("Generating sample analytics data...");
-
-// Generate random events
-for (let i = 0; i < 100; i++) {
-  const eventType = events[Math.floor(Math.random() * events.length)];
-  const userId = users[Math.floor(Math.random() * users.length)];
-  const sessionId = `session_${Math.floor(Math.random() * 20)}`;
-
-  const properties = {
-    page: `/page${Math.floor(Math.random() * 10)}`,
-    browser: ["Chrome", "Firefox", "Safari"][Math.floor(Math.random() * 3)],
-    value: eventType === "purchase"
-      ? Math.floor(Math.random() * 100) + 10
-      : undefined,
-  };
-
-  analytics.trackEvent(eventType, userId, sessionId, properties);
+// Display balances
+function showBalances() {
+  const accounts = db.prepare("SELECT * FROM accounts ORDER BY id").all();
+  console.log("\n💰 Account Balances:");
+  for (const account of accounts) {
+    console.log(`   ${account.name}: $${account.balance.toFixed(2)}`);
+  }
 }
 
-// Generate reports
-console.log("\n📊 Event Counts (Last 7 days):");
-const eventCounts = analytics.getEventCounts(7);
-eventCounts.forEach((row) => {
-  console.log(`${row.date}: ${row.event_type} = ${row.count}`);
-});
+showBalances();
 
-console.log("\n👥 Top Users:");
-const topUsers = analytics.getTopUsers(undefined, 5);
-topUsers.forEach((user, index) => {
-  console.log(
-    `${
-      index + 1
-    }. ${user.user_id}: ${user.event_count} events, ${user.session_count} sessions`,
-  );
-});
+// Successful transfer
+transferMoney(1, 2, 200);
+showBalances();
 
-console.log("\n🛒 Top Purchasers:");
-const topPurchasers = analytics.getTopUsers("purchase", 3);
-topPurchasers.forEach((user, index) => {
-  console.log(`${index + 1}. ${user.user_id}: ${user.event_count} purchases`);
-});
+// Failed transfer (insufficient funds)
+transferMoney(2, 1, 10000);
+showBalances();
 
-console.log("\n📈 User1 Activity:");
-const user1Activity = analytics.getUserActivity("user1");
-user1Activity.forEach((activity) => {
-  console.log(`${activity.event_type}: ${activity.count} times`);
-});
-
-analytics.close();
+// Clean up
+db.close();
 ```
 
-These examples demonstrate the power and flexibility of Andromeda's SQLite
-integration for building data-driven applications.
+## Performance Testing
+
+```typescript
+// performance.ts - Testing SQLite performance
+
+const db = new Database(":memory:");
+
+// Create table
+db.exec(`
+  CREATE TABLE test_data (
+    id INTEGER PRIMARY KEY,
+    value TEXT,
+    number INTEGER,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
+// Test 1: Insert performance with transaction
+console.log("🧪 Test 1: Bulk insert with transaction");
+const startTime1 = performance.now();
+
+db.exec("BEGIN TRANSACTION");
+const insertStmt = db.prepare("INSERT INTO test_data (id, value, number) VALUES (?, ?, ?)");
+
+for (let i = 0; i < 10000; i++) {
+  insertStmt.run(i, `value_${i}`, Math.floor(Math.random() * 1000));
+}
+
+db.exec("COMMIT");
+const endTime1 = performance.now();
+
+console.log(`   Inserted 10,000 rows in ${(endTime1 - startTime1).toFixed(2)}ms`);
+
+// Test 2: Query performance
+console.log("\n🧪 Test 2: Query performance");
+const startTime2 = performance.now();
+
+const results = db.prepare("SELECT * FROM test_data WHERE number > ?").all(500);
+
+const endTime2 = performance.now();
+console.log(`   Queried ${results.length} rows in ${(endTime2 - startTime2).toFixed(2)}ms`);
+
+// Test 3: Index performance
+console.log("\n🧪 Test 3: Creating index");
+const startTime3 = performance.now();
+
+db.exec("CREATE INDEX idx_number ON test_data(number)");
+
+const endTime3 = performance.now();
+console.log(`   Created index in ${(endTime3 - startTime3).toFixed(2)}ms`);
+
+// Test 4: Query with index
+console.log("\n🧪 Test 4: Query with index");
+const startTime4 = performance.now();
+
+const resultsWithIndex = db.prepare("SELECT * FROM test_data WHERE number > ?").all(500);
+
+const endTime4 = performance.now();
+console.log(`   Queried ${resultsWithIndex.length} rows in ${(endTime4 - startTime4).toFixed(2)}ms`);
+
+// Statistics
+const stats = db.prepare(`
+  SELECT 
+    COUNT(*) as total,
+    AVG(number) as avg_number,
+    MIN(number) as min_number,
+    MAX(number) as max_number
+  FROM test_data
+`).get();
+
+console.log("\n📊 Data Statistics:");
+console.log(`   Total rows: ${stats.total}`);
+console.log(`   Average: ${stats.avg_number.toFixed(2)}`);
+console.log(`   Min: ${stats.min_number}`);
+console.log(`   Max: ${stats.max_number}`);
+
+db.close();
+```
+
+## Best Practices Demonstrated
+
+1. **Use Prepared Statements**: More efficient and prevents SQL injection
+2. **Use Transactions**: For multiple related operations
+3. **Create Indexes**: For frequently queried columns
+4. **Close Connections**: Always close the database when done
+5. **Error Handling**: Wrap operations in try-catch blocks
+6. **Use Appropriate Data Types**: INTEGER, TEXT, REAL, BLOB
+7. **Foreign Keys**: Maintain referential integrity
+8. **Default Values**: Use DEFAULT for common values
+
+## Common Patterns
+
+### Checking if Record Exists
+
+```typescript
+function userExists(email: string): boolean {
+  const result = db.prepare(
+    "SELECT COUNT(*) as count FROM users WHERE email = ?"
+  ).get(email);
+  return result.count > 0;
+}
+```
+
+### Upsert (Insert or Update)
+
+```typescript
+function upsertUser(email: string, name: string) {
+  db.prepare(
+    "INSERT INTO users (email, name) VALUES (?, ?) ON CONFLICT(email) DO UPDATE SET name = ?"
+  ).run(email, name, name);
+}
+```
+
+### Pagination
+
+```typescript
+function getUsers(page: number, pageSize: number) {
+  const offset = (page - 1) * pageSize;
+  return db.prepare(
+    "SELECT * FROM users ORDER BY id LIMIT ? OFFSET ?"
+  ).all(pageSize, offset);
+}
+```
+
+## Running the Examples
+
+```bash
+# Basic example
+andromeda run examples/sqlite-basic.ts
+
+# Blog application
+andromeda run examples/sqlite-blog.ts
+
+# Transaction example
+andromeda run examples/sqlite-transactions.ts
+
+# Performance testing
+andromeda run examples/sqlite-performance.ts
+```
+
+## See Also
+
+- [SQLite API Documentation](/docs/api/sqlite)
+- [Web Storage API](/docs/api/web-storage)
+- [File System API](/docs/api/file-system)

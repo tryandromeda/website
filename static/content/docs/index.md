@@ -6,8 +6,7 @@ order: 1
 id: "overview"
 ---
 
-Welcome to the Andromeda documentation! This directory contains comprehensive
-guides, API references for the Andromeda JavaScript/TypeScript runtime.
+Welcome to the Andromeda documentation! Andromeda is a modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by the Nova Engine. This documentation contains comprehensive guides and API references to help you get started.
 
 ## 📚 Documentation Structure
 
@@ -70,58 +69,78 @@ guides, API references for the Andromeda JavaScript/TypeScript runtime.
 
 ## 🎯 Standards Compliance
 
-Andromeda aims to be [WinterTC](https://wintertc.org/) compliant, ensuring
-interoperability with the broader JavaScript ecosystem. Our APIs follow
-established web standards including:
+Andromeda aims to be **WinterTC** compliant, ensuring interoperability and compatibility with the broader JavaScript ecosystem. WinterTC provides a test suite for JavaScript engines to ensure they conform to ECMAScript standards and common runtime behaviors.
 
-- **WHATWG Standards** - URL, Encoding, and Fetch specifications
-- **W3C Standards** - Canvas 2D, Performance API, Web Crypto API
-- **ECMAScript Standards** - Modern JavaScript/TypeScript features
+Our APIs follow established web standards including:
+
+- **WHATWG Standards** - URL, Encoding, Fetch, and Streams specifications
+- **W3C Standards** - Canvas 2D Context, Performance API, Web Crypto API, Cache Storage
+- **ECMAScript Standards** - Modern JavaScript/TypeScript features with zero-config TypeScript support
 
 ## ✨ Key Features
 
-- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no
-  transpilation needed
-- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU
-  backend and PNG export
-- 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
-- 📒 **SQLite Support** - Built-in support for SQLite databases
-- 📁 **File System Access** - Simple APIs for reading/writing files with async
-  support
-- 💾 **Web Storage** - localStorage and sessionStorage APIs for data persistence
-- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and
-  offline functionality
-- ⚡ **Native Performance** - Rust-powered execution with Nova's optimized JS
-  engine
-- 🛠️ **Developer Tools** - Interactive REPL, code formatter, bundler, linter,
-  and single-file compilation
-- 🌐 **Web Standards** - TextEncoder/Decoder, Performance API, Fetch API, File
-  API, Streams API, and more
-- 🔧 **Extensible** - Modular architecture with optional features
-- 🔧 **Self-Updating** - Built-in upgrade system to stay current with latest
-  releases
-- 🔧 **Shell Integration** - Auto-completion support for bash, zsh, fish, and
-  PowerShell
-- 🧑‍💻 **Language Server** - Built-in LSP support for real-time diagnostics and
-  linting
-- 📦 **Module Support** - ES modules and TypeScript module resolution
-- 🎯 **Advanced Canvas** - Linear gradients, hardware acceleration, and image
-  manipulation
+- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no compilation or transpilation needed
+- 🦀 **Built in Rust** - Memory-safe foundation leveraging Rust's performance and safety guarantees
+- ⚡ **Nova Powered** - Innovative Nova JavaScript engine providing modern runtime experience with promising performance potential
+- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU backend, linear gradients, and PNG export capabilities
+- 🔐 **Web Crypto API** - Industry-standard cryptographic primitives (randomUUID, getRandomValues, SubtleCrypto)
+- 📒 **SQLite Support** - Built-in native SQLite database with DatabaseSync API
+- 📁 **File System Access** - Simple synchronous and asynchronous APIs for reading/writing files
+- 💾 **Web Storage** - localStorage and sessionStorage APIs for data persistence with SQLite backend
+- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and offline functionality
+- 🌐 **Complete Web APIs** - Fetch, Headers, Request, Response, TextEncoder/Decoder, URL, URLSearchParams, Blob, File
+- 🌊 **Streams API** - Web-standard ReadableStream, WritableStream, and TransformStream for efficient data processing
+- 🛠️ **Complete Toolchain** - REPL, formatter, bundler, linter, compiler, and self-updater - everything you need for modern development
+- 🧑‍💻 **Language Server Protocol** - Built-in LSP with real-time diagnostics, comprehensive linting, and rich error messages
+- 📦 **Import Maps** - Modern module resolution with bare specifiers and CDN integration
+- 🚀 **Sub-10ms Startup** - Lightning-fast startup time (~12MB base memory usage)
+- 🏗️ **HTTP Server** - Built-in HTTP server capabilities for web services and APIs
 - ⏰ **Task Scheduling** - Built-in cron functionality for recurring tasks
-- 🎨 **Enhanced Console** - CSS-style formatting for beautiful console output
-- 🌊 **Streaming Data** - Web-standard Streams API for efficient data processing
-- ⚙️ **Configuration** - Flexible project configuration with JSON, TOML, and
-  YAML support
+- 🎨 **Enhanced Console** - CSS-style formatting support for beautiful console output
+- ⚙️ **Task System** - Deno-inspired task system for defining and running custom scripts
+- 🔄 **Self-Updating** - Built-in upgrade system to stay current with latest releases
+- 🐚 **Shell Integration** - Auto-completion support for bash, zsh, fish, and PowerShell
+- 🔧 **Extensible Architecture** - Modular architecture with optional runtime extensions
+- 📦 **Single-file Compilation** - Compile scripts into standalone executables
+- 🎯 **WinterTC Compliant** - Full compliance with WinterTC web standards
+
+## 🏗️ Architecture
+
+Andromeda features a modular architecture with runtime extensions that can be enabled or disabled as needed:
+
+- **Canvas** - GPU-accelerated 2D graphics with WGPU backend
+- **Crypto** - Web Crypto API implementation
+- **Console** - Enhanced console output with CSS styling
+- **Fetch** - HTTP client capabilities
+- **File System** - File I/O operations
+- **Web Storage** - localStorage and sessionStorage
+- **Cache Storage** - HTTP response caching
+- **Process** - System interaction and environment access
+- **SQLite** - Native database operations
+- **Time** - Timing utilities and scheduling
+- **URL** - URL parsing and manipulation
+- **Web** - Standard web APIs (Events, TextEncoder/Decoder, etc.)
+- **Streams** - Web-standard streaming data processing
+- **Cron** - Task scheduling with cron expressions
+
+## 🛰️ Andromeda Satellites
+
+**Satellites** are minimal, purpose-built executables designed for containerized environments and microservice architectures:
+
+- **andromeda-run** - Execute JavaScript/TypeScript in production containers
+- **andromeda-compile** - Compile JS/TS to executables
+- **andromeda-fmt** - Format code
+- **andromeda-lint** - Lint code for quality issues
+- **andromeda-check** - Type-check TypeScript
+- **andromeda-bundle** - Bundle and minify code
 
 ## 🆘 Getting Help
 
-- 💬 [Discord Community](https://discord.gg/tgjAnX2Ny3) - Chat with the
-  community
-- 🐛 [GitHub Issues](https://github.com/tryandromeda/andromeda/issues) - Report
-  bugs or request features
-- 📧 [Discussions](https://github.com/tryandromeda/andromeda/discussions) - Ask
-  questions and share ideas
+- 💬 [Discord Community](https://discord.gg/tgjAnX2Ny3) - Chat with the community
+- 🐛 [GitHub Issues](https://github.com/tryandromeda/andromeda/issues) - Report bugs or request features
+- 📧 [Discussions](https://github.com/tryandromeda/andromeda/discussions) - Ask questions and share ideas
+- 🌐 [Official Website](https://tryandromeda.dev) - Latest news and updates
 
 ## 📄 License
 
-This documentation is licensed under the Mozilla Public License Version 2.0.
+Andromeda is licensed under the Mozilla Public License Version 2.0.

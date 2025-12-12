@@ -2,391 +2,487 @@
 title: "SQLite API"
 description: "Database operations with SQLite support"
 section: "API Reference"
-order: 20
-id: "sqlite-api"
+order: 11
+id: "sqlite"
 ---
 
-Andromeda provides comprehensive SQLite database support through a synchronous
-API that mirrors the Deno SQLite implementation, making it compatible with
-existing SQLite-based applications.
+Andromeda includes built-in support for SQLite databases through the `Database` class, providing a synchronous API for database operations.
 
 ## Overview
 
-The SQLite API is available through global classes `DatabaseSync` and
-`StatementSync`, providing full database operations including:
+The SQLite API allows you to:
 
-- Database creation and management
-- SQL statement preparation and execution
-- Parameter binding and result handling
-- Transaction support
-- Custom function registration
+- Create and manage SQLite databases
+- Execute SQL statements and queries
+- Use prepared statements for better performance and security
+- Work with transactions
+- Handle various data types
+- Use in-memory databases for temporary storage
 
-## Database Operations
+## Creating a Database
 
-### `DatabaseSync`
-
-The main database class for managing SQLite databases.
-
-#### Constructor
-
-```typescript
-new DatabaseSync(filename: string, options?: DatabaseSyncOptions)
-```
-
-**Parameters:**
-
-- `filename` - Path to the database file (use `:memory:` for in-memory database)
-- `options` - Optional configuration (currently available but not fully
-  implemented)
-
-**Example:**
+### File-based Database
 
 ```typescript
 // Create or open a database file
-const db = new DatabaseSync("my-database.db");
+const db = new Database("myapp.db");
 
-// Create an in-memory database
-const memDb = new DatabaseSync(":memory:");
+// Use the database
+db.exec("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)");
+
+// Close when done
+db.close();
 ```
 
-#### Methods
-
-##### `exec(sql: string): void`
-
-Execute SQL statements directly without returning results.
+### In-Memory Database
 
 ```typescript
-// Create a table
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT UNIQUE
-  )
-`);
+// Create a temporary in-memory database
+const db = new Database(":memory:");
 
-// Insert initial data
-db.exec(`
-  INSERT INTO users (name, email) VALUES 
-  ('Alice', 'alice@example.com'),
-  ('Bob', 'bob@example.com')
-`);
+// Perfect for testing or temporary data
+db.exec("CREATE TABLE temp_data (id INTEGER, value TEXT)");
 ```
 
-##### `prepare(sql: string): StatementSync`
+## Database Methods
 
-Prepare a SQL statement for repeated execution.
+### `exec(sql: string): void`
+
+Execute one or more SQL statements. Does not return results.
 
 ```typescript
-const stmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+const db = new Database(":memory:");
+
+// Execute single statement
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT)");
+
+// Execute multiple statements
+db.exec(`
+  CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price REAL);
+  CREATE TABLE orders (id INTEGER PRIMARY KEY, user_id INTEGER, product_id INTEGER);
+  CREATE INDEX idx_orders_user ON orders(user_id);
+`);
 ```
 
-##### `close(): void`
+### `prepare(sql: string): Statement`
+
+Create a prepared statement for efficient repeated execution.
+
+```typescript
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
+
+// Prepare a statement
+const stmt = db.prepare("INSERT INTO users (name, age) VALUES (?, ?)");
+
+// Execute multiple times
+stmt.run("Alice", 30);
+stmt.run("Bob", 25);
+stmt.run("Charlie", 35);
+```
+
+### `close(): void`
 
 Close the database connection.
 
 ```typescript
+const db = new Database("myapp.db");
+// ... use database ...
 db.close();
 ```
 
-## Statement Operations
+### `enableLoadExtension(enable: boolean): void`
 
-### `StatementSync`
-
-Represents a prepared SQL statement that can be executed multiple times.
-
-#### Methods
-
-##### `run(...params: SQLInputValue[]): StatementResultingChanges`
-
-Execute a statement that modifies the database (INSERT, UPDATE, DELETE).
-
-**Returns:** Object with `changes` (number of affected rows) and
-`lastInsertRowid` (last inserted row ID)
+Enable or disable loading SQLite extensions.
 
 ```typescript
-const insertStmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+const db = new Database("myapp.db");
 
-const result = insertStmt.run("Charlie", "charlie@example.com");
-console.log(`Inserted ${result.changes} rows, ID: ${result.lastInsertRowid}`);
+// Enable extension loading
+db.enableLoadExtension(true);
+
+// Load an extension (if needed)
+// db.loadExtension("path/to/extension");
+
+// Disable when done
+db.enableLoadExtension(false);
 ```
 
-##### `get(...params: SQLInputValue[]): unknown`
+### `function(name: string, callback: Function): any`
 
-Execute a statement and return the first row as an object.
+Register a custom SQL function.
 
 ```typescript
-const selectStmt = db.prepare("SELECT * FROM users WHERE id = ?");
+const db = new Database(":memory:");
 
-const user = selectStmt.get(1);
-console.log("User:", user);
-// Output: { id: 1, name: "Alice", email: "alice@example.com" }
+// Register a simple function
+db.function("double", (x) => x * 2);
+
+db.exec("CREATE TABLE numbers (value INTEGER)");
+db.exec("INSERT INTO numbers VALUES (5), (10), (15)");
+
+const results = db.prepare("SELECT value, double(value) as doubled FROM numbers").all();
+console.log(results);
+// [{ value: 5, doubled: 10 }, { value: 10, doubled: 20 }, { value: 15, doubled: 30 }]
 ```
 
-##### `all(...params: SQLInputValue[]): unknown[]`
+## Prepared Statements
 
-Execute a statement and return all rows as an array of objects.
+Prepared statements provide better performance and security for repeated queries.
+
+### Statement Methods
+
+#### `run(...params): void`
+
+Execute the statement with the given parameters. Used for INSERT, UPDATE, DELETE.
 
 ```typescript
-const allUsersStmt = db.prepare("SELECT * FROM users ORDER BY name");
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT)");
 
-const users = allUsersStmt.all();
-console.log("All users:", users);
-// Output: [{ id: 1, name: "Alice", ... }, { id: 2, name: "Bob", ... }]
+const stmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+stmt.run("Alice", "alice@example.com");
+stmt.run("Bob", "bob@example.com");
 ```
 
-##### `*iterate(...params: SQLInputValue[]): IterableIterator<unknown>`
+#### `get(...params): object | undefined`
 
-Execute a statement and return an iterator for processing large result sets.
+Execute the statement and return the first result row.
 
 ```typescript
-const iterStmt = db.prepare("SELECT * FROM users");
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
+db.exec("INSERT INTO users (name, age) VALUES ('Alice', 30), ('Bob', 25)");
 
-for (const user of iterStmt.iterate()) {
-  console.log(`Processing user: ${user.name}`);
+const stmt = db.prepare("SELECT * FROM users WHERE name = ?");
+const user = stmt.get("Alice");
+
+console.log(user); // { id: 1, name: "Alice", age: 30 }
+```
+
+#### `all(...params): object[]`
+
+Execute the statement and return all result rows.
+
+```typescript
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
+db.exec("INSERT INTO users (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35)");
+
+const stmt = db.prepare("SELECT * FROM users WHERE age > ?");
+const users = stmt.all(26);
+
+console.log(users);
+// [
+//   { id: 1, name: "Alice", age: 30 },
+//   { id: 3, name: "Charlie", age: 35 }
+// ]
+```
+
+#### `iterate(...params): Iterator<object>`
+
+Execute the statement and return an iterator for the results.
+
+```typescript
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)");
+db.exec("INSERT INTO users (name) VALUES ('Alice'), ('Bob'), ('Charlie')");
+
+const stmt = db.prepare("SELECT * FROM users");
+
+for (const user of stmt.iterate()) {
+  console.log(user.name);
 }
+// Alice
+// Bob
+// Charlie
 ```
 
-##### `finalize(): void`
+### Statement Properties
 
-Finalize and clean up the prepared statement.
+#### `sourceSQL: string`
+
+Get the original SQL text of the statement.
 
 ```typescript
-stmt.finalize();
+const stmt = db.prepare("SELECT * FROM users WHERE age > ?");
+console.log(stmt.sourceSQL); // "SELECT * FROM users WHERE age > ?"
+```
+
+#### `expandedSQL: string`
+
+Get the SQL with parameters expanded (useful for debugging).
+
+```typescript
+const stmt = db.prepare("SELECT * FROM users WHERE name = ?");
+stmt.get("Alice");
+console.log(stmt.expandedSQL); // Shows the SQL with actual values
+```
+
+### Statement Options
+
+#### `setAllowBareNamedParameters(allow: boolean): void`
+
+Configure whether to allow bare named parameters (without prefix).
+
+```typescript
+const stmt = db.prepare("SELECT * FROM users WHERE name = ?");
+stmt.setAllowBareNamedParameters(true);
+```
+
+#### `setReadBigInts(enable: boolean): void`
+
+Configure whether to read large integers as BigInt.
+
+```typescript
+const stmt = db.prepare("SELECT * FROM large_numbers");
+stmt.setReadBigInts(true);
+const results = stmt.all();
+// Integer values will be returned as BigInt
 ```
 
 ## Parameter Binding
 
-All statement methods support parameter binding using positional parameters:
+Use `?` placeholders for parameters:
 
 ```typescript
-// Positional parameters
-const stmt = db.prepare("SELECT * FROM users WHERE name = ? AND email = ?");
-const user = stmt.get("Alice", "alice@example.com");
+const db = new Database(":memory:");
+db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
 
-// Works with all statement methods
-stmt.run("New User", "new@example.com");
-stmt.all();
+// Single parameter
+const stmt1 = db.prepare("SELECT * FROM users WHERE age > ?");
+const users = stmt1.all(25);
+
+// Multiple parameters
+const stmt2 = db.prepare("INSERT INTO users (name, age) VALUES (?, ?)");
+stmt2.run("Alice", 30);
+
+// Mixed types
+const stmt3 = db.prepare("SELECT * FROM users WHERE name = ? AND age BETWEEN ? AND ?");
+const filtered = stmt3.all("Alice", 20, 40);
+```
+
+## Data Types
+
+SQLite supports the following data types, which map to JavaScript types:
+
+| SQLite Type | JavaScript Type | Example |
+|-------------|-----------------|---------|
+| INTEGER     | number or BigInt | `42`, `9007199254740991n` |
+| REAL        | number          | `3.14159` |
+| TEXT        | string          | `"Hello, World!"` |
+| BLOB        | Uint8Array      | `new Uint8Array([1, 2, 3])` |
+| NULL        | null            | `null` |
+
+```typescript
+const db = new Database(":memory:");
+db.exec(`
+  CREATE TABLE data_types (
+    id INTEGER PRIMARY KEY,
+    text_val TEXT,
+    int_val INTEGER,
+    real_val REAL,
+    blob_val BLOB,
+    null_val TEXT
+  )
+`);
+
+const stmt = db.prepare(
+  "INSERT INTO data_types (text_val, int_val, real_val, null_val) VALUES (?, ?, ?, ?)"
+);
+
+stmt.run("Hello", 42, 3.14159, null);
+stmt.run("Unicode: 🚀", 2147483647, -99.5, null);
+
+const results = db.prepare("SELECT * FROM data_types").all();
+console.log(results);
+```
+
+## Transactions
+
+Use transactions for better performance and data consistency:
+
+```typescript
+const db = new Database("myapp.db");
+
+// Start a transaction
+db.exec("BEGIN TRANSACTION");
+
+try {
+  // Multiple operations
+  const insertStmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+  insertStmt.run("Alice", "alice@example.com");
+  insertStmt.run("Bob", "bob@example.com");
+  insertStmt.run("Charlie", "charlie@example.com");
+  
+  // Commit if all succeeded
+  db.exec("COMMIT");
+  console.log("Transaction committed successfully");
+} catch (error) {
+  // Rollback on error
+  db.exec("ROLLBACK");
+  console.error("Transaction rolled back:", error);
+}
 ```
 
 ## Complete Example
 
 ```typescript
-// Create and set up database
-const db = new DatabaseSync("blog.db");
+// Create database
+const db = new Database("blog.db");
 
+// Create schema
 db.exec(`
   CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     content TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
+    author TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    published INTEGER DEFAULT 0
+  );
+  
+  CREATE INDEX IF NOT EXISTS idx_posts_author ON posts(author);
+  CREATE INDEX IF NOT EXISTS idx_posts_published ON posts(published);
 `);
 
-// Prepare statements
-const insertPost = db.prepare(`
-  INSERT INTO posts (title, content) VALUES (?, ?)
-`);
+// Insert posts
+const insertPost = db.prepare(
+  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)"
+);
 
-const selectPosts = db.prepare(`
-  SELECT * FROM posts ORDER BY created_at DESC LIMIT ?
-`);
+insertPost.run(
+  "Getting Started with Andromeda",
+  "Learn how to build amazing apps with Andromeda...",
+  "Alice",
+  1
+);
 
-const selectPostById = db.prepare(`
-  SELECT * FROM posts WHERE id = ?
-`);
+insertPost.run(
+  "Advanced SQLite Techniques",
+  "Discover advanced database patterns...",
+  "Bob",
+  1
+);
 
-// Insert some posts
-const posts = [
-  [
-    "Getting Started with Andromeda",
-    "Andromeda is a fast JavaScript runtime...",
-  ],
-  ["SQLite Integration", "Today we're excited to announce SQLite support..."],
-  [
-    "Performance Improvements",
-    "The latest release includes significant performance gains...",
-  ],
-];
+insertPost.run(
+  "Draft Post",
+  "This is still being written...",
+  "Alice",
+  0
+);
 
-for (const [title, content] of posts) {
-  const result = insertPost.run(title, content);
-  console.log(`Created post with ID: ${result.lastInsertRowid}`);
+// Query published posts
+const publishedPosts = db.prepare(
+  "SELECT * FROM posts WHERE published = 1 ORDER BY created_at DESC"
+).all();
+
+console.log("Published posts:");
+for (const post of publishedPosts) {
+  console.log(`- ${post.title} by ${post.author}`);
 }
 
-// Query posts
-console.log("\nRecent posts:");
-const recentPosts = selectPosts.all(5);
-for (const post of recentPosts) {
-  console.log(`- ${post.title} (ID: ${post.id})`);
-}
+// Get posts by author
+const getByAuthor = db.prepare(
+  "SELECT COUNT(*) as count FROM posts WHERE author = ?"
+);
+const alicePosts = getByAuthor.get("Alice");
+console.log(`Alice has written ${alicePosts.count} posts`);
 
-// Get specific post
-const specificPost = selectPostById.get(1);
-console.log("\nFirst post details:");
-console.log(`Title: ${specificPost.title}`);
-console.log(`Content: ${specificPost.content.substring(0, 50)}...`);
+// Update a post
+const updatePost = db.prepare(
+  "UPDATE posts SET published = 1 WHERE id = ?"
+);
+updatePost.run(3); // Publish the draft
+
+// Get all posts with pagination
+const getAllPosts = db.prepare(
+  "SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?"
+);
+const page1 = getAllPosts.all(10, 0);
+const page2 = getAllPosts.all(10, 10);
 
 // Clean up
-insertPost.finalize();
-selectPosts.finalize();
-selectPostById.finalize();
 db.close();
-```
-
-## Advanced Features
-
-### Statement Information
-
-Get information about prepared statements:
-
-```typescript
-const stmt = db.prepare("SELECT COUNT(*) as total FROM users WHERE active = ?");
-
-// Get the expanded SQL with parameters
-console.log("Expanded SQL:", stmt.expandedSQL);
-
-// Get the original SQL
-console.log("Source SQL:", stmt.sourceSQL);
-```
-
-### Error Handling
-
-Always wrap database operations in try-catch blocks:
-
-```typescript
-function safeInsertUser(name: string, email: string): boolean {
-  try {
-    const stmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-    const result = stmt.run(name, email);
-    stmt.finalize();
-
-    console.log(`User inserted with ID: ${result.lastInsertRowid}`);
-    return true;
-  } catch (error) {
-    console.error("Failed to insert user:", error.message);
-    return false;
-  }
-}
-
-function safeSelectUser(id: number): any | null {
-  try {
-    const stmt = db.prepare("SELECT * FROM users WHERE id = ?");
-    const user = stmt.get(id);
-    stmt.finalize();
-
-    return user || null;
-  } catch (error) {
-    console.error("Failed to select user:", error.message);
-    return null;
-  }
-}
-```
-
-### Transactions
-
-While explicit transaction support isn't exposed in the current API, you can use
-SQL transaction statements:
-
-```typescript
-function transferFunds(
-  fromAccount: number,
-  toAccount: number,
-  amount: number,
-): boolean {
-  try {
-    db.exec("BEGIN TRANSACTION");
-
-    // Deduct from source account
-    const deductStmt = db.prepare(
-      "UPDATE accounts SET balance = balance - ? WHERE id = ?",
-    );
-    deductStmt.run(amount, fromAccount);
-
-    // Add to destination account
-    const addStmt = db.prepare(
-      "UPDATE accounts SET balance = balance + ? WHERE id = ?",
-    );
-    addStmt.run(amount, toAccount);
-
-    db.exec("COMMIT");
-
-    deductStmt.finalize();
-    addStmt.finalize();
-
-    return true;
-  } catch (error) {
-    db.exec("ROLLBACK");
-    console.error("Transaction failed:", error.message);
-    return false;
-  }
-}
 ```
 
 ## Performance Tips
 
-1. **Reuse prepared statements**: Create statements once and reuse them for
-   multiple executions
-2. **Use transactions**: Group multiple operations in transactions for better
-   performance
-3. **Finalize statements**: Always call `finalize()` when done with a statement
-4. **Use appropriate methods**: Use `get()` for single rows, `all()` for small
-   result sets, `iterate()` for large ones
+1. **Use Prepared Statements**: Reuse prepared statements for better performance
 
 ```typescript
-// Good: Reuse statement
-const stmt = db.prepare("INSERT INTO logs (message) VALUES (?)");
-for (const message of messages) {
-  stmt.run(message);
+// Good - prepare once, execute many times
+const stmt = db.prepare("INSERT INTO users (name) VALUES (?)");
+for (const name of names) {
+  stmt.run(name);
 }
-stmt.finalize();
 
-// Less efficient: Prepare statement each time
-for (const message of messages) {
-  const stmt = db.prepare("INSERT INTO logs (message) VALUES (?)");
-  stmt.run(message);
-  stmt.finalize();
+// Less efficient - prepares each time
+for (const name of names) {
+  db.exec(`INSERT INTO users (name) VALUES ('${name}')`);
 }
 ```
 
-## Data Types
-
-SQLite data types are automatically converted to JavaScript types:
-
-| SQLite Type | JavaScript Type |
-| ----------- | --------------- |
-| `INTEGER`   | `number`        |
-| `REAL`      | `number`        |
-| `TEXT`      | `string`        |
-| `BLOB`      | `Uint8Array`    |
-| `NULL`      | `null`          |
-
-## Global Access
-
-The SQLite API is available globally as:
+2. **Use Transactions for Bulk Operations**:
 
 ```typescript
-// Direct class access
-const db = new DatabaseSync("test.db");
-
-// Through sqlite namespace
-const db2 = new sqlite.DatabaseSync("test2.db");
-
-// Alternative Database alias
-const db3 = new Database("test3.db");
+db.exec("BEGIN TRANSACTION");
+const stmt = db.prepare("INSERT INTO data (value) VALUES (?)");
+for (let i = 0; i < 10000; i++) {
+  stmt.run(i);
+}
+db.exec("COMMIT");
 ```
 
-## Compatibility
+3. **Create Indexes for Frequently Queried Columns**:
 
-The Andromeda SQLite API is designed to be compatible with Deno's SQLite
-implementation, making it easy to port existing applications. Key compatibility
-features:
+```typescript
+db.exec("CREATE INDEX idx_users_email ON users(email)");
+db.exec("CREATE INDEX idx_posts_author_date ON posts(author, created_at)");
+```
 
-- Same class names and method signatures
-- Compatible parameter binding
-- Similar error handling patterns
-- Matching return value formats
+4. **Use `get()` When You Need Only One Row**:
 
-This allows you to use existing Deno SQLite tutorials, examples, and libraries
-with minimal modifications.
+```typescript
+// Efficient - stops after first match
+const user = db.prepare("SELECT * FROM users WHERE id = ?").get(123);
+
+// Less efficient - fetches all matches
+const users = db.prepare("SELECT * FROM users WHERE id = ?").all(123);
+const user = users[0];
+```
+
+## Error Handling
+
+```typescript
+const db = new Database("myapp.db");
+
+try {
+  db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)");
+  
+  const stmt = db.prepare("INSERT INTO users (name) VALUES (?)");
+  stmt.run("Alice");
+  
+} catch (error) {
+  console.error("Database error:", error.message);
+} finally {
+  db.close();
+}
+```
+
+## Best Practices
+
+1. **Always close databases** when done to release resources
+2. **Use prepared statements** with parameters to prevent SQL injection
+3. **Use transactions** for multiple related operations
+4. **Create indexes** on frequently queried columns
+5. **Use appropriate data types** for your data
+6. **Handle errors properly** with try/catch blocks
+7. **Use `:memory:` databases** for testing
+
+## See Also
+
+- [Web Storage API](/docs/api/web-storage) - For simple key-value storage
+- [Cache Storage API](/docs/api/cache-storage) - For HTTP response caching
+- [File System API](/docs/api/file-system) - For file operations
+- [SQLite Example](/docs/examples/sqlite) - Complete working example

@@ -10,10 +10,12 @@ This guide will walk you through installing Andromeda on your system.
 
 ## Prerequisites
 
-Andromeda requires:
+For building from source, Andromeda requires:
 
-- **Rust** (latest stable version)
+- **Rust** (latest stable version via rustup)
 - **Git** (for cloning the repository)
+
+Note: Pre-built binaries are available and don't require Rust to be installed.
 
 ## Quick Install
 
@@ -45,13 +47,20 @@ curl -L -o install.bat https://tryandromeda.dev/install.bat && install.bat
 
 ## Other Installation Methods
 
-### Method 1: Install from Git (Recommended)
+### Method 1: Install with Winget (Windows)
 
-The easiest way to install Andromeda is using Cargo to install directly from the
-Git repository:
+Windows users can install Andromeda using the Windows Package Manager:
 
 ```bash
-cargo install --git https://github.com/tryandromeda/andromeda
+winget install --id Andromeda.Andromeda
+```
+
+### Method 2: Install from Git with Cargo
+
+Install Andromeda using Cargo directly from the Git repository:
+
+```bash
+cargo install --git https://github.com/tryandromeda/andromeda andromeda
 ```
 
 This will:
@@ -60,7 +69,7 @@ This will:
 2. Compile Andromeda with optimizations
 3. Install the `andromeda` binary to your Cargo bin directory
 
-### Method 2: Build from Source
+### Method 3: Build from Source
 
 If you want to build from source or contribute to development:
 
@@ -144,18 +153,20 @@ andromeda completions powershell > andromeda.ps1
 
 ### Windows
 
-- Andromeda works on Windows 10/11 with PowerShell or Command Prompt
-- Some features may require Windows Subsystem for Linux (WSL) for full
-  compatibility
+- Andromeda works on Windows 10/11 (x86_64)
+- Fully supported in PowerShell, Command Prompt, and WSL
+- Available via winget package manager
 
 ### macOS
 
 - Andromeda works on macOS 10.15+ (Catalina and later)
-- Apple Silicon (M1/M2) is fully supported
+- Apple Silicon (M1/M2/M3) is fully supported
+- Intel Macs are also fully supported
 
 ### Linux
 
-- Most Linux distributions are supported
+- x86_64 and ARM64 architectures supported
+- Most distributions supported (Ubuntu, Debian, Fedora, Arch, etc.)
 - Requires glibc 2.31+ or musl 1.2.0+
 
 ## Troubleshooting
@@ -211,7 +222,7 @@ andromeda upgrade --dry-run
 andromeda upgrade --force
 
 # Upgrade to specific version
-andromeda upgrade --version v0.2.0
+andromeda upgrade --version 0.1.0-draft-49
 ```
 
 ### Manual Update
@@ -231,6 +242,7 @@ The built-in upgrade system provides:
 
 - **Cross-platform support**: Works on Windows, macOS, and Linux
 - **Safe upgrades**: Creates automatic backups before upgrading
-- **Version targeting**: Upgrade to specific versions (e.g., v0.1.0-draft7)
+- **Version targeting**: Upgrade to specific versions (e.g., 0.1.0-draft-49)
 - **Dry run mode**: Preview upgrades without making changes
 - **Auto-detection**: Automatically detects your platform and architecture
+- **GitHub Releases**: Downloads pre-built binaries from official releases
