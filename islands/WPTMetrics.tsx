@@ -158,6 +158,21 @@ export default function WPTMetrics() {
           </div>
           <div class="text-xs text-subtext1">Pass Rate</div>
         </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold text-peach mb-1">{overall.crash}</div>
+          <div class="text-xs text-subtext1">Crash</div>
+        </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue mb-1">{overall.timeout}</div>
+          <div class="text-xs text-subtext1">Timeout</div>
+        </div>
+
+        <div class="text-center">
+          <div class="text-2xl font-bold text-subtext0 mb-1">{overall.skip}</div>
+          <div class="text-xs text-subtext1">Skip</div>
+        </div>
       </div>
 
       <div>
@@ -173,10 +188,13 @@ export default function WPTMetrics() {
                 <div class="text-xs text-subtext1">{s.total_tests} tests</div>
               </div>
 
-              <div class="flex items-center gap-4">
+              <div class="flex items-center gap-3 flex-wrap">
                 <div class="text-sm text-green">Pass {s.pass}</div>
                 <div class="text-sm text-red">Fail {s.fail}</div>
-                <div class="text-sm text-subtext1">
+                <div class="text-sm text-peach">Crash {s.crash}</div>
+                <div class="text-sm text-blue">Timeout {s.timeout}</div>
+                <div class="text-sm text-subtext0">Skip {s.skip}</div>
+                <div class="text-sm text-subtext1 font-medium">
                   {formatPercent(s.pass_rate)}
                 </div>
               </div>

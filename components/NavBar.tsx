@@ -1,6 +1,7 @@
 import { GithubIcon } from "lucide-preact";
 import PWAStatus from "../islands/PWAStatus.tsx";
 import SearchTrigger from "../islands/SearchTrigger.tsx";
+import MobileMenu from "../islands/MobileMenu.tsx";
 
 export default function NavBar() {
   return (
@@ -83,9 +84,10 @@ export default function NavBar() {
                 </svg>
               </a>
             </div>
-            {/* Mobile menu - show search and GitHub only */}
+            {/* Mobile menu - show search, hamburger menu and social icons */}
             <div class="flex md:hidden items-center space-x-2">
               <SearchTrigger variant="navbar" />
+              <MobileMenu />
               <a
                 href="https://github.com/tryandromeda/andromeda"
                 class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-200 border border-surface2"
