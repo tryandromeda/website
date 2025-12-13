@@ -299,6 +299,7 @@ export default async function StdPage(props: PageProps<never>) {
                 <MarkdownContent
                   markdown={readmePreview.content}
                   baseUrl={`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${readmePreview.path}`}
+                  siteBaseUrl="/std/"
                 />
               </div>
             </div>
@@ -334,6 +335,7 @@ export default async function StdPage(props: PageProps<never>) {
                     <MarkdownContent
                       markdown={content || ""}
                       baseUrl={`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${path}`}
+                      siteBaseUrl="/std/"
                     />
                   </div>
                 ) :
