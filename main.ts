@@ -1,10 +1,15 @@
-import { App, fsRoutes, staticFiles } from "fresh";
+import { App, staticFiles } from "fresh";
 import { type State } from "./utils.ts";
 import "jsr:@std/dotenv@0.225.5/load";
+
 export const app = new App<State>();
 
 app.use(staticFiles());
 
+// Enable file-system based routing
+app.fsRoutes();
+
+// Redirect /docs to /docs/index
 app.get("/docs", () => {
   return new Response(null, {
     status: 302,
@@ -12,11 +17,6 @@ app.get("/docs", () => {
       Location: "/docs/index",
     },
   });
-});
-
-await fsRoutes(app, {
-  loadIsland: (path) => import(`./islands/${path}`),
-  loadRoute: (path) => import(`./routes/${path}`),
 });
 
 if (import.meta.main) {

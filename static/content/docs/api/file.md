@@ -733,7 +733,8 @@ function isValidFileType(file: File, allowedTypes: string[]): boolean {
 
 ## FormData API
 
-The FormData interface provides a way to construct key/value pairs representing form fields and their values for form submissions and multipart data handling.
+The FormData interface provides a way to construct key/value pairs representing
+form fields and their values for form submissions and multipart data handling.
 
 ### Creating FormData
 
@@ -758,7 +759,8 @@ formData.append("data", blob, "data.bin");
 
 #### `append(name, value, filename?)`
 
-Appends a new value to an existing key, or adds the key/value pair if it doesn't exist.
+Appends a new value to an existing key, or adds the key/value pair if it doesn't
+exist.
 
 ```typescript
 const formData = new FormData();
@@ -777,7 +779,8 @@ formData.append("hobby", "gaming");
 
 #### `set(name, value, filename?)`
 
-Sets a new value for an existing key, or adds the key/value pair if it doesn't exist. Unlike `append()`, this replaces existing values.
+Sets a new value for an existing key, or adds the key/value pair if it doesn't
+exist. Unlike `append()`, this replaces existing values.
 
 ```typescript
 formData.set("name", "Jane"); // Replaces any existing "name" values
@@ -856,7 +859,7 @@ FormData is commonly used with the Fetch API for submitting forms:
 ```typescript
 async function submitForm() {
   const formData = new FormData();
-  
+
   formData.append("username", "user123");
   formData.append("profile_pic", profileFile);
   formData.append("description", "User profile update");
@@ -882,17 +885,17 @@ async function submitForm() {
 // Building form data from an HTML form
 function createFormDataFromForm(form: HTMLFormElement): FormData {
   const formData = new FormData();
-  
-  const inputs = form.querySelectorAll('input, select, textarea');
+
+  const inputs = form.querySelectorAll("input, select, textarea");
   inputs.forEach((input) => {
-    if (input.type === 'file') {
+    if (input.type === "file") {
       const files = input.files;
       if (files) {
         for (let i = 0; i < files.length; i++) {
           formData.append(input.name, files[i]);
         }
       }
-    } else if (input.type === 'checkbox') {
+    } else if (input.type === "checkbox") {
       if (input.checked) {
         formData.append(input.name, input.value);
       }
@@ -900,34 +903,34 @@ function createFormDataFromForm(form: HTMLFormElement): FormData {
       formData.append(input.name, input.value);
     }
   });
-  
+
   return formData;
 }
 
 // Cloning FormData
 function cloneFormData(original: FormData): FormData {
   const clone = new FormData();
-  
+
   for (const [key, value] of original.entries()) {
     clone.append(key, value);
   }
-  
+
   return clone;
 }
 
 // Converting FormData to URL-encoded string
 function formDataToUrlEncoded(formData: FormData): string {
   const params = new URLSearchParams();
-  
+
   for (const [key, value] of formData.entries()) {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       params.append(key, value);
     } else {
       // For File/Blob objects, use their name or convert to string
       params.append(key, value.name || value.toString());
     }
   }
-  
+
   return params.toString();
 }
 ```

@@ -15,7 +15,7 @@ interface WPTMetricsJson {
   project: string;
   version: string;
   wpt: {
-    overall: WPTSuite & { pass_rate: number; };
+    overall: WPTSuite & { pass_rate: number };
     suites: Record<string, WPTSuite>;
     trend?: {
       pass_rate_change?: number;
@@ -111,8 +111,8 @@ export default function WPTMetrics() {
       <div class="text-xs text-subtext1 mb-4">
         <div>
           Source: {metrics.project} v{metrics.version} —
-          {meta?.rawUrl ?
-            (
+          {meta?.rawUrl
+            ? (
               <a
                 class="text-blue-400 ml-1 hover:underline"
                 href={meta.rawUrl}
@@ -121,8 +121,8 @@ export default function WPTMetrics() {
               >
                 raw metrics.json
               </a>
-            ) :
-            <span class="ml-1">raw metrics.json</span>}
+            )
+            : <span class="ml-1">raw metrics.json</span>}
         </div>
         <div class="mt-1">
           Last updated: {meta?.lastModified ?? "unknown"}

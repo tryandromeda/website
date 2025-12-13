@@ -2,7 +2,7 @@
 import Prism from "npm:prismjs@1.29.0";
 
 export function CodeBlock(
-  { code, lang }: { code: string; lang: "js" | "ts" | "jsx" | "md" | "bash"; },
+  { code, lang }: { code: string; lang: "js" | "ts" | "jsx" | "md" | "bash" },
 ) {
   return (
     <pre

@@ -486,21 +486,21 @@ try {
 async function hashData(input: string) {
   const data = new TextEncoder().encode(input);
   const hash = await crypto.subtle.digest("SHA-256", data);
-  
+
   // Handle both string and ArrayBuffer return types
   if (typeof hash === "string") {
     return hash;
   }
   return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, "0"))
+    .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
 
 const result = await hashData("Hello, World!");
 console.log("Hash result:", result);
 ```
-</text>
 
+</text>
 
 ### Environment Configuration
 

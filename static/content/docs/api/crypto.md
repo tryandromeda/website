@@ -6,7 +6,9 @@ order: 3
 id: "crypto"
 ---
 
-Andromeda provides the Web Crypto API for cryptographic operations, secure random value generation, and hashing. The implementation follows the W3C Web Crypto API specification.
+Andromeda provides the Web Crypto API for cryptographic operations, secure
+random value generation, and hashing. The implementation follows the W3C Web
+Crypto API specification.
 
 ## Overview
 
@@ -20,7 +22,8 @@ The Crypto API allows you to:
 
 ## Global `crypto` Object
 
-The `crypto` object is available globally and provides access to cryptographic functionality:
+The `crypto` object is available globally and provides access to cryptographic
+functionality:
 
 ```typescript
 // crypto is available globally
@@ -38,7 +41,8 @@ const uuid = crypto.randomUUID();
 console.log(uuid); // "550e8400-e29b-41d4-a716-446655440000"
 ```
 
-**Returns:** A string containing a randomly generated UUID in the format `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.
+**Returns:** A string containing a randomly generated UUID in the format
+`xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.
 
 **Example:**
 
@@ -67,7 +71,9 @@ crypto.getRandomValues(array: TypedArray): TypedArray
 ```
 
 **Parameters:**
-- `array` - A TypedArray (Uint8Array, Uint16Array, Uint32Array, etc.) to fill with random values
+
+- `array` - A TypedArray (Uint8Array, Uint16Array, Uint32Array, etc.) to fill
+  with random values
 
 **Returns:** The same array that was passed in, now filled with random values.
 
@@ -88,14 +94,15 @@ console.log(ints); // Uint32Array(4) [1234567890, 987654321, ...]
 const buffer = new Uint8Array(32);
 crypto.getRandomValues(buffer);
 const hexString = Array.from(buffer)
-  .map(b => b.toString(16).padStart(2, '0'))
-  .join('');
-console.log('Random hex:', hexString);
+  .map((b) => b.toString(16).padStart(2, "0"))
+  .join("");
+console.log("Random hex:", hexString);
 ```
 
 ## SubtleCrypto API
 
-The `crypto.subtle` object provides access to low-level cryptographic operations.
+The `crypto.subtle` object provides access to low-level cryptographic
+operations.
 
 ### `crypto.subtle.digest()`
 
@@ -109,12 +116,15 @@ crypto.subtle.digest(
 ```
 
 **Parameters:**
+
 - `algorithm` - The hash algorithm to use (currently supports "SHA-256")
 - `data` - The data to hash (ArrayBuffer or TypedArray)
 
 **Returns:** A Promise that resolves to the hash value.
 
-**Note:** The current implementation returns a hex string instead of an ArrayBuffer. This is temporary non-W3C compliant behavior that will be updated in future versions to return an ArrayBuffer.
+**Note:** The current implementation returns a hex string instead of an
+ArrayBuffer. This is temporary non-W3C compliant behavior that will be updated
+in future versions to return an ArrayBuffer.
 
 **Example:**
 
@@ -131,13 +141,14 @@ if (typeof hash === "string") {
   // Convert ArrayBuffer to hex string
   const hashArray = new Uint8Array(hash);
   const hashHex = Array.from(hashArray)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
   console.log("SHA-256:", hashHex);
 }
 ```
 
 **Supported Algorithms:**
+
 - `SHA-256` - 256-bit SHA-2 hash function
 
 **Complete Example:**
@@ -147,14 +158,14 @@ async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
   const hash = await crypto.subtle.digest("SHA-256", data);
-  
+
   if (typeof hash === "string") {
     return hash;
   }
-  
+
   return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 const passwordHash = await hashPassword("mySecurePassword123");
@@ -174,9 +185,11 @@ crypto.subtle.generateKey(
 ```
 
 **Parameters:**
+
 - `algorithm` - The key generation algorithm (e.g., "AES-GCM")
 - `extractable` - Whether the key can be exported
-- `keyUsages` - Array of operations the key can be used for (e.g., ["encrypt", "decrypt"])
+- `keyUsages` - Array of operations the key can be used for (e.g., ["encrypt",
+  "decrypt"])
 
 **Returns:** A Promise that resolves to a CryptoKey object.
 
@@ -187,7 +200,7 @@ crypto.subtle.generateKey(
 const key = await crypto.subtle.generateKey(
   "AES-GCM",
   true,
-  ["encrypt", "decrypt"]
+  ["encrypt", "decrypt"],
 );
 
 console.log("Generated key:", key);
@@ -203,8 +216,8 @@ function generateSecureToken(length: number = 32): string {
   const bytes = new Uint8Array(length);
   crypto.getRandomValues(bytes);
   return Array.from(bytes)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 // Generate API key
@@ -223,14 +236,14 @@ async function calculateFileHash(content: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(content);
   const hash = await crypto.subtle.digest("SHA-256", data);
-  
+
   if (typeof hash === "string") {
     return hash;
   }
-  
+
   return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 const fileContent = Andromeda.readTextFileSync("document.txt");
@@ -248,32 +261,32 @@ async function hashPasswordWithSalt(password: string): Promise<string> {
   // Generate random salt
   const salt = new Uint8Array(16);
   crypto.getRandomValues(salt);
-  
+
   // Combine password and salt
   const encoder = new TextEncoder();
   const passwordData = encoder.encode(password);
   const combined = new Uint8Array(passwordData.length + salt.length);
   combined.set(passwordData);
   combined.set(salt, passwordData.length);
-  
+
   // Hash the combined data
   const hash = await crypto.subtle.digest("SHA-256", combined);
-  
+
   // Convert to hex
   let hashHex: string;
   if (typeof hash === "string") {
     hashHex = hash;
   } else {
     hashHex = Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
   }
-  
+
   // Convert salt to hex
   const saltHex = Array.from(salt)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-  
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
   // Return salt:hash
   return `${saltHex}:${hashHex}`;
 }
@@ -287,21 +300,21 @@ console.log("Hashed password:", hashedPassword);
 ```typescript
 async function verifyDataIntegrity(
   data: string,
-  expectedHash: string
+  expectedHash: string,
 ): Promise<boolean> {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(data);
   const hash = await crypto.subtle.digest("SHA-256", bytes);
-  
+
   let actualHash: string;
   if (typeof hash === "string") {
     actualHash = hash;
   } else {
     actualHash = Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
   }
-  
+
   return actualHash === expectedHash;
 }
 
@@ -321,8 +334,8 @@ function generateShortId(): string {
   const bytes = new Uint8Array(6);
   crypto.getRandomValues(bytes);
   return Array.from(bytes)
-    .map(b => b.toString(36))
-    .join('')
+    .map((b) => b.toString(36))
+    .join("")
     .substring(0, 8)
     .toUpperCase();
 }
@@ -338,9 +351,9 @@ const shortId = generateShortId();
 const numericId = generateNumericId();
 const uuid = crypto.randomUUID();
 
-console.log("Short ID:", shortId);       // "A4B8C2D1"
-console.log("Numeric ID:", numericId);   // 1234567890
-console.log("UUID:", uuid);               // "550e8400-e29b-41d4-a716-446655440000"
+console.log("Short ID:", shortId); // "A4B8C2D1"
+console.log("Numeric ID:", numericId); // 1234567890
+console.log("UUID:", uuid); // "550e8400-e29b-41d4-a716-446655440000"
 ```
 
 ## Security Best Practices
@@ -385,9 +398,9 @@ const userId = Math.floor(Math.random() * 1000000);
 function processPassword(password: string) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
-  
+
   // Use the data...
-  
+
   // Clear the array
   data.fill(0);
 }
@@ -417,19 +430,19 @@ for (let i = 0; i < 1000; i++) {
 ```typescript
 async function hashMultipleItems(items: string[]): Promise<string[]> {
   const encoder = new TextEncoder();
-  const promises = items.map(item => {
+  const promises = items.map((item) => {
     const data = encoder.encode(item);
     return crypto.subtle.digest("SHA-256", data);
   });
-  
+
   const hashes = await Promise.all(promises);
-  return hashes.map(hash => {
+  return hashes.map((hash) => {
     if (typeof hash === "string") {
       return hash;
     }
     return Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
   });
 }
 
@@ -445,14 +458,14 @@ async function safeHash(data: string): Promise<string | null> {
     const encoder = new TextEncoder();
     const bytes = encoder.encode(data);
     const hash = await crypto.subtle.digest("SHA-256", bytes);
-    
+
     if (typeof hash === "string") {
       return hash;
     }
-    
+
     return Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
   } catch (error) {
     console.error("Hash operation failed:", error);
     return null;
@@ -469,12 +482,15 @@ if (hash) {
 
 ## Compatibility Notes
 
-The Crypto API in Andromeda aims to follow the W3C Web Crypto API specification. Current compatibility notes:
+The Crypto API in Andromeda aims to follow the W3C Web Crypto API specification.
+Current compatibility notes:
 
 - `crypto.randomUUID()` - Fully compatible with web standards
 - `crypto.getRandomValues()` - Fully compatible with web standards
-- `crypto.subtle.digest()` - Currently returns hex string instead of ArrayBuffer (will be updated to match spec)
-- `crypto.subtle.generateKey()` - Basic implementation, limited algorithm support
+- `crypto.subtle.digest()` - Currently returns hex string instead of ArrayBuffer
+  (will be updated to match spec)
+- `crypto.subtle.generateKey()` - Basic implementation, limited algorithm
+  support
 
 ## Limitations
 
@@ -491,5 +507,6 @@ These features are planned for future releases.
 
 - [Web API](/docs/api/web) - TextEncoder/TextDecoder for data conversion
 - [File System API](/docs/api/file-system) - For reading/writing hash files
-- [Performance API](/docs/api/performance) - Measure crypto operation performance
+- [Performance API](/docs/api/performance) - Measure crypto operation
+  performance
 - [Crypto Example](/docs/examples/crypto) - More complete examples

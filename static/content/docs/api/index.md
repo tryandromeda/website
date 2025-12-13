@@ -65,9 +65,11 @@ possible.
   standards
   - Event API - Standard event handling and custom events
   - TextEncoder/TextDecoder - Text encoding and decoding utilities
-- **[File API](/docs/api/file)** - Web-standard File objects, Blob handling, and FormData
+- **[File API](/docs/api/file)** - Web-standard File objects, Blob handling, and
+  FormData
 - **[Streams API](/docs/api/streams)** - Web-standard streaming data processing
-- **[Web Locks API](/docs/api/web-locks)** - Coordinate access to shared resources with navigator.locks
+- **[Web Locks API](/docs/api/web-locks)** - Coordinate access to shared
+  resources with navigator.locks
 
 ### Utility APIs
 

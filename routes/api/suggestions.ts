@@ -1,3 +1,5 @@
+import { FreshContext } from "fresh";
+
 const suggestions = [
   "Installation Guide",
   "Quick Start",
@@ -19,7 +21,9 @@ const suggestions = [
 ];
 
 export const handler = {
-  GET(req: Request) {
+  GET(ctx: FreshContext) {
+    const req = ctx.req;
+
     console.log("Suggestions handler called with GET method, URL:", req.url);
 
     if (!req || !req.url) {

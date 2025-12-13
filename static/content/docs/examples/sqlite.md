@@ -6,7 +6,8 @@ order: 4
 id: "sqlite"
 ---
 
-This example demonstrates how to use SQLite databases in Andromeda for data persistence and management.
+This example demonstrates how to use SQLite databases in Andromeda for data
+persistence and management.
 
 ## Basic Database Operations
 
@@ -27,7 +28,7 @@ db.exec(`
 
 // Insert data using prepared statements
 const insertStmt = db.prepare(
-  "INSERT INTO users (name, email, age) VALUES (?, ?, ?)"
+  "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
 );
 
 insertStmt.run("Alice Smith", "alice@example.com", 30);
@@ -51,7 +52,9 @@ for (const user of olderUsers) {
 }
 
 // Get a single user
-const user = db.prepare("SELECT * FROM users WHERE email = ?").get("alice@example.com");
+const user = db.prepare("SELECT * FROM users WHERE email = ?").get(
+  "alice@example.com",
+);
 console.log("\n👤 User lookup:");
 console.log(`  Name: ${user.name}, Age: ${user.age}`);
 
@@ -108,42 +111,42 @@ console.log("✅ Database schema created");
 
 // Insert some posts
 const insertPost = db.prepare(
-  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)"
+  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)",
 );
 
 insertPost.run(
   "Getting Started with Andromeda",
   "Andromeda is a modern JavaScript runtime built in Rust...",
   "Alice",
-  1
+  1,
 );
 
 insertPost.run(
   "SQLite Integration Guide",
   "Learn how to use SQLite databases in your Andromeda applications...",
   "Bob",
-  1
+  1,
 );
 
 insertPost.run(
   "Advanced Performance Tips",
   "Optimize your Andromeda applications with these techniques...",
   "Alice",
-  1
+  1,
 );
 
 insertPost.run(
   "Draft: Future Features",
   "Coming soon to Andromeda...",
   "Charlie",
-  0
+  0,
 );
 
 console.log("✅ Posts inserted");
 
 // Insert comments
 const insertComment = db.prepare(
-  "INSERT INTO comments (post_id, author, content) VALUES (?, ?, ?)"
+  "INSERT INTO comments (post_id, author, content) VALUES (?, ?, ?)",
 );
 
 insertComment.run(1, "Bob", "Great introduction!");
@@ -169,12 +172,14 @@ const publishedPosts = db.prepare(`
 
 console.log("\n📚 Published posts:");
 for (const post of publishedPosts) {
-  console.log(`  - "${post.title}" by ${post.author} (${post.comment_count} comments)`);
+  console.log(
+    `  - "${post.title}" by ${post.author} (${post.comment_count} comments)`,
+  );
 }
 
 // Get posts by author
 const getPostsByAuthor = db.prepare(
-  "SELECT * FROM posts WHERE author = ? ORDER BY created_at DESC"
+  "SELECT * FROM posts WHERE author = ? ORDER BY created_at DESC",
 );
 
 const alicePosts = getPostsByAuthor.all("Alice");
@@ -183,13 +188,13 @@ console.log(`\n✍️  Alice has written ${alicePosts.length} posts`);
 // Get a post with its comments
 function getPostWithComments(postId: number) {
   const post = db.prepare("SELECT * FROM posts WHERE id = ?").get(postId);
-  
+
   if (!post) {
     return null;
   }
 
   const comments = db.prepare(
-    "SELECT * FROM comments WHERE post_id = ? ORDER BY created_at ASC"
+    "SELECT * FROM comments WHERE post_id = ? ORDER BY created_at ASC",
   ).all(postId);
 
   return { ...post, comments };
@@ -205,7 +210,7 @@ for (const comment of postWithComments.comments) {
 
 // Search posts
 const searchPosts = db.prepare(
-  "SELECT * FROM posts WHERE title LIKE ? OR content LIKE ?"
+  "SELECT * FROM posts WHERE title LIKE ? OR content LIKE ?",
 );
 
 const searchTerm = "%Andromeda%";
@@ -214,7 +219,7 @@ console.log(`\n🔍 Found ${searchResults.length} posts matching "Andromeda"`);
 
 // Update post
 const updatePost = db.prepare(
-  "UPDATE posts SET published = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
+  "UPDATE posts SET published = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
 );
 updatePost.run(4);
 console.log("\n✅ Published draft post");
@@ -256,7 +261,9 @@ db.exec(`
 `);
 
 // Insert initial accounts
-const insertAccount = db.prepare("INSERT INTO accounts (id, name, balance) VALUES (?, ?, ?)");
+const insertAccount = db.prepare(
+  "INSERT INTO accounts (id, name, balance) VALUES (?, ?, ?)",
+);
 insertAccount.run(1, "Alice", 1000.0);
 insertAccount.run(2, "Bob", 500.0);
 
@@ -270,27 +277,29 @@ function transferMoney(fromId: number, toId: number, amount: number): boolean {
 
     // Deduct from source account
     const deduct = db.prepare(
-      "UPDATE accounts SET balance = balance - ? WHERE id = ?"
+      "UPDATE accounts SET balance = balance - ? WHERE id = ?",
     );
     deduct.run(amount, fromId);
 
     // Check if source has sufficient balance
-    const fromAccount = db.prepare("SELECT balance FROM accounts WHERE id = ?").get(fromId);
+    const fromAccount = db.prepare("SELECT balance FROM accounts WHERE id = ?")
+      .get(fromId);
     if (fromAccount.balance < 0) {
       throw new Error("Insufficient funds");
     }
 
     // Add to destination account
     const add = db.prepare(
-      "UPDATE accounts SET balance = balance + ? WHERE id = ?"
+      "UPDATE accounts SET balance = balance + ? WHERE id = ?",
     );
     add.run(amount, toId);
 
     // Commit transaction
     db.exec("COMMIT");
-    console.log(`✅ Transferred $${amount} from account ${fromId} to account ${toId}`);
+    console.log(
+      `✅ Transferred $${amount} from account ${fromId} to account ${toId}`,
+    );
     return true;
-
   } catch (error) {
     // Rollback on error
     db.exec("ROLLBACK");
@@ -344,7 +353,9 @@ console.log("🧪 Test 1: Bulk insert with transaction");
 const startTime1 = performance.now();
 
 db.exec("BEGIN TRANSACTION");
-const insertStmt = db.prepare("INSERT INTO test_data (id, value, number) VALUES (?, ?, ?)");
+const insertStmt = db.prepare(
+  "INSERT INTO test_data (id, value, number) VALUES (?, ?, ?)",
+);
 
 for (let i = 0; i < 10000; i++) {
   insertStmt.run(i, `value_${i}`, Math.floor(Math.random() * 1000));
@@ -353,7 +364,9 @@ for (let i = 0; i < 10000; i++) {
 db.exec("COMMIT");
 const endTime1 = performance.now();
 
-console.log(`   Inserted 10,000 rows in ${(endTime1 - startTime1).toFixed(2)}ms`);
+console.log(
+  `   Inserted 10,000 rows in ${(endTime1 - startTime1).toFixed(2)}ms`,
+);
 
 // Test 2: Query performance
 console.log("\n🧪 Test 2: Query performance");
@@ -362,7 +375,11 @@ const startTime2 = performance.now();
 const results = db.prepare("SELECT * FROM test_data WHERE number > ?").all(500);
 
 const endTime2 = performance.now();
-console.log(`   Queried ${results.length} rows in ${(endTime2 - startTime2).toFixed(2)}ms`);
+console.log(
+  `   Queried ${results.length} rows in ${
+    (endTime2 - startTime2).toFixed(2)
+  }ms`,
+);
 
 // Test 3: Index performance
 console.log("\n🧪 Test 3: Creating index");
@@ -377,10 +394,15 @@ console.log(`   Created index in ${(endTime3 - startTime3).toFixed(2)}ms`);
 console.log("\n🧪 Test 4: Query with index");
 const startTime4 = performance.now();
 
-const resultsWithIndex = db.prepare("SELECT * FROM test_data WHERE number > ?").all(500);
+const resultsWithIndex = db.prepare("SELECT * FROM test_data WHERE number > ?")
+  .all(500);
 
 const endTime4 = performance.now();
-console.log(`   Queried ${resultsWithIndex.length} rows in ${(endTime4 - startTime4).toFixed(2)}ms`);
+console.log(
+  `   Queried ${resultsWithIndex.length} rows in ${
+    (endTime4 - startTime4).toFixed(2)
+  }ms`,
+);
 
 // Statistics
 const stats = db.prepare(`
@@ -419,7 +441,7 @@ db.close();
 ```typescript
 function userExists(email: string): boolean {
   const result = db.prepare(
-    "SELECT COUNT(*) as count FROM users WHERE email = ?"
+    "SELECT COUNT(*) as count FROM users WHERE email = ?",
   ).get(email);
   return result.count > 0;
 }
@@ -430,7 +452,7 @@ function userExists(email: string): boolean {
 ```typescript
 function upsertUser(email: string, name: string) {
   db.prepare(
-    "INSERT INTO users (email, name) VALUES (?, ?) ON CONFLICT(email) DO UPDATE SET name = ?"
+    "INSERT INTO users (email, name) VALUES (?, ?) ON CONFLICT(email) DO UPDATE SET name = ?",
   ).run(email, name, name);
 }
 ```
@@ -441,7 +463,7 @@ function upsertUser(email: string, name: string) {
 function getUsers(page: number, pageSize: number) {
   const offset = (page - 1) * pageSize;
   return db.prepare(
-    "SELECT * FROM users ORDER BY id LIMIT ? OFFSET ?"
+    "SELECT * FROM users ORDER BY id LIMIT ? OFFSET ?",
   ).all(pageSize, offset);
 }
 ```

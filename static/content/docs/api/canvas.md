@@ -6,7 +6,9 @@ order: 2
 id: "canvas"
 ---
 
-Andromeda provides a hardware-accelerated 2D Canvas API powered by WGPU, enabling high-performance graphics rendering with full support for the standard Canvas 2D Context specification.
+Andromeda provides a hardware-accelerated 2D Canvas API powered by WGPU,
+enabling high-performance graphics rendering with full support for the standard
+Canvas 2D Context specification.
 
 ## Overview
 
@@ -300,7 +302,14 @@ ctx.fillStyle = "#1a1a1a";
 ctx.fillRect(0, 0, 600, 400);
 
 // Draw colorful grid
-const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#96ceb4", "#feca57", "#ee5a6f"];
+const colors = [
+  "#ff6b6b",
+  "#4ecdc4",
+  "#45b7d1",
+  "#96ceb4",
+  "#feca57",
+  "#ee5a6f",
+];
 
 for (let i = 0; i < colors.length; i++) {
   ctx.fillStyle = colors[i];
@@ -437,11 +446,13 @@ canvas.saveAsPng("transparency-demo.png");
 ### Context Methods
 
 #### Shape Drawing
+
 - `fillRect(x, y, width, height)` - Draw filled rectangle
 - `strokeRect(x, y, width, height)` - Draw rectangle outline
 - `clearRect(x, y, width, height)` - Clear rectangular area
 
 #### Path Drawing
+
 - `beginPath()` - Start a new path
 - `closePath()` - Close the current path
 - `moveTo(x, y)` - Move to point without drawing
@@ -451,19 +462,23 @@ canvas.saveAsPng("transparency-demo.png");
 - `stroke()` - Stroke the current path
 
 #### Text Drawing
+
 - `fillText(text, x, y)` - Draw filled text
 - `strokeText(text, x, y)` - Draw text outline
 
 #### Gradients
+
 - `createLinearGradient(x0, y0, x1, y1)` - Create linear gradient
 - `gradient.addColorStop(offset, color)` - Add color to gradient
 
 #### Export
+
 - `canvas.saveAsPng(filename)` - Save canvas as PNG file
 
 ## Performance Tips
 
-1. **Minimize Context State Changes**: Group drawing operations with the same style together
+1. **Minimize Context State Changes**: Group drawing operations with the same
+   style together
 
 ```typescript
 // Good - set style once
@@ -504,6 +519,7 @@ Andromeda's Canvas API is powered by WGPU, providing:
 ## Best Practices
 
 1. **Always check context creation**:
+
 ```typescript
 const ctx = canvas.getContext("2d");
 if (!ctx) {
@@ -512,6 +528,7 @@ if (!ctx) {
 ```
 
 2. **Use gradients for smooth color transitions**:
+
 ```typescript
 const gradient = ctx.createLinearGradient(0, 0, width, 0);
 gradient.addColorStop(0, "red");
@@ -520,6 +537,7 @@ ctx.fillStyle = gradient;
 ```
 
 3. **Reset globalAlpha after using transparency**:
+
 ```typescript
 ctx.globalAlpha = 0.5;
 // ... draw transparent elements ...
@@ -527,6 +545,7 @@ ctx.globalAlpha = 1.0; // Reset
 ```
 
 4. **Save frequently to avoid data loss**:
+
 ```typescript
 // Save intermediate results
 canvas.saveAsPng("work-in-progress.png");

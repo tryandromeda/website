@@ -7,7 +7,7 @@ function escapeHtml(s: string) {
 
 // Lightweight client-side highlighter: highlights comments and strings.
 export default function PrismHighlighter(
-  { code, language = "typescript" }: { code: string; language?: string; },
+  { code, language = "typescript" }: { code: string; language?: string },
 ) {
   const ref = useRef<HTMLElement | null>(null);
 

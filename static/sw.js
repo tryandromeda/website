@@ -376,10 +376,9 @@ async function cacheIfAllowed(
 ) {
   try {
     if (!response || !response.ok) return;
-    const ct =
-      (response.headers &&
-        response.headers.get &&
-        response.headers.get("content-type")) ||
+    const ct = (response.headers &&
+      response.headers.get &&
+      response.headers.get("content-type")) ||
       "";
     if (
       ct.startsWith("image/") ||

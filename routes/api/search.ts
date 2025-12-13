@@ -5,6 +5,7 @@ import {
   search as oramaSearch,
 } from "@orama/orama";
 import { getTableOfContents, parseFrontmatter } from "../../utils/docs.ts";
+import { FreshContext } from "fresh";
 
 interface SearchResult {
   title: string;
@@ -80,9 +81,9 @@ async function buildIndex(): Promise<SearchResult[]> {
           title: doc.title,
           url: doc.path,
           excerpt: doc.description || "",
-          type: doc.section && doc.section.toLowerCase().includes("example") ?
-            "example" :
-            "doc",
+          type: doc.section && doc.section.toLowerCase().includes("example")
+            ? "example"
+            : "doc",
           keywords: [doc.section, doc.id, doc.title].filter(Boolean).map(
             (s) => String(s).toLowerCase(),
           ),
@@ -129,9 +130,9 @@ async function buildIndex(): Promise<SearchResult[]> {
         const path = `content/docs/${file.name}`;
         const text = await Deno.readTextFile(path);
         const titleMatch = text.match(/^#\s+(.*)$/m);
-        const title = titleMatch ?
-          titleMatch[1].trim() :
-          file.name.replace(/\.md$/, "");
+        const title = titleMatch
+          ? titleMatch[1].trim()
+          : file.name.replace(/\.md$/, "");
         const url = `/docs/${file.name.replace(/\.md$/, "")}`;
         const excerpt = text.split(/\n\n/)[1] || text.slice(0, 200);
         const headings: string[] = [];
@@ -384,7 +385,9 @@ function scoreAndFilter(results: SearchResult[], query: string, limit = 10) {
 }
 
 export const handler = {
-  GET(req: Request) {
+  GET(ctx: FreshContext) {
+    const req = ctx.req;
+
     console.log("Search handler called with GET method, URL:", req.url);
 
     const url = new URL(req.url);
@@ -408,15 +411,15 @@ export const handler = {
         const rawIndex = await buildIndex();
 
         const typeParam = url.searchParams.get("type");
-        const allowedTypes = typeParam ?
-          typeParam.split(",").map((s) => s.trim().toLowerCase()).filter(
+        const allowedTypes = typeParam
+          ? typeParam.split(",").map((s) => s.trim().toLowerCase()).filter(
             Boolean,
-          ) :
-          null;
+          )
+          : null;
 
-        const filtered = allowedTypes ?
-          rawIndex.filter((it) => allowedTypes.includes(it.type)) :
-          rawIndex;
+        const filtered = allowedTypes
+          ? rawIndex.filter((it) => allowedTypes.includes(it.type))
+          : rawIndex;
 
         const page = Math.max(1, parseInt(url.searchParams.get("page") || "1"));
         const pageSize = Math.max(
@@ -435,44 +438,44 @@ export const handler = {
               const oramaRes = await oramaSearch(db, { term: query });
               if (
                 oramaRes &&
-                Array.isArray((oramaRes as unknown as { hits?: unknown; }).hits)
+                Array.isArray((oramaRes as unknown as { hits?: unknown }).hits)
               ) {
                 const hits =
-                  (oramaRes as unknown as { hits: Array<unknown>; }).hits;
+                  (oramaRes as unknown as { hits: Array<unknown> }).hits;
                 const mapped: SearchResult[] = hits.map((h) => {
                   const hitObj = h as unknown as Record<string, unknown>;
                   const doc = (hitObj.document as Record<string, unknown>) ||
                     {};
 
-                  const title = typeof doc.title === "string" ?
-                    doc.title :
-                    (typeof doc.name === "string" ? doc.name : "");
-                  const urlVal = typeof doc.url === "string" ?
-                    doc.url :
-                    (typeof hitObj.id === "string" ? hitObj.id : "");
-                  const excerpt = typeof doc.excerpt === "string" ?
-                    doc.excerpt :
-                    "";
-                  const typeVal = typeof doc.type === "string" ?
-                    doc.type :
-                    (typeof doc.label === "string" ? doc.label : "doc");
-                  const labelVal = typeof doc.label === "string" ?
-                    doc.label :
-                    "Docs";
+                  const title = typeof doc.title === "string"
+                    ? doc.title
+                    : (typeof doc.name === "string" ? doc.name : "");
+                  const urlVal = typeof doc.url === "string"
+                    ? doc.url
+                    : (typeof hitObj.id === "string" ? hitObj.id : "");
+                  const excerpt = typeof doc.excerpt === "string"
+                    ? doc.excerpt
+                    : "";
+                  const typeVal = typeof doc.type === "string"
+                    ? doc.type
+                    : (typeof doc.label === "string" ? doc.label : "doc");
+                  const labelVal = typeof doc.label === "string"
+                    ? doc.label
+                    : "Docs";
 
                   const highlights: string[] = [];
-                  const matches = Array.isArray(hitObj.matches) ?
-                    hitObj.matches as unknown[] :
-                    undefined;
+                  const matches = Array.isArray(hitObj.matches)
+                    ? hitObj.matches as unknown[]
+                    : undefined;
                   if (matches) {
                     for (const m of matches) {
                       if (!m || typeof m !== "object") continue;
                       const mo = m as Record<string, unknown>;
-                      const frag = typeof mo.match === "string" ?
-                        mo.match :
-                        (typeof mo.fragment === "string" ?
-                          mo.fragment :
-                          undefined);
+                      const frag = typeof mo.match === "string"
+                        ? mo.match
+                        : (typeof mo.fragment === "string"
+                          ? mo.fragment
+                          : undefined);
                       if (typeof frag === "string") {
                         highlights.push(frag.slice(0, 300));
                         continue;
@@ -511,16 +514,16 @@ export const handler = {
                     excerpt,
                     type: (typeVal as string) as SearchResult["type"],
                     label: labelVal,
-                    score: typeof hitObj.score === "number" ?
-                      (hitObj.score as number) :
-                      0,
+                    score: typeof hitObj.score === "number"
+                      ? (hitObj.score as number)
+                      : 0,
                     highlights,
                   };
                 });
 
-                const filteredHits = allowedTypes ?
-                  mapped.filter((m) => allowedTypes.includes(m.type)) :
-                  mapped;
+                const filteredHits = allowedTypes
+                  ? mapped.filter((m) => allowedTypes.includes(m.type))
+                  : mapped;
                 scored = filteredHits;
               }
             } catch (e) {

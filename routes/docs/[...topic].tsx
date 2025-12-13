@@ -75,7 +75,7 @@ The page you're looking for doesn't exist.
 
   // Find the current page in TOC for breadcrumbs and navigation
   let currentPage = null;
-  const allPages: Array<{ name: string; path: string; }> = [];
+  const allPages: Array<{ name: string; path: string }> = [];
 
   // Flatten all pages for navigation
   toc.forEach((section) => {

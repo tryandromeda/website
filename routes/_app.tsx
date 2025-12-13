@@ -16,6 +16,10 @@ export default function App({ Component }: PageProps) {
           content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
         />
         <meta
+          property="og:image"
+          content="/images/cover.png"
+        />
+        <meta
           name="description"
           content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
         />
@@ -84,7 +88,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js")
       .then(function(registration) {
         console.log("SW registration successful with scope: ", registration.scope);
-        
+
         // Handle updates
         registration.addEventListener("updatefound", function() {
           const newWorker = registration.installing;

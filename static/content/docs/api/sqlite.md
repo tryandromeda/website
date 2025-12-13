@@ -6,7 +6,8 @@ order: 11
 id: "sqlite"
 ---
 
-Andromeda includes built-in support for SQLite databases through the `Database` class, providing a synchronous API for database operations.
+Andromeda includes built-in support for SQLite databases through the `Database`
+class, providing a synchronous API for database operations.
 
 ## Overview
 
@@ -121,20 +122,24 @@ db.function("double", (x) => x * 2);
 db.exec("CREATE TABLE numbers (value INTEGER)");
 db.exec("INSERT INTO numbers VALUES (5), (10), (15)");
 
-const results = db.prepare("SELECT value, double(value) as doubled FROM numbers").all();
+const results = db.prepare(
+  "SELECT value, double(value) as doubled FROM numbers",
+).all();
 console.log(results);
 // [{ value: 5, doubled: 10 }, { value: 10, doubled: 20 }, { value: 15, doubled: 30 }]
 ```
 
 ## Prepared Statements
 
-Prepared statements provide better performance and security for repeated queries.
+Prepared statements provide better performance and security for repeated
+queries.
 
 ### Statement Methods
 
 #### `run(...params): void`
 
-Execute the statement with the given parameters. Used for INSERT, UPDATE, DELETE.
+Execute the statement with the given parameters. Used for INSERT, UPDATE,
+DELETE.
 
 ```typescript
 const db = new Database(":memory:");
@@ -167,7 +172,9 @@ Execute the statement and return all result rows.
 ```typescript
 const db = new Database(":memory:");
 db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)");
-db.exec("INSERT INTO users (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35)");
+db.exec(
+  "INSERT INTO users (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35)",
+);
 
 const stmt = db.prepare("SELECT * FROM users WHERE age > ?");
 const users = stmt.all(26);
@@ -258,7 +265,9 @@ const stmt2 = db.prepare("INSERT INTO users (name, age) VALUES (?, ?)");
 stmt2.run("Alice", 30);
 
 // Mixed types
-const stmt3 = db.prepare("SELECT * FROM users WHERE name = ? AND age BETWEEN ? AND ?");
+const stmt3 = db.prepare(
+  "SELECT * FROM users WHERE name = ? AND age BETWEEN ? AND ?",
+);
 const filtered = stmt3.all("Alice", 20, 40);
 ```
 
@@ -266,13 +275,13 @@ const filtered = stmt3.all("Alice", 20, 40);
 
 SQLite supports the following data types, which map to JavaScript types:
 
-| SQLite Type | JavaScript Type | Example |
-|-------------|-----------------|---------|
-| INTEGER     | number or BigInt | `42`, `9007199254740991n` |
-| REAL        | number          | `3.14159` |
-| TEXT        | string          | `"Hello, World!"` |
-| BLOB        | Uint8Array      | `new Uint8Array([1, 2, 3])` |
-| NULL        | null            | `null` |
+| SQLite Type | JavaScript Type  | Example                     |
+| ----------- | ---------------- | --------------------------- |
+| INTEGER     | number or BigInt | `42`, `9007199254740991n`   |
+| REAL        | number           | `3.14159`                   |
+| TEXT        | string           | `"Hello, World!"`           |
+| BLOB        | Uint8Array       | `new Uint8Array([1, 2, 3])` |
+| NULL        | null             | `null`                      |
 
 ```typescript
 const db = new Database(":memory:");
@@ -288,7 +297,7 @@ db.exec(`
 `);
 
 const stmt = db.prepare(
-  "INSERT INTO data_types (text_val, int_val, real_val, null_val) VALUES (?, ?, ?, ?)"
+  "INSERT INTO data_types (text_val, int_val, real_val, null_val) VALUES (?, ?, ?, ?)",
 );
 
 stmt.run("Hello", 42, 3.14159, null);
@@ -310,11 +319,13 @@ db.exec("BEGIN TRANSACTION");
 
 try {
   // Multiple operations
-  const insertStmt = db.prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+  const insertStmt = db.prepare(
+    "INSERT INTO users (name, email) VALUES (?, ?)",
+  );
   insertStmt.run("Alice", "alice@example.com");
   insertStmt.run("Bob", "bob@example.com");
   insertStmt.run("Charlie", "charlie@example.com");
-  
+
   // Commit if all succeeded
   db.exec("COMMIT");
   console.log("Transaction committed successfully");
@@ -348,33 +359,33 @@ db.exec(`
 
 // Insert posts
 const insertPost = db.prepare(
-  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)"
+  "INSERT INTO posts (title, content, author, published) VALUES (?, ?, ?, ?)",
 );
 
 insertPost.run(
   "Getting Started with Andromeda",
   "Learn how to build amazing apps with Andromeda...",
   "Alice",
-  1
+  1,
 );
 
 insertPost.run(
   "Advanced SQLite Techniques",
   "Discover advanced database patterns...",
   "Bob",
-  1
+  1,
 );
 
 insertPost.run(
   "Draft Post",
   "This is still being written...",
   "Alice",
-  0
+  0,
 );
 
 // Query published posts
 const publishedPosts = db.prepare(
-  "SELECT * FROM posts WHERE published = 1 ORDER BY created_at DESC"
+  "SELECT * FROM posts WHERE published = 1 ORDER BY created_at DESC",
 ).all();
 
 console.log("Published posts:");
@@ -384,20 +395,20 @@ for (const post of publishedPosts) {
 
 // Get posts by author
 const getByAuthor = db.prepare(
-  "SELECT COUNT(*) as count FROM posts WHERE author = ?"
+  "SELECT COUNT(*) as count FROM posts WHERE author = ?",
 );
 const alicePosts = getByAuthor.get("Alice");
 console.log(`Alice has written ${alicePosts.count} posts`);
 
 // Update a post
 const updatePost = db.prepare(
-  "UPDATE posts SET published = 1 WHERE id = ?"
+  "UPDATE posts SET published = 1 WHERE id = ?",
 );
 updatePost.run(3); // Publish the draft
 
 // Get all posts with pagination
 const getAllPosts = db.prepare(
-  "SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?"
+  "SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?",
 );
 const page1 = getAllPosts.all(10, 0);
 const page2 = getAllPosts.all(10, 10);
@@ -459,10 +470,9 @@ const db = new Database("myapp.db");
 
 try {
   db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)");
-  
+
   const stmt = db.prepare("INSERT INTO users (name) VALUES (?)");
   stmt.run("Alice");
-  
 } catch (error) {
   console.error("Database error:", error.message);
 } finally {

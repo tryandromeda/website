@@ -762,7 +762,9 @@ testEventSystem();
 
 ## Navigator API
 
-The Navigator API provides information about the user agent, platform, and device capabilities. Andromeda implements both legacy navigator properties and modern User-Agent Client Hints.
+The Navigator API provides information about the user agent, platform, and
+device capabilities. Andromeda implements both legacy navigator properties and
+modern User-Agent Client Hints.
 
 ### Basic Navigator Properties
 
@@ -779,7 +781,8 @@ console.log("Is Mobile:", navigator.userAgentData?.mobile);
 
 ### User-Agent Client Hints
 
-The modern User-Agent Client Hints provide structured access to platform information:
+The modern User-Agent Client Hints provide structured access to platform
+information:
 
 ```typescript
 // Access basic user agent data
@@ -792,11 +795,11 @@ if (uaData) {
 
 // Get high entropy values (requires user permission in browsers)
 const highEntropyValues = await navigator.userAgentData?.getHighEntropyValues([
-  'architecture',
-  'bitness',
-  'model',
-  'platformVersion',
-  'uaFullVersion'
+  "architecture",
+  "bitness",
+  "model",
+  "platformVersion",
+  "uaFullVersion",
 ]);
 
 console.log("Architecture:", highEntropyValues?.architecture);
@@ -812,7 +815,7 @@ The Navigator API includes access to the Web Locks API:
 const lockManager = navigator.locks;
 
 // Request a lock
-await navigator.locks.request('shared-resource', async (lock) => {
+await navigator.locks.request("shared-resource", async (lock) => {
   if (lock) {
     console.log(`Acquired lock: ${lock.name}`);
     // Work with shared resource
@@ -827,16 +830,18 @@ console.log("Pending locks:", snapshot.pending);
 
 ## Battery API
 
-The Battery API provides information about the device's battery status. This API is useful for applications that need to adapt their behavior based on power levels.
+The Battery API provides information about the device's battery status. This API
+is useful for applications that need to adapt their behavior based on power
+levels.
 
 ### Basic Battery Information
 
 ```typescript
 // Check if battery API is available
-if ('getBattery' in navigator) {
+if ("getBattery" in navigator) {
   try {
     const battery = await navigator.getBattery();
-    
+
     console.log("Battery Level:", (battery.level * 100).toFixed(1) + "%");
     console.log("Battery Charging:", battery.charging);
     console.log("Charging Time:", battery.chargingTime, "seconds");
@@ -850,7 +855,7 @@ if ('getBattery' in navigator) {
 try {
   const batteryInfo = await __andromeda__.internal_battery_info();
   const battery = JSON.parse(batteryInfo);
-  
+
   console.log("Battery Status:", battery);
 } catch (error) {
   console.log("Battery information not available on this platform");
@@ -861,22 +866,22 @@ try {
 
 ```typescript
 // Listen for battery events (if supported)
-navigator.getBattery().then(battery => {
-  battery.addEventListener('chargingchange', () => {
+navigator.getBattery().then((battery) => {
+  battery.addEventListener("chargingchange", () => {
     console.log(`Battery charging: ${battery.charging}`);
   });
-  
-  battery.addEventListener('levelchange', () => {
+
+  battery.addEventListener("levelchange", () => {
     console.log(`Battery level: ${(battery.level * 100).toFixed(1)}%`);
-    
+
     // Adapt behavior based on battery level
     if (battery.level < 0.2 && !battery.charging) {
       console.log("Low battery - enabling power saving mode");
       enablePowerSavingMode();
     }
   });
-  
-  battery.addEventListener('chargingtimechange', () => {
+
+  battery.addEventListener("chargingtimechange", () => {
     if (battery.charging && battery.chargingTime !== Infinity) {
       const hours = Math.floor(battery.chargingTime / 3600);
       const minutes = Math.floor((battery.chargingTime % 3600) / 60);

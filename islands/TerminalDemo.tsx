@@ -90,11 +90,11 @@ export default function TerminalDemo() {
           <div
             key={index}
             class={`mb-1 ${
-              line.type === "command" ?
-                "text-green" :
-                line.type === "error" ?
-                "text-red" :
-                "text-subtext1"
+              line.type === "command"
+                ? "text-green"
+                : line.type === "error"
+                ? "text-red"
+                : "text-subtext1"
             }`}
           >
             {line.type === "command" && !line.text.startsWith("$") &&

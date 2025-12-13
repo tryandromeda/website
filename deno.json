@@ -6,36 +6,22 @@
     "start": "deno run -A main.ts",
     "update": "deno run -A -r jsr:@fresh/update ."
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    }
-  },
-  "exclude": [
-    "**/_fresh/*"
-  ],
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*"],
   "imports": {
     "@deno/gfm": "jsr:@deno/gfm@^0.11.0",
     "@pakornv/fresh-plugin-tailwindcss": "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
-    "@preact/signals": "npm:@preact/signals@^2.0.4",
+    "@preact/signals": "npm:@preact/signals@^2.5.0",
     "@orama/orama": "npm:@orama/orama@3.1.11",
-    "fresh": "jsr:@fresh/core@^2.0.0-alpha.34",
+    "fresh": "jsr:@fresh/core@^2.2.0",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
-    "preact": "npm:preact@^10.26.6",
+    "preact": "npm:preact@^10.27.2",
     "tailwindcss": "npm:tailwindcss@^4.1.7",
     "@std/path": "jsr:@std/path@1.1.1"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.asynciterable",
-      "dom.iterable",
-      "deno.ns"
-    ],
+    "lib": ["dom", "dom.asynciterable", "dom.iterable", "deno.ns"],
     "jsx": "precompile",
     "jsxImportSource": "preact",
     "jsxPrecompileSkipElements": [
@@ -44,7 +30,15 @@
       "source",
       "body",
       "html",
-      "head"
+      "head",
+      "title",
+      "meta",
+      "script",
+      "link",
+      "style",
+      "base",
+      "noscript",
+      "template"
     ]
   },
   "allowScripts": {

@@ -64,21 +64,21 @@ export default async function Blog() {
           </header>
 
           {/* Enhanced blog posts grid */}
-          {posts.length > 0 ?
-            (
+          {posts.length > 0
+            ? (
               <div class="space-y-12">
                 {posts.map((post, index) => (
                   <article
                     key={post.slug}
                     class={`group relative bg-gradient-to-br from-surface0/30 to-surface0/10 backdrop-blur-sm rounded-3xl overflow-hidden border border-surface1/30 hover:border-blue/20 transition-all duration-500 hover:shadow-2xl hover:shadow-blue/5 ${
-                      index === 0 ?
-                        "lg:grid lg:grid-cols-2 lg:gap-0 lg:min-h-[500px]" :
-                        ""
+                      index === 0
+                        ? "lg:grid lg:grid-cols-2 lg:gap-0 lg:min-h-[500px]"
+                        : ""
                     }`}
                   >
                     {/* Featured post layout for first post */}
-                    {index === 0 ?
-                      (
+                    {index === 0
+                      ? (
                         <>
                           <div class="relative p-8 lg:p-12 flex flex-col justify-center">
                             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue via-mauve to-blue">
@@ -123,8 +123,8 @@ export default async function Blog() {
                                   <span class="text-2xl">👤</span>
                                 )}
                                 <div>
-                                  {post.authorUrl ?
-                                    (
+                                  {post.authorUrl
+                                    ? (
                                       <a
                                         href={post.authorUrl}
                                         class="font-medium hover:text-blue transition-colors duration-300"
@@ -133,8 +133,8 @@ export default async function Blog() {
                                       >
                                         {post.author}
                                       </a>
-                                    ) :
-                                    (
+                                    )
+                                    : (
                                       <span class="font-medium">
                                         {post.author}
                                       </span>
@@ -179,8 +179,8 @@ export default async function Blog() {
                             </div>
                           </div>
                         </>
-                      ) :
-                      (
+                      )
+                      : (
                         /* Enhanced regular post layout */
                         <div class="p-8 lg:p-10">
                           <div class="flex items-center gap-4 text-sm text-subtext1 mb-6">
@@ -197,8 +197,8 @@ export default async function Blog() {
                                   class="w-6 h-6 rounded-full ring-1 ring-surface1"
                                 />
                               )}
-                              {post.authorUrl ?
-                                (
+                              {post.authorUrl
+                                ? (
                                   <a
                                     href={post.authorUrl}
                                     class="font-medium hover:text-blue transition-colors duration-300"
@@ -207,8 +207,9 @@ export default async function Blog() {
                                   >
                                     {post.author}
                                   </a>
-                                ) :
-                                <span class="font-medium">{post.author}</span>}
+                                )
+                                : <span class="font-medium">{post.author}
+                                </span>}
                             </div>
                           </div>
 
@@ -260,8 +261,8 @@ export default async function Blog() {
                   </article>
                 ))}
               </div>
-            ) :
-            (
+            )
+            : (
               /* Enhanced no posts state */
               <div class="text-center py-32">
                 <div class="relative mb-8">

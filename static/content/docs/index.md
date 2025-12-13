@@ -6,7 +6,10 @@ order: 1
 id: "overview"
 ---
 
-Welcome to the Andromeda documentation! Andromeda is a modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered by the Nova Engine. This documentation contains comprehensive guides and API references to help you get started.
+Welcome to the Andromeda documentation! Andromeda is a modern, fast, and secure
+JavaScript & TypeScript runtime built from the ground up in Rust 🦀 and powered
+by the Nova Engine. This documentation contains comprehensive guides and API
+references to help you get started.
 
 ## 📚 Documentation Structure
 
@@ -69,44 +72,70 @@ Welcome to the Andromeda documentation! Andromeda is a modern, fast, and secure 
 
 ## 🎯 Standards Compliance
 
-Andromeda aims to be **WinterTC** compliant, ensuring interoperability and compatibility with the broader JavaScript ecosystem. WinterTC provides a test suite for JavaScript engines to ensure they conform to ECMAScript standards and common runtime behaviors.
+Andromeda aims to be **WinterTC** compliant, ensuring interoperability and
+compatibility with the broader JavaScript ecosystem. WinterTC provides a test
+suite for JavaScript engines to ensure they conform to ECMAScript standards and
+common runtime behaviors.
 
 Our APIs follow established web standards including:
 
 - **WHATWG Standards** - URL, Encoding, Fetch, and Streams specifications
-- **W3C Standards** - Canvas 2D Context, Performance API, Web Crypto API, Cache Storage
-- **ECMAScript Standards** - Modern JavaScript/TypeScript features with zero-config TypeScript support
+- **W3C Standards** - Canvas 2D Context, Performance API, Web Crypto API, Cache
+  Storage
+- **ECMAScript Standards** - Modern JavaScript/TypeScript features with
+  zero-config TypeScript support
 
 ## ✨ Key Features
 
-- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no compilation or transpilation needed
-- 🦀 **Built in Rust** - Memory-safe foundation leveraging Rust's performance and safety guarantees
-- ⚡ **Nova Powered** - Innovative Nova JavaScript engine providing modern runtime experience with promising performance potential
-- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU backend, linear gradients, and PNG export capabilities
-- 🔐 **Web Crypto API** - Industry-standard cryptographic primitives (randomUUID, getRandomValues, SubtleCrypto)
+- 🚀 **Zero-configuration TypeScript** - Run `.ts` files directly, no
+  compilation or transpilation needed
+- 🦀 **Built in Rust** - Memory-safe foundation leveraging Rust's performance
+  and safety guarantees
+- ⚡ **Nova Powered** - Innovative Nova JavaScript engine providing modern
+  runtime experience with promising performance potential
+- 🎨 **GPU-Accelerated Canvas** - Hardware-accelerated 2D Canvas API with WGPU
+  backend, linear gradients, and PNG export capabilities
+- 🔐 **Web Crypto API** - Industry-standard cryptographic primitives
+  (randomUUID, getRandomValues, SubtleCrypto)
 - 📒 **SQLite Support** - Built-in native SQLite database with DatabaseSync API
-- 📁 **File System Access** - Simple synchronous and asynchronous APIs for reading/writing files
-- 💾 **Web Storage** - localStorage and sessionStorage APIs for data persistence with SQLite backend
-- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and offline functionality
-- 🌐 **Complete Web APIs** - Fetch, Headers, Request, Response, TextEncoder/Decoder, URL, URLSearchParams, Blob, File
-- 🌊 **Streams API** - Web-standard ReadableStream, WritableStream, and TransformStream for efficient data processing
-- 🛠️ **Complete Toolchain** - REPL, formatter, bundler, linter, compiler, and self-updater - everything you need for modern development
-- 🧑‍💻 **Language Server Protocol** - Built-in LSP with real-time diagnostics, comprehensive linting, and rich error messages
-- 📦 **Import Maps** - Modern module resolution with bare specifiers and CDN integration
-- 🚀 **Sub-10ms Startup** - Lightning-fast startup time (~12MB base memory usage)
-- 🏗️ **HTTP Server** - Built-in HTTP server capabilities for web services and APIs
+- 📁 **File System Access** - Simple synchronous and asynchronous APIs for
+  reading/writing files
+- 💾 **Web Storage** - localStorage and sessionStorage APIs for data persistence
+  with SQLite backend
+- 🗄️ **Cache Storage** - Web-standard cache storage for HTTP responses and
+  offline functionality
+- 🌐 **Complete Web APIs** - Fetch, Headers, Request, Response,
+  TextEncoder/Decoder, URL, URLSearchParams, Blob, File
+- 🌊 **Streams API** - Web-standard ReadableStream, WritableStream, and
+  TransformStream for efficient data processing
+- 🛠️ **Complete Toolchain** - REPL, formatter, bundler, linter, compiler, and
+  self-updater - everything you need for modern development
+- 🧑‍💻 **Language Server Protocol** - Built-in LSP with real-time diagnostics,
+  comprehensive linting, and rich error messages
+- 📦 **Import Maps** - Modern module resolution with bare specifiers and CDN
+  integration
+- 🚀 **Sub-10ms Startup** - Lightning-fast startup time (~12MB base memory
+  usage)
+- 🏗️ **HTTP Server** - Built-in HTTP server capabilities for web services and
+  APIs
 - ⏰ **Task Scheduling** - Built-in cron functionality for recurring tasks
-- 🎨 **Enhanced Console** - CSS-style formatting support for beautiful console output
-- ⚙️ **Task System** - Deno-inspired task system for defining and running custom scripts
-- 🔄 **Self-Updating** - Built-in upgrade system to stay current with latest releases
-- 🐚 **Shell Integration** - Auto-completion support for bash, zsh, fish, and PowerShell
-- 🔧 **Extensible Architecture** - Modular architecture with optional runtime extensions
+- 🎨 **Enhanced Console** - CSS-style formatting support for beautiful console
+  output
+- ⚙️ **Task System** - Deno-inspired task system for defining and running custom
+  scripts
+- 🔄 **Self-Updating** - Built-in upgrade system to stay current with latest
+  releases
+- 🐚 **Shell Integration** - Auto-completion support for bash, zsh, fish, and
+  PowerShell
+- 🔧 **Extensible Architecture** - Modular architecture with optional runtime
+  extensions
 - 📦 **Single-file Compilation** - Compile scripts into standalone executables
 - 🎯 **WinterTC Compliant** - Full compliance with WinterTC web standards
 
 ## 🏗️ Architecture
 
-Andromeda features a modular architecture with runtime extensions that can be enabled or disabled as needed:
+Andromeda features a modular architecture with runtime extensions that can be
+enabled or disabled as needed:
 
 - **Canvas** - GPU-accelerated 2D graphics with WGPU backend
 - **Crypto** - Web Crypto API implementation
@@ -125,7 +154,8 @@ Andromeda features a modular architecture with runtime extensions that can be en
 
 ## 🛰️ Andromeda Satellites
 
-**Satellites** are minimal, purpose-built executables designed for containerized environments and microservice architectures:
+**Satellites** are minimal, purpose-built executables designed for containerized
+environments and microservice architectures:
 
 - **andromeda-run** - Execute JavaScript/TypeScript in production containers
 - **andromeda-compile** - Compile JS/TS to executables
@@ -136,9 +166,12 @@ Andromeda features a modular architecture with runtime extensions that can be en
 
 ## 🆘 Getting Help
 
-- 💬 [Discord Community](https://discord.gg/tgjAnX2Ny3) - Chat with the community
-- 🐛 [GitHub Issues](https://github.com/tryandromeda/andromeda/issues) - Report bugs or request features
-- 📧 [Discussions](https://github.com/tryandromeda/andromeda/discussions) - Ask questions and share ideas
+- 💬 [Discord Community](https://discord.gg/tgjAnX2Ny3) - Chat with the
+  community
+- 🐛 [GitHub Issues](https://github.com/tryandromeda/andromeda/issues) - Report
+  bugs or request features
+- 📧 [Discussions](https://github.com/tryandromeda/andromeda/discussions) - Ask
+  questions and share ideas
 - 🌐 [Official Website](https://tryandromeda.dev) - Latest news and updates
 
 ## 📄 License

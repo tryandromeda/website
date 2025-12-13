@@ -31,9 +31,9 @@ async function fetchGitHubPath(path: string) {
   }`;
   const res = await fetch(apiUrl, {
     headers: {
-      "Authorization": Deno.env.get("GITHUB_TOKEN") ?
-        `token ${Deno.env.get("GITHUB_TOKEN")}` :
-        "",
+      "Authorization": Deno.env.get("GITHUB_TOKEN")
+        ? `token ${Deno.env.get("GITHUB_TOKEN")}`
+        : "",
       "Accept": "application/vnd.github.v3+json",
     },
   });
@@ -58,16 +58,16 @@ function extToLang(path: string) {
 
 export default async function StdPage(props: PageProps<never>) {
   const rawParam = props.params.path as string | string[] | undefined;
-  const segments = Array.isArray(rawParam) ?
-    rawParam :
-    rawParam ?
-    [rawParam] :
-    [];
+  const segments = Array.isArray(rawParam)
+    ? rawParam
+    : rawParam
+    ? [rawParam]
+    : [];
   const path = segments.join("/");
 
   let items: TreeItem[] | undefined;
   let content: string | undefined;
-  let readmePreview: { path: string; content: string; } | undefined;
+  let readmePreview: { path: string; content: string } | undefined;
   let isFile = false;
   let error: string | undefined;
 
@@ -240,12 +240,12 @@ export default async function StdPage(props: PageProps<never>) {
                               it.name || "",
                             );
                             if (isReadme) {
-                              const dir = it.path ?
-                                it.path.replace(/readme\.md$/i, "").replace(
+                              const dir = it.path
+                                ? it.path.replace(/readme\.md$/i, "").replace(
                                   /\/$/,
                                   "",
-                                ) :
-                                "";
+                                )
+                                : "";
                               const href = dir ? `/std/${dir}` : "/std";
                               return (
                                 <a
@@ -329,8 +329,8 @@ export default async function StdPage(props: PageProps<never>) {
                 </div>
               </div>
 
-              {path.endsWith(".md") ?
-                (
+              {path.endsWith(".md")
+                ? (
                   <div class="rounded-lg border border-surface1 p-6 bg-surface">
                     <MarkdownContent
                       markdown={content || ""}
@@ -338,8 +338,8 @@ export default async function StdPage(props: PageProps<never>) {
                       siteBaseUrl="/std/"
                     />
                   </div>
-                ) :
-                (
+                )
+                : (
                   <div class="rounded-lg border border-surface1 bg-mantle p-4">
                     <CodeBlock
                       code={content || ""}
