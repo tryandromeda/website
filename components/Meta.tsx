@@ -23,7 +23,7 @@ export default function Meta({ meta }: MetaProps) {
   } else {
     const pageTitle = meta.title === defaultSiteConfig.name ? "" : meta.title;
     const encodedTitle = encodeURIComponent(pageTitle);
-    image = generateImageUrl(`/og/${encodedTitle}`);
+    image = generateImageUrl(`/og?title=${encodedTitle}`);
   }
 
   return (
