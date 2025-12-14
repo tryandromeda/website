@@ -1,10 +1,19 @@
 import Footer from "../components/Footer.tsx";
+import Meta from "../components/Meta.tsx";
 import NavBar from "../components/NavBar.tsx";
 import SearchTrigger from "../islands/SearchTrigger.tsx";
+import { createPageMeta } from "../utils/meta.ts";
 
 export default function SearchPage() {
+  const meta = createPageMeta(
+    "Search Documentation",
+    "Find APIs, guides, examples, and everything you need to build with Andromeda",
+    "/search",
+  );
+
   return (
     <>
+      <Meta meta={meta} />
       <NavBar />
 
       <main class="pt-32 pb-20 px-4 min-h-screen bg-base">

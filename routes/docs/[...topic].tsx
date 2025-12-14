@@ -7,10 +7,12 @@ import "npm:prismjs@1.29.0/components/prism-bash.js";
 import "npm:prismjs@1.29.0/components/prism-json.js";
 import "npm:prismjs@1.29.0/components/prism-powershell.js";
 
+import Meta from "../../components/Meta.tsx";
 import { DocNav } from "../../islands/DocNav.tsx";
 import { QuickNav } from "../../islands/QuickNav.tsx";
 import { ScrollProgress } from "../../islands/ScrollProgress.tsx";
 import { getTableOfContents, parseFrontmatter } from "../../utils/docs.ts";
+import { createDocsMeta, extractExcerpt } from "../../utils/meta.ts";
 
 function extractHeadings(content: string) {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
@@ -53,9 +55,24 @@ The page you're looking for doesn't exist.
   }
 
   // Parse frontmatter from content
-  const { content: markdownContent } = parseFrontmatter(content);
+  const { content: markdownContent, data: frontmatter } = parseFrontmatter(
+    content,
+  );
 
   const headings = extractHeadings(markdownContent);
+
+  // Extract title from first heading or use topic name
+  const titleMatch = markdownContent.match(/^#\s+(.+)$/m);
+  const pageTitle = titleMatch
+    ? titleMatch[1]
+    : topic.split("/").pop()?.replace(/-/g, " ") || "Documentation";
+
+  // Generate description from frontmatter or extract from content
+  const description = frontmatter?.description ||
+    extractExcerpt(markdownContent, 160);
+
+  // Create meta tags for the documentation page
+  const meta = createDocsMeta(pageTitle, description, topic);
   const renderedContent = render(markdownContent, {
     baseUrl: new URL(props.url).host,
   });
@@ -96,6 +113,7 @@ The page you're looking for doesn't exist.
 
   return (
     <>
+      <Meta meta={meta} />
       {/* Scroll progress indicator */}
       <ScrollProgress />
 

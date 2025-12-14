@@ -1,10 +1,19 @@
 import Footer from "../components/Footer.tsx";
+import Meta from "../components/Meta.tsx";
 import NavBar from "../components/NavBar.tsx";
 import TryAgainButton from "../islands/TryAgainButton.tsx";
+import { createPageMeta } from "../utils/meta.ts";
 
 export default function Offline() {
+  const meta = createPageMeta(
+    "Offline",
+    "You're currently offline. Browse cached documentation pages while disconnected.",
+    "/offline",
+  );
+
   return (
     <>
+      <Meta meta={meta} />
       <NavBar />
       <main class="min-h-screen pt-32 pb-20">
         <div class="container mx-auto px-4 max-w-4xl text-center">

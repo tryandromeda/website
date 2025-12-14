@@ -7,8 +7,10 @@ import "npm:prismjs@1.29.0/components/prism-rust.js";
 import "npm:prismjs@1.29.0/components/prism-javascript.js";
 
 import Footer from "../../components/Footer.tsx";
+import Meta from "../../components/Meta.tsx";
 import NavBar from "../../components/NavBar.tsx";
 import { formatDate, getBlogPost, getReadingTime } from "../../utils/blog.ts";
+import { createBlogPostMeta, extractExcerpt } from "../../utils/meta.ts";
 
 export default async function BlogPost(props: PageProps) {
   const slug = props.params.slug;
@@ -46,8 +48,20 @@ export default async function BlogPost(props: PageProps) {
       allowMath: true,
     });
 
+    // Generate meta tags for the blog post
+    const excerpt = post.description || extractExcerpt(post.content, 160);
+    const meta = createBlogPostMeta(
+      post.title,
+      excerpt,
+      slug,
+      post.coverUrl,
+      post.date,
+      post.tags,
+    );
+
     return (
       <div class="min-h-screen bg-base text-text">
+        <Meta meta={meta} />
         <NavBar />
         <main class="pt-20 pb-20">
           <article class="container mx-auto px-6 max-w-5xl">

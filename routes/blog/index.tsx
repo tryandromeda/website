@@ -1,12 +1,21 @@
 import Footer from "../../components/Footer.tsx";
+import Meta from "../../components/Meta.tsx";
 import NavBar from "../../components/NavBar.tsx";
 import { formatDate, getAllBlogPosts } from "../../utils/blog.ts";
+import { createPageMeta } from "../../utils/meta.ts";
 
 export default async function Blog() {
   const posts = await getAllBlogPosts();
 
+  const meta = createPageMeta(
+    "Blog",
+    "Read the latest articles about Andromeda, JavaScript runtimes, Rust, and web development",
+    "/blog",
+  );
+
   return (
     <div class="min-h-screen bg-base text-text">
+      <Meta meta={meta} />
       <NavBar />
       <main class="pt-20 pb-20">
         <div class="container mx-auto px-6 max-w-7xl">

@@ -5,12 +5,12 @@ import { Builder } from "fresh/dev";
 const builder = new Builder();
 
 if (Deno.args.includes("build")) {
-  const { app } = await import("./main.ts");
+  const { app } = await import("./main.tsx");
   tailwind(builder, app);
   await builder.build();
 } else {
   await builder.listen(async () => {
-    const { app } = await import("./main.ts");
+    const { app } = await import("./main.tsx");
     tailwind(builder, app);
     return app;
   });

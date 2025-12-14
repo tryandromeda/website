@@ -15,6 +15,7 @@ import {
 } from "lucide-preact";
 
 import Footer from "../components/Footer.tsx";
+import Meta from "../components/Meta.tsx";
 import NavBar from "../components/NavBar.tsx";
 import AnimatedCodeBlock from "../islands/AnimatedCodeBlock.tsx";
 import GitHubStats from "../islands/GitHubStats.tsx";
@@ -24,10 +25,14 @@ import RecentActivity from "../islands/RecentActivity.tsx";
 import ScrollAnimations from "../islands/ScrollAnimations.tsx";
 import TerminalDemo from "../islands/TerminalDemo.tsx";
 import WPTMetrics from "../islands/WPTMetrics.tsx";
+import { createHomePageMeta } from "../utils/meta.ts";
 
 export default function Home() {
+  const meta = createHomePageMeta();
+
   return (
     <>
+      <Meta meta={meta} />
       <ParticleBackground />
       <ScrollAnimations />
       <NavBar />

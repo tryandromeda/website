@@ -1,36 +1,26 @@
-// deno-lint-ignore-file react-no-danger
-import type { PageProps } from "fresh";
+/** @jsx h */
+/** @jsxFrag Fragment */
+import { Fragment, h } from "preact";
+import { App, staticFiles } from "fresh";
+import { type State } from "./utils.ts";
+import { defaultSiteConfig } from "./utils/meta.ts";
+import "jsr:@std/dotenv@0.225.5/load";
 
-export default function App({ Component }: PageProps) {
+export const app = new App<State>();
+
+app.appWrapper(({ Component }) => {
   return (
-    <html>
+    <html lang="en">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Andromeda</title>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://tryandromeda.dev/" />
-        <meta property="og:title" content="Andromeda" />
-        <meta
-          property="og:description"
-          content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
-        />
-        <meta
-          property="og:image"
-          content="/images/cover.png"
-        />
-        <meta
-          name="description"
-          content="Andromeda - Rust-powered JavaScript and TypeScript runtime"
-        />
-        <meta
-          name="keywords"
-          content="Andromeda, Rust, JavaScript, TypeScript, runtime"
-        />
+
+        <title>{defaultSiteConfig.name}</title>
+        <meta name="description" content={defaultSiteConfig.description} />
+
         <link rel="stylesheet" href="/styles.css" />
         <link rel="icon" href="/logo.svg" />
 
-        {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#89b4fa" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -38,9 +28,8 @@ export default function App({ Component }: PageProps) {
         <meta name="mobile-web-app-title" content="Andromeda" />
         <link rel="apple-touch-icon" href="/logo.svg" />
 
-        {/* PWA Cache Manager */}
         <script src="/pwa-cache.js" defer></script>
-        {/* RSS/Atom feed discovery */}
+
         <link
           rel="alternate"
           type="application/rss+xml"
@@ -115,4 +104,21 @@ if ("serviceWorker" in navigator) {
       </body>
     </html>
   );
+});
+
+app.use(staticFiles());
+
+app.fsRoutes();
+
+app.get("/docs", () => {
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/docs/index",
+    },
+  });
+});
+
+if (import.meta.main) {
+  await app.listen();
 }
