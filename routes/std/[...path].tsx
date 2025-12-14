@@ -3,7 +3,9 @@ import { CodeBlock } from "../../components/CodeBlock.tsx";
 import { Content as MarkdownContent } from "../../components/Content.tsx";
 import Footer from "../../components/Footer.tsx";
 import NavBar from "../../components/NavBar.tsx";
+import Meta from "../../components/Meta.tsx";
 import { isHtmlRequest } from "../../utils/mod.ts";
+import { createStdMeta } from "../../utils/meta.ts";
 
 interface TreeItem {
   name: string;
@@ -162,8 +164,15 @@ export default async function StdPage(props: PageProps<never>) {
 
   const parentPath = segments.slice(0, -1).join("/");
 
+  // Generate meta tags
+  const fileName = isFile && segments.length > 0
+    ? segments[segments.length - 1]
+    : undefined;
+  const metaConfig = createStdMeta(path, isFile, fileName);
+
   return (
     <>
+      <Meta meta={metaConfig} />
       <NavBar />
 
       <main class="pt-30 pb-20 px-4 bg-base">

@@ -122,6 +122,50 @@ export function createDocsMeta(
 }
 
 /**
+ * Create meta config for std library pages
+ */
+export function createStdMeta(
+  path: string,
+  isFile: boolean,
+  fileName?: string,
+): MetaConfig {
+  const cleanPath = path || "";
+  const pathSegments = cleanPath.split("/").filter(Boolean);
+
+  let title: string;
+  let description: string;
+
+  if (isFile && fileName) {
+    // For files, use the file name as the title
+    title = `${fileName} - std`;
+    description =
+      `View ${fileName} from the Andromeda standard library. Browse and explore the std library source code.`;
+  } else if (pathSegments.length > 0) {
+    // For directories with a path
+    const dirName = pathSegments[pathSegments.length - 1];
+    title = `${dirName} - std`;
+    description =
+      `Browse the ${dirName} module in the Andromeda standard library. Explore APIs, utilities, and documentation.`;
+  } else {
+    // For the root std directory
+    title = "std - Standard Library";
+    description =
+      "Browse the standard library for Andromeda. Explore modules, APIs, and utilities for building with Andromeda runtime.";
+  }
+
+  return {
+    title,
+    description,
+    url: generateUrl(`/std/${cleanPath}`),
+    image: defaultSiteConfig.image,
+    type: "website",
+    keywords: `${defaultSiteConfig.keywords}, standard library, std, ${
+      pathSegments.join(", ")
+    }`,
+  };
+}
+
+/**
  * Create meta config for general pages
  */
 export function createPageMeta(
