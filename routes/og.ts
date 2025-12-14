@@ -1,5 +1,6 @@
-// routes/og.ts - Dynamic OG image generator
+// routes/og.ts - Dynamic OG image generator with PNG output
 import { FreshContext } from "fresh";
+import { Resvg } from "npm:@resvg/resvg-js";
 
 export async function handler(
   ctx: FreshContext,
@@ -16,10 +17,21 @@ export async function handler(
     // Replace [[INSERT TITLE]] with the actual title (or empty string for homepage)
     svgContent = svgContent.replace("[[INSERT TITLE]]", title);
 
-    // Return the SVG with proper headers
-    return new Response(svgContent, {
+    // Convert SVG to PNG using resvg
+    const resvg = new Resvg(svgContent, {
+      fitTo: {
+        mode: "width",
+        value: 1200, // Standard OG image width
+      },
+    });
+
+    const pngData = resvg.render();
+    const pngBuffer = pngData.asPng();
+
+    // Return the PNG with proper headers
+    return new Response(pngBuffer, {
       headers: {
-        "Content-Type": "image/svg+xml",
+        "Content-Type": "image/png",
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
@@ -30,12 +42,33 @@ export async function handler(
     try {
       const coverPath = `${Deno.cwd()}/static/images/cover.svg`;
       const svgContent = await Deno.readTextFile(coverPath);
-      return new Response(svgContent, {
-        headers: {
-          "Content-Type": "image/svg+xml",
-          "Cache-Control": "public, max-age=3600",
-        },
-      });
+
+      // Try to convert fallback to PNG as well
+      try {
+        const resvg = new Resvg(svgContent, {
+          fitTo: {
+            mode: "width",
+            value: 1200,
+          },
+        });
+        const pngData = resvg.render();
+        const pngBuffer = pngData.asPng();
+
+        return new Response(pngBuffer, {
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      } catch {
+        // If PNG conversion fails, return SVG as last resort
+        return new Response(svgContent, {
+          headers: {
+            "Content-Type": "image/svg+xml",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      }
     } catch {
       return new Response("Image not found", { status: 404 });
     }
