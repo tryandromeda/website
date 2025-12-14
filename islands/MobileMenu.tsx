@@ -79,7 +79,6 @@ export default function MobileMenu() {
     };
   }, [isOpen]);
 
-
   return (
     <>
       {/* Mobile Menu Button - Only visible on mobile */}
@@ -94,7 +93,7 @@ export default function MobileMenu() {
 
       {/* Mobile Menu Modal */}
       {isOpen && (
-        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 md:hidden">
+        <div class="fixed inset-0 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 md:hidden">
           <div
             ref={menuRef}
             class="w-full max-w-md bg-base rounded-2xl shadow-2xl border border-surface1 overflow-hidden"
@@ -125,7 +124,9 @@ export default function MobileMenu() {
                     href={link.href}
                     class={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${link.hoverBg} group`}
                   >
-                    <div class={`${link.color} transition-transform group-hover:scale-110`}>
+                    <div
+                      class={`${link.color} transition-transform group-hover:scale-110`}
+                    >
                       <IconComponent size={20} />
                     </div>
                     <span class="text-text font-medium group-hover:text-text transition-colors">

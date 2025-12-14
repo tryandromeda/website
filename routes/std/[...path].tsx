@@ -1,11 +1,12 @@
 import type { PageProps } from "fresh";
+import { File, FileText, Folder } from "lucide-preact";
 import { CodeBlock } from "../../components/CodeBlock.tsx";
 import { Content as MarkdownContent } from "../../components/Content.tsx";
 import Footer from "../../components/Footer.tsx";
-import NavBar from "../../components/NavBar.tsx";
 import Meta from "../../components/Meta.tsx";
-import { isHtmlRequest } from "../../utils/mod.ts";
+import NavBar from "../../components/NavBar.tsx";
 import { createStdMeta } from "../../utils/meta.ts";
+import { isHtmlRequest } from "../../utils/mod.ts";
 
 interface TreeItem {
   name: string;
@@ -238,10 +239,10 @@ export default async function StdPage(props: PageProps<never>) {
                             if (it.type === "dir") {
                               return (
                                 <a
-                                  class="text-blue-300 hover:underline font-medium"
+                                  class="text-blue-300 inline-flex hover:underline font-medium"
                                   href={`/std/${it.path}`}
                                 >
-                                  📁 {it.name}
+                                  <Folder class="mr-2" /> {it.name}
                                 </a>
                               );
                             }
@@ -258,20 +259,20 @@ export default async function StdPage(props: PageProps<never>) {
                               const href = dir ? `/std/${dir}` : "/std";
                               return (
                                 <a
-                                  class="text-sky-200 hover:underline font-medium"
+                                  class="text-sky-200 inline-flex hover:underline font-medium"
                                   href={href}
                                 >
-                                  📄 {it.name}
+                                  <File class="mr-2" /> {it.name}
                                 </a>
                               );
                             }
 
                             return (
                               <a
-                                class="text-sky-200 hover:underline font-medium"
+                                class="text-sky-200 inline-flex hover:underline font-medium"
                                 href={`/std/${it.path}`}
                               >
-                                📄 {it.name}
+                                <FileText class="mr-2" /> {it.name}
                               </a>
                             );
                           })()}

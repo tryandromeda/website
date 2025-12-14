@@ -217,7 +217,7 @@ export default function SearchComponent({
   }
 
   return (
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4">
+    <div class="fixed inset-0 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4">
       <div class="w-full max-w-2xl bg-base rounded-2xl shadow-2xl border border-surface1 overflow-hidden">
         {/* Search Input */}
         <div class="flex items-center gap-3 p-4 border-b border-surface1">

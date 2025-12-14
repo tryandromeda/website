@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-unused-vars
-const CACHE_VERSION = "v28"; // Increment this when you have new features
+const CACHE_VERSION = "v29"; // Increment this when you have new features
 // const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
