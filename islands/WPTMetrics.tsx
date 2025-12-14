@@ -102,7 +102,7 @@ export default function WPTMetrics() {
   const suites = metrics.wpt.suites;
 
   return (
-    <div class="bg-surface0 rounded-2xl p-6 border border-surface1 hover:border-surface2 transition-colors">
+    <div class="bg-surface0 rounded-2xl p-4 md:p-6 border border-surface1 hover:border-surface2 transition-colors">
       <h3 class="text-lg font-semibold text-text mb-2 flex items-center gap-2">
         <BarChart size={20} class="text-blue" />
         WPT Metrics
@@ -134,7 +134,7 @@ export default function WPTMetrics() {
         </div>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
         <div class="text-center">
           <div class="text-2xl font-bold text-yellow mb-1">
             {overall.total_tests}
@@ -170,7 +170,9 @@ export default function WPTMetrics() {
         </div>
 
         <div class="text-center">
-          <div class="text-2xl font-bold text-subtext0 mb-1">{overall.skip}</div>
+          <div class="text-2xl font-bold text-subtext0 mb-1">
+            {overall.skip}
+          </div>
           <div class="text-xs text-subtext1">Skip</div>
         </div>
       </div>
@@ -180,7 +182,7 @@ export default function WPTMetrics() {
         <div class="space-y-3">
           {Object.entries(suites).map(([name, s]) => (
             <div
-              class="bg-surface1 rounded-lg p-3 flex items-center justify-between"
+              class="bg-surface1 rounded-lg p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2"
               key={name}
             >
               <div>
@@ -188,13 +190,17 @@ export default function WPTMetrics() {
                 <div class="text-xs text-subtext1">{s.total_tests} tests</div>
               </div>
 
-              <div class="flex items-center gap-3 flex-wrap">
-                <div class="text-sm text-green">Pass {s.pass}</div>
-                <div class="text-sm text-red">Fail {s.fail}</div>
-                <div class="text-sm text-peach">Crash {s.crash}</div>
-                <div class="text-sm text-blue">Timeout {s.timeout}</div>
-                <div class="text-sm text-subtext0">Skip {s.skip}</div>
-                <div class="text-sm text-subtext1 font-medium">
+              <div class="flex items-center gap-2 md:gap-3 flex-wrap">
+                <div class="text-xs md:text-sm text-green">Pass {s.pass}</div>
+                <div class="text-xs md:text-sm text-red">Fail {s.fail}</div>
+                <div class="text-xs md:text-sm text-peach">Crash {s.crash}</div>
+                <div class="text-xs md:text-sm text-blue">
+                  Timeout {s.timeout}
+                </div>
+                <div class="text-xs md:text-sm text-subtext0">
+                  Skip {s.skip}
+                </div>
+                <div class="text-xs md:text-sm text-subtext1 font-medium">
                   {formatPercent(s.pass_rate)}
                 </div>
               </div>
