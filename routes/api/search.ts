@@ -11,7 +11,7 @@ interface SearchResult {
   title: string;
   url: string;
   excerpt: string;
-  type: "doc" | "api" | "example" | "blog" | "std";
+  type: "doc" | "api" | "example" | "blog" | "std" | "page";
   label: string;
   score: number;
   highlights: string[];
@@ -70,6 +70,9 @@ async function buildIndex(): Promise<SearchResult[]> {
   if (indexCache && now - lastIndexTime < INDEX_CACHE_DURATION) {
     return indexCache;
   }
+
+  // Reset Orama DB to prevent duplicate document errors
+  oramaDb = null;
 
   const items: RawIndexItem[] = [];
 
@@ -220,6 +223,72 @@ async function buildIndex(): Promise<SearchResult[]> {
     console.warn("Failed to index std repo:", e);
   }
 
+  // Index static pages (home, satellites, etc.)
+  try {
+    // Home page
+    items.push({
+      title: "Andromeda - Modern JavaScript & TypeScript Runtime",
+      url: "/",
+      excerpt:
+        "A modern, fast, and secure JavaScript & TypeScript runtime built from the ground up in Rust. Zero-config TypeScript support, hardware-accelerated graphics, comprehensive Web APIs, and developer-first tooling.",
+      type: "page",
+      keywords: [
+        "home",
+        "andromeda",
+        "javascript",
+        "typescript",
+        "runtime",
+        "rust",
+        "nova engine",
+        "gpu accelerated",
+        "memory safe",
+        "wintertc",
+      ],
+      body:
+        "Andromeda JavaScript TypeScript runtime Rust Nova Engine zero config GPU accelerated memory safe WinterTC compliant fast secure modern developer tooling Web APIs hardware acceleration",
+      headings: ["Andromeda", "Features", "Installation", "Getting Started"],
+    });
+
+    // Satellites page
+    items.push({
+      title: "Andromeda Satellites",
+      url: "/satellites",
+      excerpt:
+        "Lightweight, purpose-built executables designed for containerized environments and microservice architectures. Each satellite focuses on a single capability for optimal performance.",
+      type: "page",
+      keywords: [
+        "satellites",
+        "containers",
+        "docker",
+        "microservices",
+        "serverless",
+        "ci/cd",
+        "andromeda-run",
+        "andromeda-fmt",
+        "andromeda-lint",
+        "andromeda-check",
+        "andromeda-compile",
+        "andromeda-bundle",
+      ],
+      body:
+        "satellites lightweight executables containers docker microservices serverless functions lambda cold start CI/CD pipeline build tools andromeda-run andromeda-fmt andromeda-lint andromeda-check andromeda-compile andromeda-bundle smaller images faster startup better security",
+      headings: [
+        "Satellites",
+        "Why Satellites",
+        "Smaller Images",
+        "Faster Startup",
+        "Better Security",
+        "Common Use Cases",
+        "Serverless Functions",
+        "CI/CD Pipeline",
+        "Build Containers",
+        "Development Tools",
+      ],
+    });
+  } catch (e) {
+    console.warn("Failed to index static pages:", e);
+  }
+
   const results: SearchResult[] = items.map((it) => ({
     title: it.title,
     url: it.url,
@@ -235,6 +304,8 @@ async function buildIndex(): Promise<SearchResult[]> {
           return "Blog";
         case "std":
           return "Std";
+        case "page":
+          return "Page";
         default:
           return "Docs";
       }
@@ -282,6 +353,8 @@ async function buildIndex(): Promise<SearchResult[]> {
               return "Blog";
             case "std":
               return "Std";
+            case "page":
+              return "Page";
             default:
               return "Docs";
           }
@@ -554,6 +627,8 @@ export const handler = {
                     return "Blog";
                   case "std":
                     return "Std";
+                  case "page":
+                    return "Page";
                   default:
                     return "Docs";
                 }

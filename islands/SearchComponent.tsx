@@ -4,6 +4,7 @@ import {
   Code,
   ExternalLink,
   FileText,
+  Home,
   MessageSquare,
   Search,
   X,
@@ -14,7 +15,7 @@ interface SearchResult {
   title: string;
   url: string;
   excerpt: string;
-  type: "doc" | "api" | "example" | "blog" | "std";
+  type: "doc" | "api" | "example" | "blog" | "std" | "page";
   score: number;
   highlights: SearchHighlight[];
   // label from server (e.g. "Docs", "Std", "API")
@@ -194,6 +195,8 @@ export default function SearchComponent({
         return <FileText size={16} class="text-green" />;
       case "blog":
         return <MessageSquare size={16} class="text-mauve" />;
+      case "page":
+        return <Home size={16} class="text-pink" />;
       default:
         return <BookOpen size={16} class="text-text" />;
     }
@@ -207,6 +210,8 @@ export default function SearchComponent({
         return "Example";
       case "blog":
         return "Blog";
+      case "page":
+        return "Page";
       default:
         return "Docs";
     }
