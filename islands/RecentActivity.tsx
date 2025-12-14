@@ -129,8 +129,8 @@ export default function RecentActivity() {
       </h3>
 
       <div class="space-y-3">
-        {activities.length > 0
-          ? activities.map((activity) => (
+        {activities.length > 0 ?
+          activities.map((activity) => (
             <a
               key={activity.id}
               href={activity.url}
@@ -139,13 +139,13 @@ export default function RecentActivity() {
               class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface1 transition-colors group recent-activity-fadein"
             >
               <div class="flex-shrink-0 group-hover:scale-icon transition-transform duration-200">
-                {activity.type === "commit"
-                  ? (
+                {activity.type === "commit" ?
+                  (
                     <div class="w-8 h-8 rounded-full bg-blue/20 flex items-center justify-center">
                       <GitCommit size={16} class="text-blue" />
                     </div>
-                  )
-                  : (
+                  ) :
+                  (
                     <div class="w-8 h-8 rounded-full bg-green/20 flex items-center justify-center">
                       <Tag size={16} class="text-green" />
                     </div>
@@ -163,8 +163,8 @@ export default function RecentActivity() {
                 </div>
               </div>
             </a>
-          ))
-          : (
+          )) :
+          (
             <div class="text-center py-8 text-subtext1">
               <MessageCircle class="mx-auto mb-2 opacity-50" size={32} />
               <p class="text-sm">No recent activity</p>

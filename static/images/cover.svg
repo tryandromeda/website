@@ -1,7 +1,7 @@
 <svg
   width="100%"
   height="100%"
-  viewBox="0 0 6047 3533"
+  viewBox="0 0 25196 14721"
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -9,20 +9,31 @@
   xmlns:serif="http://www.serif.com/"
   style="fill-rule: evenodd; clip-rule: evenodd; stroke-linejoin: round; stroke-miterlimit: 2"
 >
-  <rect x="0" y="0" width="6046" height="3533" style="fill: #070017" /><use
+  <rect
+    x="0"
+    y="0"
+    width="25191.667"
+    height="14720.833"
+    style="fill: #070017"
+  /><use
     id="previewthing.png"
     xlink:href="#_Image1"
     x="0"
-    y="947"
+    y="0"
     width="6046px"
     height="2586px"
-  /><g
-    transform="matrix(349.829029,0,0,349.829029,3881.366703,902.221884)"
+    transform="matrix(4.166667,0,0,4.166667,0,3945.833333)"
+  /><text
+    x="2179.2px"
+    y="3759.258px"
+    style="font-family: 'JetBrainsMono-Bold', 'JetBrains Mono', monospace; font-weight: 700; font-size: 1457.621px; fill: #ffc983"
+  >tryandromeda.dev</text><g
+    transform="matrix(833.333333,0,0,833.333333,10306.180707,5331.568925)"
   ></g><text
-    x="523.008px"
-    y="902.222px"
-    style="font-family: 'JetBrainsMono-Bold', 'JetBrains Mono', monospace; font-weight: 700; font-size: 349.829px; fill: #ffc983"
-  >tryandromeda.dev</text><defs><image
+    x="2306.181px"
+    y="5331.569px"
+    style="font-family: 'JetBrainsMono-Bold', 'JetBrains Mono', monospace; font-weight: 700; font-size: 833.333px; fill: #88b2d9"
+  >[[INSERT TITLE]]</text><defs><image
       id="_Image1"
       width="6046px"
       height="2586px"

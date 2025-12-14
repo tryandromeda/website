@@ -1,5 +1,5 @@
-import { type BlogPost, getAllBlogPosts } from "../utils/blog.ts";
 import { FreshContext } from "fresh";
+import { type BlogPost, getAllBlogPosts } from "../utils/blog.ts";
 
 function generateSitemap(posts: BlogPost[], baseUrl: string): string {
   const staticPages = [

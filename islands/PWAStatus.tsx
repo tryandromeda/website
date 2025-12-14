@@ -41,15 +41,15 @@ export default function PWAStatus() {
       <div class="fixed top-20 right-4 z-40 max-w-sm">
         <div class="bg-surface0 border border-surface1 rounded-lg p-3 shadow-lg backdrop-blur-sm">
           <div class="flex items-center gap-2">
-            {!isOnline
-              ? (
+            {!isOnline ?
+              (
                 <>
                   <WifiOff class="w-4 h-4 text-red" />
                   <span class="text-sm text-text">Offline Mode</span>
                 </>
-              )
-              : updateAvailable
-              ? (
+              ) :
+              updateAvailable ?
+              (
                 <>
                   <Download class="w-4 h-4 text-blue" />
                   <span class="text-sm text-text">Update Available</span>
@@ -61,8 +61,8 @@ export default function PWAStatus() {
                     Reload
                   </button>
                 </>
-              )
-              : null}
+              ) :
+              null}
           </div>
         </div>
       </div>

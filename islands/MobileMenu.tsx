@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-window
-import { useEffect, useRef, useState } from "preact/hooks";
 import { BookOpen, Code, Menu, Newspaper, Satellite, X } from "lucide-preact";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 interface NavLink {
   href: string;

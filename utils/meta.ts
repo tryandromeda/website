@@ -28,7 +28,7 @@ export const defaultSiteConfig: SiteConfig = {
   name: "Andromeda",
   description: "Andromeda - Rust-powered JavaScript and TypeScript runtime",
   url: "https://tryandromeda.dev",
-  image: "/images/cover.png",
+  image: "/images/cover.svg",
   keywords: "Andromeda, Rust, JavaScript, TypeScript, runtime",
   twitterHandle: "@1oad1n9",
 };
@@ -200,7 +200,7 @@ export function extractExcerpt(
   const truncated = cleaned.substring(0, maxLength);
   const lastSpace = truncated.lastIndexOf(" ");
 
-  return lastSpace > 0
-    ? `${truncated.substring(0, lastSpace)}...`
-    : `${truncated}...`;
+  return lastSpace > 0 ?
+    `${truncated.substring(0, lastSpace)}...` :
+    `${truncated}...`;
 }

@@ -57,9 +57,9 @@ export default function SearchTrigger(
             <div class="hidden sm:flex items-center gap-1 ml-2">
               <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">
                 {typeof navigator !== "undefined" &&
-                    navigator.platform?.toLowerCase().includes("mac")
-                  ? "⌘"
-                  : "Ctrl"}
+                    navigator.platform?.toLowerCase().includes("mac") ?
+                  "⌘" :
+                  "Ctrl"}
               </kbd>
               <kbd class="bg-surface1 text-subtext1 px-1.5 py-0.5 rounded text-xs">
                 K
@@ -86,9 +86,9 @@ export default function SearchTrigger(
             <div class="flex items-center gap-1">
               <kbd class="bg-surface1 text-subtext1 px-2 py-1 rounded text-xs">
                 {typeof navigator !== "undefined" &&
-                    navigator.platform?.toLowerCase().includes("mac")
-                  ? "⌘"
-                  : "Ctrl"}
+                    navigator.platform?.toLowerCase().includes("mac") ?
+                  "⌘" :
+                  "Ctrl"}
               </kbd>
               <kbd class="bg-surface1 text-subtext1 px-2 py-1 rounded text-xs">
                 K

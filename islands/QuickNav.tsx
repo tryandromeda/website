@@ -2,7 +2,7 @@ import { ChevronDown, ChevronUp } from "lucide-preact";
 import { useState } from "preact/hooks";
 
 interface QuickNavProps {
-  sections: Array<{ name: string; path: string }>;
+  sections: Array<{ name: string; path: string; }>;
   currentPath: string;
 }
 
@@ -12,9 +12,9 @@ export function QuickNav({ sections, currentPath }: QuickNavProps) {
     section.path === currentPath
   );
   const previousSection = currentIndex > 0 ? sections[currentIndex - 1] : null;
-  const nextSection = currentIndex < sections.length - 1
-    ? sections[currentIndex + 1]
-    : null;
+  const nextSection = currentIndex < sections.length - 1 ?
+    sections[currentIndex + 1] :
+    null;
 
   return (
     <div class="fixed bottom-6 right-6 z-20">

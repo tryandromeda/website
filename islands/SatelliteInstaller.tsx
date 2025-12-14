@@ -1,4 +1,13 @@
-import { Check, Copy, Download, Package, Play, Terminal, Wrench, Zap } from "lucide-preact";
+import {
+  Check,
+  Copy,
+  Download,
+  Package,
+  Play,
+  Terminal,
+  Wrench,
+  Zap,
+} from "lucide-preact";
 import { useEffect, useState } from "preact/hooks";
 
 interface Satellite {
@@ -24,7 +33,11 @@ const satellites: Satellite[] = [
     icon: Play,
     description: "Execute JavaScript/TypeScript files",
     color: "green",
-    use_cases: ["Production runtime", "Serverless functions", "Script execution"],
+    use_cases: [
+      "Production runtime",
+      "Serverless functions",
+      "Script execution",
+    ],
   },
   {
     id: "compile",
@@ -69,12 +82,42 @@ const satellites: Satellite[] = [
 ];
 
 const platforms: Platform[] = [
-  { id: "linux-amd64", name: "Linux (x86_64)", rustTarget: "x86_64-unknown-linux-gnu", os: "linux" },
-  { id: "linux-arm64", name: "Linux (ARM64)", rustTarget: "aarch64-unknown-linux-gnu", os: "linux" },
-  { id: "macos-amd64", name: "macOS (Intel)", rustTarget: "x86_64-apple-darwin", os: "macos" },
-  { id: "macos-arm64", name: "macOS (Apple Silicon)", rustTarget: "aarch64-apple-darwin", os: "macos" },
-  { id: "windows-amd64", name: "Windows (x86_64)", rustTarget: "x86_64-pc-windows-msvc", os: "windows" },
-  { id: "windows-arm64", name: "Windows (ARM64)", rustTarget: "aarch64-pc-windows-msvc", os: "windows" },
+  {
+    id: "linux-amd64",
+    name: "Linux (x86_64)",
+    rustTarget: "x86_64-unknown-linux-gnu",
+    os: "linux",
+  },
+  {
+    id: "linux-arm64",
+    name: "Linux (ARM64)",
+    rustTarget: "aarch64-unknown-linux-gnu",
+    os: "linux",
+  },
+  {
+    id: "macos-amd64",
+    name: "macOS (Intel)",
+    rustTarget: "x86_64-apple-darwin",
+    os: "macos",
+  },
+  {
+    id: "macos-arm64",
+    name: "macOS (Apple Silicon)",
+    rustTarget: "aarch64-apple-darwin",
+    os: "macos",
+  },
+  {
+    id: "windows-amd64",
+    name: "Windows (x86_64)",
+    rustTarget: "x86_64-pc-windows-msvc",
+    os: "windows",
+  },
+  {
+    id: "windows-arm64",
+    name: "Windows (ARM64)",
+    rustTarget: "aarch64-pc-windows-msvc",
+    os: "windows",
+  },
 ];
 
 export default function SatelliteInstaller() {
@@ -120,7 +163,7 @@ export default function SatelliteInstaller() {
       return;
     }
 
-    const platform = platforms.find(p => p.id === selectedPlatform);
+    const platform = platforms.find((p) => p.id === selectedPlatform);
     if (!platform) return;
 
     const satelliteList = selectedSatellites.join(" ");
@@ -131,7 +174,7 @@ export default function SatelliteInstaller() {
     if (platform.os === "windows") {
       // PowerShell command for Windows
       command = `# Install Andromeda satellites
-$satellites = @(${selectedSatellites.map(s => `"${s}"`).join(", ")})
+$satellites = @(${selectedSatellites.map((s) => `"${s}"`).join(", ")})
 $installDir = "$env:USERPROFILE\\.local\\bin"
 New-Item -ItemType Directory -Force -Path $installDir | Out-Null
 
@@ -164,13 +207,13 @@ echo "✓ Installed: \${satellites[*]}"`;
   }, [selectedSatellites, selectedPlatform]);
 
   const toggleSatellite = (id: string) => {
-    setSelectedSatellites(prev =>
-      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
+    setSelectedSatellites((prev) =>
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
     );
   };
 
   const selectAll = () => {
-    setSelectedSatellites(satellites.map(s => s.id));
+    setSelectedSatellites(satellites.map((s) => s.id));
   };
 
   const clearAll = () => {
@@ -188,7 +231,7 @@ echo "✓ Installed: \${satellites[*]}"`;
   };
 
   const downloadScript = () => {
-    const platform = platforms.find(p => p.id === selectedPlatform);
+    const platform = platforms.find((p) => p.id === selectedPlatform);
     if (!platform || !installCommand) return;
 
     const extension = platform.os === "windows" ? ".ps1" : ".sh";
@@ -200,28 +243,28 @@ echo "✓ Installed: \${satellites[*]}"`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
 
-  const handleMouseEnter = (satelliteId: string) => {
-    // Clear any existing timeout
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
-    // Set a delay before showing the info
-    const timeout = setTimeout(() => {
-      setShowInfo(satelliteId);
-    }, 300); // 300ms delay
-    setHoverTimeout(timeout);
-  };
+    const handleMouseEnter = (satelliteId: string) => {
+      // Clear any existing timeout
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+      }
+      // Set a delay before showing the info
+      const timeout = setTimeout(() => {
+        setShowInfo(satelliteId);
+      }, 300); // 300ms delay
+      setHoverTimeout(timeout);
+    };
 
-  const handleMouseLeave = () => {
-    // Clear the timeout if mouse leaves before info shows
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      setHoverTimeout(null);
-    }
-    setShowInfo(null);
-  };URL.revokeObjectURL(url);
+    const handleMouseLeave = () => {
+      // Clear the timeout if mouse leaves before info shows
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+        setHoverTimeout(null);
+      }
+      setShowInfo(null);
+    };
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -260,18 +303,21 @@ echo "✓ Installed: \${satellites[*]}"`;
                   type="button"
                   onClick={() => setSelectedPlatform(platform.id)}
                   class={`p-3 text-xs font-medium rounded-lg border transition-all duration-300 ${
-                    isSelected
-                      ? "bg-blue text-base border-blue shadow-lg scale-105"
-                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2"
+                    isSelected ?
+                      "bg-blue text-base border-blue shadow-lg scale-105" :
+                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2"
                   }`}
-                  style={isSelected ? {
-                    backgroundColor: "var(--color-blue)",
-                    borderColor: "var(--color-blue)",
-                    color: "var(--color-base)",
-                    boxShadow: "0 0 15px color-mix(in srgb, var(--color-blue) 40%, transparent)",
-                  } : {
-                    color: "var(--color-text)",
-                  }}
+                  style={isSelected ?
+                    {
+                      backgroundColor: "var(--color-blue)",
+                      borderColor: "var(--color-blue)",
+                      color: "var(--color-base)",
+                      boxShadow:
+                        "0 0 15px color-mix(in srgb, var(--color-blue) 40%, transparent)",
+                    } :
+                    {
+                      color: "var(--color-text)",
+                    }}
                 >
                   {platform.name}
                 </button>
@@ -287,7 +333,8 @@ echo "✓ Installed: \${satellites[*]}"`;
               class="text-sm font-semibold"
               style={{ color: "var(--color-text)" }}
             >
-              Select Satellites ({selectedSatellites.length}/{satellites.length})
+              Select Satellites ({selectedSatellites.length}/{satellites
+                .length})
             </label>
             <div class="flex gap-2">
               <button
@@ -323,18 +370,21 @@ echo "✓ Installed: \${satellites[*]}"`;
                   onMouseEnter={() => setShowInfo(satellite.id)}
                   onMouseLeave={() => setShowInfo(null)}
                   class={`relative group p-4 rounded-xl border transition-all duration-500 text-left overflow-hidden ${
-                    isSelected
-                      ? `bg-${satellite.color} border-${satellite.color} shadow-lg scale-105`
-                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-md"
+                    isSelected ?
+                      `bg-${satellite.color} border-${satellite.color} shadow-lg scale-105` :
+                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-md"
                   }`}
-                  style={isSelected ? {
-                    backgroundColor: `var(--color-${satellite.color})`,
-                    borderColor: `var(--color-${satellite.color})`,
-                    color: "var(--color-base)",
-                    boxShadow: `0 0 20px color-mix(in srgb, var(--color-${satellite.color}) 30%, transparent)`,
-                  } : {
-                    color: "var(--color-text)",
-                  }}
+                  style={isSelected ?
+                    {
+                      backgroundColor: `var(--color-${satellite.color})`,
+                      borderColor: `var(--color-${satellite.color})`,
+                      color: "var(--color-base)",
+                      boxShadow:
+                        `0 0 20px color-mix(in srgb, var(--color-${satellite.color}) 30%, transparent)`,
+                    } :
+                    {
+                      color: "var(--color-text)",
+                    }}
                 >
                   <div class="absolute top-2 right-2">
                     {isSelected && (
@@ -358,20 +408,30 @@ echo "✓ Installed: \${satellites[*]}"`;
                     >
                       <IconComponent
                         size={20}
-                        style={isSelected ? { color: "var(--color-base)" } : { color: "var(--color-text)" }}
+                        style={isSelected ?
+                          { color: "var(--color-base)" } :
+                          { color: "var(--color-text)" }}
                       />
                     </div>
                     <div class="flex-1">
-                      <div class={`text-sm font-bold mb-1 ${isSelected ? "text-base" : ""}`}>
+                      <div
+                        class={`text-sm font-bold mb-1 ${
+                          isSelected ? "text-base" : ""
+                        }`}
+                      >
                         {satellite.name}
                       </div>
-                      <div class={`text-xs ${isSelected ? "text-base/80" : "text-subtext1"}`}>
+                      <div
+                        class={`text-xs ${
+                          isSelected ? "text-base/80" : "text-subtext1"
+                        }`}
+                      >
                         {satellite.description}
                       </div>
                     </div>
                   </div>
                   {(showInfo === satellite.id || isSelected) && (
-                    <div 
+                    <div
                       class="mt-3 pt-3 border-t border-current/20 animate-fade-in-down"
                       style={{
                         animation: "fadeInDown 0.4s ease-out forwards",
@@ -380,14 +440,17 @@ echo "✓ Installed: \${satellites[*]}"`;
                       <div class="text-xs font-semibold mb-1">Use Cases:</div>
                       <ul class="text-xs space-y-1">
                         {satellite.use_cases.map((useCase, idx) => (
-                          <li 
-                            key={idx} 
+                          <li
+                            key={idx}
                             class="flex items-center gap-1 opacity-0"
                             style={{
-                              animation: `fadeIn 0.3s ease-out forwards ${0.1 + idx * 0.1}s`,
+                              animation: `fadeIn 0.3s ease-out forwards ${
+                                0.1 + idx * 0.1
+                              }s`,
                             }}
                           >
-                            <span class="inline-block w-1 h-1 rounded-full bg-current"></span>
+                            <span class="inline-block w-1 h-1 rounded-full bg-current">
+                            </span>
                             {useCase}
                           </li>
                         ))}
@@ -408,7 +471,10 @@ echo "✓ Installed: \${satellites[*]}"`;
                   class="text-sm font-semibold flex items-center gap-2"
                   style={{ color: "var(--color-text)" }}
                 >
-                  <Terminal size={16} style={{ color: "var(--color-subtext1)" }} />
+                  <Terminal
+                    size={16}
+                    style={{ color: "var(--color-subtext1)" }}
+                  />
                   Installation Script
                 </h4>
                 <div class="flex gap-2">
@@ -430,13 +496,17 @@ echo "✓ Installed: \${satellites[*]}"`;
                     onClick={() => copyToClipboard(installCommand)}
                     class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-all duration-300 hover:scale-105"
                     style={{
-                      backgroundColor: copied ? "var(--color-green)" : "var(--color-blue)",
+                      backgroundColor: copied ?
+                        "var(--color-green)" :
+                        "var(--color-blue)",
                       color: "var(--color-base)",
                     }}
                     title="Copy to clipboard"
                   >
                     {copied ? <Check size={14} /> : <Copy size={14} />}
-                    <span class="hidden sm:inline">{copied ? "Copied!" : "Copy"}</span>
+                    <span class="hidden sm:inline">
+                      {copied ? "Copied!" : "Copy"}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -458,13 +528,17 @@ echo "✓ Installed: \${satellites[*]}"`;
               class="text-xs sm:text-sm leading-relaxed"
               style={{ color: "var(--color-subtext1)" }}
             >
-              <span class="font-semibold" style={{ color: "var(--color-text)" }}>
+              <span
+                class="font-semibold"
+                style={{ color: "var(--color-text)" }}
+              >
                 About Satellites:
               </span>{" "}
-              Satellites are minimal, purpose-built executables designed for containerized
-              environments and microservice architectures. Each satellite focuses on a single
-              capability, providing smaller container images, faster startup times, and better
-              resource utilization.
+              Satellites are minimal, purpose-built executables designed for
+              containerized environments and microservice architectures. Each
+              satellite focuses on a single capability, providing smaller
+              container images, faster startup times, and better resource
+              utilization.
             </p>
           </div>
         </div>
@@ -478,9 +552,13 @@ echo "✓ Installed: \${satellites[*]}"`;
               >
                 💡 Quick Start
               </p>
-              <p class="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-subtext1)" }}>
-                After installation, each satellite will be available as a standalone command.
-                For example: <code class="px-2 py-1 rounded bg-surface1 font-mono text-xs">
+              <p
+                class="text-xs sm:text-sm leading-relaxed"
+                style={{ color: "var(--color-subtext1)" }}
+              >
+                After installation, each satellite will be available as a
+                standalone command. For example:{" "}
+                <code class="px-2 py-1 rounded bg-surface1 font-mono text-xs">
                   andromeda-run script.ts
                 </code>
               </p>

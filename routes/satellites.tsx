@@ -1,8 +1,8 @@
+import { Check, Package, Play, Terminal, Wrench, Zap } from "lucide-preact";
 import Footer from "../components/Footer.tsx";
 import Meta from "../components/Meta.tsx";
 import NavBar from "../components/NavBar.tsx";
 import SatelliteInstaller from "../islands/SatelliteInstaller.tsx";
-import { Check, Package, Play, Terminal, Wrench, Zap } from "lucide-preact";
 import { createPageMeta } from "../utils/meta.ts";
 
 export default function Satellites() {

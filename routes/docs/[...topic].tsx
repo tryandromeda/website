@@ -63,9 +63,9 @@ The page you're looking for doesn't exist.
 
   // Extract title from first heading or use topic name
   const titleMatch = markdownContent.match(/^#\s+(.+)$/m);
-  const pageTitle = titleMatch
-    ? titleMatch[1]
-    : topic.split("/").pop()?.replace(/-/g, " ") || "Documentation";
+  const pageTitle = titleMatch ?
+    titleMatch[1] :
+    topic.split("/").pop()?.replace(/-/g, " ") || "Documentation";
 
   // Generate description from frontmatter or extract from content
   const description = frontmatter?.description ||
@@ -92,7 +92,7 @@ The page you're looking for doesn't exist.
 
   // Find the current page in TOC for breadcrumbs and navigation
   let currentPage = null;
-  const allPages: Array<{ name: string; path: string }> = [];
+  const allPages: Array<{ name: string; path: string; }> = [];
 
   // Flatten all pages for navigation
   toc.forEach((section) => {

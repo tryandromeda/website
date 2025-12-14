@@ -58,7 +58,7 @@ export default function GitHubStats() {
           const release = await releaseResponse.json();
 
           const downloadCount = release.assets?.reduce(
-            (total: number, asset: { download_count?: number }) =>
+            (total: number, asset: { download_count?: number; }) =>
               total + (asset.download_count || 0),
             0,
           ) || 0;
@@ -173,9 +173,9 @@ export default function GitHubStats() {
 
         <div class="text-center">
           <div class="text-2xl font-bold text-mauve mb-1">
-            {latestRelease?.download_count
-              ? formatNumber(latestRelease.download_count)
-              : "—"}
+            {latestRelease?.download_count ?
+              formatNumber(latestRelease.download_count) :
+              "—"}
           </div>
           <div class="text-xs text-subtext1">Downloads</div>
         </div>

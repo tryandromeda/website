@@ -79,7 +79,8 @@ deno task start
 ### Deployment Notes
 
 - **main.ts**: Re-exports from `main.tsx` for Fresh build compatibility
-- **Build Output**: The `_fresh/` directory contains the compiled server and assets
+- **Build Output**: The `_fresh/` directory contains the compiled server and
+  assets
 - **Environment**: Ensure Deno 2.0+ is installed on your deployment platform
 - **Port**: Default port is 8000 (configurable via environment variables)
 

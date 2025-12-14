@@ -14,9 +14,17 @@ interface MetaProps {
 export default function Meta({ meta }: MetaProps) {
   const title = generateTitle(meta.title);
   const url = meta.url || defaultSiteConfig.url;
-  const image = generateImageUrl(meta.image || defaultSiteConfig.image);
   const description = meta.description || defaultSiteConfig.description;
   const type = meta.type || "website";
+
+  let image: string;
+  if (meta.image && !meta.image.includes("cover.svg")) {
+    image = generateImageUrl(meta.image);
+  } else {
+    const pageTitle = meta.title === defaultSiteConfig.name ? "" : meta.title;
+    const encodedTitle = encodeURIComponent(pageTitle);
+    image = generateImageUrl(`/og/${encodedTitle}`);
+  }
 
   return (
     <Head>

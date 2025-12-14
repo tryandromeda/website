@@ -1,7 +1,7 @@
 import { GithubIcon } from "lucide-preact";
+import MobileMenu from "../islands/MobileMenu.tsx";
 import PWAStatus from "../islands/PWAStatus.tsx";
 import SearchTrigger from "../islands/SearchTrigger.tsx";
-import MobileMenu from "../islands/MobileMenu.tsx";
 
 export default function NavBar() {
   return (

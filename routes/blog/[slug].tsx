@@ -116,8 +116,8 @@ export default async function BlogPost(props: PageProps) {
                     )}
                     {!post.iconUrl && <span class="text-3xl">👤</span>}
                     <div class="text-left">
-                      {post.authorUrl
-                        ? (
+                      {post.authorUrl ?
+                        (
                           <a
                             href={post.authorUrl}
                             class="font-semibold text-text hover:text-blue transition-colors duration-300 text-lg"
@@ -126,8 +126,8 @@ export default async function BlogPost(props: PageProps) {
                           >
                             {post.author}
                           </a>
-                        )
-                        : (
+                        ) :
+                        (
                           <span class="font-semibold text-text text-lg">
                             {post.author}
                           </span>

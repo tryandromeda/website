@@ -128,19 +128,19 @@ export default function InstallToggle() {
                   type="button"
                   onClick={() => setSelectedPlatform(platform.id)}
                   class={`group relative overflow-hidden p-4 rounded-lg border transition-all duration-500 transform hover:scale-105 ${
-                    isSelected
-                      ? `bg-${platform.color} text-base border-${platform.color} shadow-lg scale-105 animate-pulse-glow`
-                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-xl hover:shadow-blue/10"
+                    isSelected ?
+                      `bg-${platform.color} text-base border-${platform.color} shadow-lg scale-105 animate-pulse-glow` :
+                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-xl hover:shadow-blue/10"
                   }`}
-                  style={isSelected
-                    ? {
+                  style={isSelected ?
+                    {
                       backgroundColor: `var(--color-${platform.color})`,
                       borderColor: `var(--color-${platform.color})`,
                       color: "var(--color-base)",
                       boxShadow:
                         `0 0 20px color-mix(in srgb, var(--color-${platform.color}) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15)`,
-                    }
-                    : {
+                    } :
+                    {
                       color: "var(--color-text)",
                     }}
                 >
@@ -148,17 +148,17 @@ export default function InstallToggle() {
                   <div class="flex justify-center mb-2">
                     <div
                       class={`p-2 rounded-lg transition-colors ${
-                        isSelected
-                          ? "bg-base/20"
-                          : "bg-surface1 group-hover:bg-surface2"
+                        isSelected ?
+                          "bg-base/20" :
+                          "bg-surface1 group-hover:bg-surface2"
                       }`}
                     >
                       <IconComponent
                         size={20}
                         class={isSelected ? "text-base" : ""}
-                        style={isSelected
-                          ? { color: "var(--color-base)" }
-                          : { color: "var(--color-text)" }}
+                        style={isSelected ?
+                          { color: "var(--color-base)" } :
+                          { color: "var(--color-text)" }}
                       />
                     </div>
                   </div>{" "}
@@ -168,9 +168,9 @@ export default function InstallToggle() {
                       class={`text-xs sm:text-sm font-semibold ${
                         isSelected ? "text-base" : ""
                       }`}
-                      style={isSelected
-                        ? { color: "var(--color-base)" }
-                        : { color: "var(--color-text)" }}
+                      style={isSelected ?
+                        { color: "var(--color-base)" } :
+                        { color: "var(--color-text)" }}
                     >
                       {platform.name}
                     </div>
