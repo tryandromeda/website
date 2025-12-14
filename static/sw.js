@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-unused-vars
-const CACHE_VERSION = "v27"; // Increment this when you have new features
+const CACHE_VERSION = "v28"; // Increment this when you have new features
 // const STATIC_CACHE = `andromeda-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `andromeda-dynamic-${CACHE_VERSION}`;
 
@@ -376,9 +376,10 @@ async function cacheIfAllowed(
 ) {
   try {
     if (!response || !response.ok) return;
-    const ct = (response.headers &&
-      response.headers.get &&
-      response.headers.get("content-type")) ||
+    const ct =
+      (response.headers &&
+        response.headers.get &&
+        response.headers.get("content-type")) ||
       "";
     if (
       ct.startsWith("image/") ||
