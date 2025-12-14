@@ -2,6 +2,68 @@
 import { FreshContext } from "fresh";
 import { Resvg } from "npm:@resvg/resvg-js";
 
+function wrapAndCenterTitle(title: string): string {
+  if (!title) return "";
+
+  const maxCharsPerLine = 30;
+  const baseFontSize = 3472.221;
+  const centerX = 25000;
+  const baseY = 22125.972;
+  const lineHeight = 3800;
+
+  let fontSize = baseFontSize;
+  if (title.length > 40) {
+    fontSize = baseFontSize * 0.6;
+  } else if (title.length > 30) {
+    fontSize = baseFontSize * 0.75;
+  }
+
+  const words = title.split(" ");
+  const lines: string[] = [];
+  let currentLine = "";
+
+  for (const word of words) {
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    if (testLine.length > maxCharsPerLine && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
+  }
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  if (lines.length === 1) {
+    return `<text x="${centerX}px" y="${baseY}px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:${fontSize}px;fill:#88b2d9;text-anchor:middle;">${
+      escapeXml(title)
+    }</text>`;
+  }
+
+  const adjustedLineHeight = lineHeight * (fontSize / baseFontSize);
+  const totalHeight = (lines.length - 1) * adjustedLineHeight;
+  const startY = baseY - (totalHeight / 2);
+
+  const tspans = lines.map((line, i) => {
+    const dy = i === 0 ? 0 : adjustedLineHeight;
+    return `  <tspan x="${centerX}px" dy="${dy}">${escapeXml(line)}</tspan>`;
+  }).join("\n");
+
+  return `<text x="${centerX}px" y="${startY}px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:${fontSize}px;fill:#88b2d9;text-anchor:middle;">
+${tspans}
+</text>`;
+}
+
+function escapeXml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export async function handler(
   ctx: FreshContext,
 ): Promise<Response> {
@@ -14,8 +76,12 @@ export async function handler(
     const coverPath = `${Deno.cwd()}/static/images/cover.svg`;
     let svgContent = await Deno.readTextFile(coverPath);
 
-    // Replace [[INSERT TITLE]] with the actual title (or empty string for homepage)
-    svgContent = svgContent.replace("[[INSERT TITLE]]", title);
+    // Replace [[INSERT TITLE]] with wrapped and centered title
+    const titleSvg = wrapAndCenterTitle(title);
+    svgContent = svgContent.replace(
+      /<text x="25000px" y="22125\.972px"[^>]*>\[\[INSERT TITLE\]\]<\/text>/,
+      titleSvg,
+    );
 
     // Convert SVG to PNG using resvg
     const resvg = new Resvg(svgContent, {
