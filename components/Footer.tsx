@@ -195,6 +195,10 @@ export default function Footer() {
               <span>
                 Powered by <a href="https://trynova.dev/">Nova</a>
               </span>
+              <span>•</span>
+              <span>
+                Profiled by <a href="https://hotpath.rs/">hotpath-rs</a>
+              </span>
             </div>
           </div>
         </div>
