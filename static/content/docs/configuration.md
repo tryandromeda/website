@@ -1,79 +1,62 @@
 ---
 title: "Configuration"
-description: "Configure Andromeda with project-specific settings and new features"
+description: "Configure Andromeda with project-specific settings"
 section: "Getting Started"
 order: 4
 id: "configuration"
 ---
 
-Andromeda supports comprehensive configuration through configuration files in
-JSON, TOML, or YAML format. This guide covers all available configuration
-options including new features like cron scheduling, cache storage, and enhanced
-console styling.
+Andromeda is configured through a project file in JSON, TOML, or YAML format.
+This guide covers every section the CLI understands.
 
 ## Configuration Files
 
-Andromeda automatically searches for configuration files in the following order:
+Andromeda searches for a configuration file in the current directory, then walks
+up to the parent directories. The first match wins. Supported names, in order of
+preference:
 
 1. `andromeda.json`
 2. `andromeda.toml`
 3. `andromeda.yaml`
 4. `andromeda.yml`
 
-The search starts in the current directory and moves up through parent
-directories until a configuration file is found.
+If no file is found, defaults are used.
 
-## Configuration Management Commands
+## Managing Configuration
 
-### Initialize Configuration
+### `andromeda config init`
 
-Create a new configuration file with default values:
+Create a new configuration with default values.
 
 ```bash
-andromeda config init
-
-# Create TOML config
-andromeda config init --format toml
-
-# Create YAML config  
-andromeda config init --format yaml
-
-# Create config in specific location
-andromeda config init --output ./config/andromeda.json
-
-# Force overwrite existing config
-andromeda config init --force
+andromeda config init                              # andromeda.json
+andromeda config init --format toml                # andromeda.toml
+andromeda config init --format yaml                # andromeda.yaml
+andromeda config init --output ./conf/andromeda.json
+andromeda config init --force                      # overwrite existing
 ```
 
-### Show Configuration
+### `andromeda config show`
 
-Display the current active configuration:
+Print the currently resolved configuration.
 
 ```bash
-# Show current config (auto-detected)
 andromeda config show
-
-# Show specific config file
-andromeda config show --file ./custom-config.toml
+andromeda config show --file ./custom.toml
 ```
 
-### Validate Configuration
+### `andromeda config validate`
 
-Validate configuration file format and values:
+Validate a configuration file.
 
 ```bash
-# Validate current config
 andromeda config validate
-
-# Validate specific file
 andromeda config validate --file ./andromeda.json
 ```
 
-## Configuration Structure
+## Structure
 
-### Complete Configuration Example
-
-**JSON Format (andromeda.json):**
+A complete `andromeda.json` example:
 
 ```json
 {
@@ -82,252 +65,205 @@ andromeda config validate --file ./andromeda.json
   "description": "My Andromeda project",
   "author": "Your Name",
   "license": "MIT",
+
   "runtime": {
     "no_strict": false,
     "verbose": false,
     "disable_gc": false,
     "print_internals": false,
     "expose_internals": false,
-    "include": ["src/**/*.ts", "lib/**/*.js"],
+    "include": ["src/**/*.ts"],
     "exclude": ["**/*.test.ts", "**/node_modules/**"],
     "timeout": 30000
   },
+
   "format": {
     "line_width": 80,
     "use_tabs": false,
     "tab_width": 2,
-    "trailing_comma": true,
+    "trailing_comma": false,
     "semicolons": true,
-    "single_quotes": false
+    "single_quotes": false,
+    "include": [],
+    "exclude": ["./tests/**"]
   },
+
   "lint": {
     "enabled": true,
-    "rules": [
-      "empty_function",
-      "empty_statement",
-      "var_usage",
-      "unused_variable"
-    ],
+    "rules": [],
     "disabled_rules": [],
-    "max_warnings": 50
-  }
+    "max_warnings": null,
+    "include": [],
+    "exclude": []
+  },
+
+  "tasks": {
+    "dev": "andromeda run src/main.ts",
+    "test": "andromeda run tests/main.ts",
+    "build": {
+      "description": "Bundle the project",
+      "command": "andromeda bundle src/main.ts dist/app.js",
+      "dependencies": ["test"],
+      "cwd": ".",
+      "env": { "NODE_ENV": "production" }
+    }
+  },
+
+  "imports": {
+    "std/": "https://tryandromeda.dev/std/"
+  },
+  "scopes": {},
+  "integrity": {},
+  "import_map_files": []
 }
 ```
 
-**TOML Format (andromeda.toml):**
+TOML and YAML versions accept the same keys with the obvious syntactic
+adjustments.
 
-```toml
-name = "my-project"
-version = "1.0.0"
-description = "My Andromeda project"
-author = "Your Name"
-license = "MIT"
+## Sections
 
-[runtime]
-no_strict = false
-verbose = false
-disable_gc = false
-print_internals = false
-expose_internals = false
-include = ["src/**/*.ts", "lib/**/*.js"]
-exclude = ["**/*.test.ts", "**/node_modules/**"]
-timeout = 30000
+### Project metadata
 
-[format]
-line_width = 80
-use_tabs = false
-tab_width = 2
-trailing_comma = true
-semicolons = true
-single_quotes = false
+| Field         | Type   | Description         |
+| ------------- | ------ | ------------------- |
+| `name`        | string | Project name        |
+| `version`     | string | Project version     |
+| `description` | string | Project description |
+| `author`      | string | Project author(s)   |
+| `license`     | string | SPDX license string |
 
-[lint]
-enabled = true
-rules = ["empty_function", "empty_statement", "var_usage", "unused_variable"]
-disabled_rules = []
-max_warnings = 50
-```
+These fields are optional and currently used only for tooling and documentation.
 
-**YAML Format (andromeda.yaml):**
+### `runtime`
 
-```yaml
-name: my-project
-version: 1.0.0
-description: My Andromeda project
-author: Your Name
-license: MIT
+Controls how Andromeda executes code.
 
-runtime:
-  no_strict: false
-  verbose: false
-  disable_gc: false
-  print_internals: false
-  expose_internals: false
-  include:
-    - "src/**/*.ts"
-    - "lib/**/*.js"
-  exclude:
-    - "**/*.test.ts"
-    - "**/node_modules/**"
-  timeout: 30000
+| Field              | Type     | Default | Description                                       |
+| ------------------ | -------- | ------- | ------------------------------------------------- |
+| `no_strict`        | boolean  | `false` | Disable strict mode                               |
+| `verbose`          | boolean  | `false` | Enable verbose output                             |
+| `disable_gc`       | boolean  | `false` | Disable GC (debugging only)                       |
+| `print_internals`  | boolean  | `false` | Print internal Nova engine info                   |
+| `expose_internals` | boolean  | `false` | Expose Nova internals to user code                |
+| `include`          | string[] | `[]`    | File globs to include                             |
+| `exclude`          | string[] | `[]`    | File globs to exclude                             |
+| `timeout`          | number?  | `null`  | Soft execution timeout (ms). Must be `> 0` if set |
 
-format:
-  line_width: 80
-  use_tabs: false
-  tab_width: 2
-  trailing_comma: true
-  semicolons: true
-  single_quotes: false
+### `format`
 
-lint:
-  enabled: true
-  rules:
-    - empty_function
-    - empty_statement
-    - var_usage
-    - unused_variable
-  disabled_rules: []
-  max_warnings: 50
-```
+The formatter is based on [dprint](https://dprint.dev/).
 
-## Configuration Sections
+| Field            | Type     | Default | Range    | Description                                      |
+| ---------------- | -------- | ------- | -------- | ------------------------------------------------ |
+| `line_width`     | number   | `80`    | `20-500` | Maximum line width                               |
+| `use_tabs`       | boolean  | `false` | -        | Indent with tabs                                 |
+| `tab_width`      | number   | `2`     | `1-16`   | Tab width                                        |
+| `trailing_comma` | boolean  | `false` | -        | Emit trailing commas                             |
+| `semicolons`     | boolean  | `true`  | -        | Require semicolons                               |
+| `single_quotes`  | boolean  | `false` | -        | Prefer single quotes                             |
+| `include`        | string[] | `[]`    | -        | File globs to format (default: all source files) |
+| `exclude`        | string[] | `[]`    | -        | File globs to exclude                            |
 
-### Project Metadata
+### `lint`
 
-Basic project information that can be used by tools and documentation:
+| Field            | Type     | Default | Description                            |
+| ---------------- | -------- | ------- | -------------------------------------- |
+| `enabled`        | boolean  | `true`  | Master switch                          |
+| `rules`          | string[] | `[]`    | Rules to enable explicitly             |
+| `disabled_rules` | string[] | `[]`    | Rules to disable                       |
+| `max_warnings`   | number?  | `null`  | Fail if exceeded. Must be `> 0` if set |
+| `include`        | string[] | `[]`    | File globs to lint                     |
+| `exclude`        | string[] | `[]`    | File globs to exclude                  |
 
-| Field         | Type   | Description         | Default |
-| ------------- | ------ | ------------------- | ------- |
-| `name`        | string | Project name        | `null`  |
-| `version`     | string | Project version     | `null`  |
-| `description` | string | Project description | `null`  |
-| `author`      | string | Project author(s)   | `null`  |
-| `license`     | string | Project license     | `null`  |
+**Built-in rules:**
 
-### Runtime Configuration
+- `empty_function` — empty function declarations
+- `empty_statement` — bare `;` statements
+- `var_usage` — discourage `var`
+- `unused_variable` — never-read declarations
+- `unreachable_code` — code after `return`/`throw`/`break`/`continue`
 
-Controls how Andromeda executes your code:
+### `tasks`
 
-| Field              | Type     | Description                                  | Default |
-| ------------------ | -------- | -------------------------------------------- | ------- |
-| `no_strict`        | boolean  | Disable strict mode for more lenient parsing | `false` |
-| `verbose`          | boolean  | Enable verbose output with execution details | `false` |
-| `disable_gc`       | boolean  | Disable garbage collection (debugging only)  | `false` |
-| `print_internals`  | boolean  | Print internal debugging information         | `false` |
-| `expose_internals` | boolean  | Expose Nova internal APIs                    | `false` |
-| `include`          | string[] | File patterns to include in execution        | `[]`    |
-| `exclude`          | string[] | File patterns to exclude from execution      | `[]`    |
-| `timeout`          | number   | Runtime timeout in milliseconds              | `null`  |
-
-**Include/Exclude Patterns:**
-
-Use glob patterns to specify which files to include or exclude:
+Tasks are scripts you run with `andromeda task <name>`. A task value is either a
+simple command string or an object with extra metadata:
 
 ```json
 {
-  "runtime": {
-    "include": [
-      "src/**/*.ts",
-      "lib/**/*.js",
-      "!**/*.test.*"
-    ],
-    "exclude": [
-      "**/node_modules/**",
-      "dist/**",
-      "**/*.d.ts"
-    ]
+  "tasks": {
+    "dev": "andromeda run src/main.ts",
+    "build": {
+      "description": "Bundle the project",
+      "command": "andromeda bundle src/main.ts dist/app.js",
+      "dependencies": ["test"],
+      "cwd": ".",
+      "env": { "NODE_ENV": "production" }
+    }
   }
 }
 ```
 
-### Format Configuration
+Object task fields:
 
-Controls code formatting behavior:
+| Field          | Type                  | Description                               |
+| -------------- | --------------------- | ----------------------------------------- |
+| `description`  | string                | Shown in `andromeda task` listing         |
+| `command`      | string                | The shell command to execute (required)   |
+| `dependencies` | string[]              | Other tasks to run first                  |
+| `cwd`          | string                | Working directory                         |
+| `env`          | `Record<string, str>` | Extra environment variables for this task |
 
-| Field            | Type    | Description                                     | Default | Range    |
-| ---------------- | ------- | ----------------------------------------------- | ------- | -------- |
-| `line_width`     | number  | Maximum line width for formatting               | `80`    | `20-500` |
-| `use_tabs`       | boolean | Use tabs instead of spaces for indentation      | `false` | -        |
-| `tab_width`      | number  | Width of tab character in spaces                | `2`     | `1-16`   |
-| `trailing_comma` | boolean | Add trailing commas in multiline objects/arrays | `true`  | -        |
-| `semicolons`     | boolean | Require semicolons at end of statements         | `true`  | -        |
-| `single_quotes`  | boolean | Prefer single quotes over double quotes         | `false` | -        |
+### `imports`, `scopes`, `integrity`, `import_map_files`
 
-**Formatting Examples:**
-
-```javascript
-// With trailing_comma: true
-const obj = {
-  a: 1,
-  b: 2, // <- trailing comma
-};
-
-// With single_quotes: true
-const message = "Hello, World!";
-
-// With semicolons: false
-const value = 42; // no semicolon
-```
-
-### Lint Configuration
-
-Controls code analysis and linting:
-
-| Field            | Type     | Description                   | Default |
-| ---------------- | -------- | ----------------------------- | ------- |
-| `enabled`        | boolean  | Enable linting                | `true`  |
-| `rules`          | string[] | List of lint rules to enable  | `[]`    |
-| `disabled_rules` | string[] | List of lint rules to disable | `[]`    |
-| `max_warnings`   | number   | Maximum warnings before error | `null`  |
-
-**Available Lint Rules:**
-
-| Rule              | Description                             | Example                   |
-| ----------------- | --------------------------------------- | ------------------------- |
-| `empty_function`  | Detect empty function declarations      | `function test() {}`      |
-| `empty_statement` | Detect empty statements                 | `;;` or single `;`        |
-| `var_usage`       | Discourage use of `var` keyword         | `var x = 1;`              |
-| `unused_variable` | Detect unused variable declarations     | `let unused = 42;`        |
-| `prefer_const`    | Prefer `const` over `let` when possible | `let readonly = 'value';` |
-
-**Lint Configuration Examples:**
+Andromeda implements the [Web Import Maps](https://github.com/WICG/import-maps)
+spec at the configuration level. You can either specify the map inline:
 
 ```json
 {
-  "lint": {
-    "enabled": true,
-    "rules": ["empty_function", "var_usage", "unused_variable"],
-    "disabled_rules": ["empty_statement"],
-    "max_warnings": 10
+  "imports": {
+    "std/": "https://tryandromeda.dev/std/",
+    "lodash": "https://esm.sh/lodash@4"
+  },
+  "scopes": {
+    "https://example.com/": {
+      "lodash": "https://esm.sh/lodash@3"
+    }
+  },
+  "integrity": {
+    "https://esm.sh/lodash@4": "sha384-..."
   }
 }
 ```
 
-## Environment-Specific Configuration
+…or load additional import-map JSON files:
 
-### Development Configuration
+```json
+{
+  "import_map_files": ["./import-map.json"]
+}
+```
+
+`import_map_files` paths must exist when the config is validated.
+
+## Environment-Specific Configurations
+
+### Development
 
 ```json
 {
   "runtime": {
     "verbose": true,
-    "expose_internals": true,
-    "timeout": 0
+    "expose_internals": true
   },
   "lint": {
     "enabled": true,
-    "rules": [
-      "empty_function",
-      "empty_statement",
-      "var_usage",
-      "unused_variable"
-    ],
     "max_warnings": 100
   }
 }
 ```
 
-### Production Configuration
+### Production
 
 ```json
 {
@@ -344,211 +280,72 @@ Controls code analysis and linting:
 }
 ```
 
-### Performance Testing Configuration
+### Performance profiling
 
 ```json
 {
   "runtime": {
     "disable_gc": true,
-    "print_internals": true,
-    "timeout": 0
-  },
-  "format": {
-    "line_width": 120
+    "print_internals": true
   }
 }
 ```
 
-## Configuration Inheritance
+## Resolution Order
 
-When multiple configuration files exist in the directory hierarchy, Andromeda
-uses the closest one to your current working directory. CLI arguments override
-configuration file settings.
+1. CLI flags on the active subcommand (e.g. `--verbose`, `--no-strict`)
+2. The first config file found walking from the current directory upward
+3. Defaults
 
-**Priority Order (highest to lowest):**
+## Validation
 
-1. CLI arguments (`--verbose`, `--no-strict`, etc.)
-2. Configuration file in current directory
-3. Configuration file in parent directory (searched recursively)
-4. Default configuration values
+`andromeda config validate` enforces the following:
 
-## CLI Integration
+- `runtime.timeout` must be `> 0` when set
+- `format.line_width` must be in `[20, 500]`
+- `format.tab_width` must be in `[1, 16]`
+- `lint.max_warnings` must be `> 0` when set
+- Every file in `import_map_files` must exist
 
-All configuration options can be overridden via CLI arguments:
+Example error:
 
-```bash
-# Override runtime settings
-andromeda run --verbose --no-strict script.ts
-
-# Override REPL settings  
-andromeda repl --expose-internals --disable-gc
-
-# Use specific config file
-andromeda run --config ./custom-config.toml script.ts
-```
-
-## Validation Rules
-
-Andromeda validates configuration files and provides helpful error messages:
-
-### Runtime Validation
-
-- `timeout` must be greater than 0 (if specified)
-- `include`/`exclude` patterns must be valid glob expressions
-
-### Format Validation
-
-- `line_width` must be between 20 and 500
-- `tab_width` must be between 1 and 16
-
-### Lint Validation
-
-- `max_warnings` must be greater than 0 (if specified)
-- `rules` and `disabled_rules` must contain valid rule names
-
-### Example Validation Error
-
-```
-⚠️  Config file error: Invalid TOML in config file: expected `.`, `=`
+```text
+Config file error: Invalid TOML in config file: expected `.`, `=`
    Using default configuration
 
 Config validation failed: Format line width must be between 20 and 500
 ```
 
-## Best Practices
+## Project Layout Example
 
-### Project Structure
-
-```
+```text
 my-project/
-├── andromeda.json          # Main config
+├── andromeda.json
+├── import-map.json
 ├── src/
-│   ├── andromeda.dev.json  # Development overrides
-│   └── **/*.ts
+│   └── main.ts
 ├── tests/
-│   ├── andromeda.test.json # Test-specific config
-│   └── **/*.test.ts
+│   └── main.ts
 └── dist/
 ```
 
-### Configuration Tips
-
-1. **Use environment-specific configs** for different development stages
-2. **Keep configs minimal** - only specify non-default values
-3. **Use include/exclude patterns** to control file processing
-4. **Set reasonable timeouts** to prevent runaway scripts
-5. **Enable verbose mode** during development for better debugging
-6. **Use validation** before deploying configuration changes
-
-### Common Patterns
-
-**TypeScript Project:**
-
 ```json
 {
-  "name": "typescript-app",
-  "runtime": {
-    "include": ["src/**/*.ts"],
-    "exclude": ["**/*.d.ts", "**/*.test.ts"]
+  "name": "my-project",
+  "tasks": {
+    "dev": "andromeda run src/main.ts",
+    "test": "andromeda run tests/main.ts"
   },
-  "format": {
-    "semicolons": true,
-    "single_quotes": true
-  }
+  "import_map_files": ["./import-map.json"]
 }
 ```
 
-**JavaScript Library:**
+## Tips
 
-```json
-{
-  "name": "js-library",
-  "runtime": {
-    "include": ["lib/**/*.js", "index.js"],
-    "no_strict": true
-  },
-  "format": {
-    "semicolons": false,
-    "trailing_comma": false
-  }
-}
-```
+- Keep configs minimal — only specify non-default values.
+- Use `include` / `exclude` to scope `fmt`, `lint`, and `check` to relevant
+  source files.
+- Validate before deploying configuration changes.
+- Run `andromeda config show` to confirm which config file is in effect.
 
-**Development Setup:**
-
-```json
-{
-  "runtime": {
-    "verbose": true,
-    "expose_internals": true,
-    "include": ["src/**/*", "examples/**/*"]
-  },
-  "lint": {
-    "enabled": true,
-    "rules": ["empty_function", "var_usage", "unused_variable"],
-    "max_warnings": null
-  }
-}
-```
-
-## Language Server Integration
-
-The configuration system integrates with Andromeda's Language Server Protocol
-(LSP) implementation:
-
-- **Real-time validation** - Config changes are validated immediately
-- **Dynamic rule updates** - Lint rules are applied as configuration changes
-- **Workspace awareness** - Different folders can have different configurations
-- **Editor integration** - VS Code and other editors respect Andromeda config
-
-## Troubleshooting
-
-### Common Issues
-
-**Config file not found:**
-
-```bash
-# Check which config is being used
-andromeda config show
-
-# Create a new config file
-andromeda config init
-```
-
-**Invalid configuration format:**
-
-```bash
-# Validate your config
-andromeda config validate
-
-# Check syntax for TOML/YAML files
-```
-
-**Conflicting settings:**
-
-```bash
-# Show effective configuration
-andromeda config show
-
-# CLI args override config file settings
-andromeda run --verbose script.ts  # overrides config verbose setting
-```
-
-### Configuration Migration
-
-When upgrading Andromeda versions, use the validation command to ensure your
-configuration is still valid:
-
-```bash
-# After upgrade, validate existing config
-andromeda config validate
-
-# Create new config with latest defaults
-andromeda config init --force
-```
-
-For more configuration examples and use cases, see the
-[Examples](/docs/examples) section.
-
-For more configuration examples and use cases, see the
-[Examples](/docs/examples) section.
+For more examples, see [Examples](/docs/examples/index).

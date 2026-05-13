@@ -1,741 +1,220 @@
 ---
 title: "File System API"
-description: "File I/O operations and path manipulation"
+description: "File and directory I/O on the Andromeda namespace"
 section: "API Reference"
 order: 11
 id: "file-system-api"
 ---
 
-Andromeda provides a comprehensive file system API for reading, writing, and
-managing files and directories.
+Andromeda exposes its file system API on the global `Andromeda` namespace. Every
+operation comes in a synchronous and an asynchronous variant; the async variants
+return a `Promise`. Text APIs use UTF-8.
 
-## Overview
+## Text files
 
-The File System API is available through the global `Andromeda` object and
-provides both synchronous and asynchronous methods for file operations.
+### `readTextFileSync(path)` and `readTextFile(path)`
 
-## Methods
-
-### Reading Files
-
-#### `Andromeda.readTextFileSync(path: string): string`
-
-Synchronously reads the entire contents of a file as a UTF-8 encoded string.
-
-**Parameters:**
-
-- `path` - Path to the file to read
-
-**Returns:** String containing the file contents
-
-**Example:**
+Read a UTF-8 text file.
 
 ```typescript
-const content = Andromeda.readTextFileSync("config.json");
-console.log("Config:", content);
+const sync = Andromeda.readTextFileSync("hello.txt");
+const async = await Andromeda.readTextFile("hello.txt");
 ```
 
-**Throws:**
+### `writeTextFileSync(path, data)` and `writeTextFile(path, data)`
 
-- `Error` if the file doesn't exist
-- `Error` if there are permission issues
-- `Error` if the file is not valid UTF-8
-
-#### `Andromeda.readTextFile(path: string): Promise<string>`
-
-Asynchronously reads the entire contents of a file as a UTF-8 encoded string.
-
-**Parameters:**
-
-- `path` - Path to the file to read
-
-**Returns:** Promise that resolves to a string containing the file contents
-
-**Example:**
+Write a UTF-8 text file. Creates the file if it does not exist; overwrites
+existing files.
 
 ```typescript
-const content = await Andromeda.readTextFile("config.json");
-console.log("Config:", content);
+Andromeda.writeTextFileSync("hello.txt", "Hello, World!");
+await Andromeda.writeTextFile("hello.txt", "Hello, World!");
 ```
 
-**Throws:**
+## Binary files
 
-- `Error` if the file doesn't exist
-- `Error` if there are permission issues
-- `Error` if the file is not valid UTF-8
+### `readFileSync(path)` and `readFile(path)`
 
-#### `Andromeda.readFile(path: string): Promise<Uint8Array>`
-
-Asynchronously reads the entire contents of a file as raw bytes.
-
-**Parameters:**
-
-- `path` - Path to the file to read
-
-**Returns:** Promise that resolves to a `Uint8Array` containing the file bytes
-
-**Example:**
-
-```typescript
-const bytes = await Andromeda.readFile("image.png");
-console.log(`File size: ${bytes.length} bytes`);
-```
-
-#### `Andromeda.readFileSync(path: string): Uint8Array`
-
-Synchronously reads the entire contents of a file as raw bytes.
-
-**Parameters:**
-
-- `path` - Path to the file to read
-
-**Returns:** `Uint8Array` containing the file bytes
-
-**Example:**
+Read a binary file as a `Uint8Array`.
 
 ```typescript
 const bytes = Andromeda.readFileSync("image.png");
-console.log(`File size: ${bytes.length} bytes`);
+const bytesAsync = await Andromeda.readFile("image.png");
 ```
 
-### Writing Files
+### `writeFileSync(path, data)` and `writeFile(path, data)`
 
-#### `Andromeda.writeTextFileSync(path: string, data: string): void`
-
-Synchronously writes a string to a file, creating the file if it doesn't exist.
-
-**Parameters:**
-
-- `path` - Path to the file to write
-- `data` - String data to write
-
-**Example:**
+Write a `Uint8Array` to a file.
 
 ```typescript
-const data = JSON.stringify({ name: "John", age: 30 }, null, 2);
-Andromeda.writeTextFileSync("user.json", data);
-console.log("✅ File written successfully");
+const data = new Uint8Array([72, 101, 108, 108, 111]);
+Andromeda.writeFileSync("data.bin", data);
+await Andromeda.writeFile("data.bin", data);
 ```
 
-**Notes:**
+## Creating, copying, and removing
 
-- Creates parent directories if they don't exist
-- Overwrites existing files
-- Uses UTF-8 encoding
-
-#### `Andromeda.writeFileSync(path: string, data: Uint8Array): void`
-
-Synchronously writes raw bytes to a file.
-
-**Parameters:**
-
-- `path` - Path to the file to write
-- `data` - Byte data to write
-
-**Example:**
+| Method                                | Description                              |
+| ------------------------------------- | ---------------------------------------- |
+| `createSync(path)` / `create(path)`   | Create an empty file                     |
+| `copyFileSync(src, dst)` / `copyFile` | Copy a file                              |
+| `removeSync(path)` / `remove(path)`   | Delete a file or empty directory         |
+| `removeAllSync(path)` / `removeAll`   | Recursively delete a file or directory   |
+| `renameSync(old, new)` / `rename`     | Rename or move a file/directory          |
+| `existsSync(path)` / `exists(path)`   | Check whether a path exists              |
+| `truncateSync(path, length)`          | Truncate a file to the given length      |
+| `chmodSync(path, mode)`               | Change permissions (Unix mode bits)      |
+| `openSync(path, mode)`                | Open a file and return a file descriptor |
 
 ```typescript
-const data = new Uint8Array([0x89, 0x50, 0x4E, 0x47]); // PNG header
-Andromeda.writeFileSync("test.png", data);
+await Andromeda.create("hello.txt");
+await Andromeda.copyFile("hello.txt", "world.txt");
+await Andromeda.rename("world.txt", "goodbye.txt");
+
+if (Andromeda.existsSync("goodbye.txt")) {
+  Andromeda.removeSync("goodbye.txt");
+}
+
+await Andromeda.removeAll("./scratch");
+
+Andromeda.chmodSync("script.sh", 0o755);
+Andromeda.truncateSync("log.txt", 0);
 ```
 
-#### `Andromeda.writeTextFile(path: string, data: string, options?: WriteOptions): Promise<void>`
+## Directories
 
-Asynchronously writes a string to a file, creating the file if it doesn't exist.
+### `mkdirSync(path)` / `mkdir(path)` and `mkdirAllSync` / `mkdirAll`
 
-**Parameters:**
-
-- `path` - Path to the file to write
-- `data` - String data to write
-- `options` - Optional write options
-
-**Options:**
-
-- `append?: boolean` - If true, append to existing file instead of overwriting
-- `create?: boolean` - If true, create file if it doesn't exist (default: true)
-- `createNew?: boolean` - If true, fail if file already exists
-
-**Example:**
+`mkdir` creates a single directory; `mkdirAll` recursively creates all
+intermediate directories.
 
 ```typescript
-const data = JSON.stringify({ name: "John", age: 30 }, null, 2);
-await Andromeda.writeTextFile("user.json", data);
-console.log("✅ File written successfully");
+Andromeda.mkdirSync("output");
+await Andromeda.mkdir("output");
 
-// Append to existing file
-await Andromeda.writeTextFile("log.txt", "New entry\n", { append: true });
+Andromeda.mkdirAllSync("path/to/deep/dir");
+await Andromeda.mkdirAll("path/to/deep/dir");
 ```
 
-**Notes:**
+### `readDirSync(path)`
 
-- Creates parent directories if they don't exist
-- Uses UTF-8 encoding
-
-#### `Andromeda.writeFile(path: string, data: Uint8Array, options?: WriteOptions): Promise<void>`
-
-Asynchronously writes raw bytes to a file.
-
-**Parameters:**
-
-- `path` - Path to the file to write
-- `data` - Byte data to write
-- `options` - Optional write options
-
-**Example:**
+List a directory's contents. Returns an array of entry descriptors.
 
 ```typescript
-const data = new Uint8Array([0x89, 0x50, 0x4E, 0x47]); // PNG header
-await Andromeda.writeFile("test.png", data);
+const entries = Andromeda.readDirSync("./src");
+for (const entry of entries) {
+  console.log(entry.name, entry.isFile, entry.isDirectory, entry.isSymlink);
+}
+
+const tsFiles = entries.filter((e) => e.isFile && e.name.endsWith(".ts"));
 ```
 
-### File Information
-
-#### `Andromeda.stat(path: string): FileInfo`
-
-Gets information about a file or directory.
-
-**Parameters:**
-
-- `path` - Path to the file or directory
-
-**Returns:** `FileInfo` object with properties:
-
-- `isFile: boolean` - True if the path is a file
-- `isDirectory: boolean` - True if the path is a directory
-- `size: number` - Size in bytes (for files)
-- `modified: Date` - Last modification time
-- `created: Date` - Creation time
-- `accessed: Date` - Last access time
-
-**Example:**
+Returned entry shape:
 
 ```typescript
-const info = Andromeda.stat("myfile.txt");
-console.log(`File size: ${info.size} bytes`);
-console.log(`Modified: ${info.modified.toISOString()}`);
-console.log(`Is directory: ${info.isDirectory}`);
-```
-
-#### `Andromeda.exists(path: string): boolean`
-
-Checks if a file or directory exists.
-
-**Parameters:**
-
-- `path` - Path to check
-
-**Returns:** `true` if the path exists, `false` otherwise
-
-**Example:**
-
-```typescript
-if (Andromeda.exists("config.json")) {
-  const config = Andromeda.readTextFileSync("config.json");
-  // Process config...
-} else {
-  console.log("Config file not found, using defaults");
+{
+  name: string;
+  isFile: boolean;
+  isDirectory: boolean;
+  isSymlink: boolean;
 }
 ```
 
-### Directory Operations
+## File information
 
-#### `Andromeda.readDir(path: string): string[]`
+### `statSync(path)` and `lstatSync(path)`
 
-Lists the contents of a directory.
-
-**Parameters:**
-
-- `path` - Path to the directory
-
-**Returns:** Array of filenames in the directory
-
-**Example:**
+`statSync` follows symbolic links; `lstatSync` does not.
 
 ```typescript
-const files = Andromeda.readDir("./src");
-console.log("Source files:", files);
-
-// Filter for TypeScript files
-const tsFiles = files.filter((file) => file.endsWith(".ts"));
-console.log("TypeScript files:", tsFiles);
+const info = Andromeda.statSync("hello.txt");
+console.log(info.size); // bytes
+console.log(info.isFile, info.isDirectory); // booleans
+console.log(info.modified); // ms since epoch
+console.log(info.mode.toString(8)); // permissions
 ```
 
-#### `Andromeda.mkdir(path: string, recursive?: boolean): void`
-
-Creates a directory.
-
-**Parameters:**
-
-- `path` - Path of the directory to create
-- `recursive` - If true, creates parent directories as needed (default: false)
-
-**Example:**
+Returned shape:
 
 ```typescript
-// Create a single directory
-Andromeda.mkdir("output");
-
-// Create nested directories
-Andromeda.mkdir("projects/my-app/src", true);
-```
-
-#### `Andromeda.rmdir(path: string): void`
-
-Removes an empty directory.
-
-**Parameters:**
-
-- `path` - Path of the directory to remove
-
-**Example:**
-
-```typescript
-Andromeda.rmdir("empty-folder");
-```
-
-**Note:** Directory must be empty. Use `remove` for non-empty directories.
-
-### File Operations
-
-#### `Andromeda.remove(path: string): void`
-
-Removes a file or directory (and all its contents).
-
-**Parameters:**
-
-- `path` - Path to remove
-
-**Example:**
-
-```typescript
-// Remove a file
-Andromeda.remove("old-file.txt");
-
-// Remove a directory and all contents
-Andromeda.remove("old-project/");
-```
-
-**Warning:** This operation is irreversible!
-
-#### `Andromeda.removeSync(path: string): void`
-
-Synchronously removes a file or directory and all its contents.
-
-**Parameters:**
-
-- `path` - Path to remove
-
-**Example:**
-
-```typescript
-// Remove a file synchronously
-Andromeda.removeSync("temp-file.txt");
-
-// Remove a directory synchronously
-Andromeda.removeSync("cache/");
-```
-
-#### `Andromeda.copy(from: string, to: string): void`
-
-Copies a file or directory.
-
-**Parameters:**
-
-- `from` - Source path
-- `to` - Destination path
-
-**Example:**
-
-```typescript
-// Copy a file
-Andromeda.copy("template.txt", "new-file.txt");
-
-// Copy a directory
-Andromeda.copy("src/", "backup/src/");
-```
-
-#### `Andromeda.copyFileSync(from: string, to: string): void`
-
-Synchronously copies a file from one location to another.
-
-**Parameters:**
-
-- `from` - Source file path
-- `to` - Destination file path
-
-**Example:**
-
-```typescript
-// Copy a single file
-Andromeda.copyFileSync("source.txt", "destination.txt");
-
-// Copy with different name
-Andromeda.copyFileSync("config.json", "config.backup.json");
-```
-
-#### `Andromeda.move(from: string, to: string): void`
-
-Moves (renames) a file or directory.
-
-**Parameters:**
-
-- `from` - Source path
-- `to` - Destination path
-
-**Example:**
-
-```typescript
-// Rename a file
-Andromeda.move("old-name.txt", "new-name.txt");
-
-// Move to different directory
-Andromeda.move("temp/file.txt", "permanent/file.txt");
-```
-
-#### `Andromeda.renameSync(from: string, to: string): void`
-
-Synchronously renames or moves a file or directory.
-
-**Parameters:**
-
-- `from` - Current path
-- `to` - New path
-
-**Example:**
-
-```typescript
-// Rename a file
-Andromeda.renameSync("oldname.txt", "newname.txt");
-
-// Move to different directory
-Andromeda.renameSync("temp/file.txt", "archive/file.txt");
-```
-
-### Advanced File Operations
-
-#### `Andromeda.createSync(path: string): void`
-
-Creates a new empty file at the specified path.
-
-**Parameters:**
-
-- `path` - Path where the file should be created
-
-**Example:**
-
-```typescript
-// Create an empty file
-Andromeda.createSync("newfile.txt");
-
-// Create file in subdirectory (directory must exist)
-Andromeda.createSync("logs/app.log");
-```
-
-#### `Andromeda.openSync(path: string, mode?: string): number`
-
-Opens a file and returns a file descriptor for low-level operations.
-
-**Parameters:**
-
-- `path` - Path to the file
-- `mode` - Opening mode (optional)
-
-**Returns:** File descriptor (number)
-
-**Example:**
-
-```typescript
-// Open file for reading
-const fd = Andromeda.openSync("data.txt", "r");
-
-// Use file descriptor for operations
-// ... perform file operations ...
-
-// Close file descriptor when done
-Andromeda.closeSync(fd);
-```
-
-**Note:** This is a low-level API. Use `readFileSync` and `writeFileSync` for
-most use cases.
-
-## Path Utilities
-
-### `Andromeda.resolve(...paths: string[]): string`
-
-Resolves a sequence of path segments to an absolute path.
-
-**Example:**
-
-```typescript
-const absolutePath = Andromeda.resolve("./data", "users", "profile.json");
-console.log("Absolute path:", absolutePath);
-// Output: /home/user/project/data/users/profile.json
-```
-
-### `Andromeda.join(...paths: string[]): string`
-
-Joins path segments together.
-
-**Example:**
-
-```typescript
-const fullPath = Andromeda.join("src", "components", "Button.tsx");
-console.log("Joined path:", fullPath);
-// Output: src/components/Button.tsx
-```
-
-### `Andromeda.dirname(path: string): string`
-
-Returns the directory portion of a path.
-
-**Example:**
-
-```typescript
-const dir = Andromeda.dirname("/home/user/file.txt");
-console.log("Directory:", dir);
-// Output: /home/user
-```
-
-### `Andromeda.basename(path: string): string`
-
-Returns the last portion of a path.
-
-**Example:**
-
-```typescript
-const name = Andromeda.basename("/home/user/file.txt");
-console.log("Filename:", name);
-// Output: file.txt
-```
-
-### `Andromeda.extname(path: string): string`
-
-Returns the extension of a path.
-
-**Example:**
-
-```typescript
-const ext = Andromeda.extname("document.pdf");
-console.log("Extension:", ext);
-// Output: .pdf
-```
-
-## Working Directory
-
-### `Andromeda.cwd(): string`
-
-Gets the current working directory.
-
-**Example:**
-
-```typescript
-const currentDir = Andromeda.cwd();
-console.log("Current directory:", currentDir);
-```
-
-### `Andromeda.chdir(path: string): void`
-
-Changes the current working directory.
-
-**Parameters:**
-
-- `path` - New working directory
-
-**Example:**
-
-```typescript
-console.log("Before:", Andromeda.cwd());
-Andromeda.chdir("../other-project");
-console.log("After:", Andromeda.cwd());
-```
-
-## Practical Examples
-
-### Configuration File Handler
-
-```typescript
-interface Config {
-  apiUrl: string;
-  timeout: number;
-  debug: boolean;
+{
+  isFile: boolean;
+  isDirectory: boolean;
+  isSymlink: boolean;
+  size: number;
+  modified: number; // ms since epoch
+  accessed: number;
+  created: number;
+  mode: number;
 }
-
-function loadConfig(): Config {
-  const configPath = "config.json";
-
-  if (!Andromeda.exists(configPath)) {
-    // Create default config
-    const defaultConfig: Config = {
-      apiUrl: "https://api.example.com",
-      timeout: 5000,
-      debug: false,
-    };
-
-    Andromeda.writeTextFileSync(
-      configPath,
-      JSON.stringify(defaultConfig, null, 2),
-    );
-    return defaultConfig;
-  }
-
-  const configText = Andromeda.readTextFileSync(configPath);
-  return JSON.parse(configText);
-}
-
-const config = loadConfig();
-console.log("API URL:", config.apiUrl);
 ```
 
-### Directory Tree Walker
+## Standard I/O
 
 ```typescript
-function walkDirectory(dirPath: string, callback: (filePath: string) => void) {
-  const items = Andromeda.readDir(dirPath);
+// Read a line from stdin
+const name = Andromeda.stdin.readLine();
 
-  for (const item of items) {
-    const fullPath = Andromeda.join(dirPath, item);
-    const info = Andromeda.stat(fullPath);
+// Write to stdout (no newline)
+Andromeda.stdout.write("Enter again: ");
 
-    if (info.isFile) {
-      callback(fullPath);
-    } else if (info.isDirectory) {
-      walkDirectory(fullPath, callback); // Recursive
-    }
-  }
-}
-
-// Find all TypeScript files
-walkDirectory("./src", (filePath) => {
-  if (filePath.endsWith(".ts")) {
-    console.log("TypeScript file:", filePath);
-  }
-});
+// Convenience prompt helpers
+const colour = prompt("favourite colour?");
+const sure = confirm("continue?");
 ```
 
-### Backup Utility
+## Environment Variables
 
 ```typescript
-function createBackup(sourceDir: string): string {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const backupDir = `backup-${timestamp}`;
+const home = Andromeda.env.get("HOME");
+Andromeda.env.set("MY_VAR", "value");
+Andromeda.env.remove("OLD_VAR");
 
-  console.log(`Creating backup: ${sourceDir} -> ${backupDir}`);
-  Andromeda.copy(sourceDir, backupDir);
-
-  console.log("✅ Backup created successfully");
-  return backupDir;
+for (const key of Andromeda.env.keys()) {
+  console.log(key, "=", Andromeda.env.get(key));
 }
-
-// Create a backup of the current project
-const backupPath = createBackup("./src");
-console.log("Backup location:", backupPath);
 ```
 
-### Log File Manager
+## Patterns
+
+### Conditional reads
 
 ```typescript
-class LogManager {
-  private logPath: string;
-
-  constructor(logPath: string) {
-    this.logPath = logPath;
-
-    // Ensure log directory exists
-    const logDir = Andromeda.dirname(logPath);
-    if (!Andromeda.exists(logDir)) {
-      Andromeda.mkdir(logDir, true);
-    }
+async function loadConfig(path: string) {
+  if (!(await Andromeda.exists(path))) {
+    return { theme: "dark", debug: false };
   }
-
-  log(level: string, message: string): void {
-    const timestamp = new Date().toISOString();
-    const logEntry = `${timestamp} [${level.toUpperCase()}] ${message}\n`;
-
-    // Append to log file
-    if (Andromeda.exists(this.logPath)) {
-      const existing = Andromeda.readTextFileSync(this.logPath);
-      Andromeda.writeTextFileSync(this.logPath, existing + logEntry);
-    } else {
-      Andromeda.writeTextFileSync(this.logPath, logEntry);
-    }
-  }
-
-  info(message: string): void {
-    this.log("info", message);
-  }
-
-  error(message: string): void {
-    this.log("error", message);
-  }
-
-  getLogs(): string[] {
-    if (!Andromeda.exists(this.logPath)) {
-      return [];
-    }
-
-    const content = Andromeda.readTextFileSync(this.logPath);
-    return content.split("\n").filter((line) => line.trim());
-  }
+  return JSON.parse(await Andromeda.readTextFile(path));
 }
+```
 
-// Usage
-const logger = new LogManager("logs/app.log");
-logger.info("Application started");
-logger.error("Something went wrong");
+### Recursive walk
 
-// Read all logs
-const logs = logger.getLogs();
-console.log("Recent logs:", logs.slice(-5));
+```typescript
+function walk(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of Andromeda.readDirSync(dir)) {
+    const full = `${dir}/${entry.name}`;
+    if (entry.isDirectory) out.push(...walk(full));
+    else out.push(full);
+  }
+  return out;
+}
 ```
 
 ## Error Handling
 
-Always wrap file operations in try-catch blocks:
+Every method throws on failure. Wrap calls in `try` / `catch`:
 
 ```typescript
-function safeReadFile(path: string): string | null {
-  try {
-    return Andromeda.readTextFileSync(path);
-  } catch (error) {
-    console.error(`Failed to read ${path}:`, error.message);
-    return null;
-  }
-}
-
-function safeWriteFile(path: string, data: string): boolean {
-  try {
-    Andromeda.writeTextFileSync(path, data);
-    return true;
-  } catch (error) {
-    console.error(`Failed to write ${path}:`, error.message);
-    return false;
-  }
+try {
+  const data = await Andromeda.readTextFile("missing.txt");
+} catch (err) {
+  console.error("Read failed:", (err as Error).message);
 }
 ```
 
-## Performance Tips
+## See Also
 
-1. **Use appropriate methods**: Use `readFileSync` for binary data,
-   `readTextFileSync` for text
-2. **Check existence**: Use `exists()` before reading to avoid exceptions
-3. **Batch operations**: Group multiple file operations together
-4. **Use streaming**: For large files, consider reading in chunks
-
-## Security Considerations
-
-1. **Validate paths**: Always validate user-provided file paths
-2. **Check permissions**: Handle permission errors gracefully
-3. **Sanitize filenames**: Remove dangerous characters from filenames
-4. **Limit access**: Don't allow access to system files or parent directories
-
-```typescript
-function isValidPath(path: string): boolean {
-  // Prevent directory traversal
-  if (path.includes("..")) return false;
-
-  // Prevent access to system directories
-  if (path.startsWith("/etc") || path.startsWith("/sys")) return false;
-
-  return true;
-}
-```
+- [Process API](/docs/api/process) — args, env, signals, subprocess
+- [Examples](/docs/examples/index)

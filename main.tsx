@@ -1,7 +1,4 @@
-/** @jsx h */
-/** @jsxFrag Fragment */
 import { App, staticFiles } from "fresh";
-import { Fragment, h } from "preact";
 import { type State } from "./utils.ts";
 import { defaultSiteConfig } from "./utils/meta.ts";
 import "jsr:@std/dotenv@0.225.5/load";

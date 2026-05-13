@@ -35,18 +35,18 @@ insertStmt.run("Alice Smith", "alice@example.com", 30);
 insertStmt.run("Bob Johnson", "bob@example.com", 25);
 insertStmt.run("Charlie Brown", "charlie@example.com", 35);
 
-console.log("✅ Users inserted successfully");
+console.log(" Users inserted successfully");
 
 // Query all users
 const allUsers = db.prepare("SELECT * FROM users ORDER BY name").all();
-console.log("\n📋 All users:");
+console.log("\n All users:");
 for (const user of allUsers) {
   console.log(`  - ${user.name} (${user.age}): ${user.email}`);
 }
 
 // Query with parameters
 const olderUsers = db.prepare("SELECT * FROM users WHERE age > ?").all(26);
-console.log("\n👴 Users over 26:");
+console.log("\n Users over 26:");
 for (const user of olderUsers) {
   console.log(`  - ${user.name} (${user.age})`);
 }
@@ -55,22 +55,22 @@ for (const user of olderUsers) {
 const user = db.prepare("SELECT * FROM users WHERE email = ?").get(
   "alice@example.com",
 );
-console.log("\n👤 User lookup:");
+console.log("\n User lookup:");
 console.log(`  Name: ${user.name}, Age: ${user.age}`);
 
 // Update data
 const updateStmt = db.prepare("UPDATE users SET age = ? WHERE name = ?");
 updateStmt.run(31, "Alice Smith");
-console.log("\n✅ User updated");
+console.log("\n User updated");
 
 // Delete data
 const deleteStmt = db.prepare("DELETE FROM users WHERE name = ?");
 deleteStmt.run("Bob Johnson");
-console.log("✅ User deleted");
+console.log(" User deleted");
 
 // Clean up
 db.close();
-console.log("\n✅ Database closed");
+console.log("\n Database closed");
 ```
 
 ## Complete Blog Application
@@ -107,7 +107,7 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_comments_post ON comments(post_id);
 `);
 
-console.log("✅ Database schema created");
+console.log(" Database schema created");
 
 // Insert some posts
 const insertPost = db.prepare(
@@ -142,7 +142,7 @@ insertPost.run(
   0,
 );
 
-console.log("✅ Posts inserted");
+console.log(" Posts inserted");
 
 // Insert comments
 const insertComment = db.prepare(
@@ -153,7 +153,7 @@ insertComment.run(1, "Bob", "Great introduction!");
 insertComment.run(1, "Charlie", "Very helpful, thanks!");
 insertComment.run(2, "Alice", "Nice guide!");
 
-console.log("✅ Comments inserted");
+console.log(" Comments inserted");
 
 // Query published posts with comment count
 const publishedPosts = db.prepare(`
@@ -170,7 +170,7 @@ const publishedPosts = db.prepare(`
   ORDER BY p.created_at DESC
 `).all();
 
-console.log("\n📚 Published posts:");
+console.log("\n Published posts:");
 for (const post of publishedPosts) {
   console.log(
     `  - "${post.title}" by ${post.author} (${post.comment_count} comments)`,
@@ -183,7 +183,7 @@ const getPostsByAuthor = db.prepare(
 );
 
 const alicePosts = getPostsByAuthor.all("Alice");
-console.log(`\n✍️  Alice has written ${alicePosts.length} posts`);
+console.log(`\n  Alice has written ${alicePosts.length} posts`);
 
 // Get a post with its comments
 function getPostWithComments(postId: number) {
@@ -201,7 +201,7 @@ function getPostWithComments(postId: number) {
 }
 
 const postWithComments = getPostWithComments(1);
-console.log(`\n📝 Post: "${postWithComments.title}"`);
+console.log(`\n Post: "${postWithComments.title}"`);
 console.log(`   Author: ${postWithComments.author}`);
 console.log(`   Comments (${postWithComments.comments.length}):`);
 for (const comment of postWithComments.comments) {
@@ -215,14 +215,14 @@ const searchPosts = db.prepare(
 
 const searchTerm = "%Andromeda%";
 const searchResults = searchPosts.all(searchTerm, searchTerm);
-console.log(`\n🔍 Found ${searchResults.length} posts matching "Andromeda"`);
+console.log(`\n Found ${searchResults.length} posts matching "Andromeda"`);
 
 // Update post
 const updatePost = db.prepare(
   "UPDATE posts SET published = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
 );
 updatePost.run(4);
-console.log("\n✅ Published draft post");
+console.log("\n Published draft post");
 
 // Statistics
 const stats = db.prepare(`
@@ -233,7 +233,7 @@ const stats = db.prepare(`
     (SELECT COUNT(DISTINCT author) FROM posts) as unique_authors
 `).get();
 
-console.log("\n📊 Blog Statistics:");
+console.log("\n Blog Statistics:");
 console.log(`   Total posts: ${stats.total_posts}`);
 console.log(`   Published: ${stats.published_posts}`);
 console.log(`   Comments: ${stats.total_comments}`);
@@ -241,7 +241,7 @@ console.log(`   Authors: ${stats.unique_authors}`);
 
 // Clean up
 db.close();
-console.log("\n✅ Database closed");
+console.log("\n Database closed");
 ```
 
 ## Using Transactions
@@ -267,7 +267,7 @@ const insertAccount = db.prepare(
 insertAccount.run(1, "Alice", 1000.0);
 insertAccount.run(2, "Bob", 500.0);
 
-console.log("✅ Initial accounts created");
+console.log(" Initial accounts created");
 
 // Transfer money between accounts using a transaction
 function transferMoney(fromId: number, toId: number, amount: number): boolean {
@@ -297,13 +297,13 @@ function transferMoney(fromId: number, toId: number, amount: number): boolean {
     // Commit transaction
     db.exec("COMMIT");
     console.log(
-      `✅ Transferred $${amount} from account ${fromId} to account ${toId}`,
+      ` Transferred $${amount} from account ${fromId} to account ${toId}`,
     );
     return true;
   } catch (error) {
     // Rollback on error
     db.exec("ROLLBACK");
-    console.error(`❌ Transfer failed: ${error.message}`);
+    console.error(` Transfer failed: ${error.message}`);
     return false;
   }
 }
@@ -311,7 +311,7 @@ function transferMoney(fromId: number, toId: number, amount: number): boolean {
 // Display balances
 function showBalances() {
   const accounts = db.prepare("SELECT * FROM accounts ORDER BY id").all();
-  console.log("\n💰 Account Balances:");
+  console.log("\n Account Balances:");
   for (const account of accounts) {
     console.log(`   ${account.name}: $${account.balance.toFixed(2)}`);
   }
@@ -349,7 +349,7 @@ db.exec(`
 `);
 
 // Test 1: Insert performance with transaction
-console.log("🧪 Test 1: Bulk insert with transaction");
+console.log(" Test 1: Bulk insert with transaction");
 const startTime1 = performance.now();
 
 db.exec("BEGIN TRANSACTION");
@@ -369,7 +369,7 @@ console.log(
 );
 
 // Test 2: Query performance
-console.log("\n🧪 Test 2: Query performance");
+console.log("\n Test 2: Query performance");
 const startTime2 = performance.now();
 
 const results = db.prepare("SELECT * FROM test_data WHERE number > ?").all(500);
@@ -382,7 +382,7 @@ console.log(
 );
 
 // Test 3: Index performance
-console.log("\n🧪 Test 3: Creating index");
+console.log("\n Test 3: Creating index");
 const startTime3 = performance.now();
 
 db.exec("CREATE INDEX idx_number ON test_data(number)");
@@ -391,7 +391,7 @@ const endTime3 = performance.now();
 console.log(`   Created index in ${(endTime3 - startTime3).toFixed(2)}ms`);
 
 // Test 4: Query with index
-console.log("\n🧪 Test 4: Query with index");
+console.log("\n Test 4: Query with index");
 const startTime4 = performance.now();
 
 const resultsWithIndex = db.prepare("SELECT * FROM test_data WHERE number > ?")
@@ -414,7 +414,7 @@ const stats = db.prepare(`
   FROM test_data
 `).get();
 
-console.log("\n📊 Data Statistics:");
+console.log("\n Data Statistics:");
 console.log(`   Total rows: ${stats.total}`);
 console.log(`   Average: ${stats.avg_number.toFixed(2)}`);
 console.log(`   Min: ${stats.min_number}`);

@@ -24,7 +24,7 @@ export interface BlogPostMeta {
 
 export function parseFrontmatter(
   content: string,
-): { frontmatter: BlogPostMeta | null; content: string; } {
+): { frontmatter: BlogPostMeta | null; content: string } {
   // Extract frontmatter (handle different line endings)
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
@@ -69,19 +69,19 @@ export function parseFrontmatter(
     author:
       (typeof frontmatter.author === "string" ? frontmatter.author : "") ||
       "Anonymous",
-    authorUrl: typeof frontmatter.authorUrl === "string" ?
-      frontmatter.authorUrl :
-      undefined,
+    authorUrl: typeof frontmatter.authorUrl === "string"
+      ? frontmatter.authorUrl
+      : undefined,
     excerpt:
       (typeof frontmatter.excerpt === "string" ? frontmatter.excerpt : "") ||
       "",
     tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
-    iconUrl: typeof frontmatter.iconUrl === "string" ?
-      frontmatter.iconUrl :
-      undefined,
-    coverUrl: typeof frontmatter.coverUrl === "string" ?
-      frontmatter.coverUrl :
-      undefined,
+    iconUrl: typeof frontmatter.iconUrl === "string"
+      ? frontmatter.iconUrl
+      : undefined,
+    coverUrl: typeof frontmatter.coverUrl === "string"
+      ? frontmatter.coverUrl
+      : undefined,
   };
 
   return { frontmatter: meta, content: markdownContent };

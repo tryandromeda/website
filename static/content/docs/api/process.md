@@ -1,467 +1,236 @@
 ---
 title: "Process API"
-description: "System interaction and environment access"
+description: "CLI args, environment variables, signals, exit, and subprocesses"
 section: "API Reference"
 order: 16
 id: "process-api"
 ---
 
-Andromeda provides a comprehensive Process API for managing the current process,
-accessing environment variables, handling command-line arguments, and
-controlling process execution. The API is available through both Deno-compatible
-interfaces and the native Andromeda.process object.
+Andromeda exposes process-level primitives directly on the `Andromeda` namespace
+— there is no `Andromeda.process` object. Everything you need lives at the top
+level: CLI args, environment variables, signals, exit, and the `Command`
+subprocess class.
 
-## Overview
+## CLI Arguments
 
-The Process API provides access to:
+`Andromeda.args` is a `string[]` containing the arguments passed to the script
+(everything after the script path on the command line). It does not include the
+binary name itself.
 
-- Process information (PID, platform, architecture)
-- Environment variables (both Deno-style and Node-style)
-- Command-line arguments
-- Process exit control
-- Working directory management
-- Standard input/output streams
-
-## Process Information
-
-### `Andromeda.process.pid: number`
-
-The process ID of the current Andromeda process.
-
-```typescript
-console.log(`Current process ID: ${Andromeda.process.pid}`);
+```bash
+andromeda run app.ts -- --port 3000 --name Alice
 ```
 
-### `Andromeda.process.platform: string`
-
-The operating system platform where Andromeda is running.
-
-**Possible values:**
-
-- `"linux"` - Linux systems
-- `"darwin"` - macOS
-- `"windows"` - Windows
-- `"freebsd"` - FreeBSD
-- `"openbsd"` - OpenBSD
-
 ```typescript
-console.log(`Running on: ${Andromeda.process.platform}`);
-
-// Platform-specific logic
-if (Andromeda.process.platform === "windows") {
-  console.log("Running on Windows");
-} else {
-  console.log("Running on Unix-like system");
-}
+console.log(Andromeda.args);
+// ["--port", "3000", "--name", "Alice"]
 ```
 
-### `Andromeda.process.arch: string`
-
-The CPU architecture of the current process.
-
-**Possible values:**
-
-- `"x64"` - 64-bit x86 architecture
-- `"arm64"` - 64-bit ARM architecture
-- `"x86"` - 32-bit x86 architecture
+Simple parsing:
 
 ```typescript
-console.log(`Architecture: ${Andromeda.process.arch}`);
-
-// Architecture-specific optimizations
-if (Andromeda.process.arch === "arm64") {
-  console.log("Optimizing for ARM64");
+function getFlag(name: string, fallback?: string) {
+  const idx = Andromeda.args.indexOf(`--${name}`);
+  if (idx === -1) return fallback;
+  return Andromeda.args[idx + 1];
 }
+
+const port = parseInt(getFlag("port", "3000")!, 10);
 ```
 
 ## Environment Variables
 
-Andromeda supports both Andromeda-style and Node-style environment variable
-access.
-
-### Andromeda Environment Variables
-
-#### `Andromeda.env.get(name)`
-
-Gets the value of an environment variable.
-
-**Parameters:**
-
-- `name` - The name of the environment variable
-
-**Returns:** `string | undefined` - The value of the environment variable, or
-undefined if not set
-
-**Example:**
-
 ```typescript
-const homeDir = Andromeda.env.get("HOME");
-const path = Andromeda.env.get("PATH");
-const customVar = Andromeda.env.get("MY_CUSTOM_VAR");
+// Read
+const home = Andromeda.env.get("HOME") || Andromeda.env.get("USERPROFILE");
 
-console.log("Home directory:", homeDir);
-console.log("Custom variable:", customVar || "Not set");
-```
+// Write
+Andromeda.env.set("MY_VAR", "value");
 
-#### `Andromeda.env.set(name, value)`
+// Delete
+Andromeda.env.remove("OLD_VAR");
 
-Sets an environment variable.
-
-**Parameters:**
-
-- `name` - The name of the environment variable
-- `value` - The value to set
-
-**Example:**
-
-```typescript
-Andromeda.env.set("MY_APP_CONFIG", "production");
-Andromeda.env.set("DEBUG_LEVEL", "2");
-
-console.log("Config:", Andromeda.env.get("MY_APP_CONFIG"));
-```
-
-#### `Andromeda.env.delete(name)`
-
-Deletes an environment variable.
-
-**Parameters:**
-
-- `name` - The name of the environment variable to delete
-
-**Example:**
-
-```typescript
-Andromeda.env.set("TEMP_VAR", "temporary");
-console.log("Before delete:", Andromeda.env.get("TEMP_VAR"));
-
-Andromeda.env.delete("TEMP_VAR");
-console.log("After delete:", Andromeda.env.get("TEMP_VAR")); // undefined
-```
-
-#### `Andromeda.env.toObject()`
-
-Gets all environment variables as an object.
-
-**Returns:** `Record<string, string>` - Object containing all environment
-variables
-
-**Example:**
-
-```typescript
-const allEnv = Andromeda.env.toObject();
-console.log("Environment variables:");
-for (const [key, value] of Object.entries(allEnv)) {
-  console.log(`${key}=${value}`);
+// List
+for (const key of Andromeda.env.keys()) {
+  console.log(`${key}=${Andromeda.env.get(key)}`);
 }
 ```
 
-### Node Environment Variables
+Andromeda also ships [Web Storage](/docs/api/web-storage) and a SQLite-backed
+database for persistent state. Prefer those for application data over env vars.
 
-#### `Andromeda.process.env: { [key: string]: string | undefined }`
-
-An object containing the current environment variables (Node.js style).
+## Standard I/O
 
 ```typescript
-// Access specific environment variables
-const home = Andromeda.process.env.HOME;
-const path = Andromeda.process.env.PATH;
-const nodeEnv = Andromeda.process.env.NODE_ENV;
+// Read a line from stdin (blocks)
+const line = Andromeda.stdin.readLine();
 
-console.log(`Home directory: ${home}`);
-console.log(`Node environment: ${nodeEnv || "development"}`);
+// Write to stdout (no trailing newline)
+Andromeda.stdout.write("Pick one: ");
 
-// Check if environment variable exists
-if (Andromeda.process.env.DEBUG) {
-  console.log("Debug mode enabled");
-}
-
-// Get environment variable with fallback
-const port = Andromeda.process.env.PORT || "3000";
-const apiUrl = Andromeda.process.env.API_URL || "http://localhost:8080";
+// Write to stdout with a newline
+Andromeda.stdout.writeLine("Done!");
 ```
 
-## Command Line Arguments
-
-### Andromeda Command Arguments
-
-#### `Andromeda.args`
-
-An array containing the command-line arguments passed to the script.
-
-**Type:** `string[]`
-
-**Example:**
+`prompt(message)`, `confirm(message)`, and `alert(message)` are global helpers
+built on top of stdin/stdout.
 
 ```typescript
-// If script is run with: andromeda run script.ts --config=prod --verbose
-console.log("Arguments:", Andromeda.args);
-// Output: Arguments: ["--config=prod", "--verbose"]
-
-// Parse arguments
-const config = Andromeda.args.find((arg) => arg.startsWith("--config="))?.split(
-  "=",
-)[1];
-const verbose = Andromeda.args.includes("--verbose");
-
-console.log("Config:", config);
-console.log("Verbose mode:", verbose);
+const name = prompt("Your name?");
+const ok = confirm("Continue?");
+alert("All done!");
 ```
 
-### Node Command Arguments
-
-#### `Andromeda.process.argv: string[]`
-
-An array containing the command-line arguments passed to the Andromeda process
-(Node.js style).
+## Exit
 
 ```typescript
-// Display all command-line arguments
-console.log("Command-line arguments:", Andromeda.process.argv);
+Andromeda.exit(0); // success
+Andromeda.exit(1); // failure
+Andromeda.exit(); // defaults to 0
+```
 
-// Skip the first two arguments (executable and script name)
-const args = Andromeda.process.argv.slice(2);
-console.log("Script arguments:", args);
+`exit` terminates the runtime immediately — no `finally` blocks or
+`process.on("beforeExit")` semantics. Clean up explicitly before calling it.
 
-// Parse simple flags
-const hasVerbose = args.includes("--verbose") || args.includes("-v");
-const hasHelp = args.includes("--help") || args.includes("-h");
+## Sleep
 
-if (hasHelp) {
-  console.log("Usage: andromeda script.js [options]");
-  console.log("  --verbose, -v    Enable verbose output");
-  console.log("  --help, -h       Show this help message");
-  Andromeda.process.exit(0);
+```typescript
+await Andromeda.sleep(500); // 500ms
+
+// Pattern: poll with a budget
+for (let i = 0; i < 10; i++) {
+  if (await isReady()) break;
+  await Andromeda.sleep(250);
 }
 ```
 
-## Process Control
+## Signals
 
-### `Andromeda.process.exit(code?: number): never`
-
-Terminates the current process with the specified exit code.
-
-**Parameters:**
-
-- `code` (optional) - Exit code (default: 0)
+`addSignalListener` / `removeSignalListener` register POSIX-style signal
+handlers. On Windows only `SIGINT` (Ctrl+C) and `SIGBREAK` (Ctrl+Break) are
+supported.
 
 ```typescript
-// Successful exit
-Andromeda.process.exit(0);
+type Signal =
+  | "SIGABRT"
+  | "SIGALRM"
+  | "SIGBREAK"
+  | "SIGBUS"
+  | "SIGCHLD"
+  | "SIGCONT"
+  | "SIGEMT"
+  | "SIGFPE"
+  | "SIGHUP"
+  | "SIGILL"
+  | "SIGINFO"
+  | "SIGINT"
+  | "SIGIO"
+  | "SIGPOLL"
+  | "SIGUNUSED"
+  | "SIGKILL"
+  | "SIGPIPE"
+  | "SIGPROF"
+  | "SIGPWR"
+  | "SIGQUIT"
+  | "SIGSEGV"
+  | "SIGSTKFLT"
+  | "SIGSTOP"
+  | "SIGSYS"
+  | "SIGTERM"
+  | "SIGTRAP"
+  | "SIGTSTP"
+  | "SIGTTIN"
+  | "SIGTTOU"
+  | "SIGURG"
+  | "SIGUSR1"
+  | "SIGUSR2"
+  | "SIGVTALRM"
+  | "SIGWINCH"
+  | "SIGXCPU"
+  | "SIGXFSZ";
 
-// Exit with error code
-Andromeda.process.exit(1);
+const onInt = () => {
+  console.log("\nGoodbye!");
+  Andromeda.exit(0);
+};
 
-// Exit with custom error code
-Andromeda.process.exit(42);
+Andromeda.addSignalListener("SIGINT", onInt);
+
+// Later, to detach:
+Andromeda.removeSignalListener("SIGINT", onInt);
 ```
 
-## Working Directory
+## Spawning Subprocesses (`Andromeda.Command`)
 
-### `Andromeda.process.cwd(): string`
+Run external programs with `Andromeda.Command`. The API mirrors Deno's
+`Deno.Command`.
 
-Returns the current working directory of the process.
+### Run-to-completion
 
 ```typescript
-const currentDir = Andromeda.process.cwd();
-console.log(`Current directory: ${currentDir}`);
+const cmd = new Andromeda.Command("echo", { args: ["hello", "world"] });
 
-// Use in file operations
-const configPath = `${currentDir}/config.json`;
+const output = await cmd.output();
+console.log(output.success); // true
+console.log(output.code); // 0
+console.log(output.signal); // null
+console.log(output.stdout); // "hello world\n"
+console.log(output.stderr); // ""
 ```
 
-### `Andromeda.process.chdir(directory: string): void`
+`outputSync()` is the synchronous variant of `output()`.
 
-Changes the current working directory of the process.
-
-**Parameters:**
-
-- `directory` - Path to the new working directory
+### Spawn (long-running)
 
 ```typescript
-console.log("Before:", Andromeda.process.cwd());
+const cmd = new Andromeda.Command("ping", { args: ["-c", "5", "1.1.1.1"] });
+const child = cmd.spawn();
 
-// Change to parent directory
-Andromeda.process.chdir("..");
-console.log("After:", Andromeda.process.cwd());
+console.log("pid:", child.pid);
+child.kill("SIGTERM"); // or "SIGKILL", etc.
 
-// Change to specific directory
-Andromeda.process.chdir("/home/user/projects");
-console.log("New directory:", Andromeda.process.cwd());
+const status = await child.status;
+const output = await child.output();
 ```
 
-### Parsing Command Line Arguments
+### Options
 
 ```typescript
-interface ParsedArgs {
-  config?: string;
-  verbose: boolean;
-  port?: number;
-  files: string[];
-}
-
-function parseArgs(args: string[]): ParsedArgs {
-  const result: ParsedArgs = {
-    verbose: false,
-    files: [],
-  };
-
-  for (const arg of args) {
-    if (arg === "--verbose" || arg === "-v") {
-      result.verbose = true;
-    } else if (arg.startsWith("--config=")) {
-      result.config = arg.split("=")[1];
-    } else if (arg.startsWith("--port=")) {
-      result.port = parseInt(arg.split("=")[1], 10);
-    } else if (!arg.startsWith("-")) {
-      result.files.push(arg);
-    }
-  }
-
-  return result;
-}
-
-const parsed = parseArgs(Andromeda.args);
-console.log("Parsed arguments:", parsed);
-```
-
-## Process Information
-
-### Process ID and Platform
-
-While Andromeda doesn't expose all Node.js process properties, you can access
-basic information:
-
-```typescript
-// Check if running in Andromeda
-if (typeof Andromeda !== "undefined") {
-  console.log("Running in Andromeda runtime");
-}
-
-// Environment-based platform detection
-const platform = Andromeda.env.get("OS") || Andromeda.env.get("OSTYPE") ||
-  "unknown";
-console.log("Platform:", platform);
-```
-
-## Common Usage Patterns
-
-### Configuration Management
-
-```typescript
-interface AppConfig {
-  port: number;
-  debug: boolean;
-  apiKey?: string;
-  logLevel: string;
-}
-
-function loadConfig(): AppConfig {
-  return {
-    port: parseInt(Andromeda.env.get("PORT") || "3000", 10),
-    debug: Andromeda.env.get("DEBUG") === "true",
-    apiKey: Andromeda.env.get("API_KEY"),
-    logLevel: Andromeda.env.get("LOG_LEVEL") || "info",
-  };
-}
-
-const config = loadConfig();
-console.log("Application config:", config);
-```
-
-### Argument-based Configuration
-
-```typescript
-function createConfigFromArgs(): AppConfig {
-  const args = parseArgs(Andromeda.args);
-
-  return {
-    port: args.port || parseInt(Andromeda.env.get("PORT") || "3000", 10),
-    debug: args.verbose || Andromeda.env.get("DEBUG") === "true",
-    apiKey: Andromeda.env.get("API_KEY"),
-    logLevel: args.verbose ? "debug" : "info",
-  };
+interface CommandOptions {
+  args?: string[];
+  cwd?: string;
+  env?: Record<string, string>;
+  clearEnv?: boolean;
+  stdin?: "piped" | "inherit" | "null"; // default: "inherit" for spawn, "null" otherwise
+  stdout?: "piped" | "inherit" | "null"; // default: "piped"
+  stderr?: "piped" | "inherit" | "null"; // default: "piped"
+  uid?: number; // Unix only
+  gid?: number; // Unix only
+  windowsRawArguments?: boolean; // Windows only
 }
 ```
 
-### Environment Detection
+### Examples
 
 ```typescript
-function getEnvironment(): "development" | "production" | "test" {
-  const nodeEnv = Andromeda.env.get("NODE_ENV");
-  const env = Andromeda.env.get("ENVIRONMENT");
+// Custom environment
+const cmd = new Andromeda.Command("node", {
+  args: ["-e", "console.error('hi')"],
+  env: { NODE_ENV: "production" },
+  stderr: "piped",
+});
+const out = await cmd.output();
+console.log(out.stderr);
 
-  if (nodeEnv === "production" || env === "prod") return "production";
-  if (nodeEnv === "test" || env === "test") return "test";
-  return "development";
-}
-
-const environment = getEnvironment();
-console.log("Running in environment:", environment);
+// Pipe vs inherit
+new Andromeda.Command("ls", {
+  args: ["-la"],
+  stdout: "inherit",
+}).spawn();
 ```
-
-### Script Utilities
-
-```typescript
-class ProcessUtils {
-  static getRequiredEnv(name: string): string {
-    const value = Andromeda.env.get(name);
-    if (!value) {
-      throw new Error(`Required environment variable ${name} is not set`);
-    }
-    return value;
-  }
-
-  static getEnvAsNumber(name: string, defaultValue: number): number {
-    const value = Andromeda.env.get(name);
-    if (!value) return defaultValue;
-    const parsed = parseInt(value, 10);
-    return isNaN(parsed) ? defaultValue : parsed;
-  }
-
-  static getEnvAsBoolean(name: string, defaultValue: boolean): boolean {
-    const value = Andromeda.env.get(name);
-    if (!value) return defaultValue;
-    return value.toLowerCase() === "true" || value === "1";
-  }
-
-  static hasFlag(flag: string): boolean {
-    return Andromeda.args.includes(flag) ||
-      Andromeda.args.includes(`-${flag}`) ||
-      Andromeda.args.includes(`--${flag}`);
-  }
-}
-
-// Usage
-const apiKey = ProcessUtils.getRequiredEnv("API_KEY");
-const port = ProcessUtils.getEnvAsNumber("PORT", 3000);
-const debug = ProcessUtils.getEnvAsBoolean("DEBUG", false);
-const verbose = ProcessUtils.hasFlag("verbose");
-```
-
-## Security Considerations
-
-1. **Sensitive data**: Be careful not to log environment variables that might
-   contain secrets
-
-2. **Input validation**: Always validate and sanitize command-line arguments
-
-3. **Environment isolation**: Be aware that environment variables are inherited
-   from the parent process
-
-## Best Practices
-
-1. **Use descriptive names**: Use clear, consistent naming for environment
-   variables
-
-2. **Provide defaults**: Always provide sensible default values
-
-3. **Document requirements**: Document which environment variables are required
-
-4. **Type safety**: Use utility functions to safely parse environment variables
 
 ## See Also
 
-- [File System API](/docs/api/file-system) - For file and directory operations
-- [Console API](/docs/api/console) - For logging and debugging
-- [CLI Reference](/docs/cli-reference) - For command-line usage
+- [File System API](/docs/api/file-system) for stdin/stdout helpers
+- [Time API](/docs/api/time) for `setTimeout` / `setInterval`
+- [Cron API](/docs/api/cron) for scheduled tasks

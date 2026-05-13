@@ -1,372 +1,178 @@
 ---
 title: "Cron API"
-description: "Schedule and manage recurring tasks with Andromeda's cron functionality"
+description: "Schedule recurring tasks with Andromeda.cron"
 section: "API Reference"
 order: 14
 id: "cron-api"
 ---
 
-The Cron API provides functionality for scheduling and managing recurring tasks
-in Andromeda. It allows you to execute functions at specified intervals using
-familiar cron syntax.
+`Andromeda.cron(name, schedule, handler)` schedules a recurring task. The
+schedule can be a standard Unix cron string or a structured JSON object. All
+times are interpreted in UTC.
 
-## Overview
-
-The Andromeda Cron API enables you to:
-
-- Schedule tasks using standard cron expressions
-- Execute functions at specific times or intervals
-- Manage scheduled jobs (start, stop, list)
-- Handle async/await patterns in scheduled tasks
-
-## Basic Usage
-
-### Scheduling a Task
+## Signatures
 
 ```typescript
-// Schedule a task to run every minute
-const job = Andromeda.cron("* * * * *", () => {
-  console.log("Task executed at:", new Date().toISOString());
-});
+declare namespace Andromeda {
+  function cron(
+    name: string,
+    schedule: string | CronSchedule,
+    handler: () => Promise<void> | void,
+  ): Promise<void>;
 
-// Schedule a task to run every day at 2:30 AM
-const dailyJob = Andromeda.cron("30 2 * * *", async () => {
-  console.log("Running daily maintenance...");
-  await performMaintenanceTasks();
-});
+  function cron(
+    name: string,
+    schedule: string | CronSchedule,
+    options: { backoffSchedule?: number[]; signal?: AbortSignal },
+    handler: () => Promise<void> | void,
+  ): Promise<void>;
+
+  type CronScheduleExpression =
+    | number
+    | { exact: number | number[] }
+    | { start?: number; end?: number; every?: number };
+
+  interface CronSchedule {
+    minute?: CronScheduleExpression;
+    hour?: CronScheduleExpression;
+    dayOfMonth?: CronScheduleExpression;
+    month?: CronScheduleExpression;
+    dayOfWeek?: CronScheduleExpression;
+  }
+}
 ```
 
-### Cron Expression Format
+`name` is used in logs and to identify the job. Each call registers a job and
+returns a `Promise<void>` that runs as long as the runtime is alive.
 
-Cron expressions use the standard format:
+## Cron-string schedules
+
+Cron strings follow the standard `minute hour day-of-month month day-of-week`
+five-field format:
 
 ```text
 * * * * *
-┬ ┬ ┬ ┬ ┬
 │ │ │ │ │
-│ │ │ │ └─── day of week (0 - 6) (Sunday to Saturday)
-│ │ │ └───── month (1 - 12)
-│ │ └─────── day of month (1 - 31)
-│ └───────── hour (0 - 23)
-└─────────── minute (0 - 59)
+│ │ │ │ └── day of week  (1=Mon … 7=Sun)
+│ │ │ └──── month         (1-12)
+│ │ └────── day of month  (1-31)
+│ └──────── hour          (0-23)
+└────────── minute        (0-59)
 ```
 
-## API Reference
+```typescript
+// Every minute
+Andromeda.cron("heartbeat", "* * * * *", () => {
+  console.log("alive", new Date().toISOString());
+});
 
-### `Andromeda.cron(expression, callback)`
+// Daily at 02:30 UTC
+Andromeda.cron("nightly", "30 2 * * *", async () => {
+  await nightlyMaintenance();
+});
 
-Schedules a recurring task using a cron expression.
+// Every 15 minutes
+Andromeda.cron("poll", "*/15 * * * *", () => poll());
 
-**Parameters:**
+// Monday – Friday at 09:00
+Andromeda.cron("standup", "0 9 * * 1-5", () => notifyTeam());
+```
 
-- `expression` (string): Cron expression defining when to run the task
-- `callback` (function): Function to execute on schedule
+## Object schedules
 
-**Returns:**
-
-- `CronJob`: A job object for managing the scheduled task
-
-**Example:**
+The object form is type-safe and avoids cron-string ambiguities. Every field is
+optional and defaults to "any value":
 
 ```typescript
-const job = Andromeda.cron("0 */2 * * *", () => {
-  console.log("Runs every 2 hours");
+// Every six hours
+Andromeda.cron("rotate", { hour: { every: 6 } }, rotateLogs);
+
+// Exactly minute 0, 30 of every hour
+Andromeda.cron("half-hour", { minute: { exact: [0, 30] } }, work);
+
+// 09:30 on weekdays
+Andromeda.cron(
+  "weekday-am",
+  {
+    minute: 30,
+    hour: 9,
+    dayOfWeek: { start: 1, end: 5 },
+  },
+  ping,
+);
+```
+
+Field bounds:
+
+| Field        | Range               |
+| ------------ | ------------------- |
+| `minute`     | 0-59                |
+| `hour`       | 0-23                |
+| `dayOfMonth` | 1-31                |
+| `month`      | 1-12                |
+| `dayOfWeek`  | 1-7 (Mon=1 … Sun=7) |
+
+## Options
+
+### `backoffSchedule`
+
+If the handler throws, the job is retried following the given delays (in
+milliseconds). After the schedule is exhausted, the failure is propagated and
+the job will fire again on the next regular tick.
+
+```typescript
+Andromeda.cron(
+  "fetch-feed",
+  "*/5 * * * *",
+  { backoffSchedule: [100, 500, 2000] },
+  async () => {
+    await refreshFeed();
+  },
+);
+```
+
+### `signal`
+
+Use an `AbortSignal` to cancel a cron job permanently:
+
+```typescript
+const controller = new AbortController();
+
+Andromeda.cron("temp", "* * * * *", { signal: controller.signal }, () => {
+  console.log("tick");
+});
+
+Andromeda.addSignalListener("SIGTERM", () => controller.abort());
+```
+
+## Patterns
+
+### Self-limiting job
+
+```typescript
+let runs = 0;
+Andromeda.cron("limited", "* * * * *", () => {
+  runs++;
+  console.log(`run ${runs}`);
+  if (runs >= 3) Andromeda.exit(0);
 });
 ```
 
-### CronJob Methods
+### Long-running async handler
 
-#### `start()`
-
-Starts or resumes the scheduled job.
-
-```typescript
-const job = Andromeda.cron("0 9 * * 1-5", workdayTask);
-job.start();
-```
-
-#### `stop()`
-
-Stops the scheduled job.
+The cron driver does not stack overlapping invocations. If your handler is still
+running when the next tick fires, the next tick is queued.
 
 ```typescript
-job.stop();
-console.log("Job stopped");
-```
-
-#### `isRunning()`
-
-Returns whether the job is currently active.
-
-**Returns:**
-
-- `boolean`: True if the job is running, false otherwise
-
-```typescript
-if (job.isRunning()) {
-  console.log("Job is active");
-} else {
-  console.log("Job is stopped");
-}
-```
-
-#### `getNextRun()`
-
-Gets the next scheduled execution time.
-
-**Returns:**
-
-- `Date`: The next execution time
-
-```typescript
-const nextRun = job.getNextRun();
-console.log("Next execution:", nextRun.toISOString());
-```
-
-## Common Cron Expressions
-
-| Expression     | Description              |
-| -------------- | ------------------------ |
-| `* * * * *`    | Every minute             |
-| `0 * * * *`    | Every hour               |
-| `0 0 * * *`    | Every day at midnight    |
-| `0 0 * * 1`    | Every Monday at midnight |
-| `0 9 * * 1-5`  | Weekdays at 9 AM         |
-| `0 0 1 * *`    | First day of every month |
-| `0 0 1 1 *`    | January 1st every year   |
-| `*/15 * * * *` | Every 15 minutes         |
-| `0 */6 * * *`  | Every 6 hours            |
-
-## Examples
-
-### Data Backup Task
-
-```typescript
-// Backup data every day at 3 AM
-const backupJob = Andromeda.cron("0 3 * * *", async () => {
-  console.log("Starting daily backup...");
-
-  try {
-    // Read application data
-    const data = await Andromeda.readTextFile("data.json");
-
-    // Create backup filename with timestamp
-    const timestamp = new Date().toISOString().slice(0, 10);
-    const backupFile = `backup-${timestamp}.json`;
-
-    // Write backup
-    await Andromeda.writeTextFile(backupFile, data);
-    console.log(`Backup created: ${backupFile}`);
-  } catch (error) {
-    console.error("Backup failed:", error);
-  }
+Andromeda.cron("nightly", "0 0 * * *", async () => {
+  performance.mark("nightly:start");
+  await heavyJob();
+  performance.measure("nightly", "nightly:start");
 });
 ```
-
-### System Health Check
-
-```typescript
-// Check system health every 5 minutes
-const healthCheckJob = Andromeda.cron("*/5 * * * *", async () => {
-  const startTime = performance.now();
-
-  try {
-    // Check memory usage
-    const memoryInfo = process.memoryUsage();
-
-    // Check if critical files exist
-    const configExists = await Andromeda.exists("config.json");
-
-    const health = {
-      timestamp: new Date().toISOString(),
-      memory: memoryInfo,
-      configFile: configExists,
-      responseTime: performance.now() - startTime,
-    };
-
-    console.log("Health check:", health);
-
-    // Save health log
-    await Andromeda.writeTextFile(
-      "health.log",
-      JSON.stringify(health) + "\n",
-      { append: true },
-    );
-  } catch (error) {
-    console.error("Health check failed:", error);
-  }
-});
-```
-
-### Cleanup Old Files
-
-```typescript
-// Clean up temporary files every Sunday at midnight
-const cleanupJob = Andromeda.cron("0 0 * * 0", async () => {
-  console.log("Starting weekly cleanup...");
-
-  try {
-    const tempDir = "./temp";
-    const files = await Andromeda.readDir(tempDir);
-    const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-
-    for (const file of files) {
-      const filePath = `${tempDir}/${file}`;
-      const stats = await Andromeda.stat(filePath);
-
-      if (stats.mtime < oneWeekAgo) {
-        await Andromeda.remove(filePath);
-        console.log(`Deleted old file: ${file}`);
-      }
-    }
-  } catch (error) {
-    console.error("Cleanup failed:", error);
-  }
-});
-```
-
-### API Data Synchronization
-
-```typescript
-// Sync data with external API every 30 minutes
-const syncJob = Andromeda.cron("*/30 * * * *", async () => {
-  console.log("Starting data sync...");
-
-  try {
-    // Fetch latest data from API
-    const response = await fetch("https://api.example.com/data");
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`);
-    }
-
-    const apiData = await response.json();
-
-    // Update local data file
-    await Andromeda.writeTextFile(
-      "api-data.json",
-      JSON.stringify(apiData, null, 2),
-    );
-
-    console.log(`Synced ${apiData.length} records`);
-  } catch (error) {
-    console.error("Sync failed:", error);
-  }
-});
-```
-
-## Managing Multiple Jobs
-
-```typescript
-// Store jobs for management
-const jobs = new Map<string, CronJob>();
-
-// Create multiple scheduled tasks
-jobs.set("backup", Andromeda.cron("0 3 * * *", backupTask));
-jobs.set("health", Andromeda.cron("*/5 * * * *", healthCheck));
-jobs.set("sync", Andromeda.cron("*/30 * * * *", syncData));
-
-// Start all jobs
-for (const [name, job] of jobs) {
-  job.start();
-  console.log(`Started job: ${name}`);
-}
-
-// Stop all jobs on shutdown
-process.on("SIGINT", () => {
-  console.log("Stopping all cron jobs...");
-  for (const [name, job] of jobs) {
-    job.stop();
-    console.log(`Stopped job: ${name}`);
-  }
-  process.exit(0);
-});
-```
-
-## Error Handling
-
-```typescript
-const job = Andromeda.cron("* * * * *", async () => {
-  try {
-    await riskyOperation();
-  } catch (error) {
-    console.error("Scheduled task failed:", error);
-
-    // Log error to file
-    const errorLog = {
-      timestamp: new Date().toISOString(),
-      error: error.message,
-      stack: error.stack,
-    };
-
-    await Andromeda.writeTextFile(
-      "error.log",
-      JSON.stringify(errorLog) + "\n",
-      { append: true },
-    );
-  }
-});
-```
-
-## Best Practices
-
-### Resource Management
-
-```typescript
-// Always stop jobs when no longer needed
-const job = Andromeda.cron("* * * * *", task);
-
-// Stop job after certain conditions
-setTimeout(() => {
-  job.stop();
-  console.log("Job stopped after timeout");
-}, 60000);
-```
-
-### Async Task Handling
-
-```typescript
-// Use async/await for asynchronous operations
-const job = Andromeda.cron("0 * * * *", async () => {
-  try {
-    await processData();
-    await sendNotification();
-  } catch (error) {
-    console.error("Async task failed:", error);
-  }
-});
-```
-
-### Avoiding Overlapping Executions
-
-```typescript
-let isRunning = false;
-
-const job = Andromeda.cron("*/5 * * * *", async () => {
-  if (isRunning) {
-    console.log("Previous task still running, skipping...");
-    return;
-  }
-
-  isRunning = true;
-  try {
-    await longRunningTask();
-  } finally {
-    isRunning = false;
-  }
-});
-```
-
-## Notes
-
-- Cron expressions use local system time
-- Tasks run in the same thread as your main application
-- Long-running tasks may block other scheduled jobs
-- Always handle errors appropriately in scheduled tasks
-- Consider timezone implications when scheduling tasks
 
 ## See Also
 
-- **[Time API](/docs/api/time)** - Date and time utilities
-- **[Performance API](/docs/api/performance)** - Performance monitoring
-- **[File System API](/docs/api/file-system)** - File operations for scheduled
-  tasks
+- [Time API](/docs/api/time) for `setTimeout` / `setInterval`
+- [Process API](/docs/api/process) for `Andromeda.exit` and signals
+- [Andromeda examples → cron.ts](https://github.com/tryandromeda/andromeda/blob/main/examples/cron.ts)

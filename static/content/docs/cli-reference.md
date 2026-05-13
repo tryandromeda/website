@@ -6,11 +6,7 @@ order: 5
 id: "cli-reference"
 ---
 
-Complete reference for Andromeda's command-line interface.
-
-> **Latest Version**: v0.1.0-draft12 includes new cron functionality and
-> improved formatter! See the [upgrade command](#upgrade) to get the latest
-> features.
+Complete reference for Andromeda's command-line interface (version `0.1.10`).
 
 ## Synopsis
 
@@ -18,40 +14,54 @@ Complete reference for Andromeda's command-line interface.
 andromeda [COMMAND] [OPTIONS] [ARGS...]
 ```
 
+Invoking `andromeda` with no arguments starts the REPL. Invoking it with a `.ts`
+file as the first argument is shorthand for `andromeda run`.
+
 ## Commands
+
+| Command       | Purpose                                     |
+| ------------- | ------------------------------------------- |
+| `run`         | Execute a JS or TS file                     |
+| `repl`        | Start an interactive REPL                   |
+| `compile`     | Build a single-file executable              |
+| `bundle`      | Bundle and minify a script                  |
+| `fmt`         | Format source files                         |
+| `lint`        | Lint source files                           |
+| `check`       | Type-check TypeScript files                 |
+| `lsp`         | Start the Language Server                   |
+| `task`        | Run tasks defined in `andromeda.json`       |
+| `config`      | Manage `andromeda.json` / `.toml` / `.yaml` |
+| `completions` | Generate shell completion scripts           |
+| `upgrade`     | Self-update Andromeda                       |
 
 ### `run`
 
-Execute JavaScript or TypeScript files.
+Execute a JavaScript or TypeScript file.
 
 **Syntax:**
 
 ```bash
-andromeda run [OPTIONS] <FILES...>
+andromeda run [OPTIONS] <PATH> [-- ARGS...]
 ```
 
 **Arguments:**
 
-- `<FILES...>` - One or more files to execute
+- `<PATH>` — path to the file to execute
+- `[ARGS...]` — additional arguments forwarded to the script (available via
+  `Andromeda.args`)
 
 **Options:**
 
-- `-v, --verbose` - Enable verbose output showing detailed execution information
-- `--no-strict` - Disable strict mode (allows more lenient JavaScript parsing)
+- `-v, --verbose` — Enable verbose runtime output
+- `--no-strict` — Disable strict mode
 
 **Examples:**
 
 ```bash
 andromeda run script.ts
-
-# Run multiple files
-andromeda run utils.js main.ts helper.ts
-
-# Run with verbose output
 andromeda run --verbose my-app.ts
-
-# Run without strict mode
-andromeda run --no-strict legacy-script.js
+andromeda run --no-strict legacy.js
+andromeda run my-app.ts -- --port 3000 --name Alice
 ```
 
 ### `repl`
@@ -66,62 +76,64 @@ andromeda repl [OPTIONS]
 
 **Options:**
 
-- `--expose-internals` - Expose Nova internal APIs for debugging
-- `--print-internals` - Print internal debugging information
-- `--disable-gc` - Disable garbage collection
+- `--expose-internals` — Expose Nova internal APIs for debugging
+- `--print-internals` — Print internal debugging information
+- `--disable-gc` — Disable garbage collection
 
-**Examples:**
+**Built-in REPL commands:** `help`, `history`, `clear`, `gc`, `exit` / `quit`.
 
 ```bash
-# Start basic REPL
 andromeda repl
-
-# Start REPL with debugging features
 andromeda repl --expose-internals --print-internals
-
-# Start REPL with GC disabled (for debugging)
 andromeda repl --disable-gc
 ```
 
-**REPL Commands:**
-
-- `help` - Show available commands
-- `history` - Display command history
-- `clear` - Clear the screen
-- `gc` - Manually trigger garbage collection
-- `exit` or `quit` - Exit the REPL
-
 ### `compile`
 
-Compile a JavaScript/TypeScript file into a single-file executable.
+Compile a script into a single-file executable.
 
 **Syntax:**
 
 ```bash
-andromeda compile <INPUT> <OUTPUT>
+andromeda compile [OPTIONS] <PATH> <OUT>
 ```
 
-**Arguments:**
+**Options:**
 
-- `<INPUT>` - Path to the source file to compile
-- `<OUTPUT>` - Path for the output executable
+- `-v, --verbose` — Embed verbose mode in the binary
+- `-s, --no-strict` — Disable strict mode in the binary
 
 **Examples:**
 
 ```bash
-# Compile a TypeScript file
-andromeda compile my-app.ts my-app.exe
+andromeda compile my-app.ts my-app
+andromeda compile -v src/main.ts dist/tool
+```
 
-# Compile to a Unix executable
-andromeda compile script.js ./my-tool
+The resulting executable embeds your script plus the configuration block, so it
+can run on any matching platform without `andromeda` installed.
 
-# Compile with full paths
-andromeda compile /path/to/source.ts /usr/local/bin/mytool
+### `bundle`
+
+Bundle a JavaScript/TypeScript entry file and its dependencies into a single
+minified output file.
+
+**Syntax:**
+
+```bash
+andromeda bundle <INPUT> <OUTPUT>
+```
+
+**Examples:**
+
+```bash
+andromeda bundle src/main.ts dist/app.js
 ```
 
 ### `fmt`
 
-Format JavaScript and TypeScript files.
+Format JavaScript, TypeScript, and JSON files using the built-in formatter
+(dprint).
 
 **Syntax:**
 
@@ -129,160 +141,131 @@ Format JavaScript and TypeScript files.
 andromeda fmt [PATHS...]
 ```
 
-**Arguments:**
-
-- `[PATHS...]` - Files or directories to format (optional, defaults to current
-  directory)
+If no paths are provided, formats the current directory. File discovery respects
+`format.include` and `format.exclude` from your config.
 
 **Examples:**
 
 ```bash
-# Format specific files
-andromeda fmt script.ts utils.js
-
-# Format entire directory
-andromeda fmt src/
-
-# Format current directory
 andromeda fmt
-
-# Format multiple directories
-andromeda fmt src/ tests/ examples/
+andromeda fmt src/ tests/
+andromeda fmt script.ts utils.js
 ```
 
-**Supported File Types:**
+**Supported file types:** `.js`, `.ts`, `.jsx`, `.tsx`, `.mjs`, `.mts`, `.json`.
 
-- `.js` - JavaScript files
-- `.ts` - TypeScript files
-- `.jsx` - JavaScript with JSX
-- `.tsx` - TypeScript with JSX
-- `.json` - JSON files
+### `lint`
 
-## Global Options
+Run the built-in linter against your code.
 
-These options are available for all commands:
+**Syntax:**
 
-- `-h, --help` - Show help information
-- `-V, --version` - Show version information
+```bash
+andromeda lint [PATHS...]
+```
+
+**Built-in rules:**
+
+- Empty function detection
+- Empty statement detection
+- Variable usage validation
+- Unreachable code detection
+- Invalid syntax highlighting
+
+The set of enabled and disabled rules can be customised through the `lint`
+section of [`andromeda.json`](/docs/configuration).
 
 **Examples:**
 
 ```bash
-# Show general help
-andromeda --help
-
-# Show help for specific command
-andromeda run --help
-
-# Show version
-andromeda --version
+andromeda lint
+andromeda lint src/ tests/
+andromeda lint script.ts utils.js
 ```
 
-## File Types
+### `check`
 
-Andromeda supports these file extensions:
+Type-check TypeScript files.
 
-| Extension | Description                   |
-| --------- | ----------------------------- |
-| `.js`     | JavaScript files              |
-| `.ts`     | TypeScript files              |
-| `.jsx`    | JavaScript with JSX\* (React) |
-| `.tsx`    | TypeScript with JSX\* (React) |
-| `.mjs`    | ES Module JavaScript          |
-| `.mts`    | ES Module TypeScript          |
+**Syntax:**
 
-\*JSX not actually supported yet
+```bash
+andromeda check [OPTIONS] [PATHS...]
+```
 
-## Environment Variables
+**Options:**
 
-Andromeda respects these environment variables:
-
-| Variable   | Description            | Default |
-| ---------- | ---------------------- | ------- |
-| `RUST_LOG` | Set logging level      | `info`  |
-| `NO_COLOR` | Disable colored output | `false` |
+- `--json` — Emit one JSON object per diagnostic (ndjson) on stdout. Progress
+  and summary lines still go to stderr. Conflicts with `--quiet`.
+- `--quiet` — Suppress all output and rely on the exit code. Conflicts with
+  `--json`.
 
 **Examples:**
 
 ```bash
-# Enable debug logging
-RUST_LOG=debug andromeda run script.ts
-
-# Disable colors
-NO_COLOR=1 andromeda run script.ts
+andromeda check
+andromeda check src/
+andromeda check --json src/ | jq .
+andromeda check --quiet && echo ok || echo "type errors"
 ```
 
-## Debugging
+### `lsp`
 
-### Verbose Output
+Start the Language Server Protocol server. This is typically invoked by your
+editor rather than directly.
 
-Use `--verbose` with the `run` command to see detailed execution information:
+**Syntax:**
 
 ```bash
-andromeda run --verbose script.ts
+andromeda lsp
 ```
 
-This shows:
+**Features:**
 
-- File loading times
-- Parse times
-- Execution times
-- Memory usage
-- Extension loading
+- Real-time diagnostics
+- Built-in linting rules (matching `andromeda lint`)
+- Multi-file workspace analysis
+- Editor integration (VS Code, Neovim, and other LSP clients)
 
-### REPL Debugging
+### `task`
 
-Start REPL with debugging options:
+Run tasks defined in `andromeda.json` (or `.toml` / `.yaml`). Tasks are inspired
+by Deno's task system.
+
+**Syntax:**
 
 ```bash
-andromeda repl --expose-internals --print-internals
+andromeda task [TASK_NAME]
 ```
 
-This provides access to:
+If `TASK_NAME` is omitted, all available tasks are listed.
 
-- Nova engine internals
-- Garbage collection stats
-- Detailed execution traces
+**Defining tasks:** add a `tasks` map to your config. A task can be a string or
+a richer object with description, dependencies, working directory, and
+environment overrides.
 
-### Error Reporting
+```json
+{
+  "tasks": {
+    "dev": "andromeda run src/main.ts",
+    "test": "andromeda run tests/main.ts",
+    "build": {
+      "description": "Bundle and compile",
+      "command": "andromeda bundle src/main.ts dist/app.js",
+      "dependencies": ["test"],
+      "env": { "NODE_ENV": "production" }
+    }
+  }
+}
+```
 
-Andromeda provides detailed error messages with:
-
-- File location and line numbers
-- Syntax highlighting
-- Suggestions for fixes
-- Stack traces with source context
-
-## Examples
-
-### Basic Script Execution
+**Examples:**
 
 ```bash
-# Simple execution
-andromeda run hello.ts
-
-# Multiple files with dependencies
-andromeda run utils.ts main.ts
-
-andromeda run complex-app.ts
+andromeda task           # list tasks
+andromeda task dev
+andromeda task build
 ```
-
-### Development Workflow
-
-```bash
-# Format code
-andromeda fmt src/
-
-andromeda run src/main.ts
-
-# Test in REPL
-andromeda repl
-
-# Create production executable
-andromeda compile src/main.ts dist/my-app
-```
-
-### CI/CD Integration
 
 ### `config`
 
@@ -294,103 +277,48 @@ Manage Andromeda configuration files.
 andromeda config <SUBCOMMAND>
 ```
 
-**Subcommands:**
-
 #### `config init`
 
-Initialize a new configuration file with default values.
-
-**Syntax:**
+Create a new configuration file with defaults.
 
 ```bash
-andromeda config init [OPTIONS]
-```
-
-**Options:**
-
-- `--format <FORMAT>` - Configuration file format (json, toml, yaml) [default:
-  json]
-- `-o, --output <PATH>` - Output path for configuration file
-- `-f, --force` - Force overwrite existing configuration file
-
-**Examples:**
-
-```bash
-# Create default JSON config
-andromeda config init
-
-# Create TOML config
+andromeda config init                       # andromeda.json
 andromeda config init --format toml
-
-# Create config in custom location
-andromeda config init --output ./config/andromeda.json
-
-# Force overwrite existing config
-andromeda config init --force
+andromeda config init --output ./conf/andromeda.json
+andromeda config init --force               # overwrite existing
 ```
+
+Options:
+
+- `--format <json|toml|yaml>` — default `json`
+- `-o, --output <PATH>` — output location
+- `-f, --force` — overwrite an existing file
 
 #### `config show`
 
-Display the current active configuration.
-
-**Syntax:**
-
-```bash
-andromeda config show [OPTIONS]
-```
-
-**Options:**
-
-- `-f, --file <PATH>` - Show configuration from specific file
-
-**Examples:**
+Print the resolved configuration. Reads `andromeda.json` / `andromeda.toml` /
+`andromeda.yaml` from the current or parent directories.
 
 ```bash
-# Show current active config
 andromeda config show
-
-# Show specific config file
-andromeda config show --file ./custom-config.toml
+andromeda config show --file ./custom.toml
 ```
 
 #### `config validate`
 
-Validate configuration file format and values.
-
-**Syntax:**
+Validate a configuration file.
 
 ```bash
-andromeda config validate [OPTIONS]
-```
-
-**Options:**
-
-- `-f, --file <PATH>` - Config file to validate
-
-**Examples:**
-
-```bash
-# Validate current config
 andromeda config validate
-
-# Validate specific file
 andromeda config validate --file ./andromeda.json
 ```
 
-**Configuration Files:**
-
-Andromeda supports configuration in JSON, TOML, and YAML formats:
-
-- `andromeda.json` - JSON configuration
-- `andromeda.toml` - TOML configuration
-- `andromeda.yaml` / `andromeda.yml` - YAML configuration
-
-For detailed configuration options, see the
+For full configuration reference, see the
 [Configuration Guide](/docs/configuration).
 
 ### `completions`
 
-Generate shell completion scripts for bash, zsh, fish, or PowerShell.
+Generate shell completion scripts.
 
 **Syntax:**
 
@@ -398,36 +326,20 @@ Generate shell completion scripts for bash, zsh, fish, or PowerShell.
 andromeda completions [SHELL]
 ```
 
-**Arguments:**
-
-- `[SHELL]` - Target shell (optional, auto-detects if not specified)
-  - `bash` - Bash completion
-  - `zsh` - Zsh completion
-  - `fish` - Fish completion
-  - `powershell` - PowerShell completion
-
-**Examples:**
+If no shell is provided, Andromeda auto-detects from `$SHELL` (or PowerShell on
+Windows). Supported shells: `bash`, `zsh`, `fish`, `powershell`.
 
 ```bash
-# Auto-detect shell and generate completions
 andromeda completions
-
-# Generate bash completions
 andromeda completions bash > ~/.local/share/bash-completion/completions/andromeda
-
-# Generate zsh completions
-andromeda completions zsh > ~/.oh-my-zsh/completions/_andromeda
-
-# Generate fish completions
+andromeda completions zsh > ~/.zfunc/_andromeda
 andromeda completions fish > ~/.config/fish/completions/andromeda.fish
-
-# Generate PowerShell completions
 andromeda completions powershell > andromeda.ps1
 ```
 
 ### `upgrade`
 
-Upgrade Andromeda to the latest version or a specific version.
+Upgrade Andromeda to the latest version (or a specific version).
 
 **Syntax:**
 
@@ -437,145 +349,117 @@ andromeda upgrade [OPTIONS]
 
 **Options:**
 
-- `-f, --force` - Force upgrade even if already on the latest version
-- `-v, --version <VERSION>` - Upgrade to a specific version instead of latest
-- `--dry-run` - Show what would be upgraded without actually upgrading
-
-**Examples:**
+- `-f, --force` — Re-install even if already on the latest version
+- `-v, --version <VERSION>` — Upgrade to a specific version
+- `--dry-run` — Show what would change without applying
 
 ```bash
-# Upgrade to latest version
 andromeda upgrade
-
-# Force reinstall current version
-andromeda upgrade --force
-
-# Upgrade to specific version
-andromeda upgrade --version v0.2.0
-
-# Check what would be upgraded (dry run)
 andromeda upgrade --dry-run
+andromeda upgrade --force
+andromeda upgrade --version 0.1.10
 ```
 
-### `lsp`
+## Global Options
 
-Start the Language Server Protocol (LSP) server for editor integration.
-
-**Syntax:**
+- `-h, --help` — Show help (works on each subcommand too)
+- `-V, --version` — Show the Andromeda version
 
 ```bash
-andromeda lsp
+andromeda --help
+andromeda run --help
+andromeda --version
 ```
 
-**Description:**
+## File Types
 
-The LSP server provides real-time diagnostics and code analysis for JavaScript
-and TypeScript files in your editor. It offers comprehensive linting with
-built-in rules for code quality.
+Andromeda treats these extensions as runnable / formattable:
 
-**Features:**
+| Extension | Description           |
+| --------- | --------------------- |
+| `.js`     | JavaScript            |
+| `.ts`     | TypeScript            |
+| `.mjs`    | ES Module JavaScript  |
+| `.mts`    | ES Module TypeScript  |
+| `.jsx`    | JavaScript with JSX*  |
+| `.tsx`    | TypeScript with JSX*  |
+| `.json`   | JSON (formatter only) |
 
-- **Real-time Diagnostics** - Live error reporting as you type
-- **Comprehensive Linting** - 5 built-in rules for code quality:
-  - Empty function detection
-  - Empty statement detection
-  - Variable usage validation
-  - Unreachable code detection
-  - Invalid syntax highlighting
-- **Multi-file Support** - Workspace-wide analysis
-- **Rich Error Messages** - Detailed explanations with code context
-- **Editor Integration** - Works with VS Code, Neovim, and other LSP-compatible
-  editors
+*JSX syntax is parsed by the formatter and linter but is not yet executed at
+runtime.
 
-**Examples:**
+## Environment Variables
+
+| Variable   | Description                           | Default |
+| ---------- | ------------------------------------- | ------- |
+| `RUST_LOG` | Logging level for runtime diagnostics | unset   |
+| `NO_COLOR` | Disable colored output                | unset   |
 
 ```bash
-# Start the Language Server (typically called by your editor)
-andromeda lsp
+RUST_LOG=debug andromeda run script.ts
+NO_COLOR=1 andromeda run script.ts
 ```
 
-**Editor Setup:**
+## Debugging
 
-Configure your editor to use `andromeda lsp` as the language server for
-JavaScript and TypeScript files to get instant feedback on code quality.
-
-### `lint`
-
-Analyze code for potential issues and style violations.
-
-**Syntax:**
+### Verbose Output
 
 ```bash
-andromeda lint [PATHS...]
+andromeda run --verbose script.ts
 ```
 
-**Arguments:**
+Shows extension loading, parse and execution timing, and other diagnostics.
 
-- `[PATHS...]` - Files or directories to lint (optional, defaults to current
-  directory)
-
-**Examples:**
+### REPL Internals
 
 ```bash
-# Lint specific files
-andromeda lint script.ts utils.js
+andromeda repl --expose-internals --print-internals
+```
 
-# Lint entire directory
+This exposes Nova engine internals — primarily useful when working on the
+runtime itself.
+
+### Error Reporting
+
+Andromeda surfaces source-mapped errors with file location, syntax highlighting,
+and stack traces with context.
+
+## Examples
+
+### Basic Script Execution
+
+```bash
+andromeda run hello.ts
+andromeda run --verbose app.ts
+```
+
+### Development Workflow
+
+```bash
+andromeda fmt src/
 andromeda lint src/
-
-# Lint current directory
-andromeda lint
-
-# Lint multiple directories
-andromeda lint src/ tests/ examples/
+andromeda check src/
+andromeda run src/main.ts
 ```
 
-**Lint Rules:**
-
-- Empty function detection
-- Empty statement detection
-- Variable usage validation
-- Unreachable code detection
-- Invalid syntax highlighting
-
-### `bundle`
-
-Bundle JavaScript/TypeScript files and their dependencies into a single file.
-
-**Syntax:**
+### Production Workflow
 
 ```bash
-andromeda bundle <INPUT> <OUTPUT>
-```
-
-**Arguments:**
-
-- `<INPUT>` - Path to the entry file to bundle
-- `<OUTPUT>` - Path for the output bundled file
-
-**Examples:**
-
-```bash
-# Bundle a TypeScript application
+andromeda check && andromeda lint
 andromeda bundle src/main.ts dist/app.js
-
-# Bundle with dependencies
-andromeda bundle index.ts bundle.js
-
-# Bundle for distribution
-andromeda bundle app.ts dist/standalone.js
+andromeda compile src/main.ts dist/my-app
 ```
 
-**Features:**
+### Single-File Executable
 
-- **Module Resolution** - Automatic dependency resolution
-- **Tree Shaking** - Dead code elimination
-- **TypeScript Support** - Seamless TS to JS bundling
-- **Single File Output** - Self-contained bundles
+```bash
+andromeda compile src/cli.ts ./tool
+./tool --help
+```
 
 ## Troubleshooting
 
 For common issues and solutions, see the
 [Troubleshooting Guide](/docs/troubleshooting).
 
-For more examples check out the [Examples](/docs/examples)
+For more code samples, browse the [Examples](/docs/examples/index).

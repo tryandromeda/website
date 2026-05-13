@@ -28,10 +28,10 @@ console.log(`   Theme: ${theme}`);
 console.log(`   Font size: ${fontSize}`);
 
 // Check storage length
-console.log(`📊 Storage contains ${localStorage.length} items`);
+console.log(` Storage contains ${localStorage.length} items`);
 
 // List all keys
-console.log("🔑 All keys:");
+console.log(" All keys:");
 for (let i = 0; i < localStorage.length; i++) {
   const key = localStorage.key(i);
   console.log(`   ${i}: ${key}`);
@@ -94,7 +94,7 @@ localStorage.setItem("userProfile", JSON.stringify(userProfile));
 const storedProfile = localStorage.getItem("userProfile");
 if (storedProfile) {
   const parsedProfile: UserProfile = JSON.parse(storedProfile);
-  console.log("👤 User Profile:");
+  console.log(" User Profile:");
   console.log(`   Name: ${parsedProfile.name}`);
   console.log(`   Email: ${parsedProfile.email}`);
   console.log(`   Theme: ${parsedProfile.preferences.theme}`);
@@ -208,15 +208,15 @@ storage.set("boolean", true);
 storage.set("array", [1, 2, 3, 4, 5]);
 storage.set("object", { name: "Test", active: true });
 
-console.log("🗄️  Storage Manager Examples:");
+console.log("  Storage Manager Examples:");
 console.log("   String:", storage.get("simpleString"));
 console.log("   Number:", storage.get("number"));
 console.log("   Boolean:", storage.get("boolean"));
 console.log("   Array:", storage.get("array"));
 console.log("   Object:", storage.get("object"));
 
-console.log(`📊 Total items: ${storage.size()}`);
-console.log("🔑 All keys:", storage.keys());
+console.log(` Total items: ${storage.size()}`);
+console.log(" All keys:", storage.keys());
 ```
 
 ## Settings Management System
@@ -331,7 +331,7 @@ class SettingsManager {
 // Usage example
 const settings = new SettingsManager();
 
-console.log("⚙️  Settings Management Example:");
+console.log("  Settings Management Example:");
 console.log("Current theme:", settings.get("theme"));
 console.log("Current font size:", settings.get("fontSize"));
 
@@ -454,7 +454,7 @@ const cache = new ExpiringCache();
 cache.set("user-data", { name: "Alice", id: 123 }, 5000);
 cache.set("api-response", { status: "success", data: [1, 2, 3] }, 10000);
 
-console.log("💾 Cache Example:");
+console.log(" Cache Example:");
 console.log("Cached user:", cache.get("user-data"));
 console.log("Cached API response:", cache.get("api-response"));
 
@@ -464,7 +464,7 @@ setTimeout(() => {
   console.log("User data (expired):", cache.get("user-data"));
   console.log("API response (still valid):", cache.get("api-response"));
 
-  console.log(`🧹 Cleaned up ${cache.cleanup()} expired items`);
+  console.log(` Cleaned up ${cache.cleanup()} expired items`);
 }, 6000);
 ```
 

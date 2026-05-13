@@ -14,14 +14,6 @@ interface DocTopic {
   children: DocEntry[];
 }
 
-const iconMap: Record<string, any> = {
-  "Getting Started": "🚀",
-  "API Reference": "⚡",
-  "Examples": "📝",
-  "Development": "🔧",
-  "Help & Support": "🆘",
-};
-
 export function DocNav({
   data,
   path,
@@ -70,7 +62,6 @@ export function DocNav({
       section.children.map((child) => ({
         ...child,
         section: section.name,
-        sectionIcon: iconMap[section.name] || "📄",
       }))
     ),
     {
@@ -80,9 +71,9 @@ export function DocNav({
     },
   );
 
-  const searchResults = searchTerm ?
-    fuse.search(searchTerm).map((result: any) => result.item) :
-    null;
+  const searchResults = searchTerm
+    ? fuse.search(searchTerm).map((result: any) => result.item)
+    : null;
 
   const filteredData = searchTerm ? [] : data;
 
@@ -159,11 +150,11 @@ export function DocNav({
 
         {/* Navigation content */}
         <div class="flex-1 overflow-y-auto px-6 py-4">
-          {searchResults ?
-            (
+          {searchResults
+            ? (
               /* Search results */
-              searchResults.length > 0 ?
-                (
+              searchResults.length > 0
+                ? (
                   <div class="space-y-1">
                     <div class="text-xs font-semibold uppercase text-subtext0 tracking-wider mb-3">
                       Search Results ({searchResults.length})
@@ -174,12 +165,11 @@ export function DocNav({
                         href={result.path}
                         onClick={closeNav}
                         class={`flex items-center space-x-3 py-3 px-4 rounded-lg text-sm transition-all duration-200 ${
-                          path === result.path ?
-                            "bg-surface1 text-text font-medium border border-surface2" :
-                            "text-subtext1 hover:bg-surface0/50 hover:text-text"
+                          path === result.path
+                            ? "bg-surface1 text-text font-medium border border-surface2"
+                            : "text-subtext1 hover:bg-surface0/50 hover:text-text"
                         }`}
                       >
-                        <span class="text-lg">{result.sectionIcon}</span>
                         <div class="flex-1 min-w-0">
                           <div class="font-medium truncate">{result.name}</div>
                           <div class="text-xs text-subtext0 truncate">
@@ -189,8 +179,8 @@ export function DocNav({
                       </a>
                     ))}
                   </div>
-                ) :
-                (
+                )
+                : (
                   <div class="text-center py-12">
                     <div class="text-4xl mb-3">🔍</div>
                     <div class="text-subtext0 text-sm">No results found</div>
@@ -199,8 +189,8 @@ export function DocNav({
                     </div>
                   </div>
                 )
-            ) :
-            (
+            )
+            : (
               /* Regular navigation */
               <div class="space-y-2">
                 {filteredData.map(
@@ -216,19 +206,14 @@ export function DocNav({
                           type="button"
                           onClick={() => toggleSection(topicName)}
                           class={`w-full flex items-center justify-between py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                            hasCurrentPage ?
-                              "bg-surface0/50 text-text" :
-                              "text-subtext0 hover:bg-surface0/30 hover:text-text"
+                            hasCurrentPage
+                              ? "bg-surface0/50 text-text"
+                              : "text-subtext0 hover:bg-surface0/30 hover:text-text"
                           }`}
                         >
-                          <div class="flex items-center space-x-3">
-                            <span class="text-lg">
-                              {iconMap[topicName] || "📄"}
-                            </span>
-                            <span class="uppercase tracking-wider">
-                              {topicName}
-                            </span>
-                          </div>
+                          <span class="uppercase tracking-wider">
+                            {topicName}
+                          </span>
                           <span
                             class={`transform transition-transform duration-200 ${
                               isExpanded ? "rotate-90" : ""
@@ -249,9 +234,9 @@ export function DocNav({
                                 href={routePath}
                                 onClick={closeNav}
                                 class={`block py-2.5 px-3 rounded-lg text-sm transition-all duration-200 ${
-                                  path === routePath ?
-                                    "bg-surface1 text-text font-medium border border-surface2 shadow-sm" :
-                                    "text-subtext1 hover:bg-surface0/50 hover:text-text hover:translate-x-1"
+                                  path === routePath
+                                    ? "bg-surface1 text-text font-medium border border-surface2 shadow-sm"
+                                    : "text-subtext1 hover:bg-surface0/50 hover:text-text hover:translate-x-1"
                                 }`}
                               >
                                 {routeName}

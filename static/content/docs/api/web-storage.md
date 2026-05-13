@@ -193,7 +193,7 @@ class UserPreferences {
   static save(preferences: object): void {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(preferences));
-      console.log("✓ Preferences saved");
+      console.log(" Preferences saved");
     } catch (error) {
       console.error("Failed to save preferences:", error);
     }
@@ -211,7 +211,7 @@ class UserPreferences {
 
   static clear(): void {
     localStorage.removeItem(this.STORAGE_KEY);
-    console.log("✓ Preferences cleared");
+    console.log(" Preferences cleared");
   }
 }
 

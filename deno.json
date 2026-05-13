@@ -11,11 +11,12 @@
   "imports": {
     "@deno/gfm": "jsr:@deno/gfm@^0.11.0",
     "@pakornv/fresh-plugin-tailwindcss": "jsr:@pakornv/fresh-plugin-tailwindcss@2.0.0-alpha.1",
-    "@preact/signals": "npm:@preact/signals@^2.5.0",
+    "@preact/signals": "npm:@preact/signals@^2.9.0",
     "@orama/orama": "npm:@orama/orama@3.1.11",
-    "fresh": "jsr:@fresh/core@^2.2.0",
+    "fresh": "jsr:@fresh/core@^2.3.3",
     "lucide-preact": "npm:lucide-preact@^0.513.0",
-    "preact": "npm:preact@^10.27.2",
+    "preact": "npm:preact@^10.29.1",
+    "preact/": "npm:/preact@^10.29.1/",
     "tailwindcss": "npm:tailwindcss@^4.1.7",
     "@std/path": "jsr:@std/path@1.1.1"
   },

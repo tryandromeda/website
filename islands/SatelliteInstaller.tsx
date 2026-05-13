@@ -64,14 +64,6 @@ const satellites: Satellite[] = [
     use_cases: ["Code quality", "Static analysis", "CI/CD"],
   },
   {
-    id: "check",
-    name: "andromeda-check",
-    icon: Check,
-    description: "Type-check TypeScript files",
-    color: "mauve",
-    use_cases: ["Type checking", "Pre-push validation", "IDE integration"],
-  },
-  {
     id: "bundle",
     name: "andromeda-bundle",
     icon: Package,
@@ -303,19 +295,19 @@ echo "✓ Installed: \${satellites[*]}"`;
                   type="button"
                   onClick={() => setSelectedPlatform(platform.id)}
                   class={`p-3 text-xs font-medium rounded-lg border transition-all duration-300 ${
-                    isSelected ?
-                      "bg-blue text-base border-blue shadow-lg scale-105" :
-                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2"
+                    isSelected
+                      ? "bg-blue text-base border-blue shadow-lg scale-105"
+                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2"
                   }`}
-                  style={isSelected ?
-                    {
+                  style={isSelected
+                    ? {
                       backgroundColor: "var(--color-blue)",
                       borderColor: "var(--color-blue)",
                       color: "var(--color-base)",
                       boxShadow:
                         "0 0 15px color-mix(in srgb, var(--color-blue) 40%, transparent)",
-                    } :
-                    {
+                    }
+                    : {
                       color: "var(--color-text)",
                     }}
                 >
@@ -370,19 +362,19 @@ echo "✓ Installed: \${satellites[*]}"`;
                   onMouseEnter={() => setShowInfo(satellite.id)}
                   onMouseLeave={() => setShowInfo(null)}
                   class={`relative group p-4 rounded-xl border transition-all duration-500 text-left overflow-hidden ${
-                    isSelected ?
-                      `bg-${satellite.color} border-${satellite.color} shadow-lg scale-105` :
-                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-md"
+                    isSelected
+                      ? `bg-${satellite.color} border-${satellite.color} shadow-lg scale-105`
+                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-md"
                   }`}
-                  style={isSelected ?
-                    {
+                  style={isSelected
+                    ? {
                       backgroundColor: `var(--color-${satellite.color})`,
                       borderColor: `var(--color-${satellite.color})`,
                       color: "var(--color-base)",
                       boxShadow:
                         `0 0 20px color-mix(in srgb, var(--color-${satellite.color}) 30%, transparent)`,
-                    } :
-                    {
+                    }
+                    : {
                       color: "var(--color-text)",
                     }}
                 >
@@ -408,9 +400,9 @@ echo "✓ Installed: \${satellites[*]}"`;
                     >
                       <IconComponent
                         size={20}
-                        style={isSelected ?
-                          { color: "var(--color-base)" } :
-                          { color: "var(--color-text)" }}
+                        style={isSelected
+                          ? { color: "var(--color-base)" }
+                          : { color: "var(--color-text)" }}
                       />
                     </div>
                     <div class="flex-1">
@@ -496,9 +488,9 @@ echo "✓ Installed: \${satellites[*]}"`;
                     onClick={() => copyToClipboard(installCommand)}
                     class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-all duration-300 hover:scale-105"
                     style={{
-                      backgroundColor: copied ?
-                        "var(--color-green)" :
-                        "var(--color-blue)",
+                      backgroundColor: copied
+                        ? "var(--color-green)"
+                        : "var(--color-blue)",
                       color: "var(--color-base)",
                     }}
                     title="Copy to clipboard"

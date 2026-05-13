@@ -6,240 +6,186 @@ order: 10
 id: "faq"
 ---
 
-This document answers common questions about Andromeda, its features,
-limitations, and usage.
-
-## General Questions
+## General
 
 ### What is Andromeda?
 
-Andromeda is a TypeScript runtime built in Rust that provides a fast, secure,
-and lightweight environment for executing TypeScript/JavaScript code. It focuses
-on performance and safety while offering a familiar API surface similar to
-Node.js and Deno.
+Andromeda is a JavaScript and TypeScript runtime built in Rust on top of the
+[Nova engine](https://trynova.dev/) and [Oxc](https://oxc.rs). It runs `.ts`
+files directly with no transpilation step and exposes web-standard APIs.
 
-### How is Andromeda different from Node.js or Deno?
+### Is it production-ready?
 
-| Feature                | Andromeda                  | Node.js                | Deno                        |
-| ---------------------- | -------------------------- | ---------------------- | --------------------------- |
-| **Runtime**            | Rust-based                 | V8 + C++               | V8 + Rust                   |
-| **TypeScript**         | Native support (In-Engine) | Requires transpilation | Native support (In-Runtime) |
-| **Security**           | Secure by default          | No built-in sandboxing | Secure by default           |
-| **Package management** | Built-in                   | npm/yarn               | Built-in                    |
-| **Std library**        | Web APIs focused           | Node.js APIs           | Web APIs focused            |
+Not yet. The current release is `0.1.10` and the project is in active
+development. Use it for experiments, scripts, and learning — not for critical
+production workloads.
 
-### Is Andromeda production-ready?
+### How does it compare to Node.js, Deno, and Bun?
 
-Andromeda is currently in active development. While it implements many core
-features, it's not yet recommended for production use.
+| Feature        | Andromeda                  | Node.js                | Deno          | Bun                  |
+| -------------- | -------------------------- | ---------------------- | ------------- | -------------------- |
+| Engine         | Nova (Rust)                | V8 (C++)               | V8 (Rust)     | JavaScriptCore (Zig) |
+| TypeScript     | Native, in-engine          | Requires transpilation | Native        | Native               |
+| Default APIs   | Web standards              | Node-specific          | Web standards | Mostly Node-compat   |
+| Native modules | Web Crypto, SQLite, Canvas | Many native bindings   | Some          | Many                 |
+| Maturity       | Early                      | Very mature            | Mature        | Mature               |
 
-### What platforms does Andromeda support?
+### Which platforms are supported?
 
-Andromeda supports:
+- **Linux** (x86_64, ARM64)
+- **macOS** (Intel and Apple Silicon)
+- **Windows** (x86_64)
 
-- **Windows** (x64, ARM64)
-- **macOS** (Intel, Apple Silicon)
-- **Linux** (x64, ARM64)
+## Installation
 
-## Installation and Setup
+### How do I install it?
 
-### How do I install Andromeda?
-
-See the [Installation Guide](/docs/installation) for detailed instructions. The
-quick version:
+See the [Installation Guide](/docs/installation). The fastest path:
 
 ```bash
-cargo install andromeda-cli
+# Linux / macOS
+curl -fsSL https://tryandromeda.dev/install.sh | bash
 
-# Or download from releases
-# https://github.com/your-org/andromeda/releases
+# Windows
+irm -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression
+
+# Cargo
+cargo install --git https://github.com/tryandromeda/andromeda andromeda
+
+# winget
+winget install --id Andromeda.Andromeda
+```
+
+### How do I update?
+
+```bash
+andromeda upgrade
 ```
 
 ## Language Support
 
 ### What TypeScript features are supported?
 
-Andromeda supports:
+Most modern TypeScript: types, generics, decorators, modules, optional chaining,
+async/await, `using` declarations. Andromeda runs TS through Nova without an
+intermediate transpilation step.
 
-- **TypeScript syntax**: Types, interfaces, generics, etc.
-- **ES2020+ features**: Async/await, modules, optional chaining, etc.
-- **Web APIs**: Fetch, Console, File System, Canvas, etc.
+### Is JSX supported?
 
-Not yet supported:
+The formatter and linter understand `.jsx` / `.tsx` syntax, but JSX is not
+executed at runtime today.
 
-- **JSX/TSX**: React components
-- **Decorators**: Experimental decorators
-- **Legacy module systems**: CommonJS
+### Can I run plain `.js` files?
 
-### Can I run JavaScript files?
+Yes. Andromeda is happy with `.js`, `.ts`, `.mjs`, and `.mts`.
 
-Yes, Andromeda can execute JavaScript files with the `.js` extension. However,
-you'll get better performance and type safety with TypeScript.
+### Can I use npm packages?
 
-### How do I import npm packages?
+There is no built-in npm support. You can:
 
-Currently, Andromeda doesn't have direct npm support. For now, you can:
+- Resolve packages from CDNs (esm.sh, jsdelivr, skypack) using
+  [Import Maps](/docs/api/import-maps)
+- Use ECMAScript modules directly
+- Use the Andromeda standard library at `https://tryandromeda.dev/std/`
 
-- Use Web APIs and built-in modules
-- Copy and adapt compatible packages
-- Write custom extensions
+## APIs
 
-## APIs and Features
+### Which web APIs are implemented?
 
-### Which Web APIs are available?
+Documented under [API Reference](/docs/api/index). Highlights:
 
-Currently implemented:
+- Console, Performance, Time, Process, Command
+- File System (sync and async)
+- Fetch, Headers, Request, Response, AbortController
+- URL, URLSearchParams
+- TextEncoder, TextDecoder, structuredClone, atob, btoa
+- Crypto (`SubtleCrypto`, `randomUUID`, `getRandomValues`)
+- SQLite (`DatabaseSync`)
+- localStorage, sessionStorage, Cache Storage
+- Canvas (`OffscreenCanvas`)
+- Streams (`ReadableStream`, `WritableStream`, `TransformStream`)
+- Web Locks (`navigator.locks`)
+- Events (`EventTarget`, `Event`, `CustomEvent`)
+- Cron (`Andromeda.cron`)
+- HTTP server (`Andromeda.serve`)
 
-- **Console**: `console.log`, `console.error`, etc.
-- **File System**: `Deno.readFile`, `Deno.writeFile`, etc.
-- **Crypto**: `crypto.randomUUID`, `crypto.getRandomValues`
-- **Performance**: `performance.now`, timing APIs
-- **Canvas**: 2D graphics context (experimental)
-- **Text Encoding**: `TextEncoder`, `TextDecoder`
+### Can Andromeda host an HTTP server?
 
-### How do I work with files?
+Yes — see the [`Andromeda.serve` docs](/docs/api/serve). The current
+implementation is minimal HTTP/1.1; TLS, HTTP/2, and WebSockets are on the
+roadmap.
 
-We're working on our filesystem API. Please check out the
-[latest documentation here](/docs/api/file-system).
+### How do I read and write files?
+
+```typescript
+// Sync
+const txt = Andromeda.readTextFileSync("a.txt");
+Andromeda.writeTextFileSync("b.txt", txt);
+
+// Async
+const txt2 = await Andromeda.readTextFile("a.txt");
+await Andromeda.writeTextFile("b.txt", txt2);
+```
+
+See the [File System API](/docs/api/file-system).
 
 ### Can I make HTTP requests?
 
-HTTP/fetch support is planned but not yet implemented. Please check out the
-[latest documentation here](/docs/api/fetch).
+Yes — `fetch`, `Request`, and `Response` are implemented. See the
+[Fetch API](/docs/api/fetch).
 
-### How do I handle errors?
+## Toolchain
 
-Use standard JavaScript error handling:
+### How do I format / lint / type-check / bundle?
 
-```typescript
-try {
-  const data = await Andromeda.readTextFile("file.txt");
-  console.log(data);
-} catch (error) {
-  console.error("Failed to read file:", error.message);
-}
+```bash
+andromeda fmt src/
+andromeda lint src/
+andromeda check src/
+andromeda bundle src/main.ts dist/app.js
 ```
 
-## Development
+### Does Andromeda have a task runner?
+
+Yes — define tasks in `andromeda.json` and run them with
+`andromeda task <name>`. See the [Configuration Guide](/docs/configuration).
+
+### Does Andromeda have a REPL?
+
+Yes — `andromeda repl`. See the [CLI Reference](/docs/cli-reference#repl).
+
+### Can I produce single-file executables?
+
+```bash
+andromeda compile src/main.ts ./my-tool
+```
+
+See [`compile`](/docs/cli-reference#compile).
+
+## Debugging
 
 ### How do I debug my code?
 
-Debugging options:
+- `console.log` and `console.error` work as expected
+- `andromeda repl` for interactive exploration
+- `andromeda run --verbose` for extra diagnostics
+- `RUST_LOG=debug` enables runtime tracing
+- The built-in LSP (`andromeda lsp`) gives diagnostics in VS Code, Neovim, and
+  other LSP-aware editors
 
-1. **Console logging**: Use `console.log` and friends
-2. **Error stack traces**: Andromeda provides detailed stack traces
-3. **REPL mode**: Interactive debugging with `andromeda repl`
-4. **IDE integration**: Use VS Code with TypeScript support
+## Contributing
 
-### Can I use external TypeScript libraries?
+### How do I contribute?
 
-Not yet. We're working on URL import support, and maybe eventually further
-support for the wider ecosystem.
+See the [Contributing Guide](/docs/contributing). Highlights:
 
-### How do I contribute to Andromeda?
-
-See the [Contributing Guide](/docs/contributing) for detailed instructions.
-Quick steps:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
-
-## Troubleshooting
-
-### "Command not found" error
-
-Make sure Andromeda is in your PATH:
-
-```bash
-# Check if installed
-which andromeda
-
-# Add to PATH (adjust path as needed)
-export PATH="$HOME/.cargo/bin:$PATH"
-```
-
-### "Permission denied" error
-
-On Unix-like systems, make sure the binary is executable:
-
-```bash
-chmod +x andromeda
-```
-
-## Integration
-
-### Can I embed Andromeda in my Rust application?
-
-Yes! Andromeda is designed to be embeddable:
-
-## Comparison with Other Runtimes
-
-### Why choose Andromeda over Deno?
-
-Consider Andromeda if you need:
-
-- **Faster startup times**: Rust-based runtime starts quickly
-- **Lower memory usage**: More efficient memory management
-- **Embeddable runtime**: Easy to integrate into Rust applications
-- **Different API focus**: Some unique APIs and features
-
-Choose Deno if you need:
-
-- **Mature ecosystem**: More stable and feature-complete
-- **npm compatibility**: Better package ecosystem support
-- **Production readiness**: Battle-tested in production environments
-
-### Why choose Andromeda over Node.js?
-
-Consider Andromeda if you need:
-
-- **TypeScript-first**: Native TypeScript support
-- **Simplicity**: Single binary, no complex setup
-
-Choose Node.js if you need:
-
-- **Ecosystem**: Vast npm package ecosystem
-- **Stability**: Long-term support and stability
-- **Tooling**: Mature debugging and development tools
+1. Fork the repo
+2. Create a topic branch
+3. Run `cargo fmt`, `cargo clippy`, and `cargo test --workspace`
+4. Open a pull request
 
 ## Getting Help
 
-### Where can I get support?
-
-- **Documentation**: Check the docs in this repository
-- [**GitHub Issues**](https://github.com/tryandromeda/andromeda/issues): Report
-  bugs and request features
-- [**GitHub Discussions**](https://github.com/orgs/tryandromeda/discussions):
-  Ask questions and discuss ideas
-- [**Community Discord**](https://discord.gg/w8JkSeNcEe): Join the community
-  discord server
-
-### How do I report bugs?
-
-1. **Check existing issues** first
-2. **Create a minimal reproduction** case
-3. **Include system information** (OS, version, etc.)
-4. **Follow the bug report template**
-
-### How do I request features?
-
-1. **Search existing feature requests**
-2. **Clearly describe the use case**
-3. **Provide examples** of how it would be used
-4. **Consider contributing** the implementation
-
----
-
-## Still have questions?
-
-If your question isn't answered here:
-
-1. **Search the documentation** for more detailed information
-2. **Check GitHub Issues** for similar questions
-3. **Start a discussion** on GitHub Discussions
-4. **Join the discord community** for real-time help
-
-We're always working to improve the documentation and answer common questions!
+- [Discord](https://discord.gg/tgjAnX2Ny3)
+- [GitHub Issues](https://github.com/tryandromeda/andromeda/issues)
+- [GitHub Discussions](https://github.com/tryandromeda/andromeda/discussions)

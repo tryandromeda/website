@@ -127,20 +127,20 @@ export default function InstallToggle() {
                   key={platform.id}
                   type="button"
                   onClick={() => setSelectedPlatform(platform.id)}
-                  class={`group relative overflow-hidden p-4 rounded-lg border transition-all duration-500 transform hover:scale-105 ${
-                    isSelected ?
-                      `bg-${platform.color} text-base border-${platform.color} shadow-lg scale-105 animate-pulse-glow` :
-                      "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2 hover:shadow-xl hover:shadow-blue/10"
+                  class={`group relative overflow-hidden p-4 rounded-lg border transition-all duration-200 ${
+                    isSelected
+                      ? `bg-${platform.color} text-base border-${platform.color} shadow-sm`
+                      : "bg-surface0 hover:bg-surface1 border-surface1 hover:border-surface2"
                   }`}
-                  style={isSelected ?
-                    {
+                  style={isSelected
+                    ? {
                       backgroundColor: `var(--color-${platform.color})`,
                       borderColor: `var(--color-${platform.color})`,
                       color: "var(--color-base)",
                       boxShadow:
                         `0 0 20px color-mix(in srgb, var(--color-${platform.color}) 40%, transparent), 0 8px 25px rgba(0, 0, 0, 0.15)`,
-                    } :
-                    {
+                    }
+                    : {
                       color: "var(--color-text)",
                     }}
                 >
@@ -148,17 +148,17 @@ export default function InstallToggle() {
                   <div class="flex justify-center mb-2">
                     <div
                       class={`p-2 rounded-lg transition-colors ${
-                        isSelected ?
-                          "bg-base/20" :
-                          "bg-surface1 group-hover:bg-surface2"
+                        isSelected
+                          ? "bg-base/20"
+                          : "bg-surface1 group-hover:bg-surface2"
                       }`}
                     >
                       <IconComponent
                         size={20}
                         class={isSelected ? "text-base" : ""}
-                        style={isSelected ?
-                          { color: "var(--color-base)" } :
-                          { color: "var(--color-text)" }}
+                        style={isSelected
+                          ? { color: "var(--color-base)" }
+                          : { color: "var(--color-text)" }}
                       />
                     </div>
                   </div>{" "}
@@ -168,9 +168,9 @@ export default function InstallToggle() {
                       class={`text-xs sm:text-sm font-semibold ${
                         isSelected ? "text-base" : ""
                       }`}
-                      style={isSelected ?
-                        { color: "var(--color-base)" } :
-                        { color: "var(--color-text)" }}
+                      style={isSelected
+                        ? { color: "var(--color-base)" }
+                        : { color: "var(--color-text)" }}
                     >
                       {platform.name}
                     </div>
@@ -200,38 +200,28 @@ export default function InstallToggle() {
                 <button
                   type="button"
                   onClick={downloadScript}
-                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-110 shadow-md hover:shadow-xl relative overflow-hidden"
+                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-[1.02] shadow-sm hover:shadow-md"
                   style={{
                     backgroundColor: "var(--color-yellow)",
                     color: "var(--color-base)",
                   }}
                   title="Download script"
                 >
-                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
-                  </div>
-                  <Download
-                    size={16}
-                    class="group-hover:rotate-12 transition-transform duration-300"
-                  />
-                  <span class="hidden sm:inline relative z-10">Download</span>
+                  <Download size={16} />
+                  <span class="hidden sm:inline">Download</span>
                 </button>{" "}
                 <button
                   type="button"
                   onClick={() => copyToClipboard(currentPlatform.command)}
-                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-110 shadow-md hover:shadow-xl relative overflow-hidden"
+                  class="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-[1.02] shadow-sm hover:shadow-md"
                   style={{
                     backgroundColor: "var(--color-green)",
                     color: "var(--color-base)",
                   }}
                   title="Copy to clipboard"
                 >
-                  <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
-                  </div>
-                  <Copy
-                    size={16}
-                    class="group-hover:scale-125 transition-transform duration-300"
-                  />
-                  <span class="hidden sm:inline relative z-10">Copy</span>
+                  <Copy size={16} />
+                  <span class="hidden sm:inline">Copy</span>
                 </button>
               </div>
             </div>

@@ -24,8 +24,8 @@ for (let i = 0; i < 1000000; i++) {
 const end = performance.now();
 const duration = end - start;
 
-console.log(`⚡ Calculated sum: ${sum.toFixed(2)}`);
-console.log(`⏱️  Execution time: ${duration.toFixed(2)}ms`);
+console.log(` Calculated sum: ${sum.toFixed(2)}`);
+console.log(`  Execution time: ${duration.toFixed(2)}ms`);
 ```
 
 ## Performance Marks and Measures
@@ -68,11 +68,11 @@ performance.measure(
   "data-processing-end",
 );
 
-console.log(`📊 Processed ${processed.length} items from ${data.length} total`);
+console.log(` Processed ${processed.length} items from ${data.length} total`);
 
 // Get performance entries
 const entries = performance.getEntries();
-console.log("📈 Performance entries:");
+console.log(" Performance entries:");
 entries.forEach((entry) => {
   console.log(`   ${entry.name}: ${entry.duration.toFixed(2)}ms`);
 });
@@ -88,7 +88,7 @@ async function benchmark<T>(
 ): Promise<{ average: number; min: number; max: number; total: number }> {
   const times: number[] = [];
 
-  console.log(`🏃 Running benchmark: ${name} (${iterations} iterations)`);
+  console.log(` Running benchmark: ${name} (${iterations} iterations)`);
 
   for (let i = 0; i < iterations; i++) {
     const start = performance.now();
@@ -102,7 +102,7 @@ async function benchmark<T>(
   const min = Math.min(...times);
   const max = Math.max(...times);
 
-  console.log(`📈 Results for ${name}:`);
+  console.log(` Results for ${name}:`);
   console.log(`   Average: ${average.toFixed(3)}ms`);
   console.log(`   Min:     ${min.toFixed(3)}ms`);
   console.log(`   Max:     ${max.toFixed(3)}ms`);
@@ -225,7 +225,7 @@ await new Promise((resolve) => setTimeout(resolve, Math.random() * 200));
 monitor.endTimer(apiTimer, "api-call");
 
 // Get statistics
-console.log("📊 Performance Statistics:");
+console.log(" Performance Statistics:");
 console.log(monitor.getAllStats());
 ```
 
@@ -266,21 +266,19 @@ class ResourceMonitor {
   }
 
   report(): void {
-    console.log("🔍 Resource Usage Report:");
+    console.log(" Resource Usage Report:");
     console.log("=".repeat(50));
 
     const usage = this.getResourceUsage();
     usage.forEach((item) => {
-      console.log(`📌 ${item.name}:`);
+      console.log(` ${item.name}:`);
       console.log(`   Time from start: ${item.timeFromStart}`);
       console.log(`   Time diff: ${item.timeDiff}`);
     });
 
     console.log("=".repeat(50));
     console.log(
-      `⏱️  Total runtime: ${
-        (performance.now() - this.#startTime).toFixed(2)
-      }ms`,
+      `  Total runtime: ${(performance.now() - this.#startTime).toFixed(2)}ms`,
     );
   }
 }
@@ -306,7 +304,7 @@ resourceMonitor.report();
 ```typescript
 // Example of optimizing code using performance measurements
 function optimizeOperation() {
-  console.log("🎯 Performance Optimization Example");
+  console.log(" Performance Optimization Example");
 
   // Test different approaches
   const testData = Array.from({ length: 100000 }, (_, i) => i);
@@ -337,13 +335,13 @@ function optimizeOperation() {
 
   // Compare results
   const measures = performance.getEntriesByType("measure");
-  console.log("🏁 Performance Comparison:");
+  console.log(" Performance Comparison:");
   measures.slice(-3).forEach((measure) => {
     console.log(`   ${measure.name}: ${measure.duration.toFixed(3)}ms`);
   });
 
   // All sums should be equal
-  console.log(`✅ Results match: ${sum1 === sum2 && sum2 === sum3}`);
+  console.log(` Results match: ${sum1 === sum2 && sum2 === sum3}`);
 }
 
 optimizeOperation();

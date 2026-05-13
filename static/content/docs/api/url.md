@@ -343,9 +343,9 @@ const invalidUrls = [
 invalidUrls.forEach((urlString) => {
   try {
     new URL(urlString);
-    console.log(`✓ ${urlString} is valid`);
+    console.log(` ${urlString} is valid`);
   } catch {
-    console.log(`✗ ${urlString} is invalid`);
+    console.log(` ${urlString} is invalid`);
   }
 });
 ```

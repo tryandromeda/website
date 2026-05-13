@@ -16,7 +16,7 @@ export default function NavBar() {
               <img
                 src="/logo.svg"
                 alt="Andromeda"
-                class="w-6 h-6 sm:w-8 sm:h-8 group-hover:rotate-12 transition-transform duration-300"
+                class="w-6 h-6 sm:w-8 sm:h-8 group-hover:scale-105 transition-transform duration-200"
               />
               <span class="text-lg sm:text-xl font-bold text-text group-hover:text-blue transition-colors duration-300">
                 Andromeda
@@ -58,7 +58,7 @@ export default function NavBar() {
               </a>
               <a
                 href="https://github.com/tryandromeda/andromeda"
-                class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-300 border border-surface2 flex-shrink-0 hover:scale-110 hover:border-blue"
+                class="bg-surface0 hover:bg-surface1 text-text rounded-lg p-2 transition-all duration-200 border border-surface2 flex-shrink-0 hover:border-blue"
               >
                 <GithubIcon class="w-4 h-4 lg:w-5 lg:h-5" />
               </a>

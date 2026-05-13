@@ -6,16 +6,14 @@ order: 3
 id: "quick-start"
 ---
 
-Get up and running with Andromeda in just a few minutes! This guide will walk
-you through creating your first Andromeda programs.
+This guide walks you through your first Andromeda programs and the major APIs.
 
 ## Your First Program
 
-Create a simple "Hello, World!" program:
+Create `hello.ts`:
 
 ```typescript
-// hello.ts
-console.log("Hello, Andromeda! 🌌");
+console.log("Hello, Andromeda!");
 console.log("Current time:", new Date().toISOString());
 ```
 
@@ -25,183 +23,131 @@ Run it:
 andromeda run hello.ts
 ```
 
-**Output:**
+Output:
 
 ```text
-Hello, Andromeda! 🌌
-Current time: 2025-06-08T15:30:45.123Z
+Hello, Andromeda!
+Current time: 2026-05-11T15:30:45.123Z
 ```
+
+> **Shorthand:** `andromeda hello.ts` is equivalent to `andromeda run hello.ts`
+> when the first argument is a `.ts` file.
 
 ## Working with Files
 
-Andromeda provides simple file I/O operations:
+Andromeda exposes both sync and async file APIs on the global `Andromeda`
+object.
 
 ```typescript
-// file-example.ts
-
-// Write some data to a file
-const data = `# My Notes
+const notes = `# My Notes
 - Learn Andromeda
 - Build something cool
 - Share with friends
 `;
 
-Andromeda.writeTextFileSync("notes.md", data);
-console.log("✅ File written successfully!");
+// Sync API
+Andromeda.writeTextFileSync("notes.md", notes);
+console.log(Andromeda.readTextFileSync("notes.md"));
 
-// Read the file back
-const content = Andromeda.readTextFileSync("notes.md");
-console.log("File contents:");
-console.log(content);
+// Async API
+await Andromeda.writeTextFile("notes.copy.md", notes);
+const copy = await Andromeda.readTextFile("notes.copy.md");
+console.log(copy);
 
-// Check environment variables
+// Binary files
+const bytes = new Uint8Array([72, 101, 108, 108, 111]);
+Andromeda.writeFileSync("hello.bin", bytes);
+const back = Andromeda.readFileSync("hello.bin");
+console.log(back.length);
+
+// Environment variables and CLI args
 const home = Andromeda.env.get("HOME") || Andromeda.env.get("USERPROFILE");
 console.log("Home directory:", home);
-```
-
-Run it:
-
-```bash
-andromeda run file-example.ts
+console.log("CLI args:", Andromeda.args);
 ```
 
 ## Creating Graphics with Canvas
 
-Andromeda includes a powerful Canvas API for creating graphics:
+Andromeda ships a GPU-accelerated 2D Canvas API via `OffscreenCanvas`:
 
 ```typescript
-// graphics.ts
-
-// Create a canvas
 const canvas = new OffscreenCanvas(400, 300);
 const ctx = canvas.getContext("2d")!;
 
-// Set background
 ctx.fillStyle = "#1a1a1a";
 ctx.fillRect(0, 0, 400, 300);
 
-// Draw colorful rectangles
 const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#96ceb4", "#feca57"];
-
 for (let i = 0; i < colors.length; i++) {
   ctx.fillStyle = colors[i];
   ctx.fillRect(50 + i * 60, 100, 50, 100);
 }
 
-// Add some text
 ctx.fillStyle = "#ffffff";
-ctx.font = "24px Arial";
+ctx.font = "24px sans-serif";
 ctx.fillText("Hello, Andromeda!", 100, 50);
 
-// Save the image
+// Save to disk
 canvas.saveAsPng("my-first-graphic.png");
 
-console.log("🎨 Image saved as 'my-first-graphic.png'");
+// Or get raw bytes / a data URL / a Blob
+const png = canvas.toBuffer("image/png");
+const dataUrl = canvas.toDataURL("image/png");
+const blob = await canvas.convertToBlob({ type: "image/png" });
+
+console.log("PNG bytes:", png.length, "data URL prefix:", dataUrl.slice(0, 30));
 ```
 
-Run it:
-
-```bash
-andromeda run graphics.ts
-```
-
-## Using Cryptography
-
-Generate secure random values and perform hashing:
+## Cryptography
 
 ```typescript
-// crypto-example.ts
+// Random UUID
+console.log(crypto.randomUUID());
 
-// Generate a random UUID
-const id = crypto.randomUUID();
-console.log("🆔 Random UUID:", id);
-
-// Generate random bytes
-const randomBytes = crypto.getRandomValues(new Uint8Array(16));
+// Secure random bytes
+const bytes = crypto.getRandomValues(new Uint8Array(16));
 console.log(
-  "🎲 Random bytes:",
-  Array.from(randomBytes).map((b) => b.toString(16).padStart(2, "0")).join(""),
+  Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join(""),
 );
 
-// Hash some data
+// SHA-256 digest (returns ArrayBuffer)
 const data = new TextEncoder().encode("Hello, Andromeda!");
 const hash = await crypto.subtle.digest("SHA-256", data);
-
-// Note: Current implementation returns hex string directly
-// This will be updated to return ArrayBuffer in future versions
-if (typeof hash === "string") {
-  console.log("🔒 SHA-256 hash:", hash);
-} else {
-  const hashArray = new Uint8Array(hash);
-  const hashHex = Array.from(hashArray).map((b) =>
-    b.toString(16).padStart(2, "0")
-  ).join("");
-  console.log("🔒 SHA-256 hash:", hashHex);
-}
+const hex = Array.from(new Uint8Array(hash))
+  .map((b) => b.toString(16).padStart(2, "0"))
+  .join("");
+console.log("SHA-256:", hex);
 ```
 
-Run it:
-
-```bash
-andromeda run crypto-example.ts
-```
-
-## Performance Monitoring
-
-Monitor execution performance:
+## Performance
 
 ```typescript
-// performance-example.ts
-
-// Measure execution time
 const start = performance.now();
 
-// Simulate some work
 let sum = 0;
-for (let i = 0; i < 1000000; i++) {
-  sum += Math.sqrt(i);
+for (let i = 0; i < 1_000_000; i++) sum += Math.sqrt(i);
+
+console.log(`Took ${(performance.now() - start).toFixed(2)}ms`);
+
+// Marks and measures
+performance.mark("sort:start");
+const data = Array.from({ length: 10_000 }, () => Math.random());
+data.sort((a, b) => a - b);
+performance.mark("sort:end");
+performance.measure("sort", "sort:start", "sort:end");
+
+for (const entry of performance.getEntriesByType("measure")) {
+  console.log(`${entry.name}: ${entry.duration.toFixed(2)}ms`);
 }
-
-const end = performance.now();
-const duration = end - start;
-
-console.log(`⚡ Calculated sum: ${sum.toFixed(2)}`);
-console.log(`⏱️  Execution time: ${duration.toFixed(2)}ms`);
-
-// Use performance marks
-performance.mark("data-processing-start");
-
-// More work
-const data = Array.from({ length: 10000 }, (_, i) => Math.random() * i);
-const sorted = data.sort((a, b) => a - b);
-
-performance.mark("data-processing-end");
-performance.measure(
-  "data-processing",
-  "data-processing-start",
-  "data-processing-end",
-);
-
-console.log(`📊 Processed ${sorted.length} items`);
 ```
 
-Run it:
+## SQLite
 
-```bash
-andromeda run performance-example.ts
-```
-
-## Using SQLite Database
-
-Andromeda includes built-in SQLite support for data persistence:
+Andromeda ships SQLite via `DatabaseSync` (aliased as `Database`):
 
 ```typescript
-// sqlite-example.ts
-
-// Create or open a database
 const db = new Database("notes.db");
 
-// Create table
 db.exec(`
   CREATE TABLE IF NOT EXISTS notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -211,260 +157,150 @@ db.exec(`
   )
 `);
 
-// Insert data
-const insertNote = db.prepare(
-  "INSERT INTO notes (title, content) VALUES (?, ?)",
-);
-insertNote.run("My First Note", "This is stored in SQLite!");
+const insert = db.prepare("INSERT INTO notes (title, content) VALUES (?, ?)");
+insert.run("First note", "Stored in SQLite!");
 
-console.log(`📝 Note created successfully!`);
-
-// Query data
-const selectNotes = db.prepare("SELECT * FROM notes ORDER BY created_at DESC");
-const notes = selectNotes.all();
-
-console.log("📚 All notes:");
-for (const note of notes) {
-  console.log(`- ${note.title} (${note.created_at})`);
+const rows = db.prepare("SELECT * FROM notes ORDER BY id DESC").all();
+for (const row of rows as any[]) {
+  console.log(`- ${row.title} (${row.created_at})`);
 }
 
-// Clean up
 db.close();
 ```
 
+In-memory databases are written `new Database(":memory:")`.
+
 ## Web Storage
 
-Use localStorage and sessionStorage for client-side data persistence:
+`localStorage` and `sessionStorage` are persistent and backed by SQLite:
 
 ```typescript
-// storage-example.ts
-
-// Store user preferences
 localStorage.setItem("theme", "dark");
-localStorage.setItem("language", "en");
+localStorage.setItem("profile", JSON.stringify({ name: "Alice" }));
 
-// Store complex data as JSON
-const userProfile = {
-  name: "Alice",
-  settings: {
-    notifications: true,
-    autoSave: true,
-  },
-};
-localStorage.setItem("profile", JSON.stringify(userProfile));
+console.log("theme:", localStorage.getItem("theme"));
+console.log("items:", localStorage.length);
 
-// Read data back
-const theme = localStorage.getItem("theme");
-const profileData = localStorage.getItem("profile");
-const profile = profileData ? JSON.parse(profileData) : null;
-
-console.log("💾 Stored theme:", theme);
-console.log("👤 User profile:", profile);
-
-// Session storage for temporary data
 sessionStorage.setItem("sessionId", crypto.randomUUID());
-sessionStorage.setItem("startTime", Date.now().toString());
-
-console.log("🎫 Session ID:", sessionStorage.getItem("sessionId"));
-console.log(
-  "⏰ Session started:",
-  new Date(parseInt(sessionStorage.getItem("startTime") || "0")),
-);
-
-// Check storage info
-console.log(`📊 localStorage items: ${localStorage.length}`);
-console.log(`📊 sessionStorage items: ${sessionStorage.length}`);
+console.log("session id:", sessionStorage.getItem("sessionId"));
 ```
 
-Run it:
+## HTTP Server
 
-```bash
-andromeda run storage-example.ts
+Build an HTTP service with `Andromeda.serve` (returns a `Promise` that runs
+until aborted):
+
+```typescript
+Andromeda.serve((req) => {
+  const url = new URL(req.url);
+  if (url.pathname === "/health") {
+    return new Response(JSON.stringify({ ok: true }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return new Response("Hello from Andromeda!");
+});
+
+// With options
+Andromeda.serve({
+  port: 3000,
+  hostname: "0.0.0.0",
+  handler: async (req) => {
+    const body = await req.text();
+    return new Response(`echo: ${body}`);
+  },
+});
 ```
 
-## Using the Interactive REPL
+The HTTP server requires the runtime to be built with the `serve` feature
+(enabled by default).
 
-Start the REPL for interactive development:
+## Scheduled Tasks (Cron)
+
+```typescript
+// Cron-string schedule
+Andromeda.cron("hourly-cleanup", "0 * * * *", () => {
+  console.log("Cleaning up at", new Date().toISOString());
+});
+
+// Or the structured-object form (UTC)
+Andromeda.cron("every-six-hours", { hour: { every: 6 } }, async () => {
+  await doWork();
+});
+```
+
+## Subprocesses
+
+Spawn external programs with `Andromeda.Command`:
+
+```typescript
+const cmd = new Andromeda.Command("echo", { args: ["hello", "world"] });
+const out = await cmd.output();
+console.log(out.stdout); // "hello world\n"
+
+// Long-running
+const child = new Andromeda.Command("sleep", { args: ["10"] }).spawn();
+child.kill();
+```
+
+## Interactive REPL
 
 ```bash
 andromeda repl
 ```
 
-Try these commands in the REPL:
+Try:
 
 ```javascript
-// Basic calculations
 > 2 + 2
 4
-
-// Create a canvas
-> const canvas = new OffscreenCanvas(100, 100)
-> const ctx = canvas.getContext("2d")
-> ctx.fillStyle = "red"
-> ctx.fillRect(0, 0, 50, 50)
-
-// File operations
-> Andromeda.writeTextFileSync("test.txt", "Hello from REPL!")
-> Andromeda.readTextFileSync("test.txt")
-"Hello from REPL!"
-
-// SQLite database
-> const db = new Database(":memory:")
-> db.exec("CREATE TABLE test (id INTEGER, name TEXT)")
-> const stmt = db.prepare("INSERT INTO test VALUES (?, ?)")
-> stmt.run(1, "Test Item")
-> db.prepare("SELECT * FROM test").all()
-[{ id: 1, name: "Test Item" }]
-
-// Crypto
 > crypto.randomUUID()
-"12345678-1234-1234-1234-123456789abc"
+"…"
+> const db = new Database(":memory:")
+> db.exec("CREATE TABLE t (id INTEGER)")
+> db.prepare("INSERT INTO t VALUES (?)").run(1)
+> db.prepare("SELECT * FROM t").all()
 ```
 
-Type `help` for available REPL commands, or `exit` to quit.
+REPL commands: `help`, `history`, `clear`, `gc`, `exit`.
 
-## Running Multiple Files
+## Modules and Imports
 
-You can run multiple files together:
-
-```bash
-andromeda run utils.ts main.ts helper.ts
-```
-
-## Working with Modules
-
-Andromeda supports ES modules and TypeScript module resolution:
+ES modules and TypeScript module resolution work out of the box:
 
 ```typescript
 // math-utils.ts
 export function add(a: number, b: number): number {
   return a + b;
 }
-
-export function multiply(a: number, b: number): number {
-  return a * b;
-}
-
 export const PI = Math.PI;
 ```
 
 ```typescript
 // main.ts
-import { add, multiply, PI } from "./math-utils.ts";
+import { add, PI } from "./math-utils.ts";
+console.log(add(5, 3), PI);
 
-console.log("Addition:", add(5, 3));
-console.log("Multiplication:", multiply(4, 7));
-console.log("PI value:", PI);
-
-// Dynamic imports are also supported
-const { readTextFileSync } = await import("./file-helpers.ts");
+// Dynamic imports work too
+const helpers = await import("./helpers.ts");
 ```
 
-Run the main file:
+Bare specifiers resolve through [Import Maps](/docs/api/import-maps) defined in
+your `andromeda.json` or referenced via `import_map_files`.
+
+## Toolchain
 
 ```bash
-andromeda run main.ts
+andromeda fmt              # format current directory
+andromeda lint             # lint current directory
+andromeda check            # TypeScript type check
+andromeda bundle main.ts dist/app.js
+andromeda compile main.ts dist/app   # single-file executable
+andromeda task dev          # run a task from andromeda.json
+andromeda upgrade           # update to the latest release
 ```
 
-## Code Formatting
-
-Format your TypeScript/JavaScript files:
-
-```bash
-andromeda fmt hello.ts graphics.ts
-
-# Format entire directory
-andromeda fmt src/
-
-# Format current directory
-andromeda fmt
-```
-
-## Bundling Applications
-
-Bundle your application and dependencies into a single file:
-
-```typescript
-// Create a small app with dependencies
-// app.ts
-import { add } from "./math-utils.ts";
-import { writeTextFileSync } from "./file-helpers.ts";
-
-const result = add(10, 20);
-writeTextFileSync("result.txt", `The answer is: ${result}`);
-console.log("Result saved to file!");
-```
-
-Bundle it:
-
-```bash
-andromeda bundle app.ts dist/my-app.js
-```
-
-The bundled file will contain all dependencies and can be run independently:
-
-```bash
-andromeda run dist/my-app.js
-```
-
-## Code Linting
-
-Analyze your code for potential issues:
-
-```bash
-# Lint specific files
-andromeda lint script.ts utils.js
-
-# Lint entire directory
-andromeda lint src/
-
-# Lint current directory
-andromeda lint
-```
-
-The linter checks for:
-
-- Empty function detection
-- Empty statement detection
-- Variable usage validation
-- Unreachable code detection
-- Invalid syntax highlighting
-
-## Single-File Executables
-
-Compile your TypeScript/JavaScript into standalone executables:
-
-```bash
-# Create executable from TypeScript
-andromeda compile app.ts my-app.exe
-
-# Run the compiled executable
-./my-app.exe
-```
-
-This creates a self-contained executable that doesn't require Andromeda to be
-installed on the target system.
-
-## Upgrading Andromeda
-
-Keep your runtime up to date:
-
-```bash
-# Check for and install updates
-andromeda upgrade
-
-# See what would be updated without installing
-andromeda upgrade --dry-run
-```
-
-## Next Steps
-
-Now that you've got the basics down:
-
-1. **Explore the APIs**: Check out the [API Documentation](/docs/api/) for
-   detailed information about available functions
-2. **Join the Community**: Connect with other developers on
-   [Discord](https://discord.gg/tgjAnX2Ny3)
+See the [CLI Reference](/docs/cli-reference) for full details.
 
 ## Common Patterns
 
@@ -475,45 +311,22 @@ try {
   const content = Andromeda.readTextFileSync("nonexistent.txt");
   console.log(content);
 } catch (error) {
-  console.error("❌ Failed to read file:", error.message);
+  console.error("Failed to read file:", (error as Error).message);
 }
 ```
 
-### Async Operations
+### Signals
 
 ```typescript
-// Using crypto with async/await
-async function hashData(input: string) {
-  const data = new TextEncoder().encode(input);
-  const hash = await crypto.subtle.digest("SHA-256", data);
-
-  // Handle both string and ArrayBuffer return types
-  if (typeof hash === "string") {
-    return hash;
-  }
-  return Array.from(new Uint8Array(hash))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-const result = await hashData("Hello, World!");
-console.log("Hash result:", result);
+Andromeda.addSignalListener("SIGINT", () => {
+  console.log("Got SIGINT, cleaning up…");
+  Andromeda.exit(0);
+});
 ```
 
-</text>
+## Next Steps
 
-### Environment Configuration
-
-```typescript
-// Check if we're in development mode
-const isDev = Andromeda.env.get("NODE_ENV") !== "production";
-
-if (isDev) {
-  console.log("🚧 Running in development mode");
-}
-
-// Get command line arguments
-console.log("📋 Arguments:", Andromeda.args);
-```
-
-Happy coding with Andromeda! 🚀
+- Browse the [API Reference](/docs/api/index)
+- Configure your project with [andromeda.json](/docs/configuration)
+- See the [Examples](/docs/examples/index)
+- Join the [Discord community](https://discord.gg/tgjAnX2Ny3)

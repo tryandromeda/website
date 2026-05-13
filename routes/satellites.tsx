@@ -139,7 +139,7 @@ CMD ["andromeda-run", "/app/handler.ts"]`}
                     </h3>
                     <p class="text-sm text-subtext1 mb-3">
                       Install only the tools you need for your pipeline stages:
-                      fmt, lint, check, or compile.
+                      fmt, lint, bundle, or compile.
                     </p>
                     <pre class="text-xs bg-mantle p-3 rounded-lg text-text overflow-x-auto">
 {`# GitHub Actions example
@@ -147,8 +147,8 @@ CMD ["andromeda-run", "/app/handler.ts"]`}
   run: andromeda-fmt --check src/
 - name: Lint
   run: andromeda-lint src/
-- name: Type Check
-  run: andromeda-check src/`}
+- name: Bundle
+  run: andromeda-bundle src/main.ts dist/app.js`}
                     </pre>
                   </div>
                 </div>
@@ -205,8 +205,7 @@ CMD ["/app"]`}
 {`# .git/hooks/pre-commit
 #!/bin/bash
 andromeda-fmt --check .
-andromeda-lint .
-andromeda-check .`}
+andromeda-lint .`}
                     </pre>
                   </div>
                 </div>

@@ -9,14 +9,14 @@ interface TerminalLine {
 const demoSequence: TerminalLine[] = [
   { text: "$ andromeda --version", type: "command", delay: 1000 },
   {
-    text: "andromeda 0.1.0 (Rust 1.75.0, Nova Engine)",
+    text: "andromeda 0.1.10 (nightly Rust, Nova Engine)",
     type: "output",
     delay: 500,
   },
   { text: "$ andromeda run hello.ts", type: "command", delay: 1500 },
   { text: "Hello, Andromeda! 🌌", type: "output", delay: 600 },
   { text: "$ andromeda repl", type: "command", delay: 2000 },
-  { text: "Welcome to Andromeda REPL v0.1.0", type: "output", delay: 300 },
+  { text: "Welcome to Andromeda REPL v0.1.10", type: "output", delay: 300 },
   { text: "> const x = 42;", type: "command", delay: 1000 },
   { text: "undefined", type: "output", delay: 200 },
   { text: "> console.log(x * 2);", type: "command", delay: 1000 },
@@ -90,11 +90,11 @@ export default function TerminalDemo() {
           <div
             key={index}
             class={`mb-1 ${
-              line.type === "command" ?
-                "text-green" :
-                line.type === "error" ?
-                "text-red" :
-                "text-subtext1"
+              line.type === "command"
+                ? "text-green"
+                : line.type === "error"
+                ? "text-red"
+                : "text-subtext1"
             }`}
           >
             {line.type === "command" && !line.text.startsWith("$") &&

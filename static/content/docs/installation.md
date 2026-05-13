@@ -6,20 +6,20 @@ order: 2
 id: "installation"
 ---
 
-This guide will walk you through installing Andromeda on your system.
+This guide walks you through installing Andromeda on your system.
 
 ## Prerequisites
 
-For building from source, Andromeda requires:
+Pre-built binaries do not require any tooling — just `curl`, `irm`, or `winget`.
+To build from source you need:
 
-- **Rust** (latest stable version via rustup)
-- **Git** (for cloning the repository)
-
-Note: Pre-built binaries are available and don't require Rust to be installed.
+- **Rust** (the pinned nightly toolchain from `rust-toolchain.toml`, picked up
+  automatically by [rustup](https://rustup.rs/))
+- **Git**
 
 ## Quick Install
 
-### Linux/macOS (Bash)
+### Linux / macOS
 
 ```bash
 curl -fsSL https://tryandromeda.dev/install.sh | bash
@@ -39,7 +39,7 @@ chmod +x install.sh
 irm -Uri "https://tryandromeda.dev/install.ps1" | Invoke-Expression
 ```
 
-### Windows (Command Prompt)
+### Windows (CMD)
 
 ```cmd
 curl -L -o install.bat https://tryandromeda.dev/install.bat && install.bat
@@ -47,202 +47,176 @@ curl -L -o install.bat https://tryandromeda.dev/install.bat && install.bat
 
 ## Other Installation Methods
 
-### Method 1: Install with Winget (Windows)
+### Install with winget (Windows)
 
-Windows users can install Andromeda using the Windows Package Manager:
-
-```bash
+```powershell
 winget install --id Andromeda.Andromeda
 ```
 
-### Method 2: Install from Git with Cargo
-
-Install Andromeda using Cargo directly from the Git repository:
+### Install from Git with Cargo
 
 ```bash
 cargo install --git https://github.com/tryandromeda/andromeda andromeda
 ```
 
-This will:
+This downloads the latest source, compiles with `--release`, and installs the
+`andromeda` binary to your Cargo bin directory.
 
-1. Download the latest source code
-2. Compile Andromeda with optimizations
-3. Install the `andromeda` binary to your Cargo bin directory
+### Build from Source
 
-### Method 3: Build from Source
+For development or to enable optional features:
 
-If you want to build from source or contribute to development:
-
-1. **Clone the repository:**
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/tryandromeda/andromeda.git
    cd andromeda
    ```
 
-2. **Build the project:**
+2. Build the project:
 
    ```bash
    cargo build --release
    ```
 
-3. **Install locally:**
+3. Install from the local checkout:
 
    ```bash
-   cargo install --path cli
+   cargo install --path crates/cli
    ```
 
-## Verify Installation
+See the [Building from Source](/docs/building) guide for feature flags and
+satellite binaries.
 
-After installation, verify that Andromeda is working correctly:
+## Verify Installation
 
 ```bash
 andromeda --version
 
-# Start the REPL
+# Start the REPL (the default with no arguments)
 andromeda repl
 
-# Run a simple test
-echo 'console.log("Hello, Andromeda!");' > test.js
-andromeda run test.js
+# Run a quick test
+echo 'console.log("Hello, Andromeda!");' > test.ts
+andromeda run test.ts
 ```
 
-## Setting up Your Environment
+> **Tip:** Running `andromeda foo.ts` (no `run` subcommand) is shorthand for
+> `andromeda run foo.ts` — the CLI auto-detects `.ts` files as the first
+> argument.
+
+## Setting Up Your Environment
 
 ### Adding to PATH
 
-Cargo typically installs binaries to `~/.cargo/bin` (Unix) or
-`%USERPROFILE%\.cargo\bin` (Windows). Make sure this directory is in your
-system's PATH.
+Cargo installs binaries to `~/.cargo/bin` on Unix and `%USERPROFILE%\.cargo\bin`
+on Windows. Ensure this directory is on your PATH.
 
-#### On Unix-like systems (Linux, macOS)
+#### Linux / macOS
 
 ```bash
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-#### On Windows
+#### Windows
 
-Add `%USERPROFILE%\.cargo\bin` to your system PATH through:
+Add `%USERPROFILE%\.cargo\bin` to PATH via:
 
 1. System Properties → Advanced → Environment Variables
-2. Edit the PATH variable
+2. Edit the `Path` user variable
 3. Add the Cargo bin directory
 
-### Shell Completion (Optional)
+### Shell Completion
 
-Andromeda supports shell completion for bash, zsh, fish, and PowerShell.
-Generate completion scripts:
+Andromeda generates completions for bash, zsh, fish, and PowerShell.
 
 ```bash
-# For bash
+# Auto-detect your shell
+andromeda completions
+
+# Bash
 andromeda completions bash > ~/.local/share/bash-completion/completions/andromeda
 
-# For zsh
-andromeda completions zsh > ~/.oh-my-zsh/completions/_andromeda
+# Zsh
+andromeda completions zsh > ~/.zfunc/_andromeda
 
-# For fish
+# Fish
 andromeda completions fish > ~/.config/fish/completions/andromeda.fish
 
-# For PowerShell
+# PowerShell
 andromeda completions powershell > andromeda.ps1
 ```
 
-## Platform-Specific Notes
+## Platform Support
 
 ### Windows
 
-- Andromeda works on Windows 10/11 (x86_64)
-- Fully supported in PowerShell, Command Prompt, and WSL
-- Available via winget package manager
+- Windows 10 / 11 (x86_64)
+- PowerShell, Command Prompt, and WSL
+- Available via winget
 
 ### macOS
 
-- Andromeda works on macOS 10.15+ (Catalina and later)
-- Apple Silicon (M1/M2/M3) is fully supported
-- Intel Macs are also fully supported
+- macOS 10.15+ (Catalina and later)
+- Apple Silicon (arm64) and Intel (x86_64)
 
 ### Linux
 
-- x86_64 and ARM64 architectures supported
-- Most distributions supported (Ubuntu, Debian, Fedora, Arch, etc.)
-- Requires glibc 2.31+ or musl 1.2.0+
-
-## Troubleshooting
-
-### Common Issues
-
-#### "andromeda: command not found"
-
-- Ensure `~/.cargo/bin` is in your PATH
-- Restart your terminal after installation
-
-#### Build failures on installation
-
-- Update Rust: `rustup update`
-- Clear Cargo cache: `cargo clean`
-- Try installing with `--force` flag
-
-#### Permission errors
-
-- On Unix systems, ensure you have write permissions to `~/.cargo/bin`
-- On Windows, run as Administrator if needed
-
-### Getting Help
-
-If you encounter issues:
-
-1. Check the [Troubleshooting Guide](/docs/troubleshooting)
-2. Search [GitHub Issues](https://github.com/tryandromeda/andromeda/issues)
-3. Ask for help on [Discord](https://discord.gg/tgjAnX2Ny3)
-
-## Next Steps
-
-Now that Andromeda is installed:
-
-1. Read the [Quick Start Guide](/docs/quick-start)
-2. Explore the [CLI Reference](/docs/cli-reference)
-3. Join our [Discord community](https://discord.gg/tgjAnX2Ny3)
+- x86_64 and ARM64
+- Most distributions (Ubuntu, Debian, Fedora, Arch, etc.)
 
 ## Updating Andromeda
 
-Andromeda includes a built-in upgrade system for easy updates:
-
-### Automatic Upgrade
+Andromeda includes a built-in upgrade command:
 
 ```bash
-# Upgrade to latest version
+# Upgrade to the latest version
 andromeda upgrade
 
-# Check what would be upgraded (dry run)
+# Preview without applying
 andromeda upgrade --dry-run
 
-# Force reinstall current version
+# Force reinstall
 andromeda upgrade --force
 
-# Upgrade to specific version
-andromeda upgrade --version 0.1.0-draft-49
+# Upgrade to a specific version
+andromeda upgrade --version 0.1.10
 ```
 
-### Manual Update
+The upgrade command downloads the matching prebuilt binary from
+[GitHub Releases](https://github.com/tryandromeda/andromeda/releases) and
+replaces the running binary safely.
 
-To update manually using Cargo:
+### Manual update via Cargo
 
 ```bash
 cargo install --git https://github.com/tryandromeda/andromeda --force
 ```
 
-The `--force` flag will overwrite the existing installation with the latest
-version.
+## Troubleshooting
 
-### Upgrade Features
+### `andromeda: command not found`
 
-The built-in upgrade system provides:
+Ensure `~/.cargo/bin` (or the install location) is on your PATH and restart your
+terminal.
 
-- **Cross-platform support**: Works on Windows, macOS, and Linux
-- **Safe upgrades**: Creates automatic backups before upgrading
-- **Version targeting**: Upgrade to specific versions (e.g., 0.1.0-draft-49)
-- **Dry run mode**: Preview upgrades without making changes
-- **Auto-detection**: Automatically detects your platform and architecture
-- **GitHub Releases**: Downloads pre-built binaries from official releases
+### Build failures on installation
+
+- Update Rust: `rustup update`
+- Clear the cargo cache: `cargo clean`
+- Retry with `--force`
+
+### Permission errors
+
+- On Unix, ensure write permissions to your install directory
+- On Windows, run the install script in an elevated shell if needed
+
+For more, see the [Troubleshooting Guide](/docs/troubleshooting).
+
+## Next Steps
+
+1. Read the [Quick Start Guide](/docs/quick-start)
+2. Browse the [CLI Reference](/docs/cli-reference)
+3. Configure your project with [andromeda.json](/docs/configuration)
+4. Join the [Discord community](https://discord.gg/tgjAnX2Ny3)

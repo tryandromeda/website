@@ -177,7 +177,7 @@ export default function Footer() {
         <div class="border-t border-surface0 pt-8">
           <div class="flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-subtext1 text-sm">
-              © 2025 Andromeda Runtime. Licensed under the{" "}
+              © 2026 Andromeda Runtime. Licensed under the{" "}
               <a
                 href="https://github.com/tryandromeda/andromeda/blob/main/LICENSE"
                 class="text-text hover:text-subtext0 underline"

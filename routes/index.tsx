@@ -7,8 +7,10 @@ import {
   Image,
   Lock,
   MessageSquare,
+  Monitor,
   Package,
   Rocket,
+  Server,
   Target,
   Wrench,
   Zap,
@@ -42,15 +44,15 @@ export default function Home() {
           <img
             src="/logo.svg"
             alt="Andromeda"
-            class="hero-logo mx-auto w-24 h-24 mb-8 animate-spin [animation-duration:10000ms]"
+            class="hero-logo mx-auto w-24 h-24 mb-8 animate-spin [animation-duration:60000ms]"
           />
           <div class="hero-content">
             <h1 class="text-6xl font-bold mb-6 text-text animate-on-scroll fade-in-up">
               Andromeda
             </h1>
             <p class="text-xl text-subtext1 max-w-3xl mx-auto leading-relaxed mb-8 animate-on-scroll fade-in-up">
-              A modern, fast, and secure JavaScript & TypeScript runtime built
-              from the ground up in Rust 🦀 and powered by{" "}
+              A modern, fast(eventually), and secure JavaScript & TypeScript
+              runtime built from the ground up in Rust 🦀 and powered by{" "}
               <a
                 href="https://trynova.dev/"
                 class="text-text hover:text-subtext0 underline font-semibold transition-colors"
@@ -58,6 +60,24 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 The Nova Engine
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://oxc.rs/"
+                class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Oxc
+              </a>
+              , profiled with{" "}
+              <a
+                href="https://hotpath.rs/"
+                class="text-text hover:text-subtext0 underline font-semibold transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                HotPath
               </a>
               . Zero-config TypeScript support, hardware-accelerated graphics,
               comprehensive Web APIs, and developer-first tooling for the next
@@ -77,6 +97,10 @@ export default function Home() {
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 bg-yellow rounded-full"></span>
                 <span>Zero Config TypeScript</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-mauve rounded-full"></span>
+                <span>Built-in HTTP Server</span>
               </div>
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 bg-red rounded-full"></span>
@@ -120,7 +144,7 @@ export default function Home() {
             Why Andromeda?
           </h2>
           <div class="grid md:grid-cols-3 gap-8 stagger-children animate-on-scroll">
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="text-4xl mb-4">
                 <Package size={36} class="mx-auto text-subtext0" />
               </div>
@@ -132,11 +156,11 @@ export default function Home() {
                 lightning-fast runtime experience.
               </p>
             </div>
-            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift">
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="flex justify-center mb-4">
                 <Zap
                   size={48}
-                  class="text-subtext0 hover:text-yellow transition-colors duration-300 hover:scale-110 transform"
+                  class="text-subtext0 hover:text-yellow transition-colors duration-200"
                 />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
@@ -146,7 +170,7 @@ export default function Home() {
                 Leveraging the innovative{" "}
                 <a
                   href="https://trynova.dev/"
-                  class="text-text hover:text-subtext0 underline font-semibold transition-colors glitch-effect"
+                  class="text-text hover:text-subtext0 underline font-semibold transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -156,14 +180,11 @@ export default function Home() {
                 experience with promising performance potential.
               </p>
             </div>
-            <div
-              class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all hover-lift float-animation"
-              style="animation-delay: 1s;"
-            >
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
               <div class="flex justify-center mb-4">
                 <Target
                   size={48}
-                  class="text-subtext0 hover:text-green transition-colors duration-300 hover:rotate-45 transform"
+                  class="text-subtext0 hover:text-green transition-colors duration-200"
                 />
               </div>
               <h3 class="text-xl font-semibold mb-4 text-text">
@@ -216,6 +237,56 @@ export default function Home() {
                 development.
               </p>
             </div>
+
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+              <div class="text-4xl mb-4">
+                <Server size={36} class="mx-auto text-subtext0" />
+              </div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                HTTP Server
+              </h3>
+              <p class="text-subtext1">
+                Build web services with <code>Andromeda.serve()</code>{" "}
+                — a fetch-style handler API for Request and Response, no extra
+                dependencies required.
+              </p>
+            </div>
+
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+              <div class="text-4xl mb-4">
+                <Monitor size={36} class="mx-auto text-subtext0" />
+              </div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                Native Windows
+              </h3>
+              <p class="text-subtext1">
+                Open real OS windows on macOS, Windows, and Linux with{" "}
+                <code>Andromeda.Window</code>, including zero-copy GPU canvas
+                presentation via winit and wgpu.
+              </p>
+            </div>
+
+            <div class="text-center p-6 bg-base rounded-lg shadow-sm border border-surface0 hover:border-surface1 transition-all">
+              <div class="text-4xl mb-4">
+                <Bolt size={36} class="mx-auto text-subtext0" />
+              </div>
+              <h3 class="text-xl font-semibold mb-4 text-text">
+                Oxc Tooling
+              </h3>
+              <p class="text-subtext1">
+                Formatter, linter, type checker, and bundler all built on{" "}
+                <a
+                  href="https://oxc.rs/"
+                  class="text-text hover:text-subtext0 underline transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Oxc
+                </a>{" "}
+                — the Rust JavaScript toolchain — for instant feedback at native
+                speed.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -237,9 +308,9 @@ export default function Home() {
               <ul class="text-subtext1 space-y-2 text-sm">
                 <li>• Rust-based runtime engine</li>
                 <li>• Nova JavaScript engine integration</li>
+                <li>• Oxc-powered parsing, fmt, lint, and bundling</li>
                 <li>• WGPU-powered graphics backend</li>
-                <li>• Zero-copy data structures</li>
-                <li>• Multi-threaded execution model</li>
+                <li>• Tokio-backed async I/O</li>
               </ul>
             </div>
 
@@ -251,10 +322,10 @@ export default function Home() {
                 Web Standards
               </h3>
               <ul class="text-subtext1 space-y-2 text-sm">
-                <li>• WHATWG Fetch API</li>
-                <li>• W3C Canvas 2D Context</li>
-                <li>• Web Crypto API</li>
-                <li>• TextEncoder/TextDecoder</li>
+                <li>• Fetch, Streams, URL, Encoding</li>
+                <li>• Canvas 2D, Web Crypto, Web Locks</li>
+                <li>• Web Storage and Cache Storage</li>
+                <li>• Events, AbortController, structuredClone</li>
                 <li>• WinterTC compliance</li>
               </ul>
             </div>
@@ -384,9 +455,11 @@ export default function Home() {
                   Web Services & APIs
                 </h3>
                 <p class="text-subtext1 mb-4">
-                  Develop lightweight web services, APIs, and microservices with
-                  built-in security features and excellent performance
-                  characteristics.
+                  Stand up HTTP services with <code>Andromeda.serve()</code>
+                  {" "}
+                  — a fetch-style handler that receives a <code>Request</code>
+                  and returns a{" "}
+                  <code>Response</code>. No extra frameworks, no boilerplate.
                 </p>
                 <div class="text-sm text-subtext0 bg-surface0 rounded p-3 font-mono">
                   <div>• REST and GraphQL APIs</div>
@@ -556,10 +629,10 @@ export default function Home() {
                   </tr>
                   <tr class="border-b border-surface0/50">
                     <td class="p-3 md:p-4 text-subtext1 font-medium">
-                      Package Manager
+                      Package Resolution
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1 font-medium">
-                      None yet
+                      ✓ Import Maps
                     </td>
                     <td class="p-3 md:p-4 text-center text-subtext1">
                       npm/yarn/pnpm
@@ -646,7 +719,7 @@ export default function Home() {
                 Graphics
               </h4>
               <div class="terminal-window">
-                <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words matrix-text">
+                <pre class="text-xs font-mono text-subtext1 bg-surface0 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words">
 {`const canvas = new OffscreenCanvas(400, 300);
 const ctx = canvas.getContext("2d")!;
 
@@ -664,7 +737,7 @@ canvas.saveAsPng("gradient.png");`}
               </div>
             </div>
 
-            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced float-animation">
+            <div class="bg-mantle rounded-lg border border-surface1 p-6 hover:border-surface2 transition-all hover-lift code-block-enhanced">
               <h4 class="text-lg font-semibold mb-3 text-text flex items-center">
                 <span class="mr-2">
                   <Database size={16} class="inline-block mr-1" />
@@ -741,7 +814,7 @@ console.log("Secure hash:", hash);`}
               </p>
             </a>
             <a
-              href="/docs/api/console"
+              href="/docs/api/index"
               class="block p-6 bg-base rounded-lg hover:shadow-md transition-all border border-surface0 hover:border-surface1"
             >
               <h3 class="text-lg font-semibold mb-2 text-text">

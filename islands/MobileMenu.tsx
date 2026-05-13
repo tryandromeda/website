@@ -125,7 +125,7 @@ export default function MobileMenu() {
                     class={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${link.hoverBg} group`}
                   >
                     <div
-                      class={`${link.color} transition-transform group-hover:scale-110`}
+                      class={`${link.color} transition-transform duration-200 group-hover:scale-105`}
                     >
                       <IconComponent size={20} />
                     </div>
